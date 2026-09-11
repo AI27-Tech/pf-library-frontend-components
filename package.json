@@ -1,19 +1,47 @@
 {
-  "name": "ui-library",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@ai27-tech/ui",
+  "version": "0.1.0",
+  "description": "Shared React component library for AI27 frontend projects, aligned with the AI27 Tactical Operations design system.",
   "type": "module",
+  "license": "UNLICENSED",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ui-library.cjs",
+  "module": "./dist/ui-library.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ui-library.js",
+      "require": "./dist/ui-library.cjs"
+    },
+    "./styles.css": "./dist/ui-library.css",
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AI27-Tech/pf-library-frontend-components.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "vite build && tsc -p tsconfig.build.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -25,6 +53,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.4",
     "globals": "^17.11.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "storybook": "^10.6.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.67.0",

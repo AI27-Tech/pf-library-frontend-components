@@ -1,0 +1,43 @@
+# Publica @ai27-tech/ui en GitHub Packages al crear un Release en GitHub.
+#
+# Flujo: subir versión -> crear un Release (o tag) -> este workflow compila y publica.
+# No hay que gestionar tokens manualmente: usa el GITHUB_TOKEN que Actions provee.
+name: Publish package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read      # leer el código del repo
+      packages: write     # publicar en GitHub Packages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          # Configura el registry y prepara la autenticación vía NODE_AUTH_TOKEN.
+          registry-url: https://npm.pkg.github.com
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build library
+        run: pnpm build:lib
+
+      - name: Publish to GitHub Packages
+        run: pnpm publish --no-git-checks
+        env:
+          # Token automático de Actions, con permiso packages:write concedido arriba.
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

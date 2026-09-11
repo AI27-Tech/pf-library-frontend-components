@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      react:
-        specifier: ^19.2.8
-        version: 19.3.0
-      react-dom:
-        specifier: ^19.2.8
-        version: 19.3.0(react@19.3.0)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: latest
@@ -72,6 +65,12 @@ importers:
       playwright:
         specifier: latest
         version: 1.63.0
+      react:
+        specifier: ^19.2.8
+        version: 19.3.0
+      react-dom:
+        specifier: ^19.2.8
+        version: 19.3.0(react@19.3.0)
       storybook:
         specifier: ^10.6.0
         version: 10.6.0(@types/react@19.3.0)(react@19.3.0)

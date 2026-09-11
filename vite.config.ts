@@ -12,14 +12,27 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
   plugins: [react()],
   build: {
+    // Don't copy the public/ dir (favicon, icons) into the package.
+    copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "UILibrary",
-      fileName: "ui-library"
+      fileName: "ui-library",
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
-      external: ["react", "react-dom"]
-    }
+      external: ["react", "react-dom", "react/jsx-runtime"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "jsxRuntime",
+        },
+        // Emit a single stylesheet: dist/ui-library.css
+        assetFileNames: (assetInfo) =>
+          assetInfo.name === "style.css" ? "ui-library.css" : (assetInfo.name ?? "[name][extname]"),
+      },
+    },
   },
   test: {
     projects: [{
