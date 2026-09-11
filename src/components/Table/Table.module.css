@@ -1,0 +1,214 @@
+.wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--ui-color-border, #283548);
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-surface, #131b2a);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--ui-font-family, inherit);
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  color: var(--ui-color-text, #f8fafc);
+}
+
+/* Density — AI27 dense operational grids.
+   Base cell padding uses the tactical table tokens; comfortable adds a bit. */
+.density-comfortable th,
+.density-comfortable td {
+  padding: var(--ui-space-2, 0.5rem) var(--ui-table-cell-x, 0.625rem);
+  height: 2.5rem; /* 40px expanded inspection mode */
+}
+
+.density-compact th,
+.density-compact td {
+  padding: var(--ui-table-cell-y, 0.375rem) var(--ui-table-cell-x, 0.625rem);
+  height: 2rem; /* 32px default operational row */
+}
+
+.thead {
+  background-color: var(--ui-color-surface, #131b2a);
+}
+
+.th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.6875rem; /* label-md 11px */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ui-color-text-muted, #94a3b8);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--ui-color-border, #283548);
+  vertical-align: middle;
+}
+
+.th.alignCenter,
+.td.alignCenter {
+  text-align: center;
+}
+
+/* Right-aligned columns are treated as numeric: enforce tabular figures
+   so telemetry streams don't jitter. */
+.th.alignRight,
+.td.alignRight {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: var(--ui-font-feature-numeric, "tnum");
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--ui-color-text, #f8fafc);
+}
+
+.thContent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-1, 0.25rem);
+}
+
+.sortIcon {
+  display: inline-flex;
+  width: 0.9em;
+  height: 0.9em;
+  opacity: 0.4;
+  transition: opacity var(--ui-transition, 0.15s ease), transform var(--ui-transition, 0.15s ease);
+}
+
+.sortIcon.active {
+  opacity: 1;
+  color: var(--ui-color-primary, #0f52ba);
+}
+
+.sortIcon.desc {
+  transform: rotate(180deg);
+}
+
+.td {
+  border-bottom: 1px solid var(--ui-color-border, #283548);
+  vertical-align: middle;
+}
+
+.row {
+  /* Transparent left accent, becomes cobalt when the row is selected. */
+  box-shadow: inset 2px 0 0 transparent;
+  transition:
+    background-color var(--ui-transition, 0.15s ease),
+    box-shadow var(--ui-transition, 0.15s ease);
+}
+
+/* Zebra striping for high-density scanning. */
+.row:nth-child(even) {
+  background-color: color-mix(in srgb, var(--ui-color-surface-muted) 40%, transparent);
+}
+
+.row:last-child .td {
+  border-bottom: none;
+}
+
+.hoverable .row:hover {
+  background-color: var(--ui-color-surface-raised, #1b263b);
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.selected,
+.hoverable .selected:hover {
+  background-color: var(--ui-color-surface-raised, #1b263b);
+  box-shadow: inset 2px 0 0 var(--ui-color-primary, #0f52ba);
+}
+
+.selectCell {
+  width: 1px;
+  white-space: nowrap;
+}
+
+/* States */
+.state {
+  padding: var(--ui-space-6, 2rem);
+  text-align: center;
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ui-table-spin 0.6s linear infinite;
+}
+
+@keyframes ui-table-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Expandable rows ─────────────────────────────────────────────────────── */
+.expandCell {
+  width: 1px;
+  white-space: nowrap;
+  text-align: center;
+  padding-left: var(--ui-space-2, 0.5rem);
+  padding-right: var(--ui-space-2, 0.5rem);
+}
+
+.expandBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: var(--ui-radius-sm, 0.125rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+  transition:
+    background-color var(--ui-transition, 0.15s ease),
+    color var(--ui-transition, 0.15s ease);
+}
+
+.expandBtn:hover {
+  background-color: color-mix(in srgb, var(--ui-color-text-muted) 18%, transparent);
+  color: var(--ui-color-text, #f8fafc);
+}
+
+.expandBtn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+}
+
+.expandBtn :global(svg) {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--ui-duration-base, 200ms) var(--ui-ease-standard, ease);
+}
+
+.expandBtn.expanded :global(svg) {
+  transform: rotate(90deg);
+}
+
+.expandedRow > .td {
+  border-bottom-color: transparent;
+}
+
+.detailRow > .detailCell {
+  padding: 0;
+  background-color: var(--ui-color-surface-muted, #0b0f17);
+  border-bottom: 1px solid var(--ui-color-border, #283548);
+  border-left: 2px solid var(--ui-color-primary, #0f52ba);
+}
+
+/* Inner padding wrapper so the accent border hugs the row edge. */
+.detailCell > * {
+  padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
+}
