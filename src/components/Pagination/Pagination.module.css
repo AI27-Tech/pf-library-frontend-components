@@ -1,0 +1,111 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-3, 0.75rem);
+  flex-wrap: wrap;
+  font-family: var(--ui-font-family, inherit);
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  color: var(--ui-color-text, #f8fafc);
+}
+
+.info {
+  color: var(--ui-color-text-muted, #94a3b8);
+  white-space: nowrap;
+}
+
+.info b {
+  color: var(--ui-color-text, #f8fafc);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-left: auto;
+}
+
+.pageSize {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  white-space: nowrap;
+}
+
+.pageSizeSelect {
+  border: 1px solid var(--ui-color-border, #283548);
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-surface, #131b2a);
+  color: var(--ui-color-text, #f8fafc);
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.pageSizeSelect:focus-visible {
+  outline: none;
+  border-color: var(--ui-color-primary, #0f52ba);
+  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+}
+
+.page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  font: inherit;
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background-color var(--ui-transition, 0.15s ease),
+    color var(--ui-transition, 0.15s ease),
+    border-color var(--ui-transition, 0.15s ease);
+}
+
+.page:hover:not(:disabled):not(.active) {
+  background-color: var(--ui-color-surface-raised, #1b263b);
+  color: var(--ui-color-text, #f8fafc);
+}
+
+.page:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+}
+
+.page:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page.active {
+  background-color: var(--ui-color-primary, #0f52ba);
+  border-color: var(--ui-color-primary, #0f52ba);
+  color: var(--ui-color-on-primary, #ffffff);
+  font-weight: 600;
+  cursor: default;
+}
+
+.arrow :global(svg) {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  color: var(--ui-color-text-placeholder, #475569);
+  user-select: none;
+}
