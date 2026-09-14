@@ -21,13 +21,13 @@
   margin-bottom: var(--ui-space-1, 0.25rem);
   font-size: var(--ui-font-size-md, 0.9375rem);
   font-weight: 600;
-  color: var(--ui-color-text, #0f172a);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .sectionDescription {
   margin: 0;
   font-size: var(--ui-font-size-sm, 0.8125rem);
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
 }
 
 /* A row that lays out fields side by side, wrapping on small screens */

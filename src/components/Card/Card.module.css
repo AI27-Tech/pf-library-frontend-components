@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  background-color: var(--ui-color-surface, #ffffff);
-  color: var(--ui-color-text, #0f172a);
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
   border-radius: var(--ui-radius-lg, 12px);
   overflow: hidden;
   font-family: var(--ui-font-family, inherit);
@@ -11,7 +11,7 @@
 
 /* Variants */
 .outlined {
-  border: 1px solid var(--ui-color-border, #d1d5db);
+  border: 1px solid var(--ui-color-border, #2d3748);
 }
 
 .elevated {
@@ -21,7 +21,7 @@
 
 .filled {
   border: 1px solid transparent;
-  background-color: var(--ui-color-surface-muted, #f8fafc);
+  background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
 /* Padding scale */
@@ -59,7 +59,7 @@
 
 .clickable:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(59, 130, 246, 0.45));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 /* Sections */
@@ -84,7 +84,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ui-color-primary, #3b82f6);
+  color: var(--ui-color-primary, #7c9df0);
 }
 
 .media :global(svg) {
@@ -107,7 +107,7 @@
 .subtitle {
   margin: 0;
   font-size: var(--ui-font-size-sm, 0.8125rem);
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
 }
 
 .body {
@@ -124,6 +124,6 @@
   gap: var(--ui-space-2, 0.5rem);
   padding: var(--card-pad, 1rem);
   padding-top: var(--ui-space-2, 0.5rem);
-  border-top: 1px solid var(--ui-color-border, #d1d5db);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
   margin-top: auto;
 }

@@ -8,20 +8,20 @@
 .label {
   font-size: var(--ui-font-size-sm, 0.8125rem);
   font-weight: 600;
-  color: var(--ui-color-text, #0f172a);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .required {
-  color: var(--ui-color-danger, #ef4444);
+  color: var(--ui-color-danger, #fca5a5);
   margin-left: 0.15rem;
 }
 
 .help {
   font-size: var(--ui-font-size-sm, 0.8125rem);
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
 }
 
 .error {
   font-size: var(--ui-font-size-sm, 0.8125rem);
-  color: var(--ui-color-danger, #ef4444);
+  color: var(--ui-color-danger, #fca5a5);
 }

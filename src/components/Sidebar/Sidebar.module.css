@@ -7,9 +7,9 @@
   box-sizing: border-box;
   width: var(--sidebar-width);
   height: 100%;
-  background-color: var(--ui-color-surface, #ffffff);
-  border-right: 1px solid var(--ui-color-border, #d1d5db);
-  color: var(--ui-color-text, #0f172a);
+  background-color: var(--ui-color-surface, #1c222e);
+  border-right: 1px solid var(--ui-color-border, #2d3748);
+  color: var(--ui-color-text, #e2e8f0);
   font-family: var(--ui-font-family, inherit);
   transition: width var(--ui-duration-base, 200ms) var(--ui-ease-emphasized, ease);
   overflow: hidden;
@@ -25,7 +25,7 @@
   gap: var(--ui-space-2, 0.5rem);
   height: 3.5rem;
   padding: 0 var(--ui-space-3, 0.75rem);
-  border-bottom: 1px solid var(--ui-color-border, #d1d5db);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
@@ -35,7 +35,7 @@
   flex: 0 0 auto;
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--ui-color-primary, #3b82f6);
+  color: var(--ui-color-primary, #7c9df0);
 }
 
 .nav {
@@ -53,7 +53,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ui-color-text-placeholder, #9ca3af);
+  color: var(--ui-color-text-placeholder, #64748b);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -74,7 +74,7 @@
   border: none;
   border-radius: var(--ui-radius-sm, 6px);
   background: transparent;
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
   font: inherit;
   font-size: var(--ui-font-size-md, 0.9375rem);
   font-weight: 500;
@@ -88,18 +88,18 @@
 }
 
 .item:hover {
-  background-color: var(--ui-color-surface-muted, #f8fafc);
-  color: var(--ui-color-text, #0f172a);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .item.active {
   background-color: color-mix(in srgb, var(--ui-color-primary) 14%, transparent);
-  color: var(--ui-color-primary, #0f52ba);
+  color: var(--ui-color-primary, #7c9df0);
 }
 
 .item:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(59, 130, 246, 0.45));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .icon {
@@ -136,15 +136,15 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background-color: var(--ui-color-primary, #3b82f6);
-  color: var(--ui-color-on-primary, #ffffff);
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
   font-size: 0.6875rem;
   font-weight: 700;
 }
 
 .footer {
   padding: var(--ui-space-2, 0.5rem);
-  border-top: 1px solid var(--ui-color-border, #d1d5db);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
 }
 
 .collapseBtn {
@@ -157,13 +157,13 @@
   border: none;
   border-radius: var(--ui-radius-sm, 6px);
   background: transparent;
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
   cursor: pointer;
   transition: background-color var(--ui-transition, 0.15s ease);
 }
 
 .collapseBtn:hover {
-  background-color: var(--ui-color-surface-muted, #f8fafc);
+  background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
 .collapseBtn :global(svg) {

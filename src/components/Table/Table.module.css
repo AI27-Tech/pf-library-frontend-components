@@ -1,9 +1,9 @@
 .wrapper {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid var(--ui-color-border, #283548);
+  border: 1px solid var(--ui-color-border, #2d3748);
   border-radius: var(--ui-radius, 0.25rem);
-  background-color: var(--ui-color-surface, #131b2a);
+  background-color: var(--ui-color-surface, #1c222e);
 }
 
 .table {
@@ -11,7 +11,7 @@
   border-collapse: collapse;
   font-family: var(--ui-font-family, inherit);
   font-size: var(--ui-font-size-md, 0.8125rem);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 /* Density — AI27 dense operational grids.
@@ -29,7 +29,7 @@
 }
 
 .thead {
-  background-color: var(--ui-color-surface, #131b2a);
+  background-color: var(--ui-color-surface, #1c222e);
 }
 
 .th {
@@ -40,7 +40,7 @@
   text-transform: uppercase;
   color: var(--ui-color-text-muted, #94a3b8);
   white-space: nowrap;
-  border-bottom: 1px solid var(--ui-color-border, #283548);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
   vertical-align: middle;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .sortable:hover {
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .thContent {
@@ -83,7 +83,7 @@
 
 .sortIcon.active {
   opacity: 1;
-  color: var(--ui-color-primary, #0f52ba);
+  color: var(--ui-color-primary, #7c9df0);
 }
 
 .sortIcon.desc {
@@ -91,7 +91,7 @@
 }
 
 .td {
-  border-bottom: 1px solid var(--ui-color-border, #283548);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
   vertical-align: middle;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .hoverable .row:hover {
-  background-color: var(--ui-color-surface-raised, #1b263b);
+  background-color: var(--ui-color-surface-raised, #242b3a);
 }
 
 .clickableRow {
@@ -122,8 +122,8 @@
 
 .selected,
 .hoverable .selected:hover {
-  background-color: var(--ui-color-surface-raised, #1b263b);
-  box-shadow: inset 2px 0 0 var(--ui-color-primary, #0f52ba);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  box-shadow: inset 2px 0 0 var(--ui-color-primary, #7c9df0);
 }
 
 .selectCell {
@@ -179,12 +179,12 @@
 
 .expandBtn:hover {
   background-color: color-mix(in srgb, var(--ui-color-text-muted) 18%, transparent);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .expandBtn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .expandBtn :global(svg) {
@@ -203,9 +203,9 @@
 
 .detailRow > .detailCell {
   padding: 0;
-  background-color: var(--ui-color-surface-muted, #0b0f17);
-  border-bottom: 1px solid var(--ui-color-border, #283548);
-  border-left: 2px solid var(--ui-color-primary, #0f52ba);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  border-left: 2px solid var(--ui-color-primary, #7c9df0);
 }
 
 /* Inner padding wrapper so the accent border hugs the row edge. */

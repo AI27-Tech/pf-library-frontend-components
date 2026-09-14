@@ -39,7 +39,7 @@
 
 .button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(59, 130, 246, 0.45));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .button:disabled {
@@ -65,43 +65,43 @@
 
 /* Variants */
 .primary {
-  --btn-bg: var(--ui-color-primary, #3b82f6);
-  --btn-fg: var(--ui-color-on-primary, #ffffff);
-  --btn-border: var(--ui-color-primary, #3b82f6);
-  --btn-bg-hover: var(--ui-color-primary-hover, #2563eb);
-  --btn-bg-active: var(--ui-color-primary-active, #1d4ed8);
+  --btn-bg: var(--ui-color-primary, #7c9df0);
+  --btn-fg: var(--ui-color-on-primary, #0e1117);
+  --btn-border: var(--ui-color-primary, #7c9df0);
+  --btn-bg-hover: var(--ui-color-primary-hover, #8ba7f8);
+  --btn-bg-active: var(--ui-color-primary-active, #6b8ee6);
 }
 
 .secondary {
-  --btn-bg: var(--ui-color-secondary, #e2e8f0);
-  --btn-fg: var(--ui-color-on-secondary, #0f172a);
-  --btn-border: var(--ui-color-secondary, #e2e8f0);
-  --btn-bg-hover: var(--ui-color-secondary-hover, #cbd5e1);
-  --btn-bg-active: var(--ui-color-secondary-active, #94a3b8);
+  --btn-bg: var(--ui-color-secondary, #2c3a58);
+  --btn-fg: var(--ui-color-on-secondary, #e2e8f0);
+  --btn-border: var(--ui-color-secondary, #2c3a58);
+  --btn-bg-hover: var(--ui-color-secondary-hover, #36466b);
+  --btn-bg-active: var(--ui-color-secondary-active, #3e4e73);
 }
 
 .outline {
   --btn-bg: transparent;
-  --btn-fg: var(--ui-color-primary, #0f52ba);
-  --btn-border: var(--ui-color-primary, #0f52ba);
+  --btn-fg: var(--ui-color-primary, #7c9df0);
+  --btn-border: var(--ui-color-primary, #7c9df0);
   --btn-bg-hover: color-mix(in srgb, var(--ui-color-primary) 12%, transparent);
   --btn-bg-active: color-mix(in srgb, var(--ui-color-primary) 22%, transparent);
 }
 
 .ghost {
   --btn-bg: transparent;
-  --btn-fg: var(--ui-color-primary, #0f52ba);
+  --btn-fg: var(--ui-color-primary, #7c9df0);
   --btn-border: transparent;
   --btn-bg-hover: color-mix(in srgb, var(--ui-color-primary) 12%, transparent);
   --btn-bg-active: color-mix(in srgb, var(--ui-color-primary) 22%, transparent);
 }
 
 .danger {
-  --btn-bg: var(--ui-color-danger, #ef4444);
-  --btn-fg: var(--ui-color-on-danger, #ffffff);
-  --btn-border: var(--ui-color-danger, #ef4444);
-  --btn-bg-hover: var(--ui-color-danger-hover, #dc2626);
-  --btn-bg-active: var(--ui-color-danger-active, #b91c1c);
+  --btn-bg: var(--ui-color-danger, #fca5a5);
+  --btn-fg: var(--ui-color-on-danger, #381a20);
+  --btn-border: var(--ui-color-danger, #fca5a5);
+  --btn-bg-hover: var(--ui-color-danger-hover, #f98a8a);
+  --btn-bg-active: var(--ui-color-danger-active, #f56f6f);
 }
 
 /* Modifiers */
