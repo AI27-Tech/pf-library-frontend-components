@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   font-family: var(--ui-font-family, inherit);
   font-size: var(--ui-font-size-md, 0.8125rem);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .info {
@@ -14,7 +14,7 @@
 }
 
 .info b {
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -35,10 +35,10 @@
 }
 
 .pageSizeSelect {
-  border: 1px solid var(--ui-color-border, #283548);
+  border: 1px solid var(--ui-color-border, #2d3748);
   border-radius: var(--ui-radius, 0.25rem);
-  background-color: var(--ui-color-surface, #131b2a);
-  color: var(--ui-color-text, #f8fafc);
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
   font: inherit;
   font-size: var(--ui-font-size-sm, 0.75rem);
   padding: 0.25rem 0.5rem;
@@ -47,8 +47,8 @@
 
 .pageSizeSelect:focus-visible {
   outline: none;
-  border-color: var(--ui-color-primary, #0f52ba);
-  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .page {
@@ -73,13 +73,13 @@
 }
 
 .page:hover:not(:disabled):not(.active) {
-  background-color: var(--ui-color-surface-raised, #1b263b);
-  color: var(--ui-color-text, #f8fafc);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .page:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .page:disabled {
@@ -88,9 +88,9 @@
 }
 
 .page.active {
-  background-color: var(--ui-color-primary, #0f52ba);
-  border-color: var(--ui-color-primary, #0f52ba);
-  color: var(--ui-color-on-primary, #ffffff);
+  background-color: var(--ui-color-primary, #7c9df0);
+  border-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
   font-weight: 600;
   cursor: default;
 }
@@ -106,6 +106,6 @@
   justify-content: center;
   min-width: 2rem;
   height: 2rem;
-  color: var(--ui-color-text-placeholder, #475569);
+  color: var(--ui-color-text-placeholder, #64748b);
   user-select: none;
 }

@@ -6,9 +6,9 @@
   width: 100%;
   height: 3.5rem;
   padding: 0 var(--ui-space-4, 1rem);
-  background-color: var(--ui-color-surface, #ffffff);
-  border-bottom: 1px solid var(--ui-color-border, #d1d5db);
-  color: var(--ui-color-text, #0f172a);
+  background-color: var(--ui-color-surface, #1c222e);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  color: var(--ui-color-text, #e2e8f0);
   font-family: var(--ui-font-family, inherit);
 }
 
@@ -32,7 +32,7 @@
 .brand :global(svg) {
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--ui-color-primary, #3b82f6);
+  color: var(--ui-color-primary, #7c9df0);
 }
 
 .links {
@@ -48,7 +48,7 @@
   gap: var(--ui-space-2, 0.5rem);
   padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
   border-radius: var(--ui-radius-sm, 6px);
-  color: var(--ui-color-text-muted, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
   text-decoration: none;
   font-size: var(--ui-font-size-md, 0.9375rem);
   font-weight: 500;
@@ -61,18 +61,18 @@
 }
 
 .link:hover {
-  background-color: var(--ui-color-surface-muted, #f8fafc);
-  color: var(--ui-color-text, #0f172a);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .link.active {
-  color: var(--ui-color-primary, #0f52ba);
+  color: var(--ui-color-primary, #7c9df0);
   background-color: color-mix(in srgb, var(--ui-color-primary) 14%, transparent);
 }
 
 .link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(59, 130, 246, 0.45));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .actions {
@@ -93,12 +93,12 @@
   border: none;
   border-radius: var(--ui-radius-sm, 6px);
   background: transparent;
-  color: var(--ui-color-text, #0f172a);
+  color: var(--ui-color-text, #e2e8f0);
   cursor: pointer;
 }
 
 .toggle:hover {
-  background-color: var(--ui-color-surface-muted, #f8fafc);
+  background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
 .toggle :global(svg) {
@@ -126,8 +126,8 @@
     align-items: stretch;
     gap: 0;
     padding: var(--ui-space-2, 0.5rem);
-    background-color: var(--ui-color-surface, #ffffff);
-    border-bottom: 1px solid var(--ui-color-border, #d1d5db);
+    background-color: var(--ui-color-surface, #1c222e);
+    border-bottom: 1px solid var(--ui-color-border, #2d3748);
     box-shadow: var(--ui-shadow-md, 0 4px 12px rgba(15, 23, 42, 0.12));
   }
 

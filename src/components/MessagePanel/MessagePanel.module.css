@@ -34,13 +34,13 @@
   flex-direction: column;
   box-sizing: border-box;
   width: 20rem;
-  background-color: var(--ui-color-surface, #131b2a);
-  border: 1px solid var(--ui-color-border, #283548);
+  background-color: var(--ui-color-surface, #1c222e);
+  border: 1px solid var(--ui-color-border, #2d3748);
   border-bottom: none;
   border-radius: var(--ui-radius-lg, 0.5rem) var(--ui-radius-lg, 0.5rem) 0 0;
   box-shadow: var(--ui-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.55));
   font-family: var(--ui-font-family, inherit);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
   overflow: hidden;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .header.expanded {
-  border-bottom-color: var(--ui-color-border, #283548);
+  border-bottom-color: var(--ui-color-border, #2d3748);
 }
 
 .headerTitle {
@@ -118,12 +118,12 @@
 
 .iconBtn:hover {
   background-color: color-mix(in srgb, var(--ui-color-text-muted) 18%, transparent);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .iconBtn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .iconBtn :global(svg) {
@@ -140,8 +140,8 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background-color: var(--ui-color-primary, #0f52ba);
-  color: var(--ui-color-on-primary, #ffffff);
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
   font-size: 0.6875rem;
   font-weight: 700;
   overflow: hidden;
@@ -161,12 +161,12 @@
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 50%;
-  border: 2px solid var(--ui-color-surface, #131b2a);
+  border: 2px solid var(--ui-color-surface, #1c222e);
   background-color: var(--ui-color-text-muted, #94a3b8);
 }
 
 .presence.online {
-  background-color: var(--ui-color-success, #00a86b);
+  background-color: var(--ui-color-success, #6ee7b7);
 }
 
 /* ── Panel body (message list) ───────────────────────────────────────────── */
@@ -178,7 +178,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--ui-space-2, 0.5rem);
-  background-color: var(--ui-color-surface-muted, #0b0f17);
+  background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
 /* ── Message bubbles ─────────────────────────────────────────────────────── */
@@ -209,14 +209,14 @@
 }
 
 .own .bubble {
-  background-color: var(--ui-color-primary, #0f52ba);
-  color: var(--ui-color-on-primary, #ffffff);
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
   border-bottom-right-radius: var(--ui-radius-sm, 0.125rem);
 }
 
 .other .bubble {
-  background-color: var(--ui-color-surface-raised, #1b263b);
-  color: var(--ui-color-text, #f8fafc);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  color: var(--ui-color-text, #e2e8f0);
   border-bottom-left-radius: var(--ui-radius-sm, 0.125rem);
 }
 
@@ -253,8 +253,8 @@
   align-items: flex-end;
   gap: var(--ui-space-2, 0.5rem);
   padding: var(--ui-space-2, 0.5rem);
-  border-top: 1px solid var(--ui-color-border, #283548);
-  background-color: var(--ui-color-surface, #131b2a);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
+  background-color: var(--ui-color-surface, #1c222e);
 }
 
 .composerInput {
@@ -262,10 +262,10 @@
   min-width: 0;
   max-height: 6rem;
   resize: none;
-  border: 1px solid var(--ui-color-border, #283548);
+  border: 1px solid var(--ui-color-border, #2d3748);
   border-radius: var(--ui-radius, 0.25rem);
-  background-color: var(--ui-color-surface-muted, #0b0f17);
-  color: var(--ui-color-text, #f8fafc);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  color: var(--ui-color-text, #e2e8f0);
   font: inherit;
   font-size: var(--ui-font-size-md, 0.8125rem);
   line-height: 1.4;
@@ -273,13 +273,13 @@
 }
 
 .composerInput::placeholder {
-  color: var(--ui-color-text-placeholder, #475569);
+  color: var(--ui-color-text-placeholder, #64748b);
 }
 
 .composerInput:focus-visible {
   outline: none;
-  border-color: var(--ui-color-primary, #0f52ba);
-  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .sendBtn {
@@ -291,14 +291,14 @@
   height: 2.25rem;
   border: none;
   border-radius: var(--ui-radius, 0.25rem);
-  background-color: var(--ui-color-primary, #0f52ba);
-  color: var(--ui-color-on-primary, #ffffff);
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
   cursor: pointer;
   transition: background-color var(--ui-transition, 0.15s ease);
 }
 
 .sendBtn:hover:not(:disabled) {
-  background-color: var(--ui-color-primary-hover, #1a63d6);
+  background-color: var(--ui-color-primary-hover, #8ba7f8);
 }
 
 .sendBtn:disabled {
@@ -308,7 +308,7 @@
 
 .sendBtn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .sendBtn :global(svg) {
@@ -339,7 +339,7 @@
 }
 
 .convoItem:hover {
-  background-color: var(--ui-color-surface-raised, #1b263b);
+  background-color: var(--ui-color-surface-raised, #242b3a);
 }
 
 .convoText {
@@ -371,7 +371,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background-color: var(--ui-color-primary, #0f52ba);
+  background-color: var(--ui-color-primary, #7c9df0);
   flex: 0 0 auto;
 }
 

@@ -30,11 +30,11 @@
   box-sizing: border-box;
   width: 100%;
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
-  border: 1px solid var(--ui-color-border, #283548);
+  border: 1px solid var(--ui-color-border, #2d3748);
   border-left: 4px solid var(--toast-accent, var(--ui-color-info));
   border-radius: var(--ui-radius, 0.25rem);
-  background-color: var(--ui-color-surface-raised, #1b263b);
-  color: var(--ui-color-text, #f8fafc);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  color: var(--ui-color-text, #e2e8f0);
   box-shadow: var(--ui-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.55));
   font-family: var(--ui-font-family, inherit);
   animation: ui-toast-in var(--ui-duration-slow, 320ms) var(--ui-ease-spring, ease);
@@ -51,10 +51,10 @@
 }
 
 /* Severity accents */
-.info { --toast-accent: var(--ui-color-info, #5c9cff); }
-.success { --toast-accent: var(--ui-color-success, #00a86b); }
-.warning { --toast-accent: var(--ui-color-warning, #f59e0b); }
-.error { --toast-accent: var(--ui-color-danger, #e02e2e); }
+.info { --toast-accent: var(--ui-color-info, #7c9df0); }
+.success { --toast-accent: var(--ui-color-success, #6ee7b7); }
+.warning { --toast-accent: var(--ui-color-warning, #fcd34d); }
+.error { --toast-accent: var(--ui-color-danger, #fca5a5); }
 
 .icon {
   flex: 0 0 auto;
@@ -116,12 +116,12 @@
 
 .close:hover {
   background-color: color-mix(in srgb, var(--ui-color-text-muted) 18%, transparent);
-  color: var(--ui-color-text, #f8fafc);
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .close:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(92, 156, 255, 0.5));
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
 .close :global(svg) {

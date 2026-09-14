@@ -32,8 +32,8 @@ body {
   font-family: inherit;
   font-size: var(--ui-font-size-md, 0.8125rem);
   line-height: inherit;
-  color: var(--ui-color-text, #0f172a);
-  background-color: var(--ui-color-surface-muted, #f1f5f9);
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface-muted, #0e1117);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
