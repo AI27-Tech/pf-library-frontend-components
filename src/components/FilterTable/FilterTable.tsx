@@ -13,27 +13,27 @@ function cx(...classes: Array<string | false | undefined>) {
 export type { FilterDefinition, FilterValues };
 
 export interface FilterTableProps<T> extends TableProps<T> {
-  /** Current search text (controlled). */
+  /** Texto de búsqueda actual (controlado). */
   search?: string;
-  /** Called when the search text changes. Omit to hide the search box. */
+  /** Llamado cuando cambia el texto de búsqueda. Omitir para ocultar el cuadro de búsqueda. */
   onSearchChange?: (value: string) => void;
-  /** Placeholder for the search box. */
+  /** Placeholder para el cuadro de búsqueda. */
   searchPlaceholder?: string;
-  /** Declarative select filters shown in the toolbar. */
+  /** Filtros select declarativos mostrados en la barra de herramientas. */
   filters?: FilterDefinition[];
-  /** Current filter values (controlled). */
+  /** Valores de filtro actual (controlado). */
   filterValues?: FilterValues;
-  /** Called when a filter value changes. */
+  /** Llamado cuando cambia un valor de filtro. */
   onFilterChange?: (key: string, value: string) => void;
-  /** Extra actions rendered on the right of the toolbar. */
+  /** Acciones adicionales renderizadas a la derecha de la barra de herramientas. */
   toolbarActions?: ReactNode;
-  /** Whether any filter/search is active (shows a "Clear" button). */
+  /** Si cualquier filtro/búsqueda está activa (muestra un botón "Limpiar"). */
   onClear?: () => void;
-  /** Total count shown in the footer. Defaults to data length. */
+  /** Conteo total mostrado en el pie de página. Por defecto: longitud de los datos. */
   totalCount?: number;
-  /** Hide the results count footer. */
+  /** Ocultar el pie de página del conteo de resultados. */
   hideCount?: boolean;
-  /** Extra class for the root wrapper. */
+  /** Clase adicional para el envolvedor raíz. */
   rootClassName?: string;
 }
 
@@ -76,7 +76,7 @@ export function FilterTable<T>({
 
     return (
       <div className={cx(styles.root, rootClassName)}>
-        {/* Search + FilterBar */}
+        {/* Búsqueda + FilterBar */}
         <div className={styles.topSection}>
           {showSearch && (
             <Input
@@ -85,7 +85,7 @@ export function FilterTable<T>({
               onChange={(e) => onSearchChange!(e.target.value)}
               placeholder={searchPlaceholder}
               startAdornment={<SearchIcon />}
-              aria-label="Search"
+              aria-label="Búsqueda"
               type="search"
             />
           )}

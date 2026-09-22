@@ -62,13 +62,13 @@ const initialConversations: Conversation[] = [
   },
 ];
 
-/** Full LinkedIn-style multi-conversation dock, fully controlled. */
+/** Muelle de conversación múltiple estilo LinkedIn completo, totalmente controlado. */
 export const MultiConversation: Story = {
   args: { name: "" },
   render: () => {
     const [conversations, setConversations] = useState(initialConversations);
     const [barOpen, setBarOpen] = useState(true);
-    // Open panels: id -> expanded?
+    // Paneles abiertos: id -> ¿expandido?
     const [openPanels, setOpenPanels] = useState<Record<string, boolean>>({ c4: true });
     const [drafts, setDrafts] = useState<Record<string, string>>({});
 
@@ -175,7 +175,7 @@ export const MultiConversation: Story = {
   },
 };
 
-/** A single conversation panel, inline (not docked). */
+/** Un único panel de conversación, en línea (no acoplado). */
 export const SinglePanel: Story = {
   args: { name: "" },
   render: () => {

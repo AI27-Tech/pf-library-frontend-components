@@ -10,7 +10,7 @@
   max-width: 100%;
 }
 
-/* Variants */
+/* Variantes */
 .outlined {
   border: 1px solid var(--ui-color-border, #2d3748);
 }
@@ -25,7 +25,7 @@
   background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
-/* Image container */
+/* Contenedor de imagen */
 .imageContainer {
   position: relative;
   width: 100%;
@@ -42,7 +42,7 @@
   display: block;
 }
 
-/* Badges overlay in top corners */
+/* Superposición de insignias en las esquinas superiores */
 .badgesContainer {
   position: absolute;
   top: 0.75rem;
@@ -68,12 +68,12 @@
 }
 
 .badge {
-  /* Subtle backdrop for visibility over images */
+  /* Telón de fondo sutil para visibilidad sobre imágenes */
   backdrop-filter: blur(4px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* Content section */
+/* Sección de contenido */
 .content {
   display: flex;
   flex-direction: column;
@@ -105,7 +105,7 @@
   font-size: var(--ui-font-size-sm, 0.8125rem);
 }
 
-/* Interactive (clickable) */
+/* Interactivo (clickeable) */
 .clickable {
   cursor: pointer;
   text-align: left;
@@ -129,7 +129,7 @@
   box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
-/* Responsive adjustments */
+/* Ajustes responsive */
 @media (max-width: 640px) {
   .badgesContainer {
     top: 0.5rem;

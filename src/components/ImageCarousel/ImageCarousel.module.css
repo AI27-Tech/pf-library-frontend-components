@@ -11,7 +11,7 @@
   gap: 1rem;
 }
 
-/* Section Header */
+/* Encabezado de sección */
 .sectionHeader {
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,7 @@
   text-align: right;
 }
 
-/* Carousel Wrapper */
+/* Envoltorio de carrusel */
 .carouselWrapper {
   position: relative;
   display: flex;
@@ -62,7 +62,7 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   flex: 1;
-  /* Hide scrollbar */
+  /* Ocultar barra de desplazamiento */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -71,7 +71,7 @@
   display: none;
 }
 
-/* Navigation Buttons */
+/* Botones de navegación */
 .navButton {
   position: relative;
   flex: 0 0 auto;
@@ -117,7 +117,7 @@
   order: 1;
 }
 
-/* Item Count */
+/* Recuento de artículos */
 .itemCount {
   font-size: var(--ui-font-size-xs, 0.75rem);
   color: var(--ui-color-text-muted, #94a3b8);

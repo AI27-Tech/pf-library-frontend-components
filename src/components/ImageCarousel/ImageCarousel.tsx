@@ -7,29 +7,29 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface CarouselSection<T> {
-  /** Section title/label */
+  /** Título/etiqueta de la sección */
   title: ReactNode;
-  /** Badge or status indicator */
+  /** Insignia o indicador de estado */
   badge?: ReactNode;
-  /** Location/place information */
+  /** Información de ubicación/lugar */
   location?: ReactNode;
-  /** Array of items to display in carousel */
+  /** Array de elementos a mostrar en el carrusel */
   items: T[];
-  /** Number of visible items (default: 4) */
+  /** Número de elementos visibles (por defecto: 4) */
   visibleItems?: number;
-  /** Whether to show navigation arrows */
+  /** Si mostrar flechas de navegación */
   showArrows?: boolean;
 }
 
 export interface ImageCarouselProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Array of sections */
+  /** Array de secciones */
   sections: CarouselSection<T>[];
-  /** Render function for each item */
+  /** Función de renderización para cada elemento */
   renderItem: (item: T, index: number) => ReactNode;
-  /** Gap between items (default: "1rem") */
+  /** Brecha entre elementos (por defecto: "1rem") */
   gap?: string;
-  /** Hide section if empty (default: true) */
+  /** Ocultar sección si está vacía (por defecto: true) */
   hideEmpty?: boolean;
 }
 
@@ -72,7 +72,7 @@ export function ImageCarousel<T>({
 
         return (
           <div key={sectionIdx} className={styles.section}>
-            {/* Section Header */}
+            {/* Encabezado de sección */}
             <div className={styles.sectionHeader}>
               <div className={styles.headerContent}>
                 <h2 className={styles.sectionTitle}>{section.title}</h2>
@@ -85,13 +85,13 @@ export function ImageCarousel<T>({
               )}
             </div>
 
-            {/* Carousel Container */}
+            {/* Contenedor del carrusel */}
             <div className={styles.carouselWrapper}>
               {section.showArrows !== false && (
                 <button
                   className={cx(styles.navButton, styles.prev)}
                   onClick={() => handleScroll(sectionIdx, "left", visibleItems)}
-                  aria-label="Scroll left"
+                  aria-label="Desplazar a la izquierda"
                 >
                   ‹
                 </button>

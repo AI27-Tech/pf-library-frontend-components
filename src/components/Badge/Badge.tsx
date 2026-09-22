@@ -13,13 +13,13 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  /** Status variant, mapped to AI27 tactical signals. */
+  /** Variante de estado, mapeado a señales tácticas de AI27. */
   variant?: BadgeVariant;
-  /** Show a leading status dot. */
+  /** Mostrar un indicador de estado inicial. */
   dot?: boolean;
-  /** Animate the dot (for live/active alerts, e.g. jamming). Implies `dot`. */
+  /** Animar el indicador (para alertas en vivo/activas, por ejemplo jamming). Implica `dot`. */
   pulse?: boolean;
-  /** Use a fully rounded pill shape. */
+  /** Usar una forma de píldora completamente redondeada. */
   pill?: boolean;
   children?: ReactNode;
 }

@@ -6,15 +6,15 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
-  /** Header / brand area at the top. */
+  /** Área de encabezado / marca en la parte superior. */
   header?: ReactNode;
-  /** Footer area at the bottom (below the collapse control). */
+  /** Área de pie de página en la parte inferior (debajo del control de colapso). */
   footer?: ReactNode;
-  /** Whether the sidebar is collapsed to icons only (controlled). */
+  /** Si la barra lateral se contrae solo a iconos (controlado). */
   collapsed?: boolean;
-  /** Called when the built-in collapse button is clicked. Omit to hide it. */
+  /** Llamado cuando se hace clic en el botón de colapso integrado. Omitir para ocultarlo. */
   onToggleCollapse?: () => void;
-  /** Navigation content (SidebarItem / SidebarGroup elements). */
+  /** Contenido de navegación (elementos SidebarItem / SidebarGroup). */
   children?: ReactNode;
 }
 
@@ -43,11 +43,11 @@ export function Sidebar({
             type="button"
             className={styles.collapseBtn}
             onClick={onToggleCollapse}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-label={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
             aria-expanded={!collapsed}
           >
             <ChevronIcon />
-            {!collapsed && <span>Collapse</span>}
+            {!collapsed && <span>Contraer</span>}
           </button>
         </div>
       )}
@@ -58,7 +58,7 @@ export function Sidebar({
 }
 
 export interface SidebarGroupProps extends HTMLAttributes<HTMLDivElement> {
-  /** Group label shown above the items. */
+  /** Etiqueta del grupo mostrada arriba de los elementos. */
   label?: ReactNode;
 }
 
@@ -78,17 +78,17 @@ export function SidebarGroup({
 
 export interface SidebarItemProps
   extends Omit<HTMLAttributes<HTMLElement>, "title"> {
-  /** Marks this item as the active route. */
+  /** Marca este elemento como la ruta activa. */
   active?: boolean;
-  /** Leading icon. */
+  /** Icono inicial. */
   icon?: ReactNode;
-  /** Trailing badge (e.g. a count). */
+  /** Insignia final (por ejemplo, un conteo). */
   badge?: ReactNode;
-  /** Render as a different element (e.g. "a" or a router Link). Default: "button". */
+  /** Renderizar como un elemento diferente (por ejemplo "a" o un Link de router). Por defecto: "button". */
   as?: ElementType;
-  /** Accessible label used as title when collapsed. */
+  /** Etiqueta de accesibilidad usada como título cuando se contrae. */
   label?: string;
-  /** href when rendered as an anchor. */
+  /** href cuando se renderiza como un anchor. */
   href?: string;
 }
 

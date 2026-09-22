@@ -309,7 +309,7 @@ export function CarouselWithVisibleItems() {
       {[2, 3, 4, 5].map((visibleItems) => (
         <div key={visibleItems}>
           <h3 style={{ marginBottom: "1rem", color: "#e2e8f0" }}>
-            {visibleItems} visible items
+            {visibleItems} items visibles
           </h3>
           <ImageCarousel<ForensicItem>
             sections={[

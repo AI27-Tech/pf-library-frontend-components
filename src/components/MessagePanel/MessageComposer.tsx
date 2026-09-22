@@ -3,17 +3,17 @@ import styles from "./MessagePanel.module.css";
 import { SendIcon } from "./shared";
 
 export interface MessageComposerProps {
-  /** Current draft text (controlled). */
+  /** Texto actual del borrador (controlado). */
   value: string;
-  /** Called on every change. */
+  /** Llamado en cada cambio. */
   onChange: (value: string) => void;
-  /** Called when the user sends (Enter or send button). */
+  /** Llamado cuando el usuario envía (Enter o botón de envío). */
   onSend: () => void;
-  /** Placeholder text. */
+  /** Texto placeholder. */
   placeholder?: string;
-  /** Disable input and sending. */
+  /** Deshabilitar entrada y envío. */
   disabled?: boolean;
-  /** Custom trailing send control (defaults to a send icon button). */
+  /** Control de envío final personalizado (por defecto un botón de icono de envío). */
   sendButton?: ReactNode;
 }
 
@@ -31,7 +31,7 @@ export function MessageComposer({
   const send = () => {
     if (!canSend) return;
     onSend();
-    // Reset height after clearing.
+    // Reiniciar altura después de limpiar.
     requestAnimationFrame(() => {
       if (ref.current) ref.current.style.height = "auto";
     });
@@ -58,7 +58,7 @@ export function MessageComposer({
         rows={1}
         placeholder={placeholder}
         disabled={disabled}
-        aria-label="Message"
+        aria-label="Mensaje"
         onChange={(e) => {
           onChange(e.target.value);
           autoGrow(e.target);
@@ -70,7 +70,7 @@ export function MessageComposer({
         className={styles.sendBtn}
         onClick={send}
         disabled={!canSend}
-        aria-label="Send message"
+        aria-label="Enviar mensaje"
       >
         <SendIcon />
       </button>

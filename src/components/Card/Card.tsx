@@ -9,13 +9,13 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  /** Visual style of the card. */
+  /** Estilo visual de la tarjeta. */
   variant?: CardVariant;
-  /** Inner padding scale applied to sections. */
+  /** Escala de relleno interno aplicado a secciones. */
   padding?: CardPadding;
   /**
-   * When set, the card renders as a button and becomes keyboard focusable.
-   * Use for cards that navigate or trigger an action.
+   * Cuando se establece, la tarjeta se renderiza como botón y se vuelve accesible por teclado.
+   * Usar para tarjetas que navegan o desencadenan una acción.
    */
   onClick?: HTMLAttributes<HTMLDivElement>["onClick"];
 }
@@ -61,13 +61,13 @@ export function Card({
 
 export interface CardHeaderProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Main title. */
+  /** Título principal. */
   title?: ReactNode;
-  /** Secondary text below the title. */
+  /** Texto secundario debajo del título. */
   subtitle?: ReactNode;
-  /** Leading media (icon, avatar). */
+  /** Media inicial (icono, avatar). */
   media?: ReactNode;
-  /** Trailing action (button, menu). */
+  /** Acción final (botón, menú). */
   action?: ReactNode;
 }
 

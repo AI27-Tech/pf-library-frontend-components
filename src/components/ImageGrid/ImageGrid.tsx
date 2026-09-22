@@ -16,7 +16,7 @@ export type ImageGridProps<T> = Omit<HTMLAttributes<HTMLDivElement>, "title"> & 
   onFilterChange?: (key: string, value: string) => void;
   renderItem: (item: T, index: number) => ReactNode;
   matchesFilters?: (item: T, activeFilters: Record<string, string>) => boolean;
-  /** Number of columns to display. Options: 1, 2, 3, 4, 5, 6. Default: 4 */
+  /** Número de columnas a mostrar. Opciones: 1, 2, 3, 4, 5, 6. Por defecto: 4 */
   columns?: ImageGridColumns;
   gap?: string;
   emptyMessage?: ReactNode;
@@ -77,7 +77,7 @@ export function ImageGrid<T>({
 
   return (
     <div className={cx(styles.root, className)} {...props}>
-      {/* FilterBar */}
+      {/* Barra de filtros */}
       {filters.length > 0 && (
         <FilterBar
           filters={filters}
@@ -89,11 +89,11 @@ export function ImageGrid<T>({
         />
       )}
 
-      {/* Results Meta */}
+      {/* Metadatos de resultados */}
       {showCount && (
         <div className={styles.resultsMeta}>
           <span>
-            Showing {filteredItems.length} of {items.length} item
+            Mostrando {filteredItems.length} de {items.length} elemento
             {items.length !== 1 ? "s" : ""}
           </span>
         </div>

@@ -8,38 +8,38 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface FilterDefinition {
-  /** Unique key for this filter */
+  /** Clave única para este filtro */
   key: string;
-  /** Label displayed above the filter */
+  /** Etiqueta mostrada arriba del filtro */
   label: ReactNode;
-  /** Options shown in the select */
+  /** Opciones mostradas en el select */
   options: SelectOption[];
-  /** Placeholder shown when no value is selected */
+  /** Placeholder mostrado cuando no hay valor seleccionado */
   placeholder?: string;
-  /** Optional icon or visual */
+  /** Icono u visual opcional */
   icon?: ReactNode;
 }
 
 export type FilterValues = Record<string, string>;
 
 export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
-  /** Filter definitions */
+  /** Definiciones de filtros */
   filters: FilterDefinition[];
-  /** Current filter values (controlled) */
+  /** Valores de filtro actual (controlado) */
   filterValues?: FilterValues;
-  /** Called when a filter value changes */
+  /** Llamado cuando cambia un valor de filtro */
   onFilterChange?: (key: string, value: string) => void;
-  /** Called when filters should be cleared */
+  /** Llamado cuando los filtros deben ser borrados */
   onClear?: () => void;
-  /** Show/hide the clear button */
+  /** Mostrar/ocultar el botón de limpiar */
   showClear?: boolean;
-  /** Search input value (optional search integration) */
+  /** Valor de entrada de búsqueda (integración de búsqueda opcional) */
   searchValue?: string;
-  /** Called when search changes */
+  /** Llamado cuando cambia la búsqueda */
   onSearchChange?: (value: string) => void;
-  /** Search placeholder */
+  /** Placeholder de búsqueda */
   searchPlaceholder?: string;
-  /** Show count of active filters */
+  /** Mostrar conteo de filtros activos */
   showFilterCount?: boolean;
 }
 
@@ -70,7 +70,7 @@ export function FilterBar({
 
   return (
     <div className={cx(styles.filterBar, className)} {...props}>
-      {/* Header */}
+      {/* Encabezado */}
       <div className={styles.header}>
         <h3 className={styles.title}>Filtros</h3>
         {showFilterCount && activeFilterCount > 0 && (
@@ -78,9 +78,9 @@ export function FilterBar({
         )}
       </div>
 
-      {/* Content */}
+      {/* Contenido */}
       <div className={styles.content}>
-        {/* Search (if applicable) */}
+        {/* Búsqueda (si aplica) */}
         {hasSearch && (
           <div className={styles.searchBox}>
             <SearchIcon />
@@ -90,12 +90,12 @@ export function FilterBar({
               value={searchValue ?? ""}
               onChange={(e) => onSearchChange!(e.target.value)}
               placeholder={searchPlaceholder}
-              aria-label="Search"
+              aria-label="Búsqueda"
             />
           </div>
         )}
 
-        {/* Filters Grid */}
+        {/* Cuadrícula de filtros */}
         <div className={styles.filtersGrid}>
           {filters.map((filter) => (
             <div key={filter.key} className={styles.filterColumn}>
@@ -106,7 +106,7 @@ export function FilterBar({
               <Select
                 className={styles.filterSelect}
                 options={filter.options}
-                placeholder={filter.placeholder ?? "All"}
+                placeholder={filter.placeholder ?? "Todos"}
                 value={filterValues[filter.key] ?? ""}
                 onChange={(e) => onFilterChange?.(filter.key, e.target.value)}
               />
@@ -114,11 +114,11 @@ export function FilterBar({
           ))}
         </div>
 
-        {/* Actions */}
+        {/* Acciones */}
         {showClear && activeFilterCount > 0 && (
           <div className={styles.actions}>
             <Button variant="ghost" size="sm" onClick={onClear}>
-              Clear all filters
+              Limpiar todos los filtros
             </Button>
           </div>
         )}

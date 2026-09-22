@@ -1,4 +1,4 @@
-/* Shared wrapper for checkbox / radio / switch */
+/* Envoltorio compartido para checkbox / radio / interruptor */
 .choice {
   display: inline-flex;
   align-items: center;
@@ -14,7 +14,7 @@
   opacity: 0.6;
 }
 
-/* Visually hide the native control but keep it accessible */
+/* Ocultar visualmente el control nativo pero mantenerlo accesible */
 .nativeInput {
   position: absolute;
   width: 1px;
@@ -27,7 +27,7 @@
   border: 0;
 }
 
-/* Checkbox / radio box */
+/* Caja de casilla de verificación / radio */
 .box {
   display: inline-flex;
   align-items: center;
@@ -85,7 +85,7 @@
   box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
-/* Switch */
+/* Interruptor */
 .switch .track {
   display: inline-flex;
   align-items: center;

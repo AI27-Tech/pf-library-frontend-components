@@ -5,17 +5,17 @@ export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "dan
 export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style of the button. */
+  /** Estilo visual del botón. */
   variant?: ButtonVariant;
-  /** Size of the button. */
+  /** Tamaño del botón. */
   size?: ButtonSize;
-  /** Stretch the button to fill the width of its container. */
+  /** Estirar el botón para llenar el ancho de su contenedor. */
   fullWidth?: boolean;
-  /** Show a loading spinner and disable interaction. */
+  /** Mostrar un spinner de carga y deshabilitar interacción. */
   loading?: boolean;
-  /** Element rendered before the label. */
+  /** Elemento renderizado antes de la etiqueta. */
   startIcon?: ReactNode;
-  /** Element rendered after the label. */
+  /** Elemento renderizado después de la etiqueta. */
   endIcon?: ReactNode;
 }
 

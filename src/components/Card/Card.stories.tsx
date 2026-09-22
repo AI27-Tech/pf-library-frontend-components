@@ -33,9 +33,9 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   render: (args) => (
     <Card {...args}>
-      <CardHeader title="Card title" subtitle="Supporting text" />
+      <CardHeader title="Título de la tarjeta" subtitle="Texto de apoyo" />
       <CardBody>
-        This is the body of the card. Use it for any content you need to show.
+        Este es el cuerpo de la tarjeta. Úsalo para cualquier contenido que necesites mostrar.
       </CardBody>
     </Card>
   ),
@@ -44,11 +44,11 @@ export const Basic: Story = {
 export const WithFooter: Story = {
   render: (args) => (
     <Card {...args}>
-      <CardHeader title="Confirm action" subtitle="This cannot be undone" />
-      <CardBody>Are you sure you want to delete this item?</CardBody>
+      <CardHeader title="Confirmar acción" subtitle="Esto no se puede deshacer" />
+      <CardBody>¿Está seguro de que desea eliminar este elemento?</CardBody>
       <CardFooter>
-        <Button variant="ghost">Cancel</Button>
-        <Button variant="danger">Delete</Button>
+        <Button variant="ghost">Cancelar</Button>
+        <Button variant="danger">Eliminar</Button>
       </CardFooter>
     </Card>
   ),
@@ -58,12 +58,12 @@ export const WithMediaAndAction: Story = {
   render: (args) => (
     <Card {...args}>
       <CardHeader
-        title="Storage"
-        subtitle="72% used"
+        title="Almacenamiento"
+        subtitle="72% usado"
         media={<DiskIcon />}
-        action={<Button size="sm" variant="outline">Manage</Button>}
+        action={<Button size="sm" variant="outline">Gestionar</Button>}
       />
-      <CardBody>You are using 7.2 GB of your 10 GB plan.</CardBody>
+      <CardBody>Estás usando 7.2 GB de tu plan de 10 GB.</CardBody>
     </Card>
   ),
 };
@@ -73,8 +73,8 @@ export const Variants: Story = {
     <div style={{ display: "grid", gap: "1rem" }}>
       {(["outlined", "elevated", "filled"] as const).map((v) => (
         <Card key={v} variant={v}>
-          <CardHeader title={v} subtitle="Card variant" />
-          <CardBody>Content for the {v} variant.</CardBody>
+          <CardHeader title={v} subtitle="Variante de tarjeta" />
+          <CardBody>Contenido para la variante {v}.</CardBody>
         </Card>
       ))}
     </div>
@@ -83,9 +83,9 @@ export const Variants: Story = {
 
 export const Clickable: Story = {
   render: (args) => (
-    <Card {...args} onClick={() => alert("Card clicked")}>
-      <CardHeader title="Clickable card" subtitle="Press Enter or Space" />
-      <CardBody>The whole card acts as a button.</CardBody>
+    <Card {...args} onClick={() => alert("Tarjeta clickeada")}>
+      <CardHeader title="Tarjeta clickeable" subtitle="Presiona Enter o Espacio" />
+      <CardBody>Toda la tarjeta actúa como un botón.</CardBody>
     </Card>
   ),
 };

@@ -5,7 +5,7 @@
   font-family: var(--ui-font-family, inherit);
 }
 
-/* Groups of related fields with an optional legend */
+/* Grupos de campos relacionados con una leyenda opcional */
 .section {
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   color: var(--ui-color-text-muted, #94a3b8);
 }
 
-/* A row that lays out fields side by side, wrapping on small screens */
+/* Una fila que distribuye campos uno al lado del otro, envolviendo en pantallas pequeñas */
 .row {
   display: grid;
   gap: var(--ui-space-4, 1rem);
@@ -43,7 +43,7 @@
   }
 }
 
-/* Action bar */
+/* Barra de acciones */
 .actions {
   display: flex;
   align-items: center;

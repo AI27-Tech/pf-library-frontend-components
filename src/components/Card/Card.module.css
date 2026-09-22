@@ -9,7 +9,7 @@
   font-family: var(--ui-font-family, inherit);
 }
 
-/* Variants */
+/* Variantes */
 .outlined {
   border: 1px solid var(--ui-color-border, #2d3748);
 }
@@ -24,7 +24,7 @@
   background-color: var(--ui-color-surface-muted, #0e1117);
 }
 
-/* Padding scale */
+/* Escala de relleno */
 .padding-none {
   --card-pad: 0;
 }
@@ -38,7 +38,7 @@
   --card-pad: var(--ui-space-5, 1.5rem);
 }
 
-/* Interactive (clickable) */
+/* Interactivo (clickeable) */
 .clickable {
   cursor: pointer;
   text-align: left;
@@ -62,7 +62,7 @@
   box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
-/* Sections */
+/* Secciones */
 .header {
   display: flex;
   align-items: flex-start;

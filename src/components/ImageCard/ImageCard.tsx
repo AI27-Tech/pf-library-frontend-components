@@ -9,32 +9,32 @@ function cx(...classes: Array<string | false | undefined>) {
 export interface BadgeConfig {
   label: ReactNode;
   variant?: BadgeVariant;
-  /** Show a leading status dot. */
+  /** Mostrar un indicador de estado inicial. */
   dot?: boolean;
-  /** Animate the dot (for live/active alerts). Implies `dot`. */
+  /** Animar el indicador (para alertas en vivo/activas). Implica `dot`. */
   pulse?: boolean;
-  /** Use a fully rounded pill shape. */
+  /** Usar una forma de píldora completamente redondeada. */
   pill?: boolean;
-  /** Position of the badge: "left" or "right". Default: "right" */
+  /** Posición del badge: "left" o "right". Predeterminado: "right" */
   position?: "left" | "right";
 }
 
 export interface ImageCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** URL of the main image. */
+  /** URL de la imagen principal. */
   src: string;
-  /** Alt text for the image. */
+  /** Texto alternativo para la imagen. */
   alt: string;
-  /** Main title displayed below the image. */
+  /** Título principal mostrado debajo de la imagen. */
   title: ReactNode;
-  /** Secondary text below the title. */
+  /** Texto secundario debajo del título. */
   subtitle?: ReactNode;
-  /** Array of badge configurations (up to 2 badges). */
+  /** Array de configuraciones de badge (hasta 2 badges). */
   badges?: BadgeConfig[];
-  /** Additional content below subtitle. */
+  /** Contenido adicional debajo del subtítulo. */
   footer?: ReactNode;
-  /** Make the whole card clickable. */
+  /** Hacer toda la tarjeta clickeable. */
   onClick?: HTMLAttributes<HTMLDivElement>["onClick"];
-  /** Visual variant of the card. */
+  /** Variante visual de la tarjeta. */
   variant?: "outlined" | "elevated" | "filled";
 }
 
@@ -77,7 +77,7 @@ export function ImageCard({
       }
       {...props}
     >
-      {/* Image container with badges overlay */}
+      {/* Contenedor de imagen con overlay de badges */}
       <div className={styles.imageContainer}>
         <img src={src} alt={alt} className={styles.image} />
         {badgesToShow.length > 0 && (
@@ -104,7 +104,7 @@ export function ImageCard({
         )}
       </div>
 
-      {/* Content below image */}
+      {/* Contenido debajo de la imagen */}
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}

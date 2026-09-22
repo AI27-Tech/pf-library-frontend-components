@@ -3,11 +3,11 @@ import styles from "./MessagePanel.module.css";
 import { cx, initials, type Presence } from "./utils";
 
 export interface AvatarProps {
-  /** Image URL. When absent, initials are shown. */
+  /** URL de la imagen. Cuando está ausente, se muestran las iniciales. */
   src?: string;
-  /** Full name, used for alt text and initials fallback. */
+  /** Nombre completo, usado para alt text e iniciales como respaldo. */
   name?: string;
-  /** Presence dot. Omit to hide it. */
+  /** Punto de presencia. Omitir para ocultarlo. */
   presence?: Presence;
 }
 
@@ -18,7 +18,7 @@ export function Avatar({ src, name, presence }: AvatarProps) {
       {presence && (
         <span
           className={cx(styles.presence, presence === "online" && styles.online)}
-          aria-label={presence === "online" ? "Online" : "Offline"}
+          aria-label={presence === "online" ? "En línea" : "Desconectado"}
         />
       )}
     </span>

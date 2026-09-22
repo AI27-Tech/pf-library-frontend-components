@@ -4,15 +4,15 @@ import { cx, type InputSize } from "./utils";
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
-  /** Size of the input. */
+  /** Tamaño de la entrada. */
   size?: InputSize;
-  /** Marks the field as invalid (also sets aria-invalid). */
+  /** Marca el campo como inválido (también establece aria-invalid). */
   invalid?: boolean;
-  /** Content rendered before the text (icon, prefix). */
+  /** Contenido renderizado antes del texto (icono, prefijo). */
   startAdornment?: ReactNode;
-  /** Content rendered after the text (icon, suffix, action). */
+  /** Contenido renderizado después del texto (icono, sufijo, acción). */
   endAdornment?: ReactNode;
-  /** Ref forwarded to the underlying input element. */
+  /** Ref reenviado al elemento de entrada subyacente. */
   inputRef?: Ref<HTMLInputElement>;
 }
 

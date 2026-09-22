@@ -4,66 +4,66 @@ import styles from "./Table.module.css";
 export type SortDirection = "asc" | "desc";
 
 export interface SortState {
-  /** Column key currently sorted. */
+  /** Clave de columna actualmente ordenada. */
   key: string;
-  /** Sort direction. */
+  /** Dirección de ordenamiento. */
   direction: SortDirection;
 }
 
 export interface Column<T> {
-  /** Unique key. Also used as the sort key. */
+  /** Clave única. También se usa como clave de ordenamiento. */
   key: string;
-  /** Header content. */
+  /** Contenido del encabezado. */
   header: ReactNode;
-  /** Function returning the cell content for a row. */
+  /** Función que devuelve el contenido de la celda para una fila. */
   cell?: (row: T, rowIndex: number) => ReactNode;
-  /** Property accessor used when `cell` is not provided. */
+  /** Acceso a propiedad usado cuando `cell` no se proporciona. */
   accessor?: keyof T;
-  /** Horizontal alignment. */
+  /** Alineación horizontal. */
   align?: "left" | "center" | "right";
-  /** Whether the column can be sorted (renders a sort control). */
+  /** Si la columna puede ser ordenada (renderiza un control de ordenamiento). */
   sortable?: boolean;
-  /** Fixed width, e.g. "120px" or "20%". */
+  /** Ancho fijo, por ejemplo "120px" o "20%". */
   width?: string;
 }
 
 export interface TableProps<T> {
-  /** Column definitions. */
+  /** Definiciones de columnas. */
   columns: Column<T>[];
-  /** Row data. */
+  /** Datos de filas. */
   data: T[];
-  /** Returns a stable key for a row. Defaults to the row index. */
+  /** Devuelve una clave estable para una fila. Por defecto el índice de la fila. */
   rowKey?: (row: T, index: number) => Key;
-  /** Controlled sort state. */
+  /** Estado de ordenamiento controlado. */
   sort?: SortState | null;
-  /** Called when a sortable header is clicked. */
+  /** Llamado cuando se hace clic en un encabezado ordenable. */
   onSortChange?: (sort: SortState) => void;
-  /** Called when a row is clicked. Makes rows interactive. */
+  /** Llamado cuando se hace clic en una fila. Hace las filas interactivas. */
   onRowClick?: (row: T, index: number) => void;
-  /** Controlled set of selected row keys. Enables the selection column. */
+  /** Conjunto controlado de claves de fila seleccionadas. Habilita la columna de selección. */
   selectedKeys?: Set<Key>;
-  /** Called when the selection changes. */
+  /** Llamado cuando cambia la selección. */
   onSelectionChange?: (keys: Set<Key>) => void;
   /**
-   * Renders an expandable detail panel below a row. When provided, an
-   * expand/collapse control column is added. Return null to make a row
-   * non-expandable.
+   * Renderiza un panel de detalles expandible debajo de una fila. Cuando se proporciona,
+   * se agrega una columna de control de expandir/contraer. Devuelve null para hacer que
+   * una fila no sea expandible.
    */
   expandedContent?: (row: T, rowIndex: number) => ReactNode;
-  /** Controlled set of expanded row keys. */
+  /** Conjunto controlado de claves de fila expandidas. */
   expandedKeys?: Set<Key>;
-  /** Called when a row is expanded or collapsed. */
+  /** Llamado cuando se expande o contrae una fila. */
   onExpandedChange?: (keys: Set<Key>) => void;
-  /** Loading state. Shows a spinner instead of rows. */
+  /** Estado de carga. Muestra un spinner en lugar de filas. */
   loading?: boolean;
-  /** Content shown when there is no data. */
+  /** Contenido mostrado cuando no hay datos. */
   emptyState?: ReactNode;
-  /** Row density. */
+  /** Densidad de filas. */
   density?: "comfortable" | "compact";
-  /** Highlight rows on hover. Default: true. */
+  /** Resaltar filas al pasar el mouse. Por defecto: true. */
   hoverable?: boolean;
   className?: string;
-  /** Accessible caption / label for the table. */
+  /** Etiqueta de accesibilidad / leyenda para la tabla. */
   "aria-label"?: string;
 }
 
@@ -222,7 +222,7 @@ export function Table<T>({
           {loading ? (
             <tr>
               <td className={styles.state} colSpan={totalCols}>
-                <span className={styles.spinner} aria-label="Loading" />
+                <span className={styles.spinner} aria-label="Cargando" />
               </td>
             </tr>
           ) : data.length === 0 ? (
@@ -261,7 +261,7 @@ export function Table<T>({
                             type="button"
                             className={cx(styles.expandBtn, isExpanded && styles.expanded)}
                             onClick={() => toggleExpanded(key)}
-                            aria-label={isExpanded ? "Collapse row" : "Expand row"}
+                            aria-label={isExpanded ? "Contraer fila" : "Expandir fila"}
                             aria-expanded={isExpanded}
                           >
                             <ChevronIcon />
@@ -278,7 +278,7 @@ export function Table<T>({
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => toggleRow(key)}
-                          aria-label="Select row"
+                          aria-label="Seleccionar fila"
                         />
                       </td>
                     )}
