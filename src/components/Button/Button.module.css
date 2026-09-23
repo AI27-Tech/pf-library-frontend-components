@@ -11,7 +11,7 @@
   gap: 0.5em;
   box-sizing: border-box;
   border: 1px solid var(--btn-border);
-  border-radius: var(--ui-radius, 8px);
+  border-radius: var(--ui-radius, 0.25rem);
   background-color: var(--btn-bg);
   color: var(--btn-fg);
   font-family: var(--ui-font-family, inherit);
@@ -44,7 +44,7 @@
 
 .button:disabled {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: var(--ui-opacity-disabled, 0.55);
 }
 
 /* Tamaños */
@@ -104,6 +104,24 @@
   --btn-bg-active: var(--ui-color-danger-active, #f56f6f);
 }
 
+/* Estado success (verde) */
+.success {
+  --btn-bg: var(--ui-color-success, #86efac);
+  --btn-fg: var(--ui-color-on-success, #081a0e);
+  --btn-border: var(--ui-color-success, #86efac);
+  --btn-bg-hover: var(--ui-color-success-hover, #6ee7b7);
+  --btn-bg-active: var(--ui-color-success-active, #52d18f);
+}
+
+/* Estado info (azul claro) */
+.info {
+  --btn-bg: var(--ui-color-info, #60a5fa);
+  --btn-fg: var(--ui-color-on-info, #0e1117);
+  --btn-border: var(--ui-color-info, #60a5fa);
+  --btn-bg-hover: var(--ui-color-info-hover, #3b82f6);
+  --btn-bg-active: var(--ui-color-info-active, #1d4ed8);
+}
+
 /* Modificadores */
 .fullWidth {
   width: 100%;
@@ -141,5 +159,17 @@
 @keyframes btn-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+    border-right-color: inherit;
   }
 }

@@ -1,6 +1,6 @@
 .sidebar {
-  --sidebar-width: 15rem;
-  --sidebar-width-collapsed: 4rem;
+  --sidebar-width: var(--ui-sidebar-width, 15rem);
+  --sidebar-width-collapsed: var(--ui-sidebar-width-collapsed, 4rem);
 
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
-  height: 3.5rem;
+  height: var(--ui-navbar-height, 3.5rem);
   padding: 0 var(--ui-space-3, 0.75rem);
   border-bottom: 1px solid var(--ui-color-border, #2d3748);
   font-weight: 700;
@@ -49,7 +49,7 @@
 
 .groupLabel {
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-3, 0.75rem) var(--ui-space-1, 0.25rem);
-  font-size: 0.6875rem;
+  font-size: var(--ui-text-label-md-size, 0.6875rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -72,11 +72,11 @@
   width: 100%;
   padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
   border: none;
-  border-radius: var(--ui-radius-sm, 6px);
+  border-radius: var(--ui-radius-sm, 0.125rem);
   background: transparent;
   color: var(--ui-color-text-muted, #94a3b8);
   font: inherit;
-  font-size: var(--ui-font-size-md, 0.9375rem);
+  font-size: var(--ui-font-size-md, 0.8125rem);
   font-weight: 500;
   text-align: left;
   text-decoration: none;

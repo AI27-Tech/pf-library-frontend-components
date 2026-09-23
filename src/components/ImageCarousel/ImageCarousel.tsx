@@ -72,31 +72,44 @@ export function ImageCarousel<T>({
 
         return (
           <div key={sectionIdx} className={styles.section}>
-            {/* Encabezado de sección */}
+            {/* Encabezado de sección con flechas de navegación */}
             <div className={styles.sectionHeader}>
               <div className={styles.headerContent}>
                 <h2 className={styles.sectionTitle}>{section.title}</h2>
                 {section.badge && (
                   <div className={styles.sectionBadge}>{section.badge}</div>
                 )}
+                {section.location && (
+                  <div className={styles.sectionLocation}>{section.location}</div>
+                )}
               </div>
-              {section.location && (
-                <div className={styles.sectionLocation}>{section.location}</div>
+              
+              {/* Flechas de navegación en el encabezado */}
+              {section.showArrows !== false && (
+                <div className={styles.headerControls}>
+                  <button
+                    className={cx(styles.navButton, styles.prev)}
+                    onClick={() => handleScroll(sectionIdx, "left", visibleItems)}
+                    aria-label="Desplazar a la izquierda"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    className={cx(styles.navButton, styles.next)}
+                    onClick={() => handleScroll(sectionIdx, "right", visibleItems)}
+                    aria-label="Scroll right"
+                  >
+                    ›
+                  </button>
+                </div>
               )}
             </div>
 
+            {/* Divisor */}
+            <div className={styles.divider}></div>
+
             {/* Contenedor del carrusel */}
             <div className={styles.carouselWrapper}>
-              {section.showArrows !== false && (
-                <button
-                  className={cx(styles.navButton, styles.prev)}
-                  onClick={() => handleScroll(sectionIdx, "left", visibleItems)}
-                  aria-label="Desplazar a la izquierda"
-                >
-                  ‹
-                </button>
-              )}
-
               <div
                 className={styles.itemsContainer}
                 data-carousel-section={sectionIdx}
@@ -106,22 +119,14 @@ export function ImageCarousel<T>({
                   renderItem(item, itemIdx)
                 )}
               </div>
-
-              {section.showArrows !== false && (
-                <button
-                  className={cx(styles.navButton, styles.next)}
-                  onClick={() => handleScroll(sectionIdx, "right", visibleItems)}
-                  aria-label="Scroll right"
-                >
-                  ›
-                </button>
-              )}
             </div>
 
-            {/* Item count */}
-            <div className={styles.itemCount}>
-              {section.items.length} item{section.items.length !== 1 ? "s" : ""}
-            </div>
+            {/* Item count discreto */}
+            {section.items.length > 0 && (
+              <div className={styles.itemCount}>
+                {section.items.length} item{section.items.length !== 1 ? "s" : ""}
+              </div>
+            )}
           </div>
         );
       })}

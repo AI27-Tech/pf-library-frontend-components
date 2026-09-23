@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
+import { Grid3x3, List } from "lucide-react";
 import { Select, type SelectOption } from "../Input/Select";
 import { Button } from "../Button";
 import styles from "./FilterBar.module.css";
@@ -41,6 +42,14 @@ export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
   searchPlaceholder?: string;
   /** Mostrar conteo de filtros activos */
   showFilterCount?: boolean;
+  /** Mostrar chips de filtros activos (por defecto: true) */
+  showActiveFilterChips?: boolean;
+  /** Habilitar selector de vista (grid/list). Por defecto: false */
+  enableViewToggle?: boolean;
+  /** Modo de vista actual */
+  viewMode?: "grid" | "list";
+  /** Callback cuando cambia el modo de vista */
+  onViewModeChange?: (mode: "grid" | "list") => void;
 }
 
 function SearchIcon() {
@@ -62,11 +71,32 @@ export function FilterBar({
   onSearchChange,
   searchPlaceholder = "Search...",
   showFilterCount = true,
+  showActiveFilterChips = true,
+  enableViewToggle = false,
+  viewMode = "grid",
+  onViewModeChange,
   className,
   ...props
 }: FilterBarProps) {
   const activeFilterCount = Object.values(filterValues).filter((val) => val).length;
   const hasSearch = Boolean(onSearchChange);
+
+  // Construir lista de filtros activos con etiquetas amigables
+  const activeFilters = filters
+    .filter((filter) => filterValues[filter.key])
+    .map((filter) => {
+      const selectedValue = filterValues[filter.key];
+      const selectedOption = filter.options.find((opt) => opt.value === selectedValue);
+      return {
+        key: filter.key,
+        label: filter.label,
+        displayValue: selectedOption?.label || selectedValue,
+      };
+    });
+
+  const handleRemoveFilter = (filterKey: string) => {
+    onFilterChange?.(filterKey, "");
+  };
 
   return (
     <div className={cx(styles.filterBar, className)} {...props}>
@@ -75,6 +105,43 @@ export function FilterBar({
         <h3 className={styles.title}>Filtros</h3>
         {showFilterCount && activeFilterCount > 0 && (
           <span className={styles.badge}>{activeFilterCount}</span>
+        )}
+        
+        {/* Selector de vista integrado en el header - Toggle entre iconos */}
+        {enableViewToggle && onViewModeChange && (
+          <div className={styles.viewToggleGroup}>
+            {/* Grid option */}
+            <label className={styles.viewToggleLabel}>
+              <input
+                type="radio"
+                name="viewMode"
+                value="grid"
+                checked={viewMode === "grid"}
+                onChange={() => onViewModeChange("grid")}
+                className={styles.viewToggleInput}
+                aria-label="Vista de grilla"
+              />
+              <span className={styles.viewToggleOption} title="Grilla">
+                <Grid3x3 size={18} />
+              </span>
+            </label>
+
+            {/* List option */}
+            <label className={styles.viewToggleLabel}>
+              <input
+                type="radio"
+                name="viewMode"
+                value="list"
+                checked={viewMode === "list"}
+                onChange={() => onViewModeChange("list")}
+                className={styles.viewToggleInput}
+                aria-label="Vista de lista"
+              />
+              <span className={styles.viewToggleOption} title="Lista">
+                <List size={18} />
+              </span>
+            </label>
+          </div>
         )}
       </div>
 
@@ -92,6 +159,28 @@ export function FilterBar({
               placeholder={searchPlaceholder}
               aria-label="Búsqueda"
             />
+          </div>
+        )}
+
+        {/* Chips de filtros activos */}
+        {showActiveFilterChips && activeFilters.length > 0 && (
+          <div className={styles.activeFiltersChips}>
+            {activeFilters.map((filter) => (
+              <button
+                key={filter.key}
+                className={styles.filterChip}
+                onClick={() => handleRemoveFilter(filter.key)}
+                aria-label={`Eliminar filtro ${filter.label}: ${filter.displayValue}`}
+                type="button"
+              >
+                <span className={styles.chipLabel}>
+                  {filter.label}: <strong>{filter.displayValue}</strong>
+                </span>
+                <span className={styles.chipRemove} aria-hidden="true">
+                  ✕
+                </span>
+              </button>
+            ))}
           </div>
         )}
 

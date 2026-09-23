@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ImageGrid } from "./ImageGrid";
 import type { FilterDefinition, FilterValues } from "../FilterBar";
 import { ImageCard } from "../ImageCard";
+import { Badge } from "../Badge";
+import styles from "./ImageGrid.module.css";
 
 const meta = {
   title: "Components/ImageGrid",
@@ -262,6 +264,164 @@ export const WithFilters: Story = {
   },
 };
 
+export const WithFiltersAndPagination: Story = {
+  args: {},
+  render: () => {
+    const [filterValues, setFilterValues] = useState<FilterValues>({});
+
+    return (
+      <div style={{ padding: "2rem" }}>
+        <h2 style={{ marginBottom: "1rem" }}>Grid Con Filtros + Paginación</h2>
+        <p style={{ marginBottom: "1rem", color: "#666", fontSize: "0.9rem" }}>
+          Filtra por categoría, estado o unidad. La paginación muestra 8 items por página y se reinicia al cambiar filtros.
+        </p>
+        <ImageGrid<ForensicEvidence>
+          items={mockEvidence}
+          filters={filters}
+          filterValues={filterValues}
+          onFilterChange={(key, value) => {
+            setFilterValues((prev: FilterValues) => ({ ...prev, [key]: value }));
+          }}
+          onClear={() => setFilterValues({})}
+          columns={4}
+          enablePagination={true}
+          itemsPerPage={8}
+          renderItem={(item) => (
+            <ImageCard
+              key={item.id}
+              src={item.image}
+              alt={item.name}
+              title={item.timestamp}
+              subtitle={item.name}
+              footer={<small>{item.resolution}</small>}
+              badges={[
+                {
+                  label: item.status,
+                  position: "left",
+                  variant: item.status === "SELLADO" ? "secure" : item.status === "COMPROMETIDO" ? "alert" : "neutral",
+                },
+                { label: item.category, position: "right" },
+              ]}
+            />
+          )}
+          matchesFilters={(item, filters) => {
+            const unitMatch = !filters.unit || item.unit === filters.unit;
+            const categoryMatch = !filters.category || item.category === filters.category;
+            const statusMatch = !filters.status || item.status === filters.status;
+
+            return unitMatch && categoryMatch && statusMatch;
+          }}
+          showCount={true}
+          emptyMessage="No hay evidencias que coincidan con los filtros"
+        />
+      </div>
+    );
+  },
+};
+
+export const WithViewToggleAndPagination: Story = {
+  args: {},
+  render: () => {
+    const [filterValues, setFilterValues] = useState<FilterValues>({});
+    const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+    const handleViewModeChange = (mode: "grid" | "list") => {
+      setViewMode(mode);
+    };
+
+    return (
+      <div style={{ padding: "2rem" }}>
+        <h2 style={{ marginBottom: "1rem" }}>Grid Con Filtros + View Toggle + Paginación</h2>
+        <p style={{ marginBottom: "1rem", color: "#666", fontSize: "0.9rem" }}>
+          Prueba todos los controles: filtra, cambia vista (grid/lista) y navega páginas. Vista lista = diseño horizontal; vista grid = 4 columnas.
+        </p>
+        <ImageGrid<ForensicEvidence>
+          items={mockEvidence}
+          filters={filters}
+          filterValues={filterValues}
+          onFilterChange={(key, value) => {
+            setFilterValues((prev: FilterValues) => ({ ...prev, [key]: value }));
+          }}
+          onClear={() => setFilterValues({})}
+          columns={4}
+          enableViewToggle={true}
+          enablePagination={true}
+          itemsPerPage={viewMode === "grid" ? 8 : 10}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
+          renderItem={(item) => {
+            if (viewMode === "list") {
+              // Renderizado tabla limpia con clases CSS
+              return (
+                <>
+                  {/* Col 1: Timestamp */}
+                  <div className={styles.listItemTime}>{item.timestamp}</div>
+
+                  {/* Col 2: Nombre */}
+                  <div className={styles.listItemName}>{item.name}</div>
+
+                  {/* Col 3: Unidad */}
+                  <div className={styles.listItemUnit}>{item.unit}</div>
+
+                  {/* Col 4: Categoría */}
+                  <div className={styles.listItemCategory}>{item.category}</div>
+
+                  {/* Col 5: Tamaño */}
+                  <div className={styles.listItemSize}>{item.resolution}</div>
+
+                  {/* Col 6: Badge usando componente Badge */}
+                  <div className={styles.listItemBadge}>
+                    <Badge
+                      variant={
+                        item.status === "SELLADO"
+                          ? "secure"
+                          : item.status === "COMPROMETIDO"
+                            ? "alert"
+                            : "neutral"
+                      }
+                    >
+                      {item.status}
+                    </Badge>
+                  </div>
+                </>
+              );
+            }
+
+            // Renderizado original para grid
+            return (
+              <ImageCard
+                key={item.id}
+                src={item.image}
+                alt={item.name}
+                title={item.timestamp}
+                subtitle={item.name}
+                footer={<small>{item.resolution}</small>}
+                badges={[
+                  {
+                    label: item.status,
+                    position: "left",
+                    variant: item.status === "SELLADO" ? "secure" : item.status === "COMPROMETIDO" ? "alert" : "neutral",
+                  },
+                  { label: item.category, position: "right" },
+                ]}
+              />
+            );
+          }}
+          matchesFilters={(item, filters) => {
+            const unitMatch = !filters.unit || item.unit === filters.unit;
+            const categoryMatch = !filters.category || item.category === filters.category;
+            const statusMatch = !filters.status || item.status === filters.status;
+
+            return unitMatch && categoryMatch && statusMatch;
+          }}
+          showCount={true}
+          emptyMessage="No hay evidencias que coincidan con los filtros"
+        />
+      </div>
+    );
+  },
+};
+
 export const NoFilters: Story = {
   args: {},
   render: () => (
@@ -308,235 +468,6 @@ export const EmptyState: Story = {
         )}
         emptyMessage="No hay evidencias registradas"
         showCount={true}
-      />
-    </div>
-  ),
-};
-
-export const CustomColumns: Story = {
-  args: {},
-  render: () => (
-    <div style={{ padding: "2rem" }}>
-      <div style={{ marginBottom: "3rem" }}>
-        <h3>2 columnas - COPY ESTE CÓDIGO:</h3>
-        <pre style={{ background: "#1e1e2e", color: "#e2e8f0", padding: "1rem", borderRadius: "8px", overflow: "auto" }}>{`import { ImageGrid } from '@ai27-tech/ui';
-import { ImageCard } from '@ai27-tech/ui';
-
-export function My2ColumnGrid() {
-  const items = [/* tu array de datos */];
-
-  return (
-    <ImageGrid
-      items={items}
-      columns={2}
-      renderItem={(item) => (
-        <ImageCard
-          key={item.id}
-          src={item.image}
-          alt={item.name}
-          title={item.title}
-          subtitle={item.subtitle}
-          badges={[
-            { label: item.status, position: "left" },
-            { label: item.type, position: "right" },
-          ]}
-        />
-      )}
-    />
-  );
-}`}</pre>
-        <ImageGrid<ForensicEvidence>
-          items={mockEvidence}
-          columns={2}
-          renderItem={(item) => (
-            <ImageCard
-              key={item.id}
-              src={item.image}
-              alt={item.name}
-              title={item.timestamp}
-              subtitle={item.name}
-              footer={<small>{item.resolution}</small>}
-              badges={[
-                { label: item.status, position: "left", variant: "neutral" },
-                { label: item.category, position: "right" },
-              ]}
-            />
-          )}
-          showCount={true}
-        />
-      </div>
-
-      <div style={{ marginBottom: "3rem" }}>
-        <h3>3 columnas - COPY ESTE CÓDIGO:</h3>
-        <pre style={{ background: "#1e1e2e", color: "#e2e8f0", padding: "1rem", borderRadius: "8px", overflow: "auto" }}>{`import { ImageGrid } from '@ai27-tech/ui';
-import { ImageCard } from '@ai27-tech/ui';
-
-export function My3ColumnGrid() {
-  const items = [/* tu array de datos */];
-
-  return (
-    <ImageGrid
-      items={items}
-      columns={3}
-      renderItem={(item) => (
-        <ImageCard
-          key={item.id}
-          src={item.image}
-          alt={item.name}
-          title={item.title}
-          subtitle={item.subtitle}
-          badges={[
-            { label: item.status, position: "left" },
-            { label: item.type, position: "right" },
-          ]}
-        />
-      )}
-    />
-  );
-}`}</pre>
-        <ImageGrid<ForensicEvidence>
-          items={mockEvidence}
-          columns={3}
-          renderItem={(item) => (
-            <ImageCard
-              key={item.id}
-              src={item.image}
-              alt={item.name}
-              title={item.timestamp}
-              subtitle={item.name}
-              footer={<small>{item.resolution}</small>}
-              badges={[
-                { label: item.status, position: "left", variant: "neutral" },
-                { label: item.category, position: "right" },
-              ]}
-            />
-          )}
-          showCount={true}
-        />
-      </div>
-
-      <div>
-        <h3>6 columnas (Thumbnails) - COPY ESTE CÓDIGO:</h3>
-        <pre style={{ background: "#1e1e2e", color: "#e2e8f0", padding: "1rem", borderRadius: "8px", overflow: "auto" }}>{`import { ImageGrid } from '@ai27-tech/ui';
-import { ImageCard } from '@ai27-tech/ui';
-
-export function MyThumbnailGrid() {
-  const items = [/* tu array de datos */];
-
-  return (
-    <ImageGrid
-      items={items}
-      columns={6}
-      gap="0.75rem"
-      renderItem={(item) => (
-        <ImageCard
-          key={item.id}
-          src={item.image}
-          alt={item.name}
-          title={item.title}
-          badges={[
-            { label: item.status, position: "left" },
-          ]}
-        />
-      )}
-      showCount={false}
-    />
-  );
-}`}</pre>
-        <ImageGrid<ForensicEvidence>
-          items={mockEvidence}
-          columns={6}
-          renderItem={(item) => (
-            <ImageCard
-              key={item.id}
-              src={item.image}
-              alt={item.name}
-              title={item.timestamp}
-              subtitle={item.name}
-              footer={<small>{item.resolution}</small>}
-              badges={[
-                { label: item.status, position: "left", variant: "neutral" },
-                { label: item.category, position: "right" },
-              ]}
-            />
-          )}
-          showCount={true}
-        />
-      </div>
-    </div>
-  ),
-};
-
-export const GridWithFiltersExample: Story = {
-  args: {},
-  render: () => (
-    <div style={{ padding: "2rem" }}>
-      <h3>Grid Con Filtros - COPY ESTE CÓDIGO:</h3>
-      <pre style={{ background: "#1e1e2e", color: "#e2e8f0", padding: "1rem", borderRadius: "8px", overflow: "auto", marginBottom: "2rem" }}>{`import { ImageGrid, type FilterValues } from '@ai27-tech/ui';
-import { ImageCard } from '@ai27-tech/ui';
-import { useState } from 'react';
-
-export function FilteredImageGrid() {
-  const [filterValues, setFilterValues] = useState<FilterValues>({});
-  
-  const items = [/* tu array de datos */];
-
-  return (
-    <ImageGrid
-      items={items}
-      columns={4}
-      filters={[
-        {
-          key: 'category',
-          label: 'CATEGORÍA',
-          placeholder: 'Todas',
-          options: [
-            { label: 'Tipo A', value: 'typeA' },
-            { label: 'Tipo B', value: 'typeB' },
-          ],
-        },
-      ]}
-      filterValues={filterValues}
-      onFilterChange={(key, value) => {
-        setFilterValues((prev) => ({ ...prev, [key]: value }));
-      }}
-      onClear={() => setFilterValues({})}
-      matchesFilters={(item, filters) => {
-        if (!filters.category) return true;
-        return item.category === filters.category;
-      }}
-      renderItem={(item) => (
-        <ImageCard
-          key={item.id}
-          src={item.image}
-          alt={item.name}
-          title={item.title}
-          subtitle={item.subtitle}
-        />
-      )}
-    />
-  );
-}`}</pre>
-      <ImageGrid<ForensicEvidence>
-        items={mockEvidence}
-        filters={filters}
-        columns={4}
-        filterValues={{}}
-        onFilterChange={() => {}}
-        renderItem={(item) => (
-          <ImageCard
-            key={item.id}
-            src={item.image}
-            alt={item.name}
-            title={item.timestamp}
-            subtitle={item.name}
-            badges={[
-              { label: item.status, position: "left", variant: "neutral" },
-              { label: item.category, position: "right" },
-            ]}
-          />
-        )}
-        matchesFilters={() => true}
       />
     </div>
   ),

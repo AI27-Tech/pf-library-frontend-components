@@ -35,7 +35,7 @@
 .th {
   text-align: left;
   font-weight: 600;
-  font-size: 0.6875rem; /* label-md 11px */
+  font-size: var(--ui-text-label-md-size, 0.6875rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ui-color-text-muted, #94a3b8);
@@ -211,4 +211,16 @@
 /* Envoltorio de relleno interno para que el borde de acento toque el borde de la fila. */
 .detailCell > * {
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
+}
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .expandBtn :global(svg) {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+    border-right-color: inherit;
+  }
 }
