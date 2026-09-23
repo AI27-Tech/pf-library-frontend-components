@@ -18,27 +18,27 @@ const FOCUSABLE =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export interface ModalProps {
-  /** Controls visibility. */
+  /** Controla la visibilidad. */
   open: boolean;
-  /** Called when the user requests to close (Escape, overlay click, close button). */
+  /** Llamado cuando el usuario solicita cerrar (Escape, clic en overlay, botón de cerrar). */
   onClose: () => void;
-  /** Title shown in the header. Omit to hide the default header. */
+  /** Título mostrado en el encabezado. Omitir para ocultar el encabezado predeterminado. */
   title?: ReactNode;
-  /** Modal content. */
+  /** Contenido del modal. */
   children?: ReactNode;
-  /** Footer content, typically action buttons. */
+  /** Contenido del pie, típicamente botones de acción. */
   footer?: ReactNode;
-  /** Max-width preset. */
+  /** Preset de ancho máximo. */
   size?: ModalSize;
-  /** Close when clicking the overlay. Default: true. */
+  /** Cerrar al hacer clic en el overlay. Por defecto: true. */
   closeOnOverlayClick?: boolean;
-  /** Close when pressing Escape. Default: true. */
+  /** Cerrar al presionar Escape. Por defecto: true. */
   closeOnEsc?: boolean;
-  /** Show the close (×) button in the header. Default: true. */
+  /** Mostrar el botón de cerrar (×) en el encabezado. Por defecto: true. */
   showCloseButton?: boolean;
-  /** Extra class for the dialog element. */
+  /** Clase adicional para el elemento de diálogo. */
   className?: string;
-  /** Accessible label when no visible title is provided. */
+  /** Etiqueta de accesibilidad cuando no hay título visible. */
   "aria-label"?: string;
 }
 

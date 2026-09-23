@@ -20,24 +20,24 @@ const meta = {
     variant: {
       control: "select",
       options: ["primary", "secondary", "outline", "ghost", "danger"],
-      description: "Visual style of the button.",
+      description: "Estilo visual del botón.",
     },
     size: {
       control: "inline-radio",
       options: ["sm", "md", "lg"],
-      description: "Size of the button.",
+      description: "Tamaño del botón.",
     },
     fullWidth: {
       control: "boolean",
-      description: "Stretch the button to fill its container.",
+      description: "Expandir el botón para llenar su contenedor.",
     },
     loading: {
       control: "boolean",
-      description: "Show a loading spinner and disable interaction.",
+      description: "Mostrar un spinner de carga y deshabilitar interacción.",
     },
     disabled: {
       control: "boolean",
-      description: "Disable the button.",
+      description: "Deshabilitar el botón.",
     },
     onClick: { action: "clicked" },
     startIcon: { control: false },
@@ -48,35 +48,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Playground driven by the controls panel. */
+/** Área de juego impulsada por el panel de controles. */
 export const Playground: Story = {};
 
-/** The default, high-emphasis action. */
+/** La acción predeterminada, énfasis alto. */
 export const Primary: Story = {
   args: { variant: "primary", children: "Primary" },
 };
 
-/** Lower-emphasis action, paired with a primary button. */
+/** Acción de menor énfasis, emparejada con un botón primario. */
 export const Secondary: Story = {
   args: { variant: "secondary", children: "Secondary" },
 };
 
-/** Emphasized with a border instead of a fill. */
+/** Enfatizado con un borde en lugar de relleno. */
 export const Outline: Story = {
   args: { variant: "outline", children: "Outline" },
 };
 
-/** Minimal styling for tertiary actions. */
+/** Estilos mínimos para acciones terciarias. */
 export const Ghost: Story = {
   args: { variant: "ghost", children: "Ghost" },
 };
 
-/** Destructive action, use with caution. */
+/** Acción destructiva, usar con precaución. */
 export const Danger: Story = {
   args: { variant: "danger", children: "Delete" },
 };
 
-/** All variants side by side. */
+/** Todas las variantes lado a lado. */
 export const AllVariants: Story = {
   render: (args) => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", alignItems: "center" }}>
@@ -89,7 +89,7 @@ export const AllVariants: Story = {
   ),
 };
 
-/** The three available sizes. */
+/** Los tres tamaños disponibles. */
 export const Sizes: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
@@ -100,7 +100,7 @@ export const Sizes: Story = {
   ),
 };
 
-/** Buttons with leading and trailing icons. */
+/** Botones con iconos principales y secundarios. */
 export const WithIcons: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
@@ -111,17 +111,17 @@ export const WithIcons: Story = {
   ),
 };
 
-/** Loading state disables interaction and shows a spinner. */
+/** El estado de carga desactiva la interacción y muestra un spinner. */
 export const Loading: Story = {
   args: { loading: true, children: "Saving..." },
 };
 
-/** Disabled state. */
+/** Estado deshabilitado. */
 export const Disabled: Story = {
   args: { disabled: true, children: "Disabled" },
 };
 
-/** Stretches to fill the parent container. */
+/** Se expande para llenar el contenedor padre. */
 export const FullWidth: Story = {
   args: { fullWidth: true, children: "Full width" },
   parameters: { layout: "padded" },

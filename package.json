@@ -1,6 +1,6 @@
 {
   "name": "@ai27-tech/ui",
-  "version": "0.2.0-beta.1",
+  "version": "0.2.0-beta.2",
   "description": "Shared React component library for AI27 frontend projects, aligned with the AI27 Tactical Operations design system.",
   "type": "module",
   "license": "UNLICENSED",
@@ -53,6 +53,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.4",
     "globals": "^17.11.0",
+    "lucide-react": "^1.47.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "storybook": "^10.6.0",

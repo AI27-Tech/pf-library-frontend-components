@@ -4,13 +4,13 @@ import { Avatar } from "./shared";
 import { cx } from "./utils";
 
 export interface MessageBubbleProps {
-  /** Whether the message was sent by the current user. */
+  /** Si el mensaje fue enviado por el usuario actual. */
   own?: boolean;
-  /** Author name (shown for "other" messages in group chats). */
+  /** Nombre del autor (mostrado para mensajes "otros" en chats grupales). */
   author?: string;
-  /** Timestamp label, e.g. "10:42". */
+  /** Etiqueta de marca de tiempo, por ejemplo "10:42". */
   time?: string;
-  /** Show an avatar next to the bubble. */
+  /** Mostrar un avatar al lado de la burbuja. */
   avatar?: { src?: string; name?: string };
   children?: ReactNode;
 }
@@ -34,13 +34,13 @@ export function MessageBubble({
   );
 }
 
-/** Centered divider between days ("HOY", "AYER", a date...). */
+/** Divisor centrado entre días ("HOY", "AYER", una fecha...). */
 export function MessageDayDivider({ children }: { children: ReactNode }) {
   return <div className={styles.dayDivider}>{children}</div>;
 }
 
 export interface MessageListProps {
-  /** Auto-scroll to the bottom when children change. Default: true. */
+  /** Auto-desplazarse al final cuando cambian los elementos hijos. Por defecto: true. */
   autoScroll?: boolean;
   children?: ReactNode;
 }

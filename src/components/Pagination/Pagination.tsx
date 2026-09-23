@@ -5,34 +5,34 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface PaginationProps {
-  /** Current page (1-based). */
+  /** Página actual (basada en 1). */
   page: number;
-  /** Number of items per page. */
+  /** Número de elementos por página. */
   pageSize: number;
-  /** Total number of items across all pages. */
+  /** Número total de elementos en todas las páginas. */
   total: number;
-  /** Called when the user selects a different page. */
+  /** Llamado cuando el usuario selecciona una página diferente. */
   onPageChange: (page: number) => void;
-  /** Called when the page size changes. Enables the size selector. */
+  /** Llamado cuando cambia el tamaño de página. Habilita el selector de tamaño. */
   onPageSizeChange?: (pageSize: number) => void;
-  /** Page size options for the selector. Default: [10, 25, 50, 100]. */
+  /** Opciones de tamaño de página para el selector. Por defecto: [10, 25, 50, 100]. */
   pageSizeOptions?: number[];
-  /** How many page buttons to show around the current page. Default: 1. */
+  /** Cuántos botones de página mostrar alrededor de la página actual. Por defecto: 1. */
   siblingCount?: number;
-  /** Show the "X–Y of Z" results text. Default: true. */
+  /** Mostrar el texto de resultados "X–Y de Z". Por defecto: true. */
   showInfo?: boolean;
   className?: string;
 }
 
 const DOTS = "dots";
 
-/** Builds the list of page numbers with ellipsis, e.g. [1, "dots", 4,5,6, "dots", 20]. */
+/** Construye la lista de números de página con puntos suspensivos, por ejemplo [1, "dots", 4,5,6, "dots", 20]. */
 function getPageRange(
   current: number,
   totalPages: number,
   siblingCount: number,
 ): Array<number | typeof DOTS> {
-  // Show all pages if few enough: first + last + current±siblings + 2 dots.
+  // Mostrar todas las páginas si hay pocas suficientes: first + last + current±siblings + 2 dots.
   const totalToShow = siblingCount * 2 + 5;
   if (totalPages <= totalToShow) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -112,12 +112,12 @@ export function Pagination({
 
       {onPageSizeChange && (
         <label className={styles.pageSize}>
-          Rows
+          Filas
           <select
             className={styles.pageSizeSelect}
             value={pageSize}
             onChange={(e) => onPageSizeChange(Number(e.target.value))}
-            aria-label="Rows per page"
+            aria-label="Filas por página"
           >
             {pageSizeOptions.map((opt) => (
               <option key={opt} value={opt}>

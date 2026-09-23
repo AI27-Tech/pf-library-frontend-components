@@ -6,13 +6,13 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface NavbarProps extends HTMLAttributes<HTMLElement> {
-  /** Brand / logo area, usually a link to home. */
+  /** Área de marca / logo, usualmente un enlace a inicio. */
   brand?: ReactNode;
-  /** Navigation links (typically NavbarLink elements). */
+  /** Enlaces de navegación (típicamente elementos NavbarLink). */
   links?: ReactNode;
-  /** Right-aligned actions (buttons, avatar, etc.). */
+  /** Acciones alineadas a la derecha (botones, avatar, etc.). */
   actions?: ReactNode;
-  /** Stick to the top of the viewport. */
+  /** Pegarse a la parte superior de la ventana gráfica. */
   sticky?: boolean;
 }
 
@@ -44,7 +44,7 @@ export function Navbar({
           type="button"
           className={styles.toggle}
           onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle navigation"
+          aria-label="Alternar navegación"
           aria-expanded={open}
         >
           {open ? <CloseIcon /> : <MenuIcon />}
@@ -56,9 +56,9 @@ export function Navbar({
 
 export interface NavbarLinkProps
   extends HTMLAttributes<HTMLAnchorElement> {
-  /** Marks the link as the current page. */
+  /** Marca el enlace como la página actual. */
   active?: boolean;
-  /** Optional leading icon. */
+  /** Icono inicial opcional. */
   icon?: ReactNode;
   href?: string;
 }

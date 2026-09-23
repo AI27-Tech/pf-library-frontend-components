@@ -10,8 +10,8 @@ export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
 }
 
 /**
- * Layout wrapper for forms. Agnostic about state management — works with
- * controlled inputs, React Hook Form, or plain uncontrolled forms.
+ * Envolvedor de diseño para formularios. Agnóstico respecto a la gestión del estado — funciona con
+ * inputs controlados, React Hook Form, o formularios sin control simples.
  */
 export function Form({ className, children, ...props }: FormProps) {
   return (
@@ -23,13 +23,13 @@ export function Form({ className, children, ...props }: FormProps) {
 
 export interface FormSectionProps
   extends Omit<HTMLAttributes<HTMLFieldSetElement>, "title"> {
-  /** Section title, rendered as a legend. */
+  /** Título de la sección, renderizado como una leyenda. */
   title?: ReactNode;
-  /** Optional description below the title. */
+  /** Descripción opcional debajo del título. */
   description?: ReactNode;
 }
 
-/** Groups related fields with an optional title and description. */
+/** Agrupa campos relacionados con un título y descripción opcionales. */
 export function FormSection({
   title,
   description,
@@ -47,11 +47,11 @@ export function FormSection({
 }
 
 export interface FormRowProps extends HTMLAttributes<HTMLDivElement> {
-  /** Number of columns on wide screens. Default: 2. */
+  /** Número de columnas en pantallas amplias. Por defecto: 2. */
   columns?: number;
 }
 
-/** Lays out multiple fields side by side, stacking on small screens. */
+/** Distribuye múltiples campos lado a lado, apilándose en pantallas pequeñas. */
 export function FormRow({
   columns = 2,
   className,
@@ -71,11 +71,11 @@ export function FormRow({
 }
 
 export interface FormActionsProps extends HTMLAttributes<HTMLDivElement> {
-  /** Horizontal alignment of the actions. Default: "end". */
+  /** Alineación horizontal de las acciones. Por defecto: "end". */
   align?: "start" | "end" | "between" | "center";
 }
 
-/** Action bar for submit / cancel buttons. */
+/** Barra de acciones para botones de envío / cancelación. */
 export function FormActions({
   align = "end",
   className,

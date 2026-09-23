@@ -27,7 +27,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A single toast, rendered inline for preview. */
+/** Un solo toast, renderizado en línea para vista previa. */
 export const Single: Story = {
   render: (args) => (
     <div style={{ width: 360 }}>
@@ -36,7 +36,7 @@ export const Single: Story = {
   ),
 };
 
-/** All severities side by side. */
+/** Todas las severidades lado a lado. */
 export const Variants: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", width: 360 }}>
@@ -65,7 +65,7 @@ interface ToastItem {
 
 let nextId = 1;
 
-/** The real usage: a fixed bottom-right stack driven by your own state. */
+/** El uso real: una pila fija en la esquina inferior derecha manejada por tu propio estado. */
 export const FixedBottomRight: Story = {
   render: () => {
     const [position, setPosition] = useState<ToastPosition>("bottom-right");
@@ -124,7 +124,7 @@ export const FixedBottomRight: Story = {
   },
 };
 
-/** With an inline dispatch CTA, per the AI27 corridor alerts pattern. */
+/** Con un CTA de envío en línea, según el patrón de alertas de corredor AI27. */
 export const WithActions: Story = {
   render: () => (
     <div style={{ width: 360 }}>

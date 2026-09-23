@@ -19,13 +19,13 @@
 .density-comfortable th,
 .density-comfortable td {
   padding: var(--ui-space-2, 0.5rem) var(--ui-table-cell-x, 0.625rem);
-  height: 2.5rem; /* 40px expanded inspection mode */
+  height: 2.5rem; /* 40px modo de inspección expandido */
 }
 
 .density-compact th,
 .density-compact td {
   padding: var(--ui-table-cell-y, 0.375rem) var(--ui-table-cell-x, 0.625rem);
-  height: 2rem; /* 32px default operational row */
+  height: 2rem; /* 32px fila operacional predeterminada */
 }
 
 .thead {
@@ -96,14 +96,14 @@
 }
 
 .row {
-  /* Transparent left accent, becomes cobalt when the row is selected. */
+  /* Acento izquierdo transparente, se vuelve azul cobalto cuando la fila se selecciona. */
   box-shadow: inset 2px 0 0 transparent;
   transition:
     background-color var(--ui-transition, 0.15s ease),
     box-shadow var(--ui-transition, 0.15s ease);
 }
 
-/* Zebra striping for high-density scanning. */
+/* Rayas de cebra para escaneo de alta densidad. */
 .row:nth-child(even) {
   background-color: color-mix(in srgb, var(--ui-color-surface-muted) 40%, transparent);
 }
@@ -131,7 +131,7 @@
   white-space: nowrap;
 }
 
-/* States */
+/* Estados */
 .state {
   padding: var(--ui-space-6, 2rem);
   text-align: center;
@@ -152,7 +152,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Expandable rows ─────────────────────────────────────────────────────── */
+/* ── Filas expandibles ─────────────────────────────────────────────────────── */
 .expandCell {
   width: 1px;
   white-space: nowrap;
@@ -208,7 +208,7 @@
   border-left: 2px solid var(--ui-color-primary, #7c9df0);
 }
 
-/* Inner padding wrapper so the accent border hugs the row edge. */
+/* Envoltorio de relleno interno para que el borde de acento toque el borde de la fila. */
 .detailCell > * {
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
 }

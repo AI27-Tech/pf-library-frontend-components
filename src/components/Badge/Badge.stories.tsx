@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-/** The tactical status signals from the AI27 system. */
+/** Las señales de estado táctico del sistema AI27. */
 export const StatusSignals: Story = {
   render: () => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
@@ -42,7 +42,7 @@ export const StatusSignals: Story = {
   ),
 };
 
-/** Route status tags typically shown in tables. */
+/** Etiquetas de estado de ruta típicamente mostradas en tablas. */
 export const RouteTags: Story = {
   render: () => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>

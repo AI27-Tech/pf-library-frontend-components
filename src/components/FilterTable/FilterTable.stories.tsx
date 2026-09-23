@@ -87,48 +87,124 @@ export const Interactive: Story = {
     const isActive = Boolean(search || filters.role || filters.status);
 
     return (
-      <FilterTable
-        columns={columns}
-        data={data}
-        rowKey={(u) => u.id}
-        search={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search by name or email..."
-        filters={[
-          {
-            key: "role",
-            placeholder: "All roles",
-            options: [
-              { label: "Admin", value: "admin" },
-              { label: "Editor", value: "editor" },
-              { label: "Viewer", value: "viewer" },
-            ],
-          },
-          {
-            key: "status",
-            placeholder: "All statuses",
-            options: [
-              { label: "Active", value: "active" },
-              { label: "Inactive", value: "inactive" },
-            ],
-          },
-        ]}
-        filterValues={filters}
-        onFilterChange={(key, value) =>
-          setFilters((prev) => ({ ...prev, [key]: value }))
-        }
-        onClear={
-          isActive
-            ? () => {
-                setSearch("");
-                setFilters({ role: "", status: "" });
-              }
-            : undefined
-        }
-        sort={sort}
-        onSortChange={setSort}
-        emptyState="No users match your filters."
-      />
+      <div>
+        <div style={{ marginBottom: "2rem", background: "#1e1e2e", padding: "1.5rem", borderRadius: "8px" }}>
+          <h3 style={{ marginTop: 0, color: "#e2e8f0" }}>📋 COPY ESTE CÓDIGO PARA USAR EN TU PROYECTO:</h3>
+          <pre style={{ background: "#0f0f1e", color: "#7c9df0", padding: "1rem", borderRadius: "6px", fontSize: "0.85rem", overflow: "auto" }}>{`import { FilterTable, type FilterValues } from '@ai27-tech/ui';
+import { useState, useMemo } from 'react';
+
+export function MyUserTable() {
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<FilterValues>({ role: '' });
+  
+  // Tu array de datos
+  const allUsers = [
+    { id: 1, name: 'Juan', email: 'juan@example.com', role: 'admin' },
+    { id: 2, name: 'María', email: 'maria@example.com', role: 'editor' },
+  ];
+
+  const columns = [
+    { key: 'name', header: 'Nombre', accessor: 'name', sortable: true },
+    { key: 'email', header: 'Email', accessor: 'email' },
+    { key: 'role', header: 'Rol', accessor: 'role' },
+  ];
+
+  // Aplicar filtros y búsqueda
+  const filteredData = useMemo(() => {
+    let rows = allUsers;
+    
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      rows = rows.filter(u => 
+        u.name.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q)
+      );
+    }
+    
+    if (filters.role) {
+      rows = rows.filter(u => u.role === filters.role);
+    }
+    
+    return rows;
+  }, [search, filters]);
+
+  return (
+    <FilterTable
+      columns={columns}
+      data={filteredData}
+      rowKey={(user) => user.id}
+      search={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Buscar por nombre o email..."
+      filters={[
+        {
+          key: 'role',
+          label: 'ROL',
+          placeholder: 'Todos',
+          options: [
+            { label: 'Admin', value: 'admin' },
+            { label: 'Editor', value: 'editor' },
+          ],
+        },
+      ]}
+      filterValues={filters}
+      onFilterChange={(key, value) => {
+        setFilters((prev) => ({ ...prev, [key]: value }));
+      }}
+      onClear={() => {
+        setSearch('');
+        setFilters({ role: '' });
+      }}
+    />
+  );
+}`}</pre>
+        </div>
+
+        <FilterTable
+          columns={columns}
+          data={data}
+          rowKey={(u) => u.id}
+          search={search}
+          onSearchChange={setSearch}
+          searchPlaceholder="Search by name or email..."
+          filters={[
+            {
+              key: "role",
+              label: "ROLE",
+              placeholder: "All roles",
+              options: [
+                { label: "Admin", value: "admin" },
+                { label: "Editor", value: "editor" },
+                { label: "Viewer", value: "viewer" },
+              ],
+            },
+            {
+              key: "status",
+              label: "STATUS",
+              placeholder: "All statuses",
+              options: [
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ],
+            },
+          ]}
+          filterValues={filters}
+          onFilterChange={(key, value) =>
+            setFilters((prev: FilterValues) => ({ ...prev, [key]: value }))
+          }
+          onClear={
+            isActive
+              ? () => {
+                  setSearch("");
+                  setFilters({ role: "", status: "" });
+                }
+              : undefined
+          }
+          sort={sort}
+          onSortChange={setSort}
+          emptyState="No users match your filters."
+        />
+      </div>
     );
   },
 };

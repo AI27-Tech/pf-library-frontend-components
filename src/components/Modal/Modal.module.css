@@ -25,7 +25,7 @@
   animation: ui-modal-pop var(--ui-duration-slow, 320ms) var(--ui-ease-spring, ease);
 }
 
-/* Sizes */
+/* Tamaños */
 .sm { max-width: 24rem; }
 .md { max-width: 32rem; }
 .lg { max-width: 48rem; }

@@ -31,6 +31,10 @@ export type {
 export { Badge } from "./components/Badge";
 export type { BadgeProps, BadgeVariant } from "./components/Badge";
 
+// FilterBar
+export { FilterBar } from "./components/FilterBar";
+export type { FilterBarProps, FilterDefinition, FilterValues } from "./components/FilterBar";
+
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from "./components/Card";
 export type {
@@ -39,6 +43,18 @@ export type {
   CardVariant,
   CardPadding,
 } from "./components/Card";
+
+// ImageCard
+export { ImageCard } from "./components/ImageCard";
+export type { ImageCardProps, BadgeConfig } from "./components/ImageCard";
+
+// ImageCarousel
+export { ImageCarousel } from "./components/ImageCarousel";
+export type { ImageCarouselProps, CarouselSection } from "./components/ImageCarousel";
+
+// ImageGrid
+export { ImageGrid } from "./components/ImageGrid";
+export type { ImageGridProps } from "./components/ImageGrid";
 
 // Modal
 export { Modal } from "./components/Modal";
@@ -98,11 +114,7 @@ export type {
 
 // FilterTable
 export { FilterTable } from "./components/FilterTable";
-export type {
-  FilterTableProps,
-  FilterDefinition,
-  FilterValues,
-} from "./components/FilterTable";
+export type { FilterTableProps } from "./components/FilterTable";
 
 // Navbar
 export { Navbar, NavbarLink } from "./components/Navbar";
@@ -115,3 +127,7 @@ export type {
   SidebarGroupProps,
   SidebarItemProps,
 } from "./components/Sidebar";
+
+// Visor
+export { Visor } from "./components/Visor";
+export type { VisorProps, Medium } from "./components/Visor";

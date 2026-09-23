@@ -4,34 +4,15 @@
   gap: var(--ui-space-3, 0.75rem);
 }
 
-.toolbar {
+.topSection {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
   gap: var(--ui-space-3, 0.75rem);
 }
 
 .search {
   flex: 1 1 220px;
   min-width: 180px;
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--ui-space-2, 0.5rem);
-}
-
-.filter {
-  min-width: 150px;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--ui-space-2, 0.5rem);
-  margin-left: auto;
 }
 
 .footer {

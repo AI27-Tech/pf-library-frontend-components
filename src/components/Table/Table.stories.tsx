@@ -135,14 +135,14 @@ export const ClickableRows: Story = {
   },
 };
 
-/** Status shown as a Badge inside a cell. */
+/** Estado mostrado como Badge dentro de una celda. */
 export const WithBadges: Story = {
   render: () => {
     const columns: Column<User>[] = [
       {
         key: "name",
         header: "Unidad",
-        // Composite cell: name on top, id below in muted text.
+        // Celda compuesta: nombre en la parte superior, id debajo en texto desaturado.
         cell: (u) => (
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
             <span style={{ fontWeight: 600 }}>{u.name}</span>
@@ -170,7 +170,7 @@ export const WithBadges: Story = {
   },
 };
 
-/** Expandable rows revealing a detail panel. */
+/** Filas expandibles que revelan un panel de detalle. */
 export const Expandable: Story = {
   render: () => {
     const [expanded, setExpanded] = useState<Set<Key>>(new Set([1]));
@@ -208,10 +208,10 @@ export const Expandable: Story = {
   },
 };
 
-/** Server-style pagination driving the table's data window. */
+/** Paginación estilo servidor conduciendo la ventana de datos de la tabla. */
 export const WithPagination: Story = {
   render: () => {
-    // Simulate a larger dataset.
+    // Simular un dataset más grande.
     const allRows: User[] = Array.from({ length: 137 }, (_, i) => ({
       id: i + 1,
       name: `Operador ${i + 1}`,

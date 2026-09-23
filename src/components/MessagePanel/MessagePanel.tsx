@@ -10,23 +10,23 @@ import {
 import { cx, type Presence } from "./utils";
 
 export interface MessagePanelProps {
-  /** Name of the conversation peer / group. */
+  /** Nombre del compañero de conversación / grupo. */
   name: ReactNode;
-  /** Secondary line under the name (e.g. "Active now"). */
+  /** Línea secundaria bajo el nombre (por ejemplo "Activo ahora"). */
   subtitle?: ReactNode;
-  /** Peer avatar. */
+  /** Avatar del compañero. */
   avatar?: { src?: string; name?: string };
-  /** Presence dot on the avatar. */
+  /** Punto de presencia en el avatar. */
   presence?: Presence;
-  /** Whether the panel is expanded. When false it collapses to the header bar. */
+  /** Si el panel está expandido. Cuando es falso se contrae a la barra de encabezado. */
   open?: boolean;
-  /** Called when the header is clicked (toggle minimize/expand). */
+  /** Llamado cuando se hace clic en el encabezado (alternar minimizar/expandir). */
   onToggle?: () => void;
-  /** Called when the close button is clicked. Omit to hide the button. */
+  /** Llamado cuando se hace clic en el botón de cerrar. Omitir para ocultar el botón. */
   onClose?: () => void;
-  /** Message list content (MessageList with MessageBubble children). */
+  /** Contenido de la lista de mensajes (MessageList con elementos hijos MessageBubble). */
   children?: ReactNode;
-  /** Composer rendered at the bottom (usually a MessageComposer). */
+  /** Compositor renderizado en la parte inferior (usualmente un MessageComposer). */
   composer?: ReactNode;
   className?: string;
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Table, type TableProps } from "../Table";
 import { Input } from "../Input/Input";
-import { Select, type SelectOption } from "../Input/Select";
+import { FilterBar, type FilterDefinition, type FilterValues } from "../FilterBar";
 import { Button } from "../Button";
 import styles from "./FilterTable.module.css";
 
@@ -9,40 +9,31 @@ function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-export interface FilterDefinition {
-  /** Unique key for this filter, used in the values map. */
-  key: string;
-  /** Options shown in the select. */
-  options: SelectOption[];
-  /** Placeholder shown when no value is selected. */
-  placeholder?: string;
-}
-
-/** Map of filter key -> selected value (empty string means "all"). */
-export type FilterValues = Record<string, string>;
+// Re-export types from FilterBar for convenience
+export type { FilterDefinition, FilterValues };
 
 export interface FilterTableProps<T> extends TableProps<T> {
-  /** Current search text (controlled). */
+  /** Texto de búsqueda actual (controlado). */
   search?: string;
-  /** Called when the search text changes. Omit to hide the search box. */
+  /** Llamado cuando cambia el texto de búsqueda. Omitir para ocultar el cuadro de búsqueda. */
   onSearchChange?: (value: string) => void;
-  /** Placeholder for the search box. */
+  /** Placeholder para el cuadro de búsqueda. */
   searchPlaceholder?: string;
-  /** Declarative select filters shown in the toolbar. */
+  /** Filtros select declarativos mostrados en la barra de herramientas. */
   filters?: FilterDefinition[];
-  /** Current filter values (controlled). */
+  /** Valores de filtro actual (controlado). */
   filterValues?: FilterValues;
-  /** Called when a filter value changes. */
+  /** Llamado cuando cambia un valor de filtro. */
   onFilterChange?: (key: string, value: string) => void;
-  /** Extra actions rendered on the right of the toolbar. */
+  /** Acciones adicionales renderizadas a la derecha de la barra de herramientas. */
   toolbarActions?: ReactNode;
-  /** Whether any filter/search is active (shows a "Clear" button). */
+  /** Si cualquier filtro/búsqueda está activa (muestra un botón "Limpiar"). */
   onClear?: () => void;
-  /** Total count shown in the footer. Defaults to data length. */
+  /** Conteo total mostrado en el pie de página. Por defecto: longitud de los datos. */
   totalCount?: number;
-  /** Hide the results count footer. */
+  /** Ocultar el pie de página del conteo de resultados. */
   hideCount?: boolean;
-  /** Extra class for the root wrapper. */
+  /** Clase adicional para el envolvedor raíz. */
   rootClassName?: string;
 }
 
@@ -74,6 +65,55 @@ export function FilterTable<T>({
   const showToolbar = showSearch || showFilters || Boolean(toolbarActions) || Boolean(onClear);
   const count = totalCount ?? tableProps.data.length;
 
+  // If we have filters, use FilterBar
+  if (showFilters) {
+    const filterBarFilters = filters!.map((f) => ({
+      key: f.key,
+      label: f.label || f.placeholder || f.key,
+      options: f.options,
+      placeholder: f.placeholder,
+    }));
+
+    return (
+      <div className={cx(styles.root, rootClassName)}>
+        {/* Búsqueda + FilterBar */}
+        <div className={styles.topSection}>
+          {showSearch && (
+            <Input
+              className={styles.search}
+              value={search ?? ""}
+              onChange={(e) => onSearchChange!(e.target.value)}
+              placeholder={searchPlaceholder}
+              startAdornment={<SearchIcon />}
+              aria-label="Búsqueda"
+              type="search"
+            />
+          )}
+
+          <FilterBar
+            filters={filterBarFilters}
+            filterValues={filterValues}
+            onFilterChange={onFilterChange}
+            onClear={onClear}
+            showClear={Boolean(onClear)}
+            showFilterCount={true}
+          />
+        </div>
+
+        <Table {...tableProps} />
+
+        {!hideCount && (
+          <div className={styles.footer}>
+            <span className={styles.count}>
+              {count} {count === 1 ? "result" : "results"}
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Original toolbar layout if no filters
   return (
     <div className={cx(styles.root, rootClassName)}>
       {showToolbar && (
@@ -88,22 +128,6 @@ export function FilterTable<T>({
               aria-label="Search"
               type="search"
             />
-          )}
-
-          {showFilters && (
-            <div className={styles.filters}>
-              {filters!.map((f) => (
-                <Select
-                  key={f.key}
-                  className={styles.filter}
-                  options={f.options}
-                  placeholder={f.placeholder ?? "All"}
-                  value={filterValues?.[f.key] ?? ""}
-                  onChange={(e) => onFilterChange?.(f.key, e.target.value)}
-                  aria-label={f.placeholder ?? f.key}
-                />
-              ))}
-            </div>
           )}
 
           {(toolbarActions || onClear) && (

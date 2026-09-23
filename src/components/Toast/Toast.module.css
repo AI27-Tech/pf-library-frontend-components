@@ -1,4 +1,4 @@
-/* Fixed container that stacks toasts in a viewport corner. */
+/* Contenedor fijo que apila toasts en la esquina de la ventana gráfica. */
 .container {
   position: fixed;
   z-index: var(--ui-z-modal, 1000);
@@ -7,14 +7,14 @@
   gap: var(--ui-space-2, 0.5rem);
   width: min(24rem, calc(100vw - 2 * var(--ui-space-4, 1rem)));
   padding: var(--ui-space-4, 1rem);
-  pointer-events: none; /* let clicks pass through the gaps */
+  pointer-events: none; /* deja que los clics pasen a través de los espacios */
 }
 
 .container > * {
   pointer-events: auto;
 }
 
-/* Positions */
+/* Posiciones */
 .bottom-right { right: 0; bottom: 0; align-items: flex-end; }
 .bottom-left { left: 0; bottom: 0; align-items: flex-start; }
 .top-right { right: 0; top: 0; align-items: flex-end; }
@@ -22,7 +22,7 @@
 .top-center { left: 50%; top: 0; transform: translateX(-50%); align-items: center; }
 .bottom-center { left: 50%; bottom: 0; transform: translateX(-50%); align-items: center; }
 
-/* Toast body */
+/* Cuerpo del toast */
 .toast {
   display: flex;
   align-items: flex-start;
@@ -44,13 +44,13 @@
   animation: ui-toast-out var(--ui-duration-fast, 120ms) var(--ui-ease-standard, ease) forwards;
 }
 
-/* Left-side positions slide in from the left */
+/* Las posiciones del lado izquierdo se deslizan desde la izquierda */
 .bottom-left .toast,
 .top-left .toast {
   animation-name: ui-toast-in-left;
 }
 
-/* Severity accents */
+/* Acentos de severidad */
 .info { --toast-accent: var(--ui-color-info, #7c9df0); }
 .success { --toast-accent: var(--ui-color-success, #6ee7b7); }
 .warning { --toast-accent: var(--ui-color-warning, #fcd34d); }

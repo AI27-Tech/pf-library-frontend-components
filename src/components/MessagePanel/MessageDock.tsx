@@ -11,16 +11,16 @@ import { cx } from "./utils";
 import { Badge } from "../Badge";
 
 export interface MessageDockProps {
-  /** The main "Messaging" bar (usually a MessageDockBar). */
+  /** La barra principal de "Mensajería" (usualmente un MessageDockBar). */
   bar?: ReactNode;
-  /** Open conversation panels (MessagePanel elements). */
+  /** Paneles de conversación abiertos (elementos MessagePanel). */
   children?: ReactNode;
   className?: string;
 }
 
 /**
- * Fixed, portal-rendered row anchored bottom-right that holds the main
- * messaging bar plus any open conversation panels, LinkedIn-style.
+ * Fila fija, renderizada en portal anclada en la parte inferior derecha que contiene la barra principal
+ * de mensajería más cualquier panel de conversación abierto, estilo LinkedIn.
  */
 export function MessageDock({ bar, children, className }: MessageDockProps) {
   if (typeof document === "undefined") return null;
@@ -43,19 +43,19 @@ export interface DockConversation {
 }
 
 export interface MessageDockBarProps {
-  /** Bar title. Default: "Messaging". */
+  /** Título de la barra. Por defecto: "Mensajería". */
   title?: ReactNode;
-  /** Whether the conversation list is expanded. */
+  /** Si la lista de conversación está expandida. */
   open?: boolean;
-  /** Toggle the list open/closed. */
+  /** Alternar la lista abierta/cerrada. */
   onToggle?: () => void;
-  /** Number of unread conversations, shown as a badge. */
+  /** Número de conversaciones no leídas, mostrado como una insignia. */
   unreadCount?: number;
-  /** Conversations shown when expanded. */
+  /** Conversaciones mostradas cuando está expandida. */
   conversations?: DockConversation[];
-  /** Called when a conversation is selected from the list. */
+  /** Llamado cuando se selecciona una conversación de la lista. */
   onSelect?: (id: string) => void;
-  /** Custom content instead of the built-in conversation list. */
+  /** Contenido personalizado en lugar de la lista de conversación integrada. */
   children?: ReactNode;
 }
 

@@ -1,0 +1,39 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3, 0.75rem);
+  width: 100%;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3, 0.75rem);
+  width: 100%;
+}
+
+.itemsGrid {
+  width: 100%;
+}
+
+.resultsMeta {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  padding: 0.5rem 0;
+}
+
+/* Estado vacío */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  text-align: center;
+}

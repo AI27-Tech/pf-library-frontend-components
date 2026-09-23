@@ -17,21 +17,21 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 export interface ToastProps {
-  /** Severity, drives the accent color and default icon. */
+  /** Severidad, impulsa el color de acento e icono predeterminado. */
   variant?: ToastVariant;
-  /** Bold title line. */
+  /** Línea de título en negrita. */
   title?: ReactNode;
-  /** Supporting message. */
+  /** Mensaje de apoyo. */
   children?: ReactNode;
-  /** Inline actions (e.g. CTA buttons). */
+  /** Acciones en línea (por ejemplo, botones de CTA). */
   actions?: ReactNode;
-  /** Called when the toast requests to close (close button or auto-dismiss). */
+  /** Llamado cuando el toast solicita cerrar (botón cerrar o auto-cierre). */
   onClose?: () => void;
-  /** Auto-dismiss delay in ms. 0 or undefined disables it. */
+  /** Retraso de auto-cierre en ms. 0 o undefined lo deshabilita. */
   duration?: number;
-  /** Show the close button. Default: true. */
+  /** Mostrar el botón de cerrar. Por defecto: true. */
   dismissible?: boolean;
-  /** Override the leading icon. Pass null to hide it. */
+  /** Anular el icono inicial. Pasar null para ocultarlo. */
   icon?: ReactNode | null;
   className?: string;
 }
@@ -117,7 +117,7 @@ export function Toast({
           type="button"
           className={styles.close}
           onClick={onClose}
-          aria-label="Dismiss"
+          aria-label="Descartar"
         >
           <CloseIcon />
         </button>
@@ -129,14 +129,14 @@ export function Toast({
 export interface ToastContainerProps {
   /** Corner of the viewport. Default: "bottom-right". */
   position?: ToastPosition;
-  /** The toasts to render (usually <Toast> elements). */
+  /** Los toasts a renderizar (usualmente elementos <Toast>). */
   children?: ReactNode;
   className?: string;
 }
 
 /**
- * Fixed, portal-rendered region that stacks toasts in a viewport corner.
- * Keep the list of toasts in your own state and render <Toast> children.
+ * Región fija, renderizada en portal que apila toasts en una esquina de la ventana gráfica.
+ * Mantén la lista de toasts en tu propio estado y renderiza elementos hijos <Toast>.
  */
 export function ToastContainer({
   position = "bottom-right",
