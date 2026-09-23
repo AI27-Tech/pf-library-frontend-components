@@ -121,7 +121,7 @@ export const ControlledWithValidation: Story = {
           <Select
             placeholder="Select a role"
             value={role}
-            onChange={(e) => setRole(e.target.value)}
+            onChange={(valor) => setRole(String(valor))}
             options={[
               { label: "Admin", value: "admin" },
               { label: "Editor", value: "editor" },
