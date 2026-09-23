@@ -108,8 +108,35 @@
   --ui-text-telemetry-sm-weight: 500;
   --ui-text-telemetry-sm-tracking: 0.02em;
 
+  /* ── Additional typography tokens (used across components) ───────────────
+     Font sizes for specific use cases that weren't in the initial scale. */
+  --ui-font-size-xs: 0.625rem;   /* 10px — label-sm equivalent */
+  --ui-font-size-xl: 1.125rem;   /* 18px — telemetry-lg equivalent */
+
   /* Z-index */
   --ui-z-modal: 1000;
+
+  /* ── Component-specific sizing tokens ──────────────────────────────────
+     Used for consistent dimensions across component families. */
+  --ui-navbar-height: 3.5rem;                  /* 56px — Navbar + Sidebar header */
+  --ui-sidebar-width: 15rem;                   /* 240px — Sidebar expanded */
+  --ui-sidebar-width-collapsed: 4rem;          /* 64px — Sidebar icon-only */
+  --ui-modal-width-sm: 24rem;                  /* 384px */
+  --ui-modal-width-md: 32rem;                  /* 512px */
+  --ui-modal-width-lg: 48rem;                  /* 768px */
+  --ui-surface-panel-width: 20rem;             /* 320px — MessagePanel, Visor */
+  --ui-surface-panel-width-sm: 18rem;          /* 288px — Alternate narrow */
+
+  /* ── Border dimensions ────────────────────────────────────────────────
+     Used for visual separation and emphasis. */
+  --ui-border-width: 1px;
+  --ui-border-width-strong: 4px;               /* Accent borders (e.g., Toast left) */
+
+  /* ── State opacity ─────────────────────────────────────────────────────
+     Consistent disabled and loading states. */
+  --ui-opacity-disabled: 0.55;                 /* For disabled interactive elements */
+  --ui-opacity-hover-muted: 0.12;              /* Overlay tint (12% of color) */
+  --ui-opacity-active-muted: 0.22;             /* Overlay tint (22% of color) */
 
   /* ── Motion ──────────────────────────────────────────────────────────────
      Durations tuned per interaction weight, plus modern easing curves. */

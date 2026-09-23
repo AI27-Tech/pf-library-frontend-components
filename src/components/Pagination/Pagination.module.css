@@ -83,7 +83,7 @@
 }
 
 .page:disabled {
-  opacity: 0.4;
+  opacity: var(--ui-opacity-disabled, 0.55);
   cursor: not-allowed;
 }
 

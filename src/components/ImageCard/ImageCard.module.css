@@ -4,7 +4,7 @@
   box-sizing: border-box;
   background-color: var(--ui-color-surface, #1c222e);
   color: var(--ui-color-text, #e2e8f0);
-  border-radius: var(--ui-radius-lg, 12px);
+  border-radius: var(--ui-radius-lg, 0.5rem);
   overflow: hidden;
   font-family: var(--ui-font-family, inherit);
   max-width: 100%;
@@ -70,7 +70,7 @@
 .badge {
   /* Telón de fondo sutil para visibilidad sobre imágenes */
   backdrop-filter: blur(4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--ui-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
 /* Sección de contenido */
@@ -149,6 +149,13 @@
   }
 
   .title {
-    font-size: var(--ui-font-size-md, 0.9375rem);
+    font-size: var(--ui-font-size-md, 0.8125rem);
+  }
+}
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .clickable {
+    transition: none;
   }
 }

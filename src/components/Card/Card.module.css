@@ -4,7 +4,7 @@
   box-sizing: border-box;
   background-color: var(--ui-color-surface, #1c222e);
   color: var(--ui-color-text, #e2e8f0);
-  border-radius: var(--ui-radius-lg, 12px);
+  border-radius: var(--ui-radius-lg, 0.5rem);
   overflow: hidden;
   font-family: var(--ui-font-family, inherit);
 }
@@ -68,7 +68,13 @@
   align-items: flex-start;
   gap: var(--ui-space-3, 0.75rem);
   padding: var(--card-pad, 1rem);
-  padding-bottom: var(--ui-space-2, 0.5rem);
+  padding-bottom: var(--card-pad, 1rem);
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  transition: border-color var(--ui-transition, 0.15s ease);
+}
+
+.clickable:hover .header {
+  border-bottom-color: var(--ui-color-primary, #7c9df0);
 }
 
 .headerText {
@@ -112,7 +118,6 @@
 
 .body {
   padding: var(--card-pad, 1rem);
-  padding-top: var(--ui-space-2, 0.5rem);
   font-size: var(--ui-font-size-md, 0.9375rem);
   line-height: 1.5;
   flex: 1 1 auto;
@@ -123,7 +128,19 @@
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
   padding: var(--card-pad, 1rem);
-  padding-top: var(--ui-space-2, 0.5rem);
   border-top: 1px solid var(--ui-color-border, #2d3748);
   margin-top: auto;
+  transition: border-color var(--ui-transition, 0.15s ease);
+}
+
+.clickable:hover .footer {
+  border-top-color: var(--ui-color-primary, #7c9df0);
+  opacity: 0.9;
+}
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .clickable {
+    transition: none;
+  }
 }

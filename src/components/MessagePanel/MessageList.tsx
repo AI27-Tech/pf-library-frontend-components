@@ -34,6 +34,29 @@ export function MessageBubble({
   );
 }
 
+/** Indicador animado de "escribiendo..." */
+export function MessageTypingIndicator({
+  author,
+  avatar,
+}: {
+  author?: string;
+  avatar?: { src?: string; name?: string };
+}) {
+  return (
+    <div className={cx(styles.msgRow, styles.other)}>
+      {avatar && <Avatar src={avatar.src} name={avatar.name} />}
+      <div className={styles.bubble}>
+        {author && <span className={styles.author}>{author}</span>}
+        <div className={styles.typingIndicator}>
+          <span className={styles.typingDot}></span>
+          <span className={styles.typingDot}></span>
+          <span className={styles.typingDot}></span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Divisor centrado entre días ("HOY", "AYER", una fecha...). */
 export function MessageDayDivider({ children }: { children: ReactNode }) {
   return <div className={styles.dayDivider}>{children}</div>;

@@ -315,7 +315,7 @@ export function CarouselWithVisibleItems() {
             sections={[
               {
                 ...mockForensicSections[0],
-                visibleItems: visibleItems as any,
+                visibleItems: visibleItems as 1 | 2 | 3 | 4 | 5 | 6,
               },
             ]}
             renderItem={(item) => (

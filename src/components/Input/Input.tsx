@@ -2,11 +2,15 @@ import type { InputHTMLAttributes, ReactNode, Ref } from "react";
 import styles from "./Input.module.css";
 import { cx, type InputSize } from "./utils";
 
+export type InputState = "error" | "warning" | "success" | undefined;
+
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   /** Tamaño de la entrada. */
   size?: InputSize;
-  /** Marca el campo como inválido (también establece aria-invalid). */
+  /** Estado de validación del campo: error (rojo), warning (naranja), success (verde). */
+  state?: InputState;
+  /** Marca el campo como inválido (también establece aria-invalid). Deprecated: usar `state="error"` en su lugar. */
   invalid?: boolean;
   /** Contenido renderizado antes del texto (icono, prefijo). */
   startAdornment?: ReactNode;
@@ -18,6 +22,7 @@ export interface InputProps
 
 export function Input({
   size = "md",
+  state,
   invalid = false,
   startAdornment,
   endAdornment,
@@ -26,16 +31,20 @@ export function Input({
   inputRef,
   ...props
 }: InputProps) {
+  // Mapear `invalid` prop a `state` para retrocompatibilidad
+  const effectiveState = invalid ? "error" : state;
+
   return (
     <div
       className={cx(
         styles.field,
         styles[size],
-        invalid && styles.invalid,
+        effectiveState && styles[effectiveState],
         disabled && styles.disabled,
         className,
       )}
       data-size={size}
+      data-state={effectiveState}
     >
       {startAdornment && (
         <span className={styles.adornment} aria-hidden="true">
@@ -46,7 +55,7 @@ export function Input({
         ref={inputRef}
         className={styles.control}
         disabled={disabled}
-        aria-invalid={invalid || undefined}
+        aria-invalid={effectiveState === "error" || undefined}
         {...props}
       />
       {endAdornment && (
