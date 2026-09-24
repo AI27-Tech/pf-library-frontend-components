@@ -33,7 +33,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "vite build && tsc -p tsconfig.build.json",
+    "build:lib": "tsc -p tsconfig.build.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",

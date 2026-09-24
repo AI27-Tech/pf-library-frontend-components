@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     // Don't copy the public/ dir (favicon, icons) into the package.
     copyPublicDir: false,
+    emptyOutDir: false,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "UILibrary",
