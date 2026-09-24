@@ -44,3 +44,55 @@ export const Invalid: Story = {
 export const Disabled: Story = {
   args: { disabled: true, defaultValue: "us" },
 };
+
+export const DarkMode: Story = {
+  args: { defaultValue: "mx" },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: 280,
+          padding: "1rem",
+          borderRadius: "0.5rem",
+          backgroundColor: "#1c222e",
+          color: "#e2e8f0",
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
+};
+
+export const DarkModeWithRoles: Story = {
+  args: {
+    options: [
+      { label: "Admin", value: "admin" },
+      { label: "Editor", value: "editor" },
+      { label: "Viewer", value: "viewer" },
+      { label: "Auditor", value: "auditor" },
+    ],
+    placeholder: "Select a role",
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: 280,
+          padding: "1rem",
+          borderRadius: "0.5rem",
+          backgroundColor: "#1c222e",
+          color: "#e2e8f0",
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
+};

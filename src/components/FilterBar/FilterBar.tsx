@@ -197,7 +197,7 @@ export function FilterBar({
                 options={filter.options}
                 placeholder={filter.placeholder ?? "Todos"}
                 value={filterValues[filter.key] ?? ""}
-                onChange={(e) => onFilterChange?.(filter.key, e.target.value)}
+                onChange={(valor) => onFilterChange?.(filter.key, String(valor))}
               />
             </div>
           ))}
