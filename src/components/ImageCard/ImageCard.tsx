@@ -20,8 +20,8 @@ export interface BadgeConfig {
 }
 
 export interface ImageCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** URL de la imagen principal. */
-  src: string;
+  /** URL de la imagen principal. Omitir o pasar vacío para mostrar contenido personalizado (children). */
+  src?: string;
   /** Texto alternativo para la imagen. */
   alt: string;
   /** Título principal mostrado debajo de la imagen. */
@@ -32,6 +32,8 @@ export interface ImageCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "ti
   badges?: BadgeConfig[];
   /** Contenido adicional debajo del subtítulo. */
   footer?: ReactNode;
+  /** Contenido personalizado para el área de imagen (p. ej., ícono para audio). Se muestra si `src` está vacío o es falsy. */
+  children?: ReactNode;
   /** Hacer toda la tarjeta clickeable. */
   onClick?: HTMLAttributes<HTMLDivElement>["onClick"];
   /** Variante visual de la tarjeta. */
@@ -45,6 +47,7 @@ export function ImageCard({
   subtitle,
   badges,
   footer,
+  children,
   onClick,
   variant = "outlined",
   className,
@@ -52,6 +55,7 @@ export function ImageCard({
 }: ImageCardProps) {
   const isClickable = Boolean(onClick);
   const badgesToShow = (badges || []).slice(0, 2);
+  const hasCustomContent = children && (!src || src === '');
 
   return (
     <div
@@ -79,7 +83,15 @@ export function ImageCard({
     >
       {/* Contenedor de imagen con overlay de badges */}
       <div className={styles.imageContainer}>
-        <img src={src} alt={alt} className={styles.image} />
+        {hasCustomContent ? (
+          <div className={styles.customContent}>
+            {children}
+          </div>
+        ) : src ? (
+          <img src={src} alt={alt} className={styles.image} />
+        ) : (
+          <div className={styles.customContent} />
+        )}
         {badgesToShow.length > 0 && (
           <div className={styles.badgesContainer}>
             {badgesToShow.map((badge, idx) => (

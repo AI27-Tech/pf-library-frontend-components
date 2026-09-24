@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Headphones } from "lucide-react";
 import { ImageCarousel } from "./ImageCarousel";
 import { ImageCard } from "../ImageCard";
 import { Badge } from "../Badge";
@@ -24,6 +25,7 @@ type ForensicItem = {
   size: string;
   timestamp: string;
   status?: string;
+  type: "image" | "audio";
 };
 
 const mockForensicItems: ForensicItem[] = [
@@ -34,6 +36,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "4.2 MB",
     timestamp: "08:14",
     status: "SECURED",
+    type: "audio",
   },
   {
     id: "2",
@@ -42,6 +45,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "3.8 MB",
     timestamp: "08:16",
     status: "SECURED",
+    type: "image",
   },
   {
     id: "3",
@@ -50,6 +54,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "5.1 MB",
     timestamp: "08:19",
     status: "SECURED",
+    type: "image",
   },
   {
     id: "4",
@@ -58,6 +63,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "4.6 MB",
     timestamp: "08:21",
     status: "SECURED",
+    type: "audio",
   },
   {
     id: "5",
@@ -66,6 +72,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "7.2 MB",
     timestamp: "08:24",
     status: "SECURED",
+    type: "image",
   },
   {
     id: "6",
@@ -74,6 +81,7 @@ const mockForensicItems: ForensicItem[] = [
     size: "2.1 MB",
     timestamp: "08:27",
     status: "SECURED",
+    type: "audio",
   },
 ];
 
@@ -161,7 +169,7 @@ export function MyCarousel() {
         renderItem={(item) => (
           <ImageCard
             key={item.id}
-            src={item.image}
+            src={item.type === "audio" ? "" : item.image}
             alt={item.name}
             title={item.timestamp}
             subtitle={item.name}
@@ -170,7 +178,11 @@ export function MyCarousel() {
               { label: "DK", position: "left" },
               { label: item.timestamp, position: "right" },
             ]}
-          />
+          >
+            {item.type === "audio" && (
+              <Headphones size={32} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+            )}
+          </ImageCard>
         )}
         gap="1.5rem"
       />
@@ -225,7 +237,7 @@ export function SingleSectionCarousel() {
         renderItem={(item) => (
           <ImageCard
             key={item.id}
-            src={item.image}
+            src={item.type === "audio" ? "" : item.image}
             alt={item.name}
             title={item.timestamp}
             subtitle={item.name}
@@ -234,7 +246,11 @@ export function SingleSectionCarousel() {
               { label: "EVIDENCE", position: "left", variant: "secure", dot: true },
               { label: item.timestamp, position: "right" },
             ]}
-          />
+          >
+            {item.type === "audio" && (
+              <Headphones size={32} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+            )}
+          </ImageCard>
         )}
         gap="1rem"
       />
@@ -256,7 +272,7 @@ export const WithoutArrows: Story = {
         renderItem={(item) => (
           <ImageCard
             key={item.id}
-            src={item.image}
+            src={item.type === "audio" ? "" : item.image}
             alt={item.name}
             title={item.timestamp}
             subtitle={item.name}
@@ -265,7 +281,11 @@ export const WithoutArrows: Story = {
               { label: "DK", position: "left" },
               { label: item.timestamp, position: "right" },
             ]}
-          />
+          >
+            {item.type === "audio" && (
+              <Headphones size={32} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+            )}
+          </ImageCard>
         )}
         gap="1.5rem"
       />
@@ -321,7 +341,7 @@ export function CarouselWithVisibleItems() {
             renderItem={(item) => (
               <ImageCard
                 key={item.id}
-                src={item.image}
+                src={item.type === "audio" ? "" : item.image}
                 alt={item.name}
                 title={item.timestamp}
                 subtitle={item.name}
@@ -330,7 +350,11 @@ export function CarouselWithVisibleItems() {
                   { label: "DK", position: "left" },
                   { label: item.timestamp, position: "right" },
                 ]}
-              />
+              >
+                {item.type === "audio" && (
+                  <Headphones size={32} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+                )}
+              </ImageCard>
             )}
             gap="1rem"
           />
