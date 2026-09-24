@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ImageCard } from "./ImageCard";
+import { Headphones } from "lucide-react";
 
 const meta = {
   title: "Components/ImageCard",
@@ -231,6 +232,22 @@ export const WithDetailedFooter: Story = {
         <span>📦 12 paquetes</span>
         <span>✓ 100% completo</span>
       </div>
+    ),
+  },
+};
+
+export const AudioCard: Story = {
+  args: {
+    src: "",
+    alt: "Audio recording",
+    title: "audio_capture_001.mp3",
+    subtitle: "Audio de evidencia",
+    badges: [
+      { label: "14:35", variant: "neutral", position: "left" },
+      { label: "Procesado", variant: "secure", position: "right" },
+    ],
+    children: (
+      <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
     ),
   },
 };

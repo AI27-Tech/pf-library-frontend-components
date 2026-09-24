@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { Headphones } from "lucide-react";
 import { ImageGrid } from "./ImageGrid";
 import type { FilterDefinition, FilterValues } from "../FilterBar";
 import { ImageCard } from "../ImageCard";
@@ -29,6 +30,7 @@ type ForensicEvidence = {
   status: string;
   timestamp: string;
   resolution: string;
+  type: "image" | "audio";
 };
 
 const mockEvidence: ForensicEvidence[] = [
@@ -41,6 +43,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "SELLADO",
     timestamp: "08:19",
     resolution: "1.9 MB",
+    type: "audio",
   },
   {
     id: "2",
@@ -51,6 +54,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "SELLADO",
     timestamp: "08:21",
     resolution: "3.8 MB",
+    type: "image",
   },
   {
     id: "3",
@@ -61,6 +65,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "DISPONIBLE",
     timestamp: "08:24",
     resolution: "2.7 MB",
+    type: "image",
   },
   {
     id: "4",
@@ -71,6 +76,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "COMPROMETIDO",
     timestamp: "08:32",
     resolution: "1.5 MB",
+    type: "audio",
   },
   {
     id: "5",
@@ -81,6 +87,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "DISPONIBLE",
     timestamp: "09:40",
     resolution: "4.6 MB",
+    type: "image",
   },
   {
     id: "6",
@@ -91,6 +98,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "SELLADO",
     timestamp: "09:15",
     resolution: "5.5 MB",
+    type: "image",
   },
   {
     id: "7",
@@ -101,6 +109,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "DISPONIBLE",
     timestamp: "13:28",
     resolution: "3.2 MB",
+    type: "image",
   },
   {
     id: "8",
@@ -111,6 +120,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "SELLADO",
     timestamp: "11:58",
     resolution: "6.9 MB",
+    type: "audio",
   },
   {
     id: "9",
@@ -121,6 +131,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "DISPONIBLE",
     timestamp: "10:04",
     resolution: "1.2 MB",
+    type: "image",
   },
   {
     id: "10",
@@ -131,6 +142,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "SELLADO",
     timestamp: "08:45",
     resolution: "3.9 MB",
+    type: "image",
   },
   {
     id: "11",
@@ -141,6 +153,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "DISPONIBLE",
     timestamp: "12:40",
     resolution: "4.0 MB",
+    type: "image",
   },
   {
     id: "12",
@@ -151,6 +164,7 @@ const mockEvidence: ForensicEvidence[] = [
     status: "COMPROMETIDO",
     timestamp: "09:28",
     resolution: "2.7 MB",
+    type: "audio",
   },
 ];
 
@@ -198,7 +212,7 @@ export const Basic: Story = {
         renderItem={(item) => (
           <ImageCard
             key={item.id}
-            src={item.image}
+            src={item.type === "audio" ? "" : item.image}
             alt={item.name}
             title={item.timestamp}
             subtitle={item.name}
@@ -207,7 +221,11 @@ export const Basic: Story = {
               { label: item.status, position: "left", variant: "neutral" },
               { label: item.category, position: "right" },
             ]}
-          />
+          >
+            {item.type === "audio" && (
+              <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+            )}
+          </ImageCard>
         )}
         showCount={true}
       />
@@ -234,7 +252,7 @@ export const WithFilters: Story = {
           renderItem={(item) => (
             <ImageCard
               key={item.id}
-              src={item.image}
+              src={item.type === "audio" ? "" : item.image}
               alt={item.name}
               title={item.timestamp}
               subtitle={item.name}
@@ -247,7 +265,11 @@ export const WithFilters: Story = {
                 },
                 { label: item.category, position: "right" },
               ]}
-            />
+            >
+              {item.type === "audio" && (
+                <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+              )}
+            </ImageCard>
           )}
           matchesFilters={(item, filters) => {
             const unitMatch = !filters.unit || item.unit === filters.unit;
@@ -289,7 +311,7 @@ export const WithFiltersAndPagination: Story = {
           renderItem={(item) => (
             <ImageCard
               key={item.id}
-              src={item.image}
+              src={item.type === "audio" ? "" : item.image}
               alt={item.name}
               title={item.timestamp}
               subtitle={item.name}
@@ -302,7 +324,11 @@ export const WithFiltersAndPagination: Story = {
                 },
                 { label: item.category, position: "right" },
               ]}
-            />
+            >
+              {item.type === "audio" && (
+                <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+              )}
+            </ImageCard>
           )}
           matchesFilters={(item, filters) => {
             const unitMatch = !filters.unit || item.unit === filters.unit;
@@ -391,7 +417,7 @@ export const WithViewToggleAndPagination: Story = {
             return (
               <ImageCard
                 key={item.id}
-                src={item.image}
+                src={item.type === "audio" ? "" : item.image}
                 alt={item.name}
                 title={item.timestamp}
                 subtitle={item.name}
@@ -404,7 +430,11 @@ export const WithViewToggleAndPagination: Story = {
                   },
                   { label: item.category, position: "right" },
                 ]}
-              />
+              >
+                {item.type === "audio" && (
+                  <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+                )}
+              </ImageCard>
             );
           }}
           matchesFilters={(item, filters) => {
@@ -432,7 +462,7 @@ export const NoFilters: Story = {
         renderItem={(item) => (
           <ImageCard
             key={item.id}
-            src={item.image}
+            src={item.type === "audio" ? "" : item.image}
             alt={item.name}
             title={item.timestamp}
             subtitle={item.name}
@@ -441,7 +471,11 @@ export const NoFilters: Story = {
               { label: item.status, position: "left", variant: "neutral" },
               { label: item.category, position: "right" },
             ]}
-          />
+          >
+            {item.type === "audio" && (
+              <Headphones size={48} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+            )}
+          </ImageCard>
         )}
         showCount={true}
       />
