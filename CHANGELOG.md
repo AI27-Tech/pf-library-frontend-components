@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0-beta.6] — 2026-09-28
+
+### Agregado
+
+- **Tooltip**: Nuevo componente de presentación flotante (`position: fixed` vía portal a `document.body`) para mostrar texto completo sin que lo recorten contenedores con `overflow`, `transform` o `backdrop-filter`. Se posiciona a partir de coordenadas de viewport; quien lo usa controla su visibilidad.
+- **Badge — `truncate`**: Recorta el texto largo con puntos suspensivos ("…") en vez de dejar que crezca o se corte contra el borde. Acepta `true`, un número (px) o un string CSS de ancho máximo. Al desbordar, muestra el valor completo en un tooltip.
+- **Badge — `expandOnHover`**: Con `truncate`, despliega el badge completo al pasar el cursor para leer todo el texto (sin animación de scroll).
+- **Badge — `fixedWidth`**: Con `truncate`, da al badge un ancho fijo para que todos midan lo mismo y se vean parejos en una rejilla o columna.
+- **Badge — `tooltip`**: Con `truncate`, elige cómo mostrar el texto completo al pasar el cursor: `"custom"` (tooltip propio, por defecto), `"native"` (atributo `title`) o `false`.
+- **ImageCard — `BadgeConfig`**: Reenvía `truncate`, `expandOnHover`, `fixedWidth` y `tooltip` al Badge interno, para poder usar el recorte y el tooltip en los badges del grid.
+- **Storybook**: Historias nuevas del Badge (`TruncatedInNarrowCells`, `TruncateComparison`, `ExpandOnHover`, `FixedWidthDiagnostic`, `InImageGrid`) y del `Tooltip`.
+
+### Cambiado
+
+- **Badge**: El `.badge` base ahora tiene `max-width: 100%` para no rebasar su contenedor. Solo tiene efecto visible cuando un badge se desbordaría; los badges que ya cabían no cambian.
+
+### Arreglado
+
+- **ImageCard**: Los badges anchos ya no se desbordan del borde de la card. Los `.badgeWrapper` ahora ceden espacio (`min-width: 0`, `flex` ajustado) en vez de empujar fuera del contenedor. Los badges que ya cabían no cambian de posición.
+
 ## [0.2.0-beta.2] — 2026-09-22
 
 ### Agregado

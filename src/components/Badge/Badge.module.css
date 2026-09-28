@@ -15,6 +15,58 @@
   text-transform: uppercase;
   white-space: nowrap;
   vertical-align: middle;
+  /* No dejar que el badge rebase a su contenedor: si la card es angosta, cede. */
+  max-width: 100%;
+}
+
+/* Badge con truncado: el texto largo se recorta con puntos suspensivos limpios
+   en lugar de cortarse contra el borde del contenedor. Por defecto usa un tope
+   compacto (~7rem) para que el chip quede holgado —no estirado hasta el borde—;
+   se puede ajustar pasando un ancho a `truncate` (variable --ui-badge-max-width).
+   El `min(..., 100%)` asegura que aun así ceda si el contenedor es más angosto. */
+.truncate {
+  max-width: min(var(--ui-badge-max-width, 7rem), 100%);
+}
+
+/* Ancho FIJO: todos los badges truncados miden lo mismo (no se encogen con el
+   texto corto), así se ven parejos y compactos en una rejilla o columna. El ancho
+   se toma de la misma variable --ui-badge-max-width (por defecto 7rem).
+   Se fijan width, min-width y max-width al mismo valor para que ni el contenido
+   corto lo encoja ni el flex del contenedor lo estire. */
+.fixedWidth {
+  --ui-badge-fixed: min(var(--ui-badge-max-width, 5rem), 100%);
+  width: var(--ui-badge-fixed);
+  min-width: var(--ui-badge-fixed);
+  max-width: var(--ui-badge-fixed);
+  flex: 0 0 auto;
+}
+
+/* El texto truncable: una sola línea recortada con "…". Vive dentro del badge y
+   ocupa el ancho disponible (`flex:1` + `min-width:0`) para que, cuando el texto
+   es más largo que ese ancho, su clientWidth sea menor que su scrollWidth —lo que
+   dispara el ellipsis y la detección de desbordamiento del tooltip. */
+.truncateText {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Variante "expandir al hover": en reposo el badge está recortado (usa .truncate).
+   Al pasar el cursor, se despliega a su ancho completo para leer todo el texto,
+   sin animación de scroll. El badge crece y se pone por encima de vecinos con
+   z-index; en un contenedor alineado a la derecha crece hacia la izquierda, que
+   es lo natural para un estado en la esquina derecha de una card. */
+.expandable:hover {
+  max-width: none;
+  z-index: 20;
+  overflow: visible;
+}
+
+.expandable:hover .truncateText {
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .pill {

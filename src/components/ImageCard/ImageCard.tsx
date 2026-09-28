@@ -15,6 +15,15 @@ export interface BadgeConfig {
   pulse?: boolean;
   /** Usar una forma de píldora completamente redondeada. */
   pill?: boolean;
+  /** Recortar el texto largo con "…" en vez de dejar que crezca o se corte contra
+   *  el borde de la card. `true`, un número (px) o un string CSS de ancho máximo. */
+  truncate?: boolean | number | string;
+  /** Con `truncate`, desplegar el badge completo al pasar el cursor para leer todo. */
+  expandOnHover?: boolean;
+  /** Con `truncate`, dar al badge un ancho fijo para que todos midan lo mismo. */
+  fixedWidth?: boolean;
+  /** Con `truncate`, cómo mostrar el texto completo: tooltip propio, nativo o ninguno. */
+  tooltip?: "custom" | "native" | false;
   /** Posición del badge: "left" o "right". Predeterminado: "right" */
   position?: "left" | "right";
 }
@@ -106,6 +115,10 @@ export function ImageCard({
                   dot={badge.dot}
                   pulse={badge.pulse}
                   pill={badge.pill}
+                  truncate={badge.truncate}
+                  expandOnHover={badge.expandOnHover}
+                  fixedWidth={badge.fixedWidth}
+                  tooltip={badge.tooltip}
                   className={styles.badge}
                 >
                   {badge.label}
