@@ -66,14 +66,23 @@
 .badgeWrapper {
   display: flex;
   align-items: center;
+  /* Permitir que el wrapper se encoja en vez de desbordar el contenedor: sin esto,
+     un badge ancho empuja fuera del borde de la card (item flex no encogible). */
+  min-width: 0;
 }
 
 .badgeWrapper.left {
   justify-content: flex-start;
+  /* La hora no se encoge ni crece: mantiene su tamaño natural. */
+  flex: 0 0 auto;
 }
 
 .badgeWrapper.right {
   justify-content: flex-end;
+  /* El estado toma el espacio restante y cede si hace falta, quedando dentro del
+     contenedor (su badge interno recorta el texto con truncate). */
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .badge {
