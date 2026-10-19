@@ -26,14 +26,15 @@
   - `.husky/pre-commit` creado: `lint-staged` + `tsc -b`. **Decisión: no se introdujo prettier** (no estaba en el repo; reformatearía archivos existentes). Queda abierto para confirmar con el equipo.
   - _Requisitos: R5_
 
-- [ ] 5. Subir rama y abrir PR hacia dev
-  - **Pendiente: requiere push, que no se hace sin autorización del usuario.**
+- [x] 5. Subir rama y abrir PR hacia dev
+  - Rama subida a `origin/feature/e8-t1-ci-calidad` (commit `23914b8`). A diferencia de client/internal, la librería **no** consume `@ai27-tech/ui` (ella es ese paquete), así que su CI **no necesita** el secreto `GH_PAT` ni auth de GitHub Packages.
+  - **El PR lo abre el usuario** (hacia `pf-lf-d`).
   - _Requisitos: R3_
 
-- [ ] 6. Prueba negativa deliberada
-  - Romper la prueba o un tipo, confirmar rojo, revertir, confirmar verde
+- [ ] 6. Prueba negativa deliberada — pendiente de validar en el PR
+  - Romper la prueba o un tipo, confirmar que `calidad` queda en rojo, revertir, confirmar verde
   - _Requisitos: R7_
 
-- [ ] 7. Branch protection (requiere permisos de admin)
+- [ ] 7. Branch protection (requiere permisos de admin) — **suspendida** por decisión del equipo
   - Marcar `calidad` como required en `pf-lf-d` (ver guía compartida)
   - _Requisitos: R6_
