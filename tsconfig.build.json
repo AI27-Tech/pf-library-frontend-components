@@ -19,6 +19,7 @@
     "src/**/*.stories.tsx",
     "src/**/*.stories.ts",
     "src/**/*.test.ts",
-    "src/**/*.test.tsx"
+    "src/**/*.test.tsx",
+    "src/vitest-env.d.ts"
   ]
 }
