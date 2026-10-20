@@ -35,9 +35,18 @@
     "build": "tsc -b && vite build",
     "build:lib": "tsc -p tsconfig.build.json && vite build",
     "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "test": "vitest run --project unit",
+    "test:watch": "vitest --project unit",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -45,6 +54,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.1",
+    "jsdom": "^30.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
