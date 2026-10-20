@@ -1,0 +1,428 @@
+/* ── Muelle: fila fija de paneles + barra principal, esquina inferior derecha ────── */
+.dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: var(--ui-z-modal, 1000);
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ui-space-3, 0.75rem);
+  padding: 0 var(--ui-space-4, 1rem);
+  max-width: 100vw;
+  pointer-events: none;
+}
+
+.dock > * {
+  pointer-events: auto;
+}
+
+/* Orden: paneles abiertos primero (izquierda), barra principal fijada a la derecha. */
+.bar {
+  order: 2;
+}
+
+.panels {
+  order: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+/* ── Superficie compartida para barra + panel ──────────────────────────────────── */
+.surface {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--ui-surface-panel-width, 20rem);
+  background-color: var(--ui-color-surface, #1c222e);
+  border: var(--ui-border-width, 1px) solid var(--ui-color-border, #2d3748);
+  border-bottom: none;
+  border-radius: var(--ui-radius-lg, 0.5rem) var(--ui-radius-lg, 0.5rem) 0 0;
+  box-shadow: var(--ui-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.55));
+  font-family: var(--ui-font-family, inherit);
+  color: var(--ui-color-text, #e2e8f0);
+  overflow: hidden;
+}
+
+.bar .surface,
+.barSurface {
+  width: var(--ui-surface-panel-width-sm, 18rem);
+}
+
+/* ── Encabezado (título de barra / encabezado de panel del mismo nivel) ──────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  height: 3rem;
+  padding: 0 var(--ui-space-2, 0.5rem) 0 var(--ui-space-3, 0.75rem);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.header.expanded {
+  border-bottom-color: var(--ui-color-border, #2d3748);
+}
+
+.headerTitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  overflow: hidden;
+}
+
+.name {
+  font-size: var(--ui-font-size-lg, 0.9375rem);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerActions {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: var(--ui-radius-sm, 0.125rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+  transition: background-color var(--ui-transition, 0.15s ease), color var(--ui-transition, 0.15s ease);
+}
+
+.iconBtn:hover {
+  background-color: color-mix(in srgb, var(--ui-color-text-muted) 18%, transparent);
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.iconBtn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.iconBtn :global(svg) {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* ── Avatar ──────────────────────────────────────────────────────────────── */
+.avatar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  overflow: hidden;
+  position: relative;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.presence {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--ui-color-surface, #1c222e);
+  background-color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.presence.online {
+  background-color: var(--ui-color-success, #6ee7b7);
+}
+
+/* ── Cuerpo del panel (lista de mensajes) ───────────────────────────────────────── */
+.body {
+  flex: 1 1 auto;
+  height: 20rem;
+  overflow-y: auto;
+  padding: var(--ui-space-3, 0.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2, 0.5rem);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+}
+
+/* ── Burbujas de mensajes ─────────────────────────────────────────────────── */
+.msgRow {
+  display: flex;
+  gap: var(--ui-space-2, 0.5rem);
+  max-width: 85%;
+}
+
+.msgRow.own {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.msgRow.other {
+  align-self: flex-start;
+}
+
+.bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.own .bubble {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+  border-bottom-right-radius: var(--ui-radius-sm, 0.125rem);
+}
+
+.other .bubble {
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  color: var(--ui-color-text, #e2e8f0);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+  border-bottom-left-radius: var(--ui-radius-sm, 0.125rem);
+}
+
+.author {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.own .author {
+  color: color-mix(in srgb, var(--ui-color-on-primary) 80%, transparent);
+}
+
+.time {
+  align-self: flex-end;
+  font-size: 0.625rem;
+  opacity: 0.7;
+  margin-top: 0.1rem;
+}
+
+/* Indicador de escritura */
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 0.875rem;
+}
+
+.typingDot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.6;
+  animation: typingBounce 1.4s infinite;
+}
+
+.typingDot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typingDot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  30% {
+    transform: translateY(-0.4rem);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typingDot {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+.dayDivider {
+  align-self: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ui-color-text-muted, #94a3b8);
+  padding: var(--ui-space-1, 0.25rem) 0;
+}
+
+/* ── Compositor ──────────────────────────────────────────────────────────── */
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ui-space-2, 0.5rem);
+  padding: var(--ui-space-2, 0.5rem);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
+  background-color: var(--ui-color-surface, #1c222e);
+}
+
+.composerInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-height: 6rem;
+  resize: none;
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  color: var(--ui-color-text, #e2e8f0);
+  font: inherit;
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  line-height: 1.4;
+  padding: var(--ui-space-2, 0.5rem);
+}
+
+.composerInput::placeholder {
+  color: var(--ui-color-text-placeholder, #64748b);
+}
+
+.composerInput:focus-visible {
+  outline: none;
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 2px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.sendBtn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
+  cursor: pointer;
+  transition: background-color var(--ui-transition, 0.15s ease);
+}
+
+.sendBtn:hover:not(:disabled) {
+  background-color: var(--ui-color-primary-hover, #8ba7f8);
+}
+
+.sendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sendBtn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.sendBtn :global(svg) {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* ── Lista de conversaciones de la barra del muelle (expandida) ───────────────────── */
+.convoList {
+  flex: 1 1 auto;
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.convoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  width: 100%;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--ui-transition, 0.15s ease);
+}
+
+.convoItem:hover {
+  background-color: var(--ui-color-surface-raised, #242b3a);
+}
+
+.convoText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.convoName {
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.convoPreview {
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unread {
+  align-self: center;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--ui-color-primary, #7c9df0);
+  flex: 0 0 auto;
+}
+
+@media (max-width: 560px) {
+  .surface,
+  .barSurface {
+    width: min(20rem, calc(100vw - 2rem));
+  }
+}

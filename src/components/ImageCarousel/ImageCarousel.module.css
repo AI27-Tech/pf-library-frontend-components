@@ -1,0 +1,191 @@
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Encabezado de sección */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--ui-font-size-xl, 1.25rem);
+  font-weight: 700;
+  color: var(--ui-color-text, #e2e8f0);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sectionBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.sectionLocation {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Controles de navegación en encabezado */
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+}
+
+/* Divisor sutil */
+.divider {
+  height: 1px;
+  background-color: var(--ui-color-border, #2d3748);
+  opacity: 0.5;
+}
+
+/* Envoltorio de carrusel */
+.carouselWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.itemsContainer {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  /* Ocultar barra de desplazamiento */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.itemsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botones de navegación */
+.navButton {
+  position: relative;
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  border: none;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color var(--ui-transition, 0.15s ease);
+  z-index: 20;
+  padding: 0;
+}
+
+.navButton:hover {
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.navButton:active {
+  color: var(--ui-color-primary, #7c9df0);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.prev {
+  order: -1;
+}
+
+.next {
+  order: 1;
+}
+
+/* Recuento de artículos */
+.itemCount {
+  font-size: var(--ui-font-size-xs, 0.625rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  text-align: left;
+  margin-top: 0.25rem;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .carousel {
+    gap: 2rem;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .headerControls {
+    align-self: flex-end;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .navButton {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel {
+    gap: 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: var(--ui-font-size-lg, 1.0625rem);
+  }
+
+  .headerControls {
+    gap: 0.5rem;
+  }
+
+  .navButton {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .itemsContainer {
+    gap: 0.5rem;
+  }
+}

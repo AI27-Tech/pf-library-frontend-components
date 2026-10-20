@@ -1,0 +1,111 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--ui-z-modal, 1000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ui-space-4, 1rem);
+  background-color: var(--ui-overlay-bg, rgba(7, 10, 15, 0.7));
+  animation: ui-modal-fade var(--ui-duration-base, 200ms) var(--ui-ease-standard, ease);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: calc(100vh - 2 * var(--ui-space-4, 1rem));
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+  box-shadow: var(--ui-shadow-lg, 0 12px 32px rgba(15, 23, 42, 0.18));
+  font-family: var(--ui-font-family, inherit);
+  outline: none;
+  animation: ui-modal-pop var(--ui-duration-slow, 320ms) var(--ui-ease-spring, ease);
+}
+
+/* Tamaños */
+.sm { max-width: 24rem; }
+.md { max-width: 32rem; }
+.lg { max-width: 48rem; }
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3, 0.75rem);
+  padding: var(--ui-space-5, 1.5rem);
+  padding-bottom: var(--ui-space-3, 0.75rem);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ui-font-size-lg, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.3;
+  flex: 1 1 auto;
+}
+
+.close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.25rem -0.25rem -0.25rem 0;
+  border: none;
+  border-radius: var(--ui-radius-sm, 6px);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+  transition: background-color var(--ui-transition, 0.15s ease);
+}
+
+.close:hover {
+  background-color: var(--ui-color-surface-muted, #0e1117);
+}
+
+.close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.close :global(svg) {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.body {
+  padding: 0 var(--ui-space-5, 1.5rem);
+  overflow-y: auto;
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  line-height: 1.5;
+  flex: 1 1 auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ui-space-2, 0.5rem);
+  padding: var(--ui-space-5, 1.5rem);
+  padding-top: var(--ui-space-4, 1rem);
+}
+
+@keyframes ui-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ui-modal-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .dialog {
+    animation: none;
+  }
+}

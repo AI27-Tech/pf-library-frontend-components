@@ -1,0 +1,142 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3, 0.75rem);
+  width: 100%;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-5, 1.5rem);
+  width: 100%;
+}
+
+.itemsGrid {
+  width: 100%;
+}
+
+/* Vista de lista - Tabla alineada y compacta */
+.listContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius-sm, 4px);
+  overflow: hidden;
+  background-color: var(--ui-color-surface, #1c222e);
+  box-sizing: border-box;
+  font-family: var(--ui-font-family, inherit);
+}
+
+.listItem {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 100px 100px 200px;
+  gap: var(--ui-space-3, 0.75rem);
+  align-items: center;
+  width: 100%;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border-bottom: 1px solid rgba(124, 157, 240, 0.1);
+  transition: background-color var(--ui-transition, 0.15s ease);
+  background-color: transparent;
+  box-sizing: border-box;
+  min-width: 0;
+  font-family: var(--ui-font-family, inherit);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listItem:hover {
+  background-color: rgba(124, 157, 240, 0.08);
+}
+
+/* Celda: Timestamp */
+.listItemTime {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Celda: Nombre */
+.listItemName {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+/* Celda: Unidad */
+.listItemUnit {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  font-family: var(--ui-font-family, inherit);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Celda: Categoría */
+.listItemCategory {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  font-family: var(--ui-font-family, inherit);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Celda: Tamaño */
+.listItemSize {
+  font-size: var(--ui-font-size-xs, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  font-family: var(--ui-font-family, inherit);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Celda: Badge */
+.listItemBadge {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 1.5rem;
+  font-family: var(--ui-font-family, inherit);
+}
+
+.resultsMeta {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  padding: var(--ui-space-2, 0.5rem) 0;
+}
+
+/* Estado vacío */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  text-align: center;
+}

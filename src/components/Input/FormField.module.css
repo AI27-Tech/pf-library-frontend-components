@@ -1,0 +1,27 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1, 0.25rem);
+  font-family: var(--ui-font-family, inherit);
+}
+
+.label {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  font-weight: 600;
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.required {
+  color: var(--ui-color-danger, #fca5a5);
+  margin-left: 0.15rem;
+}
+
+.help {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.error {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-danger, #fca5a5);
+}

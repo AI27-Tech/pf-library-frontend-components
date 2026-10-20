@@ -1,0 +1,125 @@
+/* Envoltorio compartido para checkbox / radio / interruptor */
+.choice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  cursor: pointer;
+}
+
+.choice.disabled {
+  cursor: not-allowed;
+  opacity: var(--ui-opacity-disabled, 0.55);
+}
+
+/* Ocultar visualmente el control nativo pero mantenerlo accesible */
+.nativeInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Caja de casilla de verificación / radio */
+.box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1px solid var(--ui-color-border-strong, #374151);
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-on-primary, #0e1117);
+  transition:
+    background-color var(--ui-transition, 0.15s ease),
+    border-color var(--ui-transition, 0.15s ease);
+}
+
+.checkbox .box {
+  border-radius: var(--ui-radius-sm, 6px);
+}
+
+.radio .box {
+  border-radius: 50%;
+}
+
+.box :global(svg) {
+  width: 0.85rem;
+  height: 0.85rem;
+  opacity: 0;
+  transition: opacity var(--ui-transition, 0.15s ease);
+}
+
+.radioDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  transform: scale(0);
+  transition: transform var(--ui-transition, 0.15s ease);
+}
+
+.nativeInput:checked + .box {
+  background-color: var(--ui-color-primary, #7c9df0);
+  border-color: var(--ui-color-primary, #7c9df0);
+}
+
+.nativeInput:checked + .box :global(svg) {
+  opacity: 1;
+}
+
+.nativeInput:checked + .box .radioDot {
+  transform: scale(1);
+}
+
+.nativeInput:focus-visible + .box {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+/* Interruptor */
+.switch .track {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 1.4rem;
+  padding: 2px;
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: 999px;
+  background-color: var(--ui-color-surface-container, #1c222e);
+  transition: background-color var(--ui-transition, 0.15s ease);
+}
+
+.switch .thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: var(--ui-color-text-muted, #94a3b8);
+  box-shadow: var(--ui-shadow-sm, 0 1px 2px rgba(7, 10, 15, 0.5));
+  transition: transform var(--ui-transition, 0.15s ease),
+    background-color var(--ui-transition, 0.15s ease);
+}
+
+.nativeInput:checked + .track {
+  border-color: transparent;
+  background-color: var(--ui-color-secondary, #2c3a58);
+}
+
+.nativeInput:checked + .track .thumb {
+  background-color: var(--ui-color-primary, #7c9df0);
+  transform: translateX(1.1rem);
+}
+
+.nativeInput:focus-visible + .track {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
