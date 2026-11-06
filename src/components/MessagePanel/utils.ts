@@ -20,6 +20,8 @@ export function initials(name?: string) {
  */
 export function formatSmartTimestamp(date: Date | number | string): string {
   const d = typeof date === "string" ? new Date(date) : new Date(date);
+  // Una fecha inválida no debe renderizarse como "NaN:NaN": se devuelve vacío y la UI la oculta.
+  if (Number.isNaN(d.getTime())) return "";
   const now = new Date();
   
   const isToday =
