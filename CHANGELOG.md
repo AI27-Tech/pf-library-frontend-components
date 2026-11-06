@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0-beta.8] — 2026-11-06
+
 ### Agregado
 
 - **`FilterBar`**: `FilterDefinition` acepta `variant` (`"searchable"` para filtrar escribiendo), `searchPlaceholder` y `noResultsText`, que se pasan al `Select`. Sin `variant`, el comportamiento no cambia.
