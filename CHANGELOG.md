@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0-beta.7] — 2026-11-06
+
 ### Agregado
 
 - **`Select` con variante buscable**: nueva prop `variant="searchable"` que permite escribir para filtrar las opciones. Incluye las props `searchPlaceholder` y `noResultsText`, navegación con teclado (flechas, Enter, Escape, Tab) y atributos ARIA de combobox. La variante por defecto conserva su DOM; la única diferencia de comportamiento es la corrección listada en "Corregido". Spec en `.kiro/specs/select-buscable/`.

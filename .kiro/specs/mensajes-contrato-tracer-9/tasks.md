@@ -49,7 +49,7 @@ Antes de empezar, resolver D1 a D6 de `design.md`. D5 y D6 dependen de los consu
   - Nota: `pnpm lint` sin argumentos recorre `dist/` y `storybook-static/` después de un build y falla con reglas no encontradas. Es un problema de configuración de ESLint aparte de esta spec.
   - _Requisitos: R1.1, R1.2_
 
-- [-] 10. CHANGELOG y versión
-  - Entradas en `CHANGELOG.md` (Unreleased): Agregado, Cambiado y Obsoleto.
-  - Versión no subida: D6 sigue pendiente. Subir a `0.2.0-beta.7` cuando se apruebe.
+- [x] 10. CHANGELOG y versión
+  - Entradas en `CHANGELOG.md`: Agregado, Cambiado y Obsoleto, movidas a la sección `0.2.0-beta.7`.
+  - Versión subida a `0.2.0-beta.7` en `package.json` (rama `chore/version-0.2.0-beta.7`). D6 se tomó como aprobado con la opción recomendada; falta confirmarlo.
   - _Requisitos: Compatibilidad_
