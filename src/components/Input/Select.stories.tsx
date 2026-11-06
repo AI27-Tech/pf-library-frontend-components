@@ -96,3 +96,33 @@ export const DarkModeWithRoles: Story = {
     backgrounds: { default: "dark" },
   },
 };
+
+export const Searchable: Story = {
+  args: {
+    variant: "searchable",
+    searchPlaceholder: "Buscar país",
+    placeholder: "Selecciona un país",
+  },
+};
+
+export const SearchableWithoutResults: Story = {
+  args: {
+    variant: "searchable",
+    options: [],
+    noResultsText: "No hay países disponibles",
+    placeholder: "Selecciona un país",
+  },
+};
+
+export const SearchableDisabledOptions: Story = {
+  args: {
+    variant: "searchable",
+    placeholder: "Selecciona un país",
+    options: [
+      { label: "United States", value: "us" },
+      { label: "Mexico", value: "mx", disabled: true },
+      { label: "Spain", value: "es" },
+      { label: "Argentina", value: "ar" },
+    ],
+  },
+};

@@ -4,6 +4,8 @@ import { MessagePanel } from "./MessagePanel";
 import { MessageDock, MessageDockBar, type DockConversation } from "./MessageDock";
 import { MessageList, MessageBubble, MessageDayDivider } from "./MessageList";
 import { MessageComposer } from "./MessageComposer";
+import type { AudienciaAutor, EstadoConversacion, Mensaje } from "./types";
+import { generarClientMessageId } from "./utils";
 
 const meta = {
   title: "Components/MessagePanel",
@@ -15,49 +17,69 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-interface Msg {
-  id: number;
-  own: boolean;
-  author: string;
-  text: string;
-  time: string;
-}
+/** Audiencia del visor en las historias. Los mensajes con esta audiencia se muestran propios. */
+const VISOR_INTERNO: AudienciaAutor = "Interno";
 
-interface Conversation {
+interface Conversacion {
   id: string;
-  name: string;
-  avatarName: string;
+  nombre: string;
   online: boolean;
-  messages: Msg[];
+  estado: EstadoConversacion;
+  mensajes: Mensaje[];
 }
 
-const initialConversations: Conversation[] = [
+function mensaje(
+  conversacionId: string,
+  secuenciaMensaje: number,
+  audienciaAutor: AudienciaAutor,
+  aliasMostrado: string,
+  cuerpo: string,
+  creadoEn: string,
+  extra: Partial<Mensaje> = {},
+): Mensaje {
+  return {
+    id: `${conversacionId}-${secuenciaMensaje}`,
+    conversacionId,
+    secuenciaMensaje,
+    clientMessageId: generarClientMessageId(),
+    audienciaAutor,
+    aliasMostrado,
+    cuerpo,
+    creadoEn,
+    ...extra,
+  };
+}
+
+const conversacionesIniciales: Conversacion[] = [
   {
     id: "c4",
-    name: "Central C4",
-    avatarName: "Central C4",
+    nombre: "Central C4",
     online: true,
-    messages: [
-      { id: 1, own: false, author: "Central C4", text: "Unidad TTR-8821 entrando a Arco Norte.", time: "10:40" },
-      { id: 2, own: true, author: "Yo", text: "Confirmado, escolta enlazada.", time: "10:41" },
+    estado: "abierta",
+    mensajes: [
+      mensaje("c4", 1, "Cliente", "Central C4", "Unidad TTR-8821 entrando a Arco Norte.", "2026-11-06T10:40:00-06:00"),
+      mensaje("c4", 2, "Interno", "Yo", "Confirmado, escolta enlazada.", "2026-11-06T10:41:00-06:00", {
+        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
+        rolAlEnviar: "monitorista",
+      }),
     ],
   },
   {
     id: "dispatch",
-    name: "Despacho Bajío",
-    avatarName: "Despacho Bajío",
+    nombre: "Despacho Bajío",
     online: false,
-    messages: [
-      { id: 1, own: false, author: "Despacho Bajío", text: "¿Estatus de la ruta 12?", time: "09:15" },
+    estado: "abierta",
+    mensajes: [
+      mensaje("dispatch", 1, "Cliente", "Despacho Bajío", "¿Estatus de la ruta 12?", "2026-11-06T09:15:00-06:00"),
     ],
   },
   {
     id: "escort",
-    name: "Escolta 07",
-    avatarName: "Escolta 07",
+    nombre: "Escolta 07",
     online: true,
-    messages: [
-      { id: 1, own: false, author: "Escolta 07", text: "En posición.", time: "08:02" },
+    estado: "solo_lectura",
+    mensajes: [
+      mensaje("escort", 1, "Cliente", "Escolta 07", "En posición.", "2026-11-06T08:02:00-06:00"),
     ],
   },
 ];
@@ -66,50 +88,49 @@ const initialConversations: Conversation[] = [
 export const MultiConversation: Story = {
   args: { name: "" },
   render: () => {
-    const [conversations, setConversations] = useState(initialConversations);
-    const [barOpen, setBarOpen] = useState(true);
+    const [conversaciones, setConversaciones] = useState(conversacionesIniciales);
+    const [barAbierta, setBarAbierta] = useState(true);
     // Paneles abiertos: id -> ¿expandido?
-    const [openPanels, setOpenPanels] = useState<Record<string, boolean>>({ c4: true });
-    const [drafts, setDrafts] = useState<Record<string, string>>({});
+    const [panelesAbiertos, setPanelesAbiertos] = useState<Record<string, boolean>>({ c4: true });
+    const [borradores, setBorradores] = useState<Record<string, string>>({});
 
-    const openConversation = (id: string) => {
-      setOpenPanels((prev) => ({ ...prev, [id]: true }));
+    const abrirConversacion = (id: string) => {
+      setPanelesAbiertos((prev) => ({ ...prev, [id]: true }));
     };
-    const togglePanel = (id: string) => {
-      setOpenPanels((prev) => ({ ...prev, [id]: !prev[id] }));
+    const alternarPanel = (id: string) => {
+      setPanelesAbiertos((prev) => ({ ...prev, [id]: !prev[id] }));
     };
-    const closePanel = (id: string) => {
-      setOpenPanels((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
+    const cerrarPanel = (id: string) => {
+      setPanelesAbiertos((prev) => {
+        const siguiente = { ...prev };
+        delete siguiente[id];
+        return siguiente;
       });
     };
 
-    const send = (id: string) => {
-      const text = (drafts[id] ?? "").trim();
-      if (!text) return;
-      setConversations((prev) =>
-        prev.map((c) =>
-          c.id === id
-            ? {
-                ...c,
-                messages: [
-                  ...c.messages,
-                  { id: c.messages.length + 1, own: true, author: "Yo", text, time: "now" },
-                ],
-              }
-            : c,
-        ),
+    const enviar = (id: string, cuerpo: string) => {
+      setConversaciones((prev) =>
+        prev.map((c) => {
+          if (c.id !== id) return c;
+          const secuencia = c.mensajes.length + 1;
+          return {
+            ...c,
+            mensajes: [
+              ...c.mensajes,
+              mensaje(c.id, secuencia, VISOR_INTERNO, "Yo", cuerpo, new Date().toISOString()),
+            ],
+          };
+        }),
       );
-      setDrafts((prev) => ({ ...prev, [id]: "" }));
+      setBorradores((prev) => ({ ...prev, [id]: "" }));
     };
 
-    const dockConversations: DockConversation[] = conversations.map((c) => ({
+    const conversacionesDock: DockConversation[] = conversaciones.map((c) => ({
       id: c.id,
-      name: c.name,
-      preview: c.messages[c.messages.length - 1]?.text,
-      avatar: { name: c.avatarName },
+      conversacionId: c.id,
+      name: c.nombre,
+      preview: c.mensajes[c.mensajes.length - 1]?.cuerpo,
+      avatar: { name: c.nombre },
       unread: false,
     }));
 
@@ -121,49 +142,48 @@ export const MultiConversation: Story = {
           bar={
             <MessageDockBar
               title="Mensajería"
-              open={barOpen}
-              onToggle={() => setBarOpen((v) => !v)}
+              open={barAbierta}
+              onToggle={() => setBarAbierta((v) => !v)}
               unreadCount={2}
-              conversations={dockConversations}
-              onSelect={openConversation}
+              conversations={conversacionesDock}
+              onSelect={abrirConversacion}
             />
           }
         >
-          {conversations
-            .filter((c) => c.id in openPanels)
+          {conversaciones
+            .filter((c) => c.id in panelesAbiertos)
             .map((c) => {
-              const open = openPanels[c.id];
+              const abierto = panelesAbiertos[c.id];
+              const ultimo = c.mensajes[c.mensajes.length - 1];
               return (
                 <MessagePanel
                   key={c.id}
-                  name={c.name}
+                  name={c.nombre}
                   subtitle={c.online ? "Activo ahora" : "Desconectado"}
-                  avatar={{ name: c.avatarName }}
+                  avatar={{ name: c.nombre }}
                   presence={c.online ? "online" : "offline"}
-                  open={open}
-                  onToggle={() => togglePanel(c.id)}
-                  onClose={() => closePanel(c.id)}
+                  open={abierto}
+                  onToggle={() => alternarPanel(c.id)}
+                  onClose={() => cerrarPanel(c.id)}
                   composer={
                     <MessageComposer
-                      value={drafts[c.id] ?? ""}
-                      onChange={(v) => setDrafts((prev) => ({ ...prev, [c.id]: v }))}
-                      onSend={() => send(c.id)}
+                      value={borradores[c.id] ?? ""}
+                      onChange={(v) => setBorradores((prev) => ({ ...prev, [c.id]: v }))}
+                      onSend={(envio) => enviar(c.id, envio.cuerpo)}
                       placeholder="Escribe un mensaje…"
+                      estadoConversacion={c.estado}
                     />
                   }
                 >
-                  <MessageList>
+                  <MessageList ultimaSecuencia={ultimo?.secuenciaMensaje}>
                     <MessageDayDivider>Hoy</MessageDayDivider>
-                    {c.messages.map((m) => (
+                    {c.mensajes.map((m) => (
                       <MessageBubble
                         key={m.id}
-                        own={m.own}
-                        author={m.author}
-                        time={m.time}
-                        avatar={m.own ? undefined : { name: m.author }}
-                      >
-                        {m.text}
-                      </MessageBubble>
+                        mensaje={m}
+                        own={m.audienciaAutor === VISOR_INTERNO}
+                        avatar={m.audienciaAutor === VISOR_INTERNO ? undefined : { name: m.aliasMostrado }}
+                      />
                     ))}
                   </MessageList>
                 </MessagePanel>
@@ -179,8 +199,12 @@ export const MultiConversation: Story = {
 export const SinglePanel: Story = {
   args: { name: "" },
   render: () => {
-    const [open, setOpen] = useState(true);
-    const [draft, setDraft] = useState("");
+    const [abierto, setAbierto] = useState(true);
+    const [borrador, setBorrador] = useState("");
+    const mensajes: Mensaje[] = [
+      mensaje("c4", 1, "Cliente", "Central C4", "Unidad entrando al corredor.", "2026-11-06T10:40:00-06:00"),
+      mensaje("c4", 2, "Interno", "Yo", "Recibido.", "2026-11-06T10:41:00-06:00"),
+    ];
     return (
       <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
         <MessagePanel
@@ -188,25 +212,113 @@ export const SinglePanel: Story = {
           subtitle="Activo ahora"
           avatar={{ name: "Central C4" }}
           presence="online"
-          open={open}
-          onToggle={() => setOpen((v) => !v)}
-          onClose={() => setOpen(false)}
+          open={abierto}
+          onToggle={() => setAbierto((v) => !v)}
+          onClose={() => setAbierto(false)}
           composer={
             <MessageComposer
-              value={draft}
-              onChange={setDraft}
-              onSend={() => setDraft("")}
+              value={borrador}
+              onChange={setBorrador}
+              onSend={() => setBorrador("")}
             />
           }
         >
-          <MessageList>
-            <MessageBubble own={false} author="Central C4" time="10:40" avatar={{ name: "Central C4" }}>
-              Unidad entrando al corredor.
-            </MessageBubble>
-            <MessageBubble own time="10:41">
-              Recibido.
-            </MessageBubble>
+          <MessageList ultimaSecuencia={mensajes[mensajes.length - 1].secuenciaMensaje}>
+            {mensajes.map((m) => (
+              <MessageBubble
+                key={m.id}
+                mensaje={m}
+                own={m.audienciaAutor === VISOR_INTERNO}
+                avatar={m.audienciaAutor === VISOR_INTERNO ? undefined : { name: m.aliasMostrado }}
+              />
+            ))}
           </MessageList>
+        </MessagePanel>
+      </div>
+    );
+  },
+};
+
+/** Vista de cliente: el visor es `Cliente`. Los mensajes de la operación se muestran sin campos internos. */
+export const VistaCliente: Story = {
+  args: { name: "" },
+  render: () => {
+    const mensajes: Mensaje[] = [
+      mensaje("c4", 1, "Interno", "Coordinación AI27", "Su unidad salió de planta.", "2026-11-06T10:40:00-06:00", {
+        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
+        rolAlEnviar: "monitorista",
+      }),
+      mensaje("c4", 2, "Cliente", "Cliente", "Gracias.", "2026-11-06T10:41:00-06:00"),
+    ];
+    return (
+      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
+        <MessagePanel name="Coordinación AI27" subtitle="Servicio TTR-8821" open>
+          <MessageList ultimaSecuencia={mensajes[mensajes.length - 1].secuenciaMensaje}>
+            {mensajes.map((m) => (
+              <MessageBubble key={m.id} mensaje={m} own={m.audienciaAutor === "Cliente"} />
+            ))}
+          </MessageList>
+        </MessagePanel>
+      </div>
+    );
+  },
+};
+
+/** Vista interna con el slot de auditoría: muestra actor real y rol solo porque la historia lo pide. */
+export const VistaInternaConAuditoria: Story = {
+  args: { name: "" },
+  render: () => {
+    const mensajes: Mensaje[] = [
+      mensaje("c4", 1, "Interno", "Yo", "Confirmado.", "2026-11-06T10:41:00-06:00", {
+        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
+        rolAlEnviar: "monitorista",
+      }),
+    ];
+    return (
+      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
+        <MessagePanel name="Central C4" open>
+          <MessageList ultimaSecuencia={mensajes[0].secuenciaMensaje}>
+            {mensajes.map((m) => (
+              <MessageBubble
+                key={m.id}
+                mensaje={m}
+                own
+                slotAuditoria={
+                  <span style={{ fontSize: "0.75rem" }}>
+                    {m.actorReal} · {m.rolAlEnviar}
+                  </span>
+                }
+              />
+            ))}
+          </MessageList>
+        </MessagePanel>
+      </div>
+    );
+  },
+};
+
+/** Conversación en solo lectura: el compositor no acepta texto ni envío. */
+export const SoloLectura: Story = {
+  args: { name: "" },
+  render: () => {
+    const mensajes: Mensaje[] = [
+      mensaje("escort", 1, "Cliente", "Escolta 07", "En posición.", "2026-11-06T08:02:00-06:00"),
+    ];
+    return (
+      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
+        <MessagePanel name="Escolta 07" open>
+          <MessageList ultimaSecuencia={mensajes[0].secuenciaMensaje} hayMas onCargarAnteriores={() => {}}>
+            {mensajes.map((m) => (
+              <MessageBubble key={m.id} mensaje={m} />
+            ))}
+          </MessageList>
+          <MessageComposer
+            value=""
+            onChange={() => {}}
+            onSend={() => {}}
+            estadoConversacion="solo_lectura"
+            textoSoloLectura="Conversación en solo lectura"
+          />
         </MessagePanel>
       </div>
     );

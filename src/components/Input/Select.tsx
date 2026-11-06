@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from "./Input.module.css";
 import selectStyles from "./SelectCustom.module.css";
 import { cx, type InputSize } from "./utils";
+import { SelectSearchable } from "./SelectSearchable";
 
 export interface SelectOption {
   label: string;
@@ -31,7 +32,15 @@ export interface SelectProps {
   className?: string;
   /** Ref forwarded to the underlying div element. */
   selectRef?: Ref<HTMLDivElement>;
+  /** Variante. "searchable" permite escribir para filtrar las opciones. Por defecto: "default". */
+  variant?: SelectVariant;
+  /** Placeholder del campo de búsqueda. Solo para la variante "searchable". Por defecto: "Buscar...". */
+  searchPlaceholder?: string;
+  /** Texto cuando ninguna opción coincide. Solo para la variante "searchable". Por defecto: "Sin resultados". */
+  noResultsText?: string;
 }
+
+export type SelectVariant = "default" | "searchable";
 
 function ChevronIcon() {
   return (
@@ -48,7 +57,15 @@ function ChevronIcon() {
   );
 }
 
-export function Select({
+/** Despacha a la variante indicada. La variante por defecto no cambia de DOM ni de comportamiento. */
+export function Select(props: SelectProps) {
+  if (props.variant === "searchable") {
+    return <SelectSearchable {...props} />;
+  }
+  return <SelectDefault {...props} />;
+}
+
+function SelectDefault({
   size = "md",
   invalid = false,
   options = [],
@@ -62,7 +79,7 @@ export function Select({
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | number | undefined>(
-    defaultValue ?? placeholder ? "" : undefined,
+    defaultValue ?? (placeholder ? "" : undefined),
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
