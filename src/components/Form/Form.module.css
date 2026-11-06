@@ -1,0 +1,56 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-5, 1.5rem);
+  font-family: var(--ui-font-family, inherit);
+}
+
+/* Grupos de campos relacionados con una leyenda opcional */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-4, 1rem);
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--ui-space-1, 0.25rem);
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  font-weight: 600;
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.sectionDescription {
+  margin: 0;
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+/* Una fila que distribuye campos uno al lado del otro, envolviendo en pantallas pequeñas */
+.row {
+  display: grid;
+  gap: var(--ui-space-4, 1rem);
+  grid-template-columns: repeat(var(--form-row-cols, 2), minmax(0, 1fr));
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Barra de acciones */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+}
+
+.align-start { justify-content: flex-start; }
+.align-end { justify-content: flex-end; }
+.align-between { justify-content: space-between; }
+.align-center { justify-content: center; }

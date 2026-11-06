@@ -1,0 +1,150 @@
+.selectCustom {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-2, 0.5rem);
+  width: 100%;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  font-size: inherit;
+  cursor: pointer;
+  transition: border-color var(--ui-transition, 0.15s ease), box-shadow var(--ui-transition, 0.15s ease);
+}
+
+.trigger:hover:not(:disabled) {
+  border-color: var(--ui-color-primary, #7c9df0);
+}
+
+.trigger:focus-visible {
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+  outline: none;
+}
+
+.trigger:disabled {
+  cursor: not-allowed;
+  opacity: var(--ui-opacity-disabled, 0.55);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+}
+
+.displayValue {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--ui-space-1, 0.25rem));
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--ui-color-surface, #1c222e);
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius, 0.25rem);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.15s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.listContainer {
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.listContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.listContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.listContainer::-webkit-scrollbar-thumb {
+  background-color: var(--ui-color-text-muted, #64748b);
+  border-radius: 3px;
+}
+
+.listContainer::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ui-color-text, #e2e8f0);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.option:first-child .optionButton {
+  border-radius: var(--ui-radius, 0.25rem) var(--ui-radius, 0.25rem) 0 0;
+}
+
+.option:last-child .optionButton {
+  border-radius: 0 0 var(--ui-radius, 0.25rem) var(--ui-radius, 0.25rem);
+}
+
+.optionButton {
+  width: 100%;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  text-align: left;
+  border: none;
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  font-size: inherit;
+  cursor: pointer;
+  transition: background-color var(--ui-transition, 0.15s ease), color var(--ui-transition, 0.15s ease);
+}
+
+.optionButton:hover:not(:disabled) {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: #ffffff;
+}
+
+.optionButton:focus-visible {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: #ffffff;
+  outline: none;
+}
+
+.optionButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.optionSelected .optionButton {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.optionSelected .optionButton:hover:not(:disabled) {
+  background-color: #5a7ed8;
+}
