@@ -20,6 +20,7 @@ export type {
   TextareaProps,
   SelectProps,
   SelectOption,
+  SelectVariant,
   CheckboxProps,
   RadioProps,
   SwitchProps,
