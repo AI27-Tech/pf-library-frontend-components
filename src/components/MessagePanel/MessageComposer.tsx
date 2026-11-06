@@ -1,20 +1,29 @@
 import { useRef, type KeyboardEvent, type ReactNode } from "react";
 import styles from "./MessagePanel.module.css";
 import { SendIcon } from "./shared";
+import type { EnviarMensajeEntrada, EstadoConversacion } from "./types";
+import { generarClientMessageId } from "./utils";
 
 export interface MessageComposerProps {
   /** Texto actual del borrador (controlado). */
   value: string;
   /** Llamado en cada cambio. */
   onChange: (value: string) => void;
-  /** Llamado cuando el usuario envía (Enter o botón de envío). */
-  onSend: () => void;
+  /**
+   * Llamado al enviar (Enter o botón). Recibe el cuerpo recortado y un `clientMessageId` nuevo.
+   * Para reintentar, el consumidor reenvía el mismo objeto.
+   */
+  onSend: (envio: EnviarMensajeEntrada) => void;
   /** Texto placeholder. */
   placeholder?: string;
   /** Deshabilitar entrada y envío. */
   disabled?: boolean;
   /** Control de envío final personalizado (por defecto un botón de icono de envío). */
   sendButton?: ReactNode;
+  /** Estado de la conversación. Con `solo_lectura` o `cerrada` no se puede escribir ni enviar. */
+  estadoConversacion?: EstadoConversacion;
+  /** Texto que se muestra cuando la conversación está en solo lectura o cerrada. */
+  textoSoloLectura?: string;
 }
 
 export function MessageComposer({
@@ -23,14 +32,18 @@ export function MessageComposer({
   onSend,
   placeholder = "Write a message…",
   disabled = false,
+  estadoConversacion = "abierta",
+  textoSoloLectura = "Conversación en solo lectura",
 }: MessageComposerProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  const canSend = value.trim().length > 0 && !disabled;
+  const soloLectura = estadoConversacion === "solo_lectura" || estadoConversacion === "cerrada";
+  const inactivo = disabled || soloLectura;
+  const canSend = value.trim().length > 0 && !inactivo;
 
   const send = () => {
     if (!canSend) return;
-    onSend();
+    onSend({ clientMessageId: generarClientMessageId(), cuerpo: value.trim() });
     // Reiniciar altura después de limpiar.
     requestAnimationFrame(() => {
       if (ref.current) ref.current.style.height = "auto";
@@ -56,8 +69,8 @@ export function MessageComposer({
         className={styles.composerInput}
         value={value}
         rows={1}
-        placeholder={placeholder}
-        disabled={disabled}
+        placeholder={soloLectura ? textoSoloLectura : placeholder}
+        disabled={inactivo}
         aria-label="Mensaje"
         onChange={(e) => {
           onChange(e.target.value);

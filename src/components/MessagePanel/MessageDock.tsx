@@ -35,7 +35,10 @@ export function MessageDock({ bar, children, className }: MessageDockProps) {
 }
 
 export interface DockConversation {
+  /** Identificador de la fila en la lista. */
   id: string;
+  /** Id de la conversación del contrato. Si falta, se usa `id`. */
+  conversacionId?: string;
   name: string;
   preview?: string;
   avatar?: { src?: string; name?: string };
@@ -99,7 +102,7 @@ export function MessageDockBar({
                 key={c.id}
                 type="button"
                 className={styles.convoItem}
-                onClick={() => onSelect?.(c.id)}
+                onClick={() => onSelect?.(c.conversacionId ?? c.id)}
               >
                 <Avatar src={c.avatar?.src} name={c.avatar?.name ?? c.name} />
                 <span className={styles.convoText}>

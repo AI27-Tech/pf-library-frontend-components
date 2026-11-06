@@ -148,3 +148,51 @@
 .optionSelected .optionButton:hover:not(:disabled) {
   background-color: #5a7ed8;
 }
+
+/* Variante buscable */
+.searchBox {
+  cursor: text;
+}
+.searchBox:focus-within {
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+  outline: none;
+}
+.searchBox:has(.searchInput:disabled) {
+  cursor: not-allowed;
+}
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ui-color-text, #e2e8f0);
+  font: inherit;
+  cursor: text;
+}
+.searchInput:disabled {
+  cursor: not-allowed;
+}
+.searchInput::placeholder {
+  color: var(--ui-color-text-muted, #94a3b8);
+  opacity: 1;
+}
+.optionActive {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: #ffffff;
+}
+.optionDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+.optionButton.optionDisabled:hover {
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+.emptyState {
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}

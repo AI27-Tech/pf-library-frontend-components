@@ -18,3 +18,10 @@ export { MessageComposer } from "./MessageComposer";
 export type { MessageComposerProps } from "./MessageComposer";
 
 export type { Presence } from "./utils";
+
+export type {
+  AudienciaAutor,
+  EstadoConversacion,
+  Mensaje,
+  EnviarMensajeEntrada,
+} from "./types";

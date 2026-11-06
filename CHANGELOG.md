@@ -9,15 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Agregado
 
+- **`Select` con variante buscable**: nueva prop `variant="searchable"` que permite escribir para filtrar las opciones. Incluye las props `searchPlaceholder` y `noResultsText`, navegación con teclado (flechas, Enter, Escape, Tab) y atributos ARIA de combobox. La variante por defecto conserva su DOM; la única diferencia de comportamiento es la corrección listada en "Corregido". Spec en `.kiro/specs/select-buscable/`.
 - **CI (E8-T1)**: Workflow `ci.yml` que corre `lint`, `typecheck` y `test` en cada pull request y en cada push a las tres ramas del flujo (`pf-lf-m/d/q`), al estilo de los backends de la plataforma. `publish.yml` no se tocó: la publicación sigue disparándose por `release`.
 - **Flujo de ramas (E8-T1)**: Workflows `promotion-pr-dq.yml` y `promotion-pr-qm.yml`, copiados del patrón de la plataforma. Mantienen al día un PR `d → q` y otro `q → m`; derivan la rama destino del sufijo y no fusionan (merge manual).
 - **Pruebas unitarias**: Proyecto `unit` de Vitest en jsdom (independiente del proyecto `storybook`, que corre en navegador real y queda fuera del CI de PR), con `Button.test.tsx` (render, `onClick`, estado deshabilitado y `aria-busy`). Scripts `test` y `test:watch` que corren solo el proyecto `unit`, y `typecheck` (`tsc -b`).
 - **Pre-commit**: Hook de Husky (`lint-staged` + `tsc -b`) para alinear la línea base de calidad con los portales. No se introdujo Prettier en la librería (queda como decisión abierta del equipo).
 
+- **Mensajería alineada al contrato `v0.1.0-tracer.9`**: tipos `Mensaje`, `AudienciaAutor`, `EstadoConversacion` y `EnviarMensajeEntrada`. `MessageBubble` acepta `mensaje`, `aliasMostrado`, `creadoEn`, `adjuntos` y `slotAuditoria`. `MessageList` acepta `hayMas`, `onCargarAnteriores` y `ultimaSecuencia`. `MessageComposer` acepta `estadoConversacion` y `textoSoloLectura`. `DockConversation` acepta `conversacionId`. Spec en `.kiro/specs/mensajes-contrato-tracer-9/`.
+
+### Corregido
+
+- **`Select` por defecto**: un `defaultValue` con `placeholder` ya se muestra. Antes, el placeholder reemplazaba el valor inicial. Este es el único cambio de comportamiento de la variante por defecto.
+
 ### Cambiado
 
 - **`vite.config.ts`**: `test.projects` ahora declara dos proyectos (`unit` y `storybook`); antes solo `storybook`.
 - **`tsconfig.build.json`**: excluye `src/vitest-env.d.ts` del build de publicación, además de las stories y los tests, para que `dist` no lleve artefactos de prueba.
+- **`MessageComposer`**: `onSend` recibe `{ cuerpo, clientMessageId }`. El `clientMessageId` es un UUID nuevo por envío. Un callback sin parámetros sigue compilando.
+
+### Obsoleto
+
+- **`MessageBubble`**: las props `author` y `time` quedan obsoletas. Usar `aliasMostrado` y `creadoEn`. Siguen funcionando en esta beta.
 
 ## [0.2.0-beta.6] — 2026-09-28
 
