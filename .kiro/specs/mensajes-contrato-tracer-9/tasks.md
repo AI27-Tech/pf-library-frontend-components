@@ -2,52 +2,54 @@
 
 Antes de empezar, resolver D1 a D6 de `design.md`. D5 y D6 dependen de los consumidores.
 
-- [ ] 1. Confirmar decisiones D1 a D6
-  - Validar con Product Management, BFF (`pf-svc-bff`) y frontends consumidores.
-  - Confirmar que el contrato de referencia es `v0.1.0-tracer.9` y que `go.mod` del BFF apunta a esa versión o planear la subida.
+- [-] 1. Confirmar decisiones D1 a D6
+  - Implementado con las opciones recomendadas en `design.md`: D1 no importa contratos, D2 nombres en español camelCase, D3 `own` explícito, D4 `estadoConversacion`, D5 alias `author`/`time` deprecados, D6 sin subir versión.
+  - Pendiente: validar con Product Management, BFF (`pf-svc-bff`) y frontends consumidores.
+  - Confirmado: el tag `v0.1.0-tracer.9` existe y `mensajeria.yaml` contiene los schemas `Mensaje`, `PaginaMensajes`, `EnviarMensajeEntrada`, `Conversacion`, `Audiencia` y `EstadoConversacion`.
+  - Pendiente: confirmar que `go.mod` del BFF apunta a `tracer.9` o planear la subida.
   - _Requisitos: R1.5, R2.4, R5, R6_
 
-- [ ] 2. Crear el tipo `Mensaje` y tipos asociados
+- [x] 2. Crear el tipo `Mensaje` y tipos asociados
   - `src/components/MessagePanel/types.ts` con `AudienciaAutor`, `EstadoConversacion`, `Mensaje`, `EnviarMensajeEntrada`.
-  - Exportar desde `MessagePanel/index.ts` y `src/index.ts`.
+  - Exportados desde `MessagePanel/index.ts` y `src/index.ts`.
   - _Requisitos: R1.1 a R1.4_
 
-- [ ] 3. Actualizar `MessageBubble`
+- [x] 3. Actualizar `MessageBubble`
   - Props `mensaje`, `aliasMostrado`, `creadoEn`, `own`, `adjuntos`, `slotAuditoria`.
-  - Alias deprecados `author` y `time` según D5.
-  - Usar `formatSmartTimestamp` de `utils.ts`.
+  - Alias deprecados `author` y `time` (D5), con `@deprecated` en JSDoc.
+  - Fecha con `formatSmartTimestamp`. Nota: ese formateador devuelve texto en inglés ("Today", "days ago"), no en español.
   - _Requisitos: R2.1 a R2.3, R3.1, R3.2_
 
-- [ ] 4. Actualizar `MessageComposer`
-  - `onSend` recibe `EnviarMensajeEntrada`. Generar `clientMessageId` con `crypto.randomUUID()`.
+- [x] 4. Actualizar `MessageComposer`
+  - `onSend` recibe `EnviarMensajeEntrada`. `clientMessageId` con `generarClientMessageId()` (`crypto.randomUUID` con respaldo).
   - Recorte de espacios y no enviar cuerpo vacío.
-  - Prop `estadoConversacion` y texto `textoSoloLectura`.
+  - Prop `estadoConversacion` y `textoSoloLectura`.
   - _Requisitos: R5.1 a R5.4, R6.1_
 
-- [ ] 5. Actualizar `MessageList`
+- [x] 5. Actualizar `MessageList`
   - Props `hayMas`, `onCargarAnteriores`, `ultimaSecuencia`.
-  - Auto-scroll según `ultimaSecuencia` cuando se pase; comportamiento actual si no.
+  - Con `ultimaSecuencia`, el auto-scroll solo ocurre cuando cambia. Sin ella, se mantiene el comportamiento anterior.
   - _Requisitos: R4.1 a R4.3, R7.1, R7.2_
 
-- [ ] 6. Actualizar `MessageDock`
-  - Campo `conversacionId` en `DockConversation`.
+- [x] 6. Actualizar `MessageDock`
+  - Campo `conversacionId` en `DockConversation`. `onSelect` recibe `conversacionId ?? id`.
   - _Requisitos: R8.1_
 
-- [ ] 7. Pruebas unitarias
-  - Casos listados en la sección "Historias y pruebas" de `design.md`.
-  - Proyecto `unit` (`pnpm test`).
+- [x] 7. Pruebas unitarias
+  - `MessagePanel.test.tsx`: 13 pruebas nuevas. Proyecto `unit` (`pnpm test`): 36 de 36 pasan.
   - _Requisitos: R2 a R6_
 
-- [ ] 8. Migrar historias de Storybook
-  - `MessagePanel.stories.tsx`: datos al tipo `Mensaje`, historias con `Interno`, `Cliente` y `solo_lectura`.
+- [x] 8. Migrar historias de Storybook
+  - `MessagePanel.stories.tsx` usa el tipo `Mensaje`. Historias nuevas: `VistaCliente`, `VistaInternaConAuditoria`, `SoloLectura`.
   - _Requisitos: R1, R2, R6_
 
-- [ ] 9. Verificación de la librería
-  - `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib` en código 0.
-  - Revisar que `dist/index.d.ts` expone `Mensaje`, `AudienciaAutor`, `EstadoConversacion`, `EnviarMensajeEntrada`.
+- [x] 9. Verificación de la librería
+  - `pnpm lint` (sobre `src`), `pnpm typecheck`, `pnpm test` y `pnpm build:lib` pasan.
+  - `dist/index.d.ts` exporta `Mensaje`, `AudienciaAutor`, `EstadoConversacion` y `EnviarMensajeEntrada`.
+  - Nota: `pnpm lint` sin argumentos recorre `dist/` y `storybook-static/` después de un build y falla con reglas no encontradas. Es un problema de configuración de ESLint aparte de esta spec.
   - _Requisitos: R1.1, R1.2_
 
-- [ ] 10. CHANGELOG y versión
-  - Entrada en `CHANGELOG.md` con el mapeo de campos (sección "Changed" y "Added").
-  - Subir a la beta siguiente si D6 se aprueba.
+- [-] 10. CHANGELOG y versión
+  - Entradas en `CHANGELOG.md` (Unreleased): Agregado, Cambiado y Obsoleto.
+  - Versión no subida: D6 sigue pendiente. Subir a `0.2.0-beta.7` cuando se apruebe.
   - _Requisitos: Compatibilidad_

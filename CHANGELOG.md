@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Pruebas unitarias**: Proyecto `unit` de Vitest en jsdom (independiente del proyecto `storybook`, que corre en navegador real y queda fuera del CI de PR), con `Button.test.tsx` (render, `onClick`, estado deshabilitado y `aria-busy`). Scripts `test` y `test:watch` que corren solo el proyecto `unit`, y `typecheck` (`tsc -b`).
 - **Pre-commit**: Hook de Husky (`lint-staged` + `tsc -b`) para alinear la línea base de calidad con los portales. No se introdujo Prettier en la librería (queda como decisión abierta del equipo).
 
+- **Mensajería alineada al contrato `v0.1.0-tracer.9`**: tipos `Mensaje`, `AudienciaAutor`, `EstadoConversacion` y `EnviarMensajeEntrada`. `MessageBubble` acepta `mensaje`, `aliasMostrado`, `creadoEn`, `adjuntos` y `slotAuditoria`. `MessageList` acepta `hayMas`, `onCargarAnteriores` y `ultimaSecuencia`. `MessageComposer` acepta `estadoConversacion` y `textoSoloLectura`. `DockConversation` acepta `conversacionId`. Spec en `.kiro/specs/mensajes-contrato-tracer-9/`.
+
 ### Corregido
 
 - **`Select` por defecto**: un `defaultValue` con `placeholder` ya se muestra. Antes, el placeholder reemplazaba el valor inicial. Este es el único cambio de comportamiento de la variante por defecto.
@@ -23,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`vite.config.ts`**: `test.projects` ahora declara dos proyectos (`unit` y `storybook`); antes solo `storybook`.
 - **`tsconfig.build.json`**: excluye `src/vitest-env.d.ts` del build de publicación, además de las stories y los tests, para que `dist` no lleve artefactos de prueba.
+- **`MessageComposer`**: `onSend` recibe `{ cuerpo, clientMessageId }`. El `clientMessageId` es un UUID nuevo por envío. Un callback sin parámetros sigue compilando.
+
+### Obsoleto
+
+- **`MessageBubble`**: las props `author` y `time` quedan obsoletas. Usar `aliasMostrado` y `creadoEn`. Siguen funcionando en esta beta.
 
 ## [0.2.0-beta.6] — 2026-09-28
 

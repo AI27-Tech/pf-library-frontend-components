@@ -92,6 +92,10 @@ export type {
   MessageBubbleProps,
   MessageComposerProps,
   Presence,
+  AudienciaAutor,
+  EstadoConversacion,
+  Mensaje,
+  EnviarMensajeEntrada,
 } from "./components/MessagePanel";
 
 // Table
