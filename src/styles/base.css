@@ -1,0 +1,167 @@
+/**
+ * Global base styles for the UI library.
+ *
+ * Applied app-wide: sets the Inter font family, normalizes text rendering,
+ * box-sizing, and enables tabular figures for telemetry-heavy interfaces.
+ *
+ * The Inter font itself must be loaded by the consuming app (e.g. via
+ * next/font, @fontsource/inter, or a <link>). This file only references it
+ * through --ui-font-family, falling back to the system UI font.
+ *
+ * Loaded automatically via the library entry point.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--ui-font-family, ui-sans-serif, system-ui, sans-serif);
+  font-size: 16px;
+  line-height: var(--ui-line-height, 1.4);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+body {
+  margin: 0;
+  font-family: inherit;
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  line-height: inherit;
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface-muted, #0e1117);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: var(--ui-font-feature-numeric, normal);
+  font-synthesis: none;
+}
+
+/* Form controls inherit the font instead of the UA default. */
+button,
+input,
+select,
+textarea,
+optgroup {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Sensible defaults for headings and paragraphs without hard resets. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Respect users who prefer reduced motion: minimize animations app-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Numeric fields keep tabular figures for jitter-free telemetry. */
+[type="number"],
+.ui-tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: var(--ui-font-feature-numeric, "tnum");
+}
+
+/* ── Typography utility classes (optional) ───────────────────────────────
+   Map to the AI27 type scale for consistent headings/labels. */
+.ui-text-display-lg {
+  font-size: var(--ui-text-display-lg-size);
+  line-height: var(--ui-text-display-lg-line);
+  font-weight: var(--ui-text-display-lg-weight);
+  letter-spacing: var(--ui-text-display-lg-tracking);
+}
+
+.ui-text-headline-lg {
+  font-size: var(--ui-text-headline-lg-size);
+  line-height: var(--ui-text-headline-lg-line);
+  font-weight: var(--ui-text-headline-lg-weight);
+  letter-spacing: var(--ui-text-headline-lg-tracking);
+}
+
+.ui-text-headline-sm {
+  font-size: var(--ui-text-headline-sm-size);
+  line-height: var(--ui-text-headline-sm-line);
+  font-weight: var(--ui-text-headline-sm-weight);
+  letter-spacing: var(--ui-text-headline-sm-tracking);
+}
+
+.ui-text-title-md {
+  font-size: var(--ui-text-title-md-size);
+  line-height: var(--ui-text-title-md-line);
+  font-weight: var(--ui-text-title-md-weight);
+}
+
+.ui-text-body-md {
+  font-size: var(--ui-text-body-md-size);
+  line-height: var(--ui-text-body-md-line);
+  font-weight: var(--ui-text-body-md-weight);
+}
+
+.ui-text-body-sm {
+  font-size: var(--ui-text-body-sm-size);
+  line-height: var(--ui-text-body-sm-line);
+  font-weight: var(--ui-text-body-sm-weight);
+}
+
+.ui-text-label-md {
+  font-size: var(--ui-text-label-md-size);
+  line-height: var(--ui-text-label-md-line);
+  font-weight: var(--ui-text-label-md-weight);
+  letter-spacing: var(--ui-text-label-md-tracking);
+  text-transform: uppercase;
+}
+
+.ui-text-label-sm {
+  font-size: var(--ui-text-label-sm-size);
+  line-height: var(--ui-text-label-sm-line);
+  font-weight: var(--ui-text-label-sm-weight);
+  letter-spacing: var(--ui-text-label-sm-tracking);
+  text-transform: uppercase;
+}
+
+.ui-text-telemetry-lg {
+  font-size: var(--ui-text-telemetry-lg-size);
+  line-height: var(--ui-text-telemetry-lg-line);
+  font-weight: var(--ui-text-telemetry-lg-weight);
+  letter-spacing: var(--ui-text-telemetry-lg-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-text-telemetry-sm {
+  font-size: var(--ui-text-telemetry-sm-size);
+  line-height: var(--ui-text-telemetry-sm-line);
+  font-weight: var(--ui-text-telemetry-sm-weight);
+  letter-spacing: var(--ui-text-telemetry-sm-tracking);
+  font-variant-numeric: tabular-nums;
+}

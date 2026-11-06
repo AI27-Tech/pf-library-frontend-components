@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-3, 0.75rem);
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.count {
+  white-space: nowrap;
+}
