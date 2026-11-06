@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Agregado
+
+- **`FilterBar`**: `FilterDefinition` acepta `variant` (`"searchable"` para filtrar escribiendo), `searchPlaceholder` y `noResultsText`, que se pasan al `Select`. Sin `variant`, el comportamiento no cambia.
+
+### Corregido
+
+- **`eslint.config.js`**: `storybook-static` queda excluido del lint, igual que `dist`. `pnpm lint` completo ya no falla por artefactos de build.
+- **`formatSmartTimestamp`**: una fecha inválida devuelve cadena vacía en lugar de `NaN`.
+
 ## [0.2.0-beta.7] — 2026-11-06
 
 ### Agregado

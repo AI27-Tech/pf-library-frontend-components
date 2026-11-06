@@ -34,7 +34,7 @@ export interface SelectProps {
   selectRef?: Ref<HTMLDivElement>;
   /** Variante. "searchable" permite escribir para filtrar las opciones. Por defecto: "default". */
   variant?: SelectVariant;
-  /** Placeholder del campo de búsqueda. Solo para la variante "searchable". Por defecto: "Buscar...". */
+  /** Placeholder del campo de búsqueda. Solo para la variante "searchable". Tiene prioridad sobre `placeholder`. Por defecto: "Buscar..." (o `placeholder` si se pasa). */
   searchPlaceholder?: string;
   /** Texto cuando ninguna opción coincide. Solo para la variante "searchable". Por defecto: "Sin resultados". */
   noResultsText?: string;

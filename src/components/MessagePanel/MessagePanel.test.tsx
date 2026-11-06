@@ -45,6 +45,12 @@ describe('MessageBubble con Mensaje', () => {
     expect(screen.getByText('auditoria-visible')).toBeInTheDocument();
   });
 
+  it('no muestra fecha cuando creadoEn no es válida', () => {
+    const { container } = render(<MessageBubble creadoEn="no-es-fecha">Hola</MessageBubble>);
+    expect(container.textContent).not.toContain('NaN');
+    expect(container.textContent).toBe('Hola');
+  });
+
   it('sigue aceptando los alias deprecados author y time', () => {
     render(<MessageBubble author="Escolta 07" time="10:42">Recibido.</MessageBubble>);
     expect(screen.getByText('Escolta 07')).toBeInTheDocument();

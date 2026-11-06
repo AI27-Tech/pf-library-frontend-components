@@ -42,7 +42,7 @@ export function SelectSearchable({
   disabled,
   className,
   selectRef,
-  searchPlaceholder = "Buscar...",
+  searchPlaceholder,
   noResultsText = "Sin resultados",
 }: SelectSearchableProps) {
   const listboxId = useId();
@@ -168,7 +168,7 @@ export function SelectSearchable({
           role="combobox"
           className={selectStyles.searchInput}
           value={displayText}
-          placeholder={placeholder ?? searchPlaceholder}
+          placeholder={searchPlaceholder ?? placeholder ?? "Buscar..."}
           disabled={disabled}
           aria-expanded={isOpen}
           aria-controls={listboxId}
