@@ -6,7 +6,7 @@ Antes de empezar, resolver D1 y D2 de `design.md`.
   - D1: corregir en esta spec. D2: textos por defecto en español.
   - _Requisitos: R7, R2.5_
 
-- [ ] 0. Línea base de consumidores (antes de tocar código)
+- [x] 0. Línea base de consumidores (antes de tocar código). Hecho: `pnpm test` en `pf-web-frontend-internal` da 478 pruebas pasando y 1 fallando (`tests/contracts/sesion.test.ts`, ajena a `Select`). Los tests nombrados aquí (`BandejaViajes`, etc.) no existen como unitarios.
   - Correr en `pf-web-frontend-internal` los tests de `BandejaViajes`, `DashboardMonitoreo`, `CrearViaje` e `HistoricoViaje` contra la versión actual de la librería. Guardar el resultado.
   - Si ya fallan antes del cambio, anotarlo: no es regresión de esta spec.
   - _Requisitos: R8.3_
@@ -48,17 +48,17 @@ Antes de empezar, resolver D1 y D2 de `design.md`.
   - Proyecto `unit` (`pnpm test`).
   - _Requisitos: R2 a R6_
 
-- [x] 9. Storybook (historias añadidas; revisión visual en Storybook pendiente)
+- [x] 9. Storybook (historias añadidas; `build-storybook` pasa; revisión visual en Storybook pendiente, requiere revisión humana)
   - Historias `Searchable`, `SearchableWithoutResults`, `SearchableDisabledOptions` en `Select.stories.tsx`.
   - Verificar en modo oscuro (`DarkMode` existente) que no cambian colores.
   - _Requisitos: R5.2_
 
-- [x] 10. Verificación de la librería (`test`, `typecheck` y `lint` pasan; `build:lib` pendiente)
+- [x] 10. Verificación de la librería (`test`, `typecheck`, `lint` y `build:lib` pasan)
   - `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib` en código 0.
   - Revisar la lista de verificación de `components-library-steering.md`, sección 8.
   - _Requisitos: R5_
 
-- [ ] 12. Regresión de consumidores (ahora obligatoria: D1 cambia el comportamiento por defecto)
+- [-] 12. Regresión de consumidores. Revisión estática hecha: ninguno de los 9 usos de `Select` en `pf-web-frontend-internal` y `pf-web-frontend-client` usa `defaultValue`; los que tienen `placeholder` son controlados (`value=`), y `value` tiene prioridad. Prueba en ejecución pendiente: los frontends consumen `@ai27-tech/ui` publicado (0.2.0-beta.6), no el repo local, así que no pueden probar D1 sin vincular la librería.
   - Verificar que el disparador de la variante por defecto conserva el DOM de hoy (`button`, clase `_trigger_`, nombre accesible). Comparar contra la línea base de la tarea 0.
   - Correr en `pf-web-frontend-internal` los tests de la tarea 0 contra la librería modificada, sin tocar esos tests.
   - Si D1 se aprueba, revisar `defaultValue` junto con `placeholder` en el frontend interno y el cliente (búsqueda previa sin resultados).
