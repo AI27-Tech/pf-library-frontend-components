@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import { Grid3x3, List } from "lucide-react";
-import { Select, type SelectOption } from "../Input/Select";
+import { Select, type SelectOption, type SelectVariant } from "../Input/Select";
 import { Button } from "../Button";
 import styles from "./FilterBar.module.css";
 
@@ -19,6 +19,12 @@ export interface FilterDefinition {
   placeholder?: string;
   /** Icono u visual opcional */
   icon?: ReactNode;
+  /** Variante del select. "searchable" permite escribir para filtrar. Por defecto: "default". */
+  variant?: SelectVariant;
+  /** Placeholder del campo de búsqueda. Solo para la variante "searchable". */
+  searchPlaceholder?: string;
+  /** Texto cuando ninguna opción coincide. Solo para la variante "searchable". */
+  noResultsText?: string;
 }
 
 export type FilterValues = Record<string, string>;
@@ -195,6 +201,9 @@ export function FilterBar({
               <Select
                 className={styles.filterSelect}
                 options={filter.options}
+                variant={filter.variant}
+                searchPlaceholder={filter.searchPlaceholder}
+                noResultsText={filter.noResultsText}
                 placeholder={filter.placeholder ?? "Todos"}
                 value={filterValues[filter.key] ?? ""}
                 onChange={(valor) => onFilterChange?.(filter.key, String(valor))}
