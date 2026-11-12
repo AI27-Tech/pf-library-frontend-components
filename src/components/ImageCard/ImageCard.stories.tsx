@@ -251,3 +251,19 @@ export const AudioCard: Story = {
     ),
   },
 };
+
+/**
+ * Mientras la imagen carga, la tarjeta muestra un placeholder `Skeleton` sobre el área
+ * de imagen. Se retira en cuanto la imagen carga o falla.
+ *
+ * Esta story usa una dirección no enrutable (rango TEST-NET-1, RFC 5737). La conexión
+ * no se completa, así que el placeholder queda visible. Es un recurso de documentación:
+ * con una imagen real, el placeholder dura lo que tarde la carga.
+ */
+export const CargandoImagen: Story = {
+  args: {
+    src: "http://192.0.2.1/imagen-en-carga.jpg",
+    title: "Imagen en carga",
+    subtitle: "El placeholder se retira al cargar",
+  },
+};
