@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Cambiado
 - **`Table` con `loading`**: muestra filas en skeleton que conservan las columnas, la selección y la expansión, en lugar de un spinner. El checkbox de seleccionar todo queda deshabilitado mientras carga. Se quitó el spinner y su CSS de `Table.module.css`.
+- **`ImageCard`** (y `ImageGrid`, que la usa): mientras la imagen carga, muestra un placeholder `Skeleton` sobre el area de imagen. Si la imagen falla, el placeholder se retira. No cambian las props.
 
 ## [0.2.0-beta.8] — 2026-11-06
 

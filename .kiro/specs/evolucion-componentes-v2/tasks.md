@@ -63,7 +63,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 7.3 Quitar el spinner y su CSS de `Table.module.css`; verificar que no queda código muerto.
   - _Requisitos: R5_
 
-- [ ] 8. (Opcional) Placeholder de imagen en `ImageCard` / `ImageGrid` _Pendiente de decisión: exige estado interno en `ImageCard` para ocultar el skeleton tras `onLoad`; no se implementó._
+- [x] 8. (Opcional) Placeholder de imagen en `ImageCard` / `ImageGrid` _Hecho: placeholder en `ImageCard` mientras carga, sin cambios de props. Verificado en Chromium: carga lenta, error 404 y sin src._
   - Leer ambos componentes primero. Si se puede mostrar un `Skeleton` hasta el `onLoad` de la imagen sin cambiar props existentes, hacerlo; si no, registrarlo como fuera de alcance en el CHANGELOG.
 
 - [x] 9. Stories y cierre de P2
