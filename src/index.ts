@@ -57,7 +57,7 @@ export type {
 
 // FilterBar
 export { FilterBar } from "./components/FilterBar";
-export type { FilterBarProps, FilterDefinition, FilterValues } from "./components/FilterBar";
+export type { FilterBarProps, FilterBarLabels, FilterDefinition, FilterValues } from "./components/FilterBar";
 
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from "./components/Card";
@@ -122,6 +122,7 @@ export type {
 export { Table } from "./components/Table";
 export type {
   TableProps,
+  TableLabels,
   Column,
   SortState,
   SortDirection,
@@ -142,7 +143,7 @@ export type {
 
 // FilterTable
 export { FilterTable } from "./components/FilterTable";
-export type { FilterTableProps } from "./components/FilterTable";
+export type { FilterTableProps, FilterTableLabels } from "./components/FilterTable";
 
 // Navbar
 export { Navbar, NavbarLink } from "./components/Navbar";

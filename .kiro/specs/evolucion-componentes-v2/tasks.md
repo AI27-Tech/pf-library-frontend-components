@@ -216,40 +216,40 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
 
 ## P6. Tablas y filtros
 
-- [ ] 27. `Table`: estilo
-  - [ ] 27.1 `stickyHeader` con sombra de scroll horizontal.
-  - [ ] 27.2 `striped` (por defecto `true`).
-  - [ ] 27.3 Selección con `Checkbox` de la librería.
-  - [ ] 27.4 Indicador de orden con estado neutro en columnas ordenables.
-  - [ ] 27.5 Separadores con `--ui-color-divider`.
-  - [ ] 27.6 Animación de entrada del panel expandido, sin movimiento con `prefers-reduced-motion`.
-  - [ ] 27.7 `Column.minWidth` y `Column.truncate`.
+- [x] 27. `Table`: estilo
+  - [x] 27.1 `stickyHeader` con sombra de scroll horizontal. _Sombra solo con CSS (`background-attachment: local/scroll`), sin listener de scroll; el diseño lo proponía con JS. Pendiente revisión visual en Storybook._
+  - [x] 27.2 `striped` (por defecto `true`).
+  - [x] 27.3 Selección con `Checkbox` de la librería.
+  - [x] 27.4 Indicador de orden con estado neutro en columnas ordenables.
+  - [x] 27.5 Separadores con `--ui-color-divider`.
+  - [x] 27.6 Animación de entrada del panel expandido, sin movimiento con `prefers-reduced-motion`.
+  - [x] 27.7 `Column.minWidth` y `Column.truncate`.
   - _Requisitos: R20.1 a R20.6, R20.8_
 
-- [ ] 28. `Table`: barra de acciones masivas, vacío y textos
-  - [ ] 28.1 `bulkActions` con contador y `aria-live="polite"`.
-  - [ ] 28.2 `emptyState` por defecto con `EmptyState`.
-  - [ ] 28.3 `labels` con defaults en español (D4).
+- [x] 28. `Table`: barra de acciones masivas, vacío y textos
+  - [x] 28.1 `bulkActions` con contador y `aria-live="polite"`. _El contador dice "N seleccionadas" (femenino, como en el diseño), no "N seleccionados" como dice R20.7. Confirmar cuál se quiere._
+  - [x] 28.2 `emptyState` por defecto con `EmptyState`.
+  - [x] 28.3 `labels` con defaults en español (D4). `TableLabels` exportado. `loading` se usa como `aria-label` de la tabla mientras carga, si no se pasa uno.
   - _Requisitos: R20.7, R20.9, R20.10_
 
-- [ ] 29. `FilterBar`
-  - [ ] 29.1 `layout="panel"` conserva DOM y clases; aplicar chips con icono SVG, control activo resaltado y etiquetas alineadas con `FormField`.
-  - [ ] 29.2 `layout="toolbar"` con botón "Filtros (n)" y `Popover`.
-  - [ ] 29.3 `labels` en español y `loading`.
-  - [ ] 29.4 Actualizar `FilterBar.test.tsx` si los textos cambian.
+- [x] 29. `FilterBar`
+  - [x] 29.1 `layout="panel"` conserva DOM y clases; aplicar chips con icono SVG, control activo resaltado y etiquetas alineadas con `FormField`. _Se agregó `data-active`-equivalente como clase `filterSelectActive` en el control. Las etiquetas usan el tamaño y peso de `FormField`. Sin `htmlFor`, para no cambiar el nombre accesible de los selects._
+  - [x] 29.2 `layout="toolbar"` con botón "Filtros (n)" y `Popover`. _Incluye búsqueda y selector de vista. Los chips quedan debajo de la barra._
+  - [x] 29.3 `labels` en español y `loading`.
+  - [x] 29.4 Actualizar `FilterBar.test.tsx` si los textos cambian. _Los textos existentes siguen igual, así que el archivo no cambió. Se verificó con una prueba temporal de `toolbar` y `loading` que se eliminó._
   - _Requisitos: R21.1 a R21.5_
 
-- [ ] 30. `FilterTable`
-  - [ ] 30.1 Pasar `filters` completos a `FilterBar` (D5).
-  - [ ] 30.2 `filterLayout`, `labels`, `loading`, conteo "resultado" / "resultados".
-  - [ ] 30.3 Stories: actualizar `Table.stories.tsx` y `FilterTable.stories.tsx`, y crear `FilterBar.stories.tsx` (hoy no existe), en ambos `layout`, con carga, vacío, selección con acciones masivas, encabezado fijo, filtros activos y filtro buscable.
+- [x] 30. `FilterTable`
+  - [x] 30.1 Pasar `filters` completos a `FilterBar` (D5). _Ahora se pasan tal cual, con el fallback `label || placeholder || key`. Antes se perdían `variant`, `searchPlaceholder`, `noResultsText` e `icon`._
+  - [x] 30.2 `filterLayout`, `labels`, `loading`, conteo "resultado" / "resultados". _`labels` es `FilterTableLabels`. Los textos de `Table` van en `tableLabels`, porque `labels` de `TableProps` ya tiene otro tipo._
+  - [x] 30.3 Stories: actualizar `Table.stories.tsx` y `FilterTable.stories.tsx`, y crear `FilterBar.stories.tsx` (hoy no existe), en ambos `layout`, con carga, vacío, selección con acciones masivas, encabezado fijo, filtros activos y filtro buscable. _Las stories pendientes de 27 y 28 también quedan cubiertas aquí. Pendiente revisión visual en Storybook._
   - _Requisitos: R21.6, R21.7_
 
-- [ ] 31. Cierre de P6
-  - [ ] 31.1 Buscar en los consumidores (`pf-web-frontend-*`) pruebas o código que dependan de los textos en inglés ("No data to display.", "Select all rows", "Search...", "result").
-  - [ ] 31.2 Probar el build local en `pf-web-frontend-internal` (`FichaEditor`, `Catalogos`).
-  - [ ] 31.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 31.4 CHANGELOG: "Agregado", y "Cambiado" para textos en español y `Table loading`.
+- [-] 31. Cierre de P6
+  - [x] 31.1 Buscar en los consumidores (`pf-web-frontend-*`) pruebas o código que dependan de los textos en inglés ("No data to display.", "Select all rows", "Search...", "result"). _Búsqueda en `src` y `tests` de los tres consumidores: ningún texto cambiado aparece. `BandejaViajes.test.tsx` busca el botón con `/limpiar|clear/i`, y sigue encontrando "Limpiar todos los filtros"._
+  - [ ] 31.2 Probar el build local en `pf-web-frontend-internal` (`FichaEditor`, `Catalogos`). _Pendiente: el consumidor usa `@ai27-tech/ui` desde `node_modules`, no el build local de esta librería._
+  - [x] 31.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`. _Todos pasan: 89 pruebas, build de la librería y build de Storybook sin errores._
+  - [x] 31.4 CHANGELOG: "Agregado", y "Cambiado" para textos en español y `Table loading`.
 
 ## P7. Badges
 
