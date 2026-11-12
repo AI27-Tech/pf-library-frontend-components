@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Agregado
+- **`Popover`**: contenedor flotante anclado a un elemento. Se renderiza en un portal a `document.body` con `position: fixed`, abre `bottom`, `top` o `auto`, se ajusta al viewport, se reposiciona en scroll y resize, y se cierra con clic fuera o `Escape`. Acepta `align`, `offset`, `matchAnchorWidth` y `role`. Usa el token `--ui-z-popover`.
+- **Clase `.ui-sr-only`** en `base.css`: texto visible solo para lectores de pantalla.
 
 ## [0.2.0-beta.8] — 2026-11-06
 

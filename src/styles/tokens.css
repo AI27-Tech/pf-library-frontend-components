@@ -115,6 +115,7 @@
 
   /* Z-index */
   --ui-z-modal: 1000;
+  --ui-z-popover: 1100;
 
   /* ── Component-specific sizing tokens ──────────────────────────────────
      Used for consistent dimensions across component families. */

@@ -34,6 +34,9 @@ export type { BadgeProps, BadgeVariant } from "./components/Badge";
 // Tooltip
 export { Tooltip } from "./components/Tooltip";
 export type { TooltipProps } from "./components/Tooltip";
+// Popover
+export { Popover } from "./components/Popover";
+export type { PopoverProps } from "./components/Popover";
 
 // FilterBar
 export { FilterBar } from "./components/FilterBar";

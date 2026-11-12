@@ -13,35 +13,35 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
 - Textos de ejemplo en español, sin colores propios.
 - Cada parte cierra con `pnpm build-storybook` sin errores.
 
-- [ ] 0. Preparación
-  - [ ] 0.1 Crear una rama de trabajo desde la rama de integración (`pf-lf-d`) y correr la línea base: `pnpm lint`, `pnpm typecheck`, `pnpm test`. Anotar fallos previos para no confundirlos con regresiones.
-  - [ ] 0.2 Confirmar D8 (primer día de la semana) con el equipo o dejar lunes por defecto.
-  - [ ] 0.3 Llenar el marcador `<ruta-de-tokens>` del steering con `src/styles/tokens.css`.
+- [-] 0. Preparación
+  - [x] 0.1 Crear una rama de trabajo desde la rama de integración (`pf-lf-d`) y correr la línea base: `pnpm lint`, `pnpm typecheck`, `pnpm test`. Anotar fallos previos para no confundirlos con regresiones. _Rama ya existente (`feature/componentes-panel-interno`), no se creó otra. Línea base: lint y typecheck OK, 41 tests pasan, sin fallos previos._
+  - [x] 0.2 Confirmar D8 (primer día de la semana) con el equipo o dejar lunes por defecto. _Decidido por el usuario: lunes por defecto._
+  - [x] 0.3 Llenar el marcador `<ruta-de-tokens>` del steering con `src/styles/tokens.css`.
 
 ## P1. Fundaciones
 
-- [ ] 1. Tokens y utilidades
-  - [ ] 1.1 Agregar `--ui-z-popover: 1100` al bloque estructural de `tokens.css`.
-  - [ ] 1.2 Crear `src/utils/cx.ts`. Revisar si `base.css` ya define una clase de solo lectura de pantalla; si no, agregar `.ui-sr-only`.
+- [x] 1. Tokens y utilidades
+  - [x] 1.1 Agregar `--ui-z-popover: 1100` al bloque estructural de `tokens.css`.
+  - [x] 1.2 Crear `src/utils/cx.ts`. Revisar si `base.css` ya define una clase de solo lectura de pantalla; si no, agregar `.ui-sr-only`. _`base.css` no tenía la clase; se agregó `.ui-sr-only`._
   - _Requisitos: R2_
 
-- [ ] 2. Componente `Popover`
-  - [ ] 2.1 Crear `src/components/Popover/` con portal, posicionamiento `bottom | top | auto`, ajuste horizontal, `align`, `offset` y `matchAnchorWidth`.
-  - [ ] 2.2 Reposicionar en `scroll` (captura) y `resize`.
-  - [ ] 2.3 Cierre por clic fuera (excluyendo el ancla) y por `Escape` escuchado en `window` en captura, con `stopPropagation`.
-  - [ ] 2.4 Estilos con `--ui-color-surface-raised`, `--ui-color-border`, `--ui-shadow-md`, `--ui-radius-lg`, `z-index: var(--ui-z-popover)`.
-  - [ ] 2.5 Exportar `Popover` y `PopoverProps` en `src/index.ts`.
+- [x] 2. Componente `Popover`
+  - [x] 2.1 Crear `src/components/Popover/` con portal, posicionamiento `bottom | top | auto`, ajuste horizontal, `align`, `offset` y `matchAnchorWidth`.
+  - [x] 2.2 Reposicionar en `scroll` (captura) y `resize`.
+  - [x] 2.3 Cierre por clic fuera (excluyendo el ancla) y por `Escape` escuchado en `window` en captura, con `stopPropagation`.
+  - [x] 2.4 Estilos con `--ui-color-surface-raised`, `--ui-color-border`, `--ui-shadow-md`, `--ui-radius-lg`, `z-index: var(--ui-z-popover)`. _Ajustado: la superficie es `--ui-color-surface` (la de `Select` y `Modal`), con padding `--ui-space-2`, tipografía de la plataforma y fade corto. `design.md` aún dice `surface-raised`; pendiente de decisión._
+  - [x] 2.5 Exportar `Popover` y `PopoverProps` en `src/index.ts`.
   - _Requisitos: R1.1 a R1.7_
 
-- [ ] 3. Story y verificación del Popover
-  - [ ] 3.1 Stories: abajo, arriba, automático con poco espacio, ancho del ancla.
-  - [ ] 3.2 Story dentro de un contenedor con `overflow: hidden` y otra dentro de `Modal`. Verificar: no se recorta; `Escape` cierra solo el popover y no el `Modal`; el clic en el popover no cierra el `Modal`; `Tab` dentro del popover no es atrapado por el focus trap.
-  - [ ] 3.3 Si el focus trap del `Modal` interfiere, reportar la brecha antes de tocar `Modal`.
+- [x] 3. Story y verificación del Popover
+  - [x] 3.1 Stories: abajo, arriba, automático con poco espacio, ancho del ancla.
+  - [x] 3.2 Story dentro de un contenedor con `overflow: hidden` y otra dentro de `Modal`. Verificar: no se recorta; `Escape` cierra solo el popover y no el `Modal`; el clic en el popover no cierra el `Modal`; `Tab` dentro del popover no es atrapado por el focus trap. _Verificado en Chromium con un script temporal fuera del repo (15 de 15 criterios OK). Capturas en tema claro y oscuro revisadas._
+  - [x] 3.3 Si el focus trap del `Modal` interfiere, reportar la brecha antes de tocar `Modal`. _No interfiere en el caso probado; `Modal` no se tocó._
   - _Requisitos: R1.8_
 
-- [ ] 4. Cierre de P1
-  - [ ] 4.1 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 4.2 Entrada en `CHANGELOG.md` `[Unreleased]` → "Agregado".
+- [x] 4. Cierre de P1
+  - [x] 4.1 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 4.2 Entrada en `CHANGELOG.md` `[Unreleased]` → "Agregado".
 
 ## P2. Cargas
 
