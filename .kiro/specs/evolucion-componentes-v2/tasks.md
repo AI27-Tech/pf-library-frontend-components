@@ -400,45 +400,45 @@ Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisi
 
 ## P9. Timeline
 
-- [ ] 51. Núcleo
-  - [ ] 51.1 `src/components/Timeline/` con tipos, `<ol>`/`<li>`, estado, texto para lectores y `<time>`.
-  - [ ] 51.2 CSS vertical con conector posicionado respecto del `li`.
-  - [ ] 51.3 CSS horizontal con reparto uniforme, `minItemWidth`, scroll, `scroll-snap` y atenuado de bordes.
-  - [ ] 51.4 Variante `alternate` en ambas orientaciones.
+- [x] 51. Núcleo
+  - [x] 51.1 `src/components/Timeline/` con tipos, `<ol>`/`<li>`, estado, texto para lectores y `<time>`.
+  - [x] 51.2 CSS vertical con conector posicionado respecto del `li`.
+  - [x] 51.3 CSS horizontal con reparto uniforme, `minItemWidth`, scroll, `scroll-snap` y atenuado de bordes.
+  - [x] 51.4 Variante `alternate` en ambas orientaciones.
   - _Requisitos: R33, R34.1 a R34.3, R34.5_
 
-- [ ] 52. Responsividad
-  - [ ] 52.1 `ResizeObserver` sobre el contenedor: ancho y desbordamiento (con guardia si no existe).
-  - [ ] 52.2 `stackBelow`: orientación efectiva.
-  - [ ] 52.3 Centrar el punto `current` cuando hay scroll.
-  - [ ] 52.4 `@container (min-width: 40rem)` para la alternada vertical.
+- [x] 52. Responsividad
+  - [x] 52.1 `ResizeObserver` sobre el contenedor: ancho y desbordamiento (con guardia si no existe).
+  - [x] 52.2 `stackBelow`: orientación efectiva.
+  - [x] 52.3 Centrar el punto `current` cuando hay scroll.
+  - [x] 52.4 `@container (min-width: 40rem)` para la alternada vertical.
   - _Requisitos: R34.2 a R34.4_
 
-- [ ] 53. Estados y estilo
-  - [ ] 53.1 Marcadores y conectores por estado con tokens existentes.
-  - [ ] 53.2 Iconos por defecto de Lucide (`Check`, `X`, `TriangleAlert`) e `icon` personalizado.
-  - [ ] 53.3 Tamaños `sm | md | lg`.
-  - [ ] 53.4 Anillo con pulso en `current`, sin movimiento con `prefers-reduced-motion`.
-  - [ ] 53.5 `onItemClick` con botón, hover y foco visible.
+- [x] 53. Estados y estilo
+  - [x] 53.1 Marcadores y conectores por estado con tokens existentes.
+  - [x] 53.2 Iconos por defecto de Lucide (`Check`, `X`, `TriangleAlert`) e `icon` personalizado.
+  - [x] 53.3 Tamaños `sm | md | lg`.
+  - [x] 53.4 Anillo con pulso en `current`, sin movimiento con `prefers-reduced-motion`.
+  - [x] 53.5 `onItemClick` con botón, hover y foco visible.
   - _Requisitos: R33.5, R35_
 
 - [ ] 54. N puntos y casos límite
-  - [ ] 54.1 `maxVisible` con "Mostrar n más" / "Mostrar menos" (`aria-expanded`).
-  - [ ] 54.2 `reverse` sin alterar los datos.
-  - [ ] 54.3 `loading` con `Skeleton` y `emptyState`.
+  - [x] 54.1 `maxVisible` con "Mostrar n más" / "Mostrar menos" (`aria-expanded`).
+  - [x] 54.2 `reverse` sin alterar los datos.
+  - [x] 54.3 `loading` con `Skeleton` y `emptyState`.
   - [ ] 54.4 Verificar a mano 0, 1, 2, 3, 12 y 100 puntos en ambas orientaciones, y un título de 200 caracteres sin espacios.
   - _Requisitos: R34.6 a R34.9, R35.6_
 
-- [ ] 55. Stories (R24)
-  - [ ] 55.1 Vertical, horizontal, alternada (ambas), 1, 3, 12 y 100 puntos, `maxVisible`, `reverse`, `stackBelow`, cargando, vacío, tamaños, estados, iconos propios, `onItemClick`, ancho angosto.
-  - [ ] 55.2 Ejemplo "Historial de estados del viaje" con los estados de `viaje.estados.yaml`.
+- [x] 55. Stories (R24)
+  - [x] 55.1 Vertical, horizontal, alternada (ambas), 1, 3, 12 y 100 puntos, `maxVisible`, `reverse`, `stackBelow`, cargando, vacío, tamaños, estados, iconos propios, `onItemClick`, ancho angosto.
+  - [x] 55.2 Ejemplo "Historial de estados del viaje" con los estados de `viaje.estados.yaml`.
   - _Requisitos: R36.1_
 
 - [ ] 56. Cierre de P9
-  - [ ] 56.1 Exportar `Timeline` y sus tipos en `src/index.ts`.
+  - [x] 56.1 Exportar `Timeline` y sus tipos en `src/index.ts`.
   - [ ] 56.2 Revisión con el teclado (Tab sobre puntos clickables) y con el panel de accesibilidad.
-  - [ ] 56.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 56.4 `CONSUMING.md` y CHANGELOG "Agregado".
+  - [x] 56.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 56.4 `CONSUMING.md` y CHANGELOG "Agregado".
   - _Requisitos: R36.2, R36.3_
 
 ## Cierre final

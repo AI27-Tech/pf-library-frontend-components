@@ -360,3 +360,24 @@ La librería solo muestra lo que recibe. El consumidor decide qué botones apare
 | Override de supervisor | Cerrado en V1: el envío no lleva `motivo_override` | DEC-107 |
 
 Errores del servidor: `409` por conflicto de versión o de reclamo, y `403` por falta de permiso. Se muestran con `MessageComposer`/`MessagePanel` `notice` o con un `MessageBubble` en estado `failed`.
+
+## Timeline: uso (@ai27-tech/ui)
+
+Muestra la historia de estados de un elemento, por ejemplo el historial de un viaje.
+
+```tsx
+<Timeline
+  orientation="horizontal"
+  stackBelow={560}
+  items={[
+    { id: 'SOLICITADO', title: 'Solicitado', timestamp: '10 nov, 08:12', dateTime: '2026-11-10T08:12:00Z', status: 'completed' },
+    { id: 'EN_TRANSITO', title: 'En recorrido', description: 'Parada 2 de 3', status: 'current' },
+    { id: 'CERRADO', title: 'Cerrado', status: 'upcoming' },
+  ]}
+/>
+```
+
+- `status`: `completed`, `current`, `upcoming` (por defecto), `error` o `warning`. El punto `current` lleva `aria-current="step"`.
+- Con `dateTime` la marca de tiempo se renderiza como `<time>`.
+- `labels` cambia los textos en español (por ejemplo `showMore`, `empty` o los nombres de estado).
+- La librería usa el tamaño del contenedor, no el de la ventana, para decidir si una línea horizontal se muestra vertical (`stackBelow`).

@@ -140,6 +140,10 @@ export type {
   StatusLabels,
 } from "./components/MessagePanel";
 
+// Timeline
+export { Timeline } from "./components/Timeline";
+export type { TimelineProps, TimelineItemData, TimelineStatus, TimelineLabels } from "./components/Timeline";
+
 // Table
 export { Table } from "./components/Table";
 export type {
