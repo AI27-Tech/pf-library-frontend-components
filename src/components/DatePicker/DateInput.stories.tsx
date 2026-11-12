@@ -116,6 +116,15 @@ export const InModal: Story = {
   },
 };
 
+/** Formato visual `AAAA Mmm DD`, con el mes en español. Sin foco se muestra así; al enfocar el campo vuelve a `DD/MM/AAAA` para escribir. */
+export const VisualFormat: Story = {
+  args: { displayFormat: "AAAA Mmm DD", locale: "es-MX" },
+  render: function VisualFormatStory(args) {
+    const [value, setValue] = useState("2026-11-12");
+    return <DateInput {...args} value={value} onChange={setValue} />;
+  },
+};
+
 /** Controlado: el valor vive en el padre. Si el padre no actualiza `value`, el campo vuelve al valor vigente al confirmar. */
 export const Controlled: Story = {
   render: function ControlledStory(args) {

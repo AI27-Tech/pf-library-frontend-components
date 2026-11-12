@@ -62,19 +62,23 @@
   border-right: 1px solid var(--ui-color-border-subtle, #242d3d);
 }
 
+/* Presets como botones de lista: borde y fondo visibles, con estado al pasar el cursor */
 .preset {
-  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
-  border: 1px solid transparent;
+  width: 100%;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border: 1px solid var(--ui-color-border-subtle, #242d3d);
   border-radius: var(--ui-radius, 0.25rem);
-  background: transparent;
-  color: inherit;
+  background-color: var(--ui-color-surface-container-low, #161b24);
+  color: var(--ui-color-text, #e2e8f0);
   font: inherit;
   font-size: var(--ui-font-size-sm, 0.8125rem);
   text-align: left;
+  white-space: nowrap;
   cursor: pointer;
 }
 
 .preset:hover {
+  border-color: var(--ui-color-border, #2d3748);
   background-color: var(--ui-color-surface-container-high, #242b3a);
 }
 

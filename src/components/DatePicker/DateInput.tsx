@@ -46,8 +46,14 @@ export interface DateInputProps {
   id?: string;
   name?: string;
   "aria-describedby"?: string;
-  /** Idioma del calendario. Por defecto: "es-MX". */
+  /** Idioma del calendario y de los meses visuales. Por defecto: "es-MX". */
   locale?: string;
+  /**
+   * Formato con el que se muestra la fecha cuando el campo no tiene foco.
+   * Solo afecta a la visualización: al escribir siempre se usa `DD/MM/AAAA`.
+   * Por defecto: "DD/MM/AAAA".
+   */
+  displayFormat?: "DD/MM/AAAA" | "AAAA Mmm DD";
   /** Primer día de la semana: 0 = domingo, 1 = lunes. Por defecto: 1 (D8). */
   weekStartsOn?: WeekStart;
   className?: string;
@@ -60,6 +66,20 @@ const DEFAULT_WEEK_START: WeekStart = 1;
 function toDisplay(iso: string): string {
   const parts = parseISODate(iso);
   return parts ? formatDisplayDate(parts) : "";
+}
+
+/**
+ * Convierte `YYYY-MM-DD` a `AAAA Mmm DD` (por ejemplo `2026 Nov 12`).
+ * El mes sale de `Intl` sin punto final y con la primera letra en mayúscula.
+ */
+function toVisualDisplay(iso: string, locale: string): string {
+  const parts = parseISODate(iso);
+  if (!parts) return "";
+  const monthText = new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" })
+    .format(new Date(Date.UTC(parts.y, parts.m - 1, parts.d)))
+    .replace(/\.$/, "");
+  const month = monthText.charAt(0).toUpperCase() + monthText.slice(1);
+  return `${parts.y} ${month} ${String(parts.d).padStart(2, "0")}`;
 }
 
 function resolvePreset(preset: DatePreset): string {
@@ -101,12 +121,14 @@ export function DateInput({
   "aria-describedby": describedBy,
   locale = DEFAULT_LOCALE,
   weekStartsOn = DEFAULT_WEEK_START,
+  displayFormat = "DD/MM/AAAA",
   className,
 }: DateInputProps) {
   const generatedId = useId();
   const popoverId = `${generatedId}-calendario`;
   const anchorRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const minDate = useMemo<DateParts | null>(() => (min ? parseISODate(min) : null), [min]);
   const maxDate = useMemo<DateParts | null>(() => (max ? parseISODate(max) : null), [max]);
@@ -126,6 +148,11 @@ export function DateInput({
   }
 
   const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  // Solo visual: el campo muestra el formato elegido solo cuando ni el campo ni su calendario tienen interacción.
+  const showVisual = displayFormat !== "DD/MM/AAAA" && !focused && !open;
+  const visualText = toVisualDisplay(committed, locale);
 
   function emit(next: string) {
     if (next === committed) return;
@@ -166,12 +193,18 @@ export function DateInput({
       ?.focus();
   }
 
-  /** Elige una fecha desde el calendario o un preset. Cierra el panel y devuelve el foco al campo. */
+  /**
+   * Elige una fecha desde el calendario o un preset. Cierra el panel.
+   * El foco vuelve al botón de calendario, no al campo: así el campo no queda en edición
+   * y muestra el formato visual de inmediato.
+   */
   function choose(iso: string) {
-    emit(iso);
-    setText(toDisplay(iso));
+    // Con `clearable`, elegir la fecha que ya está seleccionada la borra (como Mantine).
+    const next = clearable && iso === committed ? "" : iso;
+    emit(next);
+    setText(toDisplay(next));
     setOpen(false);
-    inputRef.current?.focus();
+    triggerRef.current?.focus();
   }
 
   function clear() {
@@ -227,9 +260,13 @@ export function DateInput({
         inputMode="numeric"
         placeholder={placeholder}
         autoComplete="off"
-        value={text}
+        value={showVisual ? visualText : text}
         onChange={(event) => setText(event.target.value)}
-        onBlur={commitText}
+        onFocus={() => setFocused(true)}
+        onBlur={() => {
+          setFocused(false);
+          commitText();
+        }}
         onKeyDown={handleKeyDown}
         endAdornment={
           <span className={styles.actions}>
@@ -244,6 +281,7 @@ export function DateInput({
               </button>
             )}
             <button
+              ref={triggerRef}
               type="button"
               className={styles.iconButton}
               aria-label="Abrir calendario"
@@ -264,6 +302,7 @@ export function DateInput({
         anchorRef={anchorRef}
         open={open}
         onClose={handleClose}
+        onPositioned={focusPanel}
         role="dialog"
         aria-label="Calendario"
       >
@@ -289,7 +328,6 @@ export function DateInput({
             max={max}
             locale={locale}
             weekStartsOn={weekStartsOn}
-            autoFocus
           />
         </div>
       </Popover>

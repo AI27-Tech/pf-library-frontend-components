@@ -150,7 +150,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Verificado con una prueba temporal de 9 casos (teclado, selección, rangos, navegación entre vistas, lunes y domingo como inicio), que luego se eliminó. Pendiente: revisión visual en Storybook y tema oscuro/claro._
   - _Requisitos: R15_
 
-- [x] 21. `DateInput` _Cerrada. Revisión visual confirmada por el equipo._
+- [x] 21. `DateInput` _Cerrada. Revisión visual confirmada por el equipo. Cambios posteriores al cierre: `displayFormat="AAAA Mmm DD"` (solo visual, en español); foco de `ArrowDown` al calendario (`Popover` avisa con `onPositioned`); al elegir fecha el foco vuelve al botón de calendario; con `clearable`, elegir la fecha seleccionada la borra; presets como botones._
   - [x] 21.1 Campo con `Input`, botón de calendario y botón de limpiar; formato `DD/MM/AAAA`. _`DateInput.tsx`, con `DateInput.module.css`._
   - [x] 21.2 Confirmación del texto en `blur`/`Enter`; si es inválido o fuera de rango, volver al valor vigente. _Texto vacío: emite `""` solo con `clearable`._
   - [x] 21.3 `Popover` con `Calendar` y columna de `presets`. _Presets con valor fijo o función._
@@ -161,15 +161,17 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Corrección tras revisión: el calendario se salía de la pantalla en tamaños md y lg cuando el campo estaba cerca del borde inferior. Causa: `Popover` no limitaba `top` si no cabía ni arriba ni abajo. Ahora se mantiene dentro del viewport. Medido en 1280×800, 1024×640 y 800×600 con los tres tamaños. Limitación: en viewports muy bajos el panel puede tapar el campo. Suite completa: 89 pruebas pasan._
   - _Requisitos: R16_
 
-- [ ] 22. `TimePicker`
-  - [ ] 22.1 Segmentos (horas, minutos, segundos, AM/PM) con avance automático, flechas con paso y `Backspace`.
-  - [ ] 22.2 Emisión de `HH:mm[:ss]` en 24 h solo con segmentos completos.
-  - [ ] 22.3 Dropdown con columnas `listbox`, scroll al valor vigente, `dropdownPosition`.
-  - [ ] 22.4 `presets`, `closeDropdownOnPresetSelect` y `getTimeRange`.
-  - [ ] 22.5 `min`/`max` (opciones deshabilitadas; ajuste al límite al salir del campo).
-  - [ ] 22.6 Pegado de `HH:mm` y `HH:mm:ss`; `clearable`; compatibilidad con `FormField`.
-  - [ ]* 22.7 Pruebas unitarias de la lógica de segmentos, el ajuste a `min`/`max` y `getTimeRange`.
-  - [ ] 22.8 Stories: 24 h, 12 h, con segundos, con presets, posición arriba, `min`/`max`, error, dentro de `FormField`.
+- [x] 22. `TimePicker` _Cerrada. Revisión visual confirmada por el equipo. Queda pendiente solo la 22.7, opcional._
+  - [x] 22.1 Segmentos (horas, minutos, segundos, AM/PM) con avance automático, flechas con paso y `Backspace`. _`TimePicker.tsx` y `timeUtils.ts`. Un dígito que no puede ser decenas completa el valor (`3` → `03`). Con dos dígitos válidos avanza._
+  - [x] 22.2 Emisión de `HH:mm[:ss]` en 24 h solo con segmentos completos. _En 12 h se convierte a 24 h. Un segmento a medias no borra el valor emitido; uno vacío sí emite `""`._
+  - [x] 22.3 Dropdown con columnas `listbox`, scroll al valor vigente, `dropdownPosition`. _Se abre al enfocar un segmento. Las opciones usan `mousedown` cancelado para no quitar el foco del campo._
+  - [x] 22.4 `presets`, `closeDropdownOnPresetSelect` y `getTimeRange`. _Decisión: `closeDropdownOnPresetSelect` vale `true` por defecto. `getTimeRange` acepta intervalo `HH:mm` e incluye el extremo._
+  - [x] 22.5 `min`/`max` (opciones deshabilitadas; ajuste al límite al salir del campo). _Una opción se deshabilita si toda su hora queda fuera del rango. Al salir con hora incompleta, el campo vuelve al valor vigente._
+  - [x] 22.6 Pegado de `HH:mm` y `HH:mm:ss`; `clearable`; compatibilidad con `FormField`. _El `id` y `aria-describedby` van al primer segmento._
+  - [ ]* 22.7 Pruebas unitarias de la lógica de segmentos, el ajuste a `min`/`max` y `getTimeRange`. _Opcional, pendiente. Se verificó con una prueba temporal de 17 casos que luego se eliminó._
+  - [x] 22.8 Stories: 24 h, 12 h, con segundos, con presets, posición arriba, `min`/`max`, error, dentro de `FormField`. _`TimePicker.stories.tsx`, con 15 stories._
+  - _Corrección tras revisión: los segmentos recortaban el placeholder `HH`/`MM` porque su ancho era `2ch`. Ahora son `2.4em` (AM/PM `3.4em`). Verificado en Storybook con captura. Pendiente: el espacio entre segmentos puede ser algo amplio; se puede ajustar si se pide._
+  - _Cierre: revisión visual confirmada por el equipo._
   - _Requisitos: R17_
 
 - [ ] 23. `DateTimeInput`

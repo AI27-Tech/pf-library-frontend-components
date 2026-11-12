@@ -34,6 +34,11 @@ export interface PopoverProps {
   id?: string;
   /** Clase adicional para el contenedor. */
   className?: string;
+  /**
+   * Se llama una vez por apertura, cuando el popover ya es visible y está posicionado.
+   * Úsalo para mover el foco a su contenido: antes de eso el contenido está oculto y no admite foco.
+   */
+  onPositioned?: () => void;
   /** Contenido del popover. El consumidor controla su propio espaciado. */
   children: ReactNode;
 }
@@ -67,10 +72,24 @@ export function Popover({
   "aria-label": ariaLabel,
   id,
   className,
+  onPositioned,
   children,
 }: PopoverProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
+  const notifiedRef = useRef(false);
+
+  // Avisa una sola vez por apertura, ya con el contenido visible.
+  useEffect(() => {
+    if (!open) {
+      notifiedRef.current = false;
+      return;
+    }
+    if (coords && !notifiedRef.current) {
+      notifiedRef.current = true;
+      onPositioned?.();
+    }
+  }, [open, coords, onPositioned]);
 
   const updatePosition = useCallback(() => {
     const anchor = anchorRef.current;
