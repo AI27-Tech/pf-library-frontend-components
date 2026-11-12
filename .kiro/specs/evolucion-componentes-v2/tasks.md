@@ -45,32 +45,32 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
 
 ## P2. Cargas
 
-- [ ] 5. Skeleton
-  - [ ] 5.1 Crear `src/components/Skeleton/` con `Skeleton`, `SkeletonText`, `SkeletonCard`, `SkeletonTable` y el componente interno `SkeletonRows`.
-  - [ ] 5.2 Variables de color declaradas dentro de la clase del componente (sin `:root`), sin movimiento con `prefers-reduced-motion`.
-  - [ ] 5.3 Compuestos con `role="status"`, `aria-busy` y texto "Cargando" solo para lectores.
-  - [ ] 5.4 Verificar la forma de `SkeletonCard` contra `Card` (padding, borde, radio).
+- [x] 5. Skeleton
+  - [x] 5.1 Crear `src/components/Skeleton/` con `Skeleton`, `SkeletonText`, `SkeletonCard`, `SkeletonTable` y el componente interno `SkeletonRows`.
+  - [x] 5.2 Variables de color declaradas dentro de la clase del componente (sin `:root`), sin movimiento con `prefers-reduced-motion`.
+  - [x] 5.3 Compuestos con `role="status"`, `aria-busy` y texto "Cargando" solo para lectores.
+  - [x] 5.4 Verificar la forma de `SkeletonCard` contra `Card` (padding, borde, radio). _Usa `Card` como contenedor y `CardBody` para el padding; verificado en Chromium._
   - _Requisitos: R3_
 
-- [ ] 6. Spinner y ProgressBar
-  - [ ] 6.1 Crear `src/components/Spinner/` (tamaños `sm | md | lg`, `label`).
-  - [ ] 6.2 Crear `src/components/ProgressBar/` (determinada e indeterminada, `size`).
+- [x] 6. Spinner y ProgressBar
+  - [x] 6.1 Crear `src/components/Spinner/` (tamaños `sm | md | lg`, `label`).
+  - [x] 6.2 Crear `src/components/ProgressBar/` (determinada e indeterminada, `size`).
   - _Requisitos: R4_
 
-- [ ] 7. Integración en `Table`
-  - [ ] 7.1 `loading` renderiza `SkeletonRows` con `loadingRows` filas, respetando `density`, selección y expansión.
-  - [ ] 7.2 `aria-busy` en el `<table>` mientras carga.
-  - [ ] 7.3 Quitar el spinner y su CSS de `Table.module.css`; verificar que no queda código muerto.
+- [x] 7. Integración en `Table`
+  - [x] 7.1 `loading` renderiza `SkeletonRows` con `loadingRows` filas, respetando `density`, selección y expansión.
+  - [x] 7.2 `aria-busy` en el `<table>` mientras carga.
+  - [x] 7.3 Quitar el spinner y su CSS de `Table.module.css`; verificar que no queda código muerto.
   - _Requisitos: R5_
 
-- [ ] 8. (Opcional) Placeholder de imagen en `ImageCard` / `ImageGrid`
+- [ ] 8. (Opcional) Placeholder de imagen en `ImageCard` / `ImageGrid` _Pendiente de decisión: exige estado interno en `ImageCard` para ocultar el skeleton tras `onLoad`; no se implementó._
   - Leer ambos componentes primero. Si se puede mostrar un `Skeleton` hasta el `onLoad` de la imagen sin cambiar props existentes, hacerlo; si no, registrarlo como fuera de alcance en el CHANGELOG.
 
-- [ ] 9. Stories y cierre de P2
-  - [ ] 9.1 Stories de `Skeleton`, compuestos, `Spinner`, `ProgressBar` y `Table` en carga (con selección y expansión).
-  - [ ] 9.2 Exportar todo en `src/index.ts`.
-  - [ ] 9.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 9.4 CHANGELOG: "Agregado" para los componentes; "Cambiado" para `Table loading` (skeleton en lugar de spinner).
+- [x] 9. Stories y cierre de P2
+  - [x] 9.1 Stories de `Skeleton`, compuestos, `Spinner`, `ProgressBar` y `Table` en carga (con selección y expansión).
+  - [x] 9.2 Exportar todo en `src/index.ts`.
+  - [x] 9.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 9.4 CHANGELOG: "Agregado" para los componentes; "Cambiado" para `Table loading` (skeleton en lugar de spinner).
 
 ## P3. Navegación
 

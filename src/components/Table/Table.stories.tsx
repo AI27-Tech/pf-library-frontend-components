@@ -77,6 +77,32 @@ export const Loading: Story = {
     columns,
     data: [],
     loading: true,
+    loadingRows: 4,
+    "aria-label": "Cargando usuarios",
+  },
+};
+
+/** Carga con columna de selección y de expansión: las filas en skeleton conservan ambas columnas. */
+export const LoadingConSeleccionYExpansion: Story = {
+  args: {
+    columns,
+    data: [],
+    loading: true,
+    loadingRows: 4,
+    selectedKeys: new Set<Key>(),
+    onSelectionChange: () => {},
+    expandedContent: () => null,
+    "aria-label": "Cargando usuarios",
+  },
+};
+
+export const LoadingCompacta: Story = {
+  args: {
+    columns,
+    data: [],
+    loading: true,
+    density: "compact",
+    "aria-label": "Cargando usuarios",
   },
 };
 

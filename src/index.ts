@@ -139,6 +139,22 @@ export type {
   SidebarItemProps,
 } from "./components/Sidebar";
 
+// Skeleton
+export { Skeleton, SkeletonText, SkeletonCard, SkeletonTable } from "./components/Skeleton";
+export type {
+  SkeletonProps,
+  SkeletonTextProps,
+  SkeletonCardProps,
+  SkeletonTableProps,
+  SkeletonVariant,
+  SkeletonAnimation,
+} from "./components/Skeleton";
+// Spinner
+export { Spinner } from "./components/Spinner";
+export type { SpinnerProps, SpinnerSize } from "./components/Spinner";
+// ProgressBar
+export { ProgressBar } from "./components/ProgressBar";
+export type { ProgressBarProps, ProgressBarSize } from "./components/ProgressBar";
 // Visor
 export { Visor } from "./components/Visor";
 export type { VisorProps, Medium } from "./components/Visor";

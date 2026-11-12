@@ -75,7 +75,7 @@ Implementación:
   - El clic no cierra el `Modal`: su `onMouseDown` de overlay solo actúa si `e.target === e.currentTarget`, y el contenido del popover nunca es el overlay.
   - **`Escape` sí es un problema**: el `Modal` escucha `keydown` en `document` en fase de captura y cierra al instante. Un `Escape` pensado para cerrar solo el popover cerraría también el `Modal`. Solución: el `Popover` registra su `keydown` en `window` en fase de captura (corre antes que `document`), y al cerrar llama `e.stopPropagation()` para que el `Modal` no lo reciba. Solo actúa si hay un popover abierto.
   - El focus trap del `Modal` solo intercepta `Tab` en el primer y último elemento del diálogo. Un foco dentro del popover (fuera del DOM del diálogo) no se ve afectado, pero se verifica en la tarea 3.2.
-- Estilo: fondo `--ui-color-surface-raised`, borde `--ui-color-border`, sombra `--ui-shadow-md`, radio `--ui-radius-lg`.
+- Estilo: fondo `--ui-color-surface` (la misma superficie de `Select` y `Modal`), borde `--ui-color-border`, sombra `--ui-shadow-md`, radio `--ui-radius-lg`, padding `--ui-space-2`, tipografía de la plataforma y un fade corto (`prefers-reduced-motion` lo desactiva).
 
 El manejo de foco **no** vive en `Popover`: lo gestiona cada consumidor (ver P5), porque Breadcrumb, DateInput y FilterBar lo necesitan distinto.
 

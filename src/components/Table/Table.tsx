@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode, type Key } from "react";
 import styles from "./Table.module.css";
+import { SkeletonRows } from "./SkeletonRows";
 
 export type SortDirection = "asc" | "desc";
 
@@ -54,8 +55,10 @@ export interface TableProps<T> {
   expandedKeys?: Set<Key>;
   /** Llamado cuando se expande o contrae una fila. */
   onExpandedChange?: (keys: Set<Key>) => void;
-  /** Estado de carga. Muestra un spinner en lugar de filas. */
+  /** Estado de carga. Muestra filas en skeleton en lugar de datos. */
   loading?: boolean;
+  /** Número de filas en skeleton mientras carga. Por defecto: 5. */
+  loadingRows?: number;
   /** Contenido mostrado cuando no hay datos. */
   emptyState?: ReactNode;
   /** Densidad de filas. */
@@ -115,6 +118,7 @@ export function Table<T>({
   expandedKeys,
   onExpandedChange,
   loading = false,
+  loadingRows = 5,
   emptyState = "No data to display.",
   density = "comfortable",
   hoverable = true,
@@ -173,6 +177,7 @@ export function Table<T>({
           hoverable && styles.hoverable,
         )}
         aria-label={ariaLabel}
+        aria-busy={loading || undefined}
       >
         <thead className={styles.thead}>
           <tr>
@@ -183,6 +188,7 @@ export function Table<T>({
                   type="checkbox"
                   checked={allSelected}
                   onChange={toggleAll}
+                  disabled={loading}
                   aria-label="Select all rows"
                 />
               </th>
@@ -220,11 +226,12 @@ export function Table<T>({
         </thead>
         <tbody>
           {loading ? (
-            <tr>
-              <td className={styles.state} colSpan={totalCols}>
-                <span className={styles.spinner} aria-label="Cargando" />
-              </td>
-            </tr>
+            <SkeletonRows
+              rows={loadingRows}
+              columns={columns.length}
+              selectable={selectable}
+              expandable={expandable}
+            />
           ) : data.length === 0 ? (
             <tr>
               <td className={styles.state} colSpan={totalCols}>
