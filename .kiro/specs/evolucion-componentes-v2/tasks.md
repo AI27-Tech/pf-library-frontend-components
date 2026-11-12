@@ -78,7 +78,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 10.1 Reestructurar el encabezado: `headerContent` + botón de icono; renderizar el encabezado si hay `header` o `onToggleCollapse`.
   - [x] 10.2 CSS: `.header` con `space-between`; `.headerContent` con `min-width: 0`; cambiar `.header :global(svg)` a `.headerContent :global(svg)`.
   - [x] 10.3 Estado colapsado: ocultar `headerContent`, centrar el botón.
-  - [x] 10.4 Botón: 2.5 rem, icono de panel con flecha que rota 180°, `aria-label`, `aria-expanded` y `title`.
+  - [x] 10.4 Botón: 2.5 rem, icono de panel de `lucide-react` (`PanelLeftClose` expandido, `PanelLeftOpen` contraído) en lugar de rotar 180°, `aria-label`, `aria-expanded` y `title`.
   - [x] 10.5 El `footer` solo se renderiza si hay prop `footer`. Eliminar CSS huérfano (`.collapseBtn`) si queda sin uso.
   - [x] 10.6 Actualizar `Sidebar.stories.tsx`: con `header` y botón, sin `header` y con botón, colapsada. La story `Interactive` actual cambia el `header` a un icono cuando la barra se colapsa (`collapsed ? <Icon/> : <span>`); con D2 el contenido del encabezado se oculta al colapsar, así que ese icono ya no se verá. Ajustar la story y revisar si los consumidores hacen lo mismo (tarea 12.3).
   - _Requisitos: R6_

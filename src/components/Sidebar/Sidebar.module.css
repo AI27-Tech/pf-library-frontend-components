@@ -77,7 +77,6 @@
 .toggle svg {
   width: 1.25rem;
   height: 1.25rem;
-  transition: transform var(--ui-transition, 0.15s ease);
 }
 
 .collapsed .header {
@@ -198,6 +197,4 @@
   border-top: 1px solid var(--ui-color-border, #2d3748);
 }
 
-.collapsed .toggle svg {
-  transform: rotate(180deg);
-}
+
