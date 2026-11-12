@@ -99,35 +99,35 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
 
 ## P4. Estructura de información
 
-- [ ] 13. Layout
-  - [ ] 13.1 `src/components/Layout/` con `Stack`, `Inline`, `Grid` (`gap` 0 a 6, `align`, `justify`, `as`, `wrap`, `columns`, `minItemWidth`).
+- [x] 13. Layout
+  - [x] 13.1 `src/components/Layout/` con `Stack`, `Inline`, `Grid` (`gap` 0 a 6, `align`, `justify`, `as`, `wrap`, `columns`, `minItemWidth`).
   - _Requisitos: R8_
 
-- [ ] 14. `PageHeader`, `Section`, `DescriptionList`
-  - [ ] 14.1 `PageHeader` (título, descripción, breadcrumb, acciones, children; apilado en pantallas angostas).
-  - [ ] 14.2 `Section` con modo colapsable controlado y no controlado.
-  - [ ] 14.3 `DescriptionList` con `<dl>`, columnas, orientación, `span` y `emptyValue`.
+- [x] 14. `PageHeader`, `Section`, `DescriptionList`
+  - [x] 14.1 `PageHeader` (título, descripción, breadcrumb, acciones, children; apilado en pantallas angostas).
+  - [x] 14.2 `Section` con modo colapsable controlado y no controlado.
+  - [x] 14.3 `DescriptionList` con `<dl>`, columnas, orientación, `span` y `emptyValue`.
   - _Requisitos: R9, R10, R11_
 
-- [ ] 15. `Stat`, `EmptyState`, `Alert`, `Divider`
-  - [ ] 15.1 `Stat` sobre `Card`, con tendencia accesible (flecha + texto) y `loading` con `Skeleton`.
-  - [ ] 15.2 `EmptyState`.
-  - [ ] 15.3 `Alert` con `role` según variante y botón de cierre.
-  - [ ] 15.4 `Divider` con etiqueta opcional.
-  - [ ] 15.5 Contrastar `Alert` e iconos en tema oscuro y claro.
+- [x] 15. `Stat`, `EmptyState`, `Alert`, `Divider`
+  - [x] 15.1 `Stat` sobre `Card`, con tendencia accesible (flecha + texto) y `loading` con `Skeleton`.
+  - [x] 15.2 `EmptyState`.
+  - [x] 15.3 `Alert` con `role` según variante y botón de cierre.
+  - [x] 15.4 `Divider` con etiqueta opcional.
+  - [x] 15.5 Contrastar `Alert` e iconos en tema oscuro y claro. _Calculado con los tokens: texto ≥ 9.7:1 en ambos temas; iconos ≥ 3:1, con el mínimo en `success` del tema claro (3.03:1). No se midió en navegador._
   - _Requisitos: R12, R13_
 
-- [ ] 16. `Tabs`
-  - [ ] 16.1 `Tabs`, `TabList`, `Tab`, `TabPanel` con contexto, modo controlado y no controlado.
-  - [ ] 16.2 Roving tabindex; flechas, `Home` y `End`; omitir pestañas deshabilitadas.
-  - [ ] 16.3 `icon` y `badge` en `Tab`.
+- [x] 16. `Tabs`
+  - [x] 16.1 `Tabs`, `TabList`, `Tab`, `TabPanel` con contexto, modo controlado y no controlado.
+  - [x] 16.2 Roving tabindex; flechas, `Home` y `End`; omitir pestañas deshabilitadas.
+  - [x] 16.3 `icon` y `badge` en `Tab`.
   - _Requisitos: R14_
 
-- [ ] 17. Stories y cierre de P4
-  - [ ] 17.1 Un archivo de stories por componente (`Stack`/`Inline`/`Grid` pueden compartir uno), con todas sus variantes y estados, y una "pantalla de ejemplo" (`PageHeader` + `Tabs` + `Section` + `DescriptionList` + `Stat` + `Alert`) que muestre cómo reemplaza el patrón `Card` + `Button`.
-  - [ ] 17.2 Exportar en `src/index.ts`.
-  - [ ] 17.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 17.4 CHANGELOG: "Agregado".
+- [x] 17. Stories y cierre de P4
+  - [x] 17.1 Un archivo de stories por componente (`Stack`/`Inline`/`Grid` pueden compartir uno), con todas sus variantes y estados, y una "pantalla de ejemplo" (`PageHeader` + `Tabs` + `Section` + `DescriptionList` + `Stat` + `Alert`) que muestre cómo reemplaza el patrón `Card` + `Button`.
+  - [x] 17.2 Exportar en `src/index.ts`.
+  - [x] 17.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 17.4 CHANGELOG: "Agregado".
 
 ## P5. Formularios y pickers
 

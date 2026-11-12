@@ -143,6 +143,42 @@ export type {
 export { Breadcrumb } from "./components/Breadcrumb";
 export type { BreadcrumbProps, BreadcrumbItemData } from "./components/Breadcrumb";
 
+// Layout
+export { Stack, Inline, Grid } from "./components/Layout";
+export type { StackProps, InlineProps, GridProps, Gap, Align, Justify } from "./components/Layout";
+
+// PageHeader
+export { PageHeader } from "./components/PageHeader";
+export type { PageHeaderProps } from "./components/PageHeader";
+
+// Section
+export { Section } from "./components/Section";
+export type { SectionProps } from "./components/Section";
+
+// DescriptionList
+export { DescriptionList } from "./components/DescriptionList";
+export type { DescriptionListProps, DescriptionListItem } from "./components/DescriptionList";
+
+// Stat
+export { Stat } from "./components/Stat";
+export type { StatProps, StatTrend, TrendDirection } from "./components/Stat";
+
+// EmptyState
+export { EmptyState } from "./components/EmptyState";
+export type { EmptyStateProps } from "./components/EmptyState";
+
+// Alert
+export { Alert } from "./components/Alert";
+export type { AlertProps, AlertVariant } from "./components/Alert";
+
+// Divider
+export { Divider } from "./components/Divider";
+export type { DividerProps } from "./components/Divider";
+
+// Tabs
+export { Tabs, TabList, Tab, TabPanel } from "./components/Tabs";
+export type { TabsProps, TabListProps, TabProps, TabPanelProps } from "./components/Tabs";
+
 // Skeleton
 export { Skeleton, SkeletonText, SkeletonCard, SkeletonTable } from "./components/Skeleton";
 export type {

@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`ProgressBar`**: barra determinada (con `value`, ajustado a 0-100) e indeterminada.
 - **`Table`**: prop `loadingRows` (por defecto 5) para el número de filas en carga.
 - **`Breadcrumb`**: ruta de navegación con `items` (`label`, `href`, `icon`, `onClick`, `as`), separador configurable y `maxItems`. Con `maxItems`, los elementos intermedios se pliegan tras un botón "…" que abre un `Popover`. El último elemento lleva `aria-current="page"`. Las etiquetas largas se truncan y muestran el texto completo en `title`.
+- **`Stack`, `Inline` y `Grid`**: contenedores de disposición con `gap` de 0 a 6 (mapeado a `--ui-space-*`), `align`, `justify`, `as`, `wrap` en `Inline`, y `columns` o `minItemWidth` en `Grid`.
+- **`PageHeader`**: encabezado de página con título (`h1` o `h2` según `titleAs`), descripción, `breadcrumb`, `actions` y una zona inferior para `Tabs`. Bajo 40 rem de ancho, las acciones pasan debajo del título.
+- **`Section`**: sección con `<section>` y `aria-labelledby`. Con `collapsible`, el encabezado es un botón con `aria-expanded`; admite modo controlado y no controlado.
+- **`DescriptionList`**: lista clave-valor con `dl`, `dt` y `dd`. Admite de 1 a 4 columnas, orientación `vertical` u `horizontal`, `span` por elemento y `emptyValue` para valores vacíos.
+- **`Stat`**: métrica sobre `Card` con valor, icono, texto de apoyo y tendencia. La tendencia se comunica con flecha y texto accesible, no solo con color. `invertTrend` invierte el color de subir y bajar. `loading` muestra `Skeleton`.
+- **`EmptyState`**: estado vacío con icono, título, descripción y acción, en tamaños `sm` y `md`.
+- **`Alert`**: mensaje en línea con variantes `info`, `success`, `warning` y `danger`. `warning` y `danger` usan `role="alert"`; las otras dos, `role="status"`. Botón de cierre opcional.
+- **`Divider`**: separador horizontal o vertical, con etiqueta opcional en horizontal.
+- **`Tabs`, `TabList`, `Tab` y `TabPanel`**: pestañas controladas y no controladas, con navegación por teclado (flechas con vuelta, `Home` y `End`), `icon`, `badge` y `disabled`.
 
 ### Cambiado
 - **`Table` con `loading`**: muestra filas en skeleton que conservan las columnas, la selección y la expansión, en lugar de un spinner. El checkbox de seleccionar todo queda deshabilitado mientras carga. Se quitó el spinner y su CSS de `Table.module.css`.

@@ -1,0 +1,20 @@
+.stack,
+.inline,
+.grid {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+}
+
+.grid {
+  display: grid;
+}
