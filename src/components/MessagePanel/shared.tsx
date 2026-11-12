@@ -1,5 +1,4 @@
-import { ChevronUp, Minus, Send, X } from "lucide-react";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import styles from "./MessagePanel.module.css";
 import { cx, initials, type Presence } from "./utils";
 
@@ -26,46 +25,19 @@ export function Avatar({ src, name, presence }: AvatarProps) {
   );
 }
 
+/** Botón de solo icono. Va siempre fuera del botón del encabezado, nunca dentro. */
 export function IconButton({
   label,
   onClick,
   children,
 }: {
   label: string;
-  onClick?: (e: React.MouseEvent) => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      className={styles.iconBtn}
-      aria-label={label}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick?.(e);
-      }}
-    >
+    <button type="button" className={styles.iconBtn} aria-label={label} onClick={onClick}>
       {children}
     </button>
-  );
-}
-
-export function MinimizeIcon() {
-  return (<Minus />
-  );
-}
-
-export function CloseIcon() {
-  return (<X />
-  );
-}
-
-export function ExpandIcon() {
-  return (<ChevronUp />
-  );
-}
-
-export function SendIcon() {
-  return (<Send />
   );
 }

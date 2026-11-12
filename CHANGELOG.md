@@ -41,6 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Regla de lint**: `eslint.config.js` prohibe `<svg>` en `src/` y `.storybook/` (`no-restricted-syntax`). Los iconos se importan de `lucide-react`.
 
+- **MensajerÃ­a (MessagePanel)**: ConversationStatus (estado, responsable, atendida y ventana de escritura), MessageThread (orden por secuencia, divisores de dÃ­a y de mensajes nuevos, envÃ­os pendientes), MessageAttachment (estados eady, uploading y error), useMessageDock y dockReducer (paneles abiertos, minimizados y overflow), groupMessages (agrupaciÃ³n de burbujas), MessageDockBar con lastMessageAt y adge. El panel acepta 	oolbar, 
+otice, open, defaultOpen, onOpenChange, keepMounted y labels. El compositor acepta sending, onAttach, maxLength (contador desde el 80 %), composerRef y utoFocus, y no envÃ­a durante la composiciÃ³n de IME. La librerÃ­a agrega una regla de lint para no escribir <svg> a mano.
+
 ### Cambiado
 - **Textos por defecto en español** (`Table`, `FilterTable`, `FilterBar`): "No data to display." pasa a "No hay datos para mostrar."; "Select all rows" a "Seleccionar todas las filas"; "Search..." a "Buscar..."; "Clear" a "Limpiar"; "N result(s)" a "N resultado(s)". Se sobrescriben con `labels`.
 - **`Table`**: los checkboxes de selección usan el `Checkbox` de la librería. Las columnas ordenables sin orden activo muestran `ChevronsUpDown` atenuado; con orden, `ArrowUp`. Los separadores usan `--ui-color-divider`. Las rayas alternas se controlan con `striped` (por defecto, igual que antes). El panel expandido entra con una transición breve, sin ella con movimiento reducido. Mientras carga, la tabla usa "Cargando" como `aria-label` si no se pasa uno.
@@ -54,6 +57,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`ImageCard`** (y `ImageGrid`, que la usa): mientras la imagen carga, muestra un placeholder `Skeleton` sobre el area de imagen. Si la imagen falla, el placeholder se retira. No cambian las props.
 - **`Sidebar`**: el botón de colapso pasa del pie al encabezado y es solo icono (`PanelLeftClose` / `PanelLeftOpen` de `lucide-react`), centrado cuando la barra está contraída. El encabezado se muestra si hay `header` u `onToggleCollapse`. La prop `footer` ahora es la única que renderiza el pie. Sin `onToggleCollapse` no hay botón, como antes. Si una barra con `onToggleCollapse` no tenía `header`, ahora muestra una fila de encabezado de 3.5 rem con solo el botón.
 - **Iconos**: todos los iconos de componentes y stories salen de `lucide-react`; antes habia SVG dibujados a mano en unos 20 archivos. Los trazos de Lucide no son identicos a los anteriores, asi que el aspecto cambia sutilmente. `Toast` y `Alert` usan los mismos iconos. `dist/ui-library.js` pasa de 145 436 a 139 987 bytes.
+- **MessagePanel**: el encabezado ya no tiene botones anidados (headerMain y headerActions son hermanos). El contenido sigue montado al minimizar (keepMounted, por defecto); con alse se desmonta. El desplazamiento automÃ¡tico solo ocurre al llegar un mensaje, o cuando el usuario estÃ¡ cerca del final; si no, aparece el botÃ³n de mensajes nuevos.
+- **MensajerÃ­a: secuencia**: Mensaje.secuenciaMensaje se renombra a secuencia, igual que en el contrato 0.1.0-tracer.40.
+- **MensajerÃ­a: textos en espaÃ±ol**: los textos por defecto pasan a espaÃ±ol (Minimizar, Enviar mensaje, Escribe un mensajeâ€¦, Mensajes nuevos, etc.). Se sobrescriben con labels.
+- **Muelle**: sus paneles usan el token --ui-z-dock (900), por debajo de Modal (1000). Antes quedaban en 1000 y se apilaban igual que el modal.
+- **MessageBubble**: muestra la hora en es-MX y no muestra el alias en los mensajes de en medio de un grupo. Los radios de la burbuja dependen de su posiciÃ³n en el grupo (groupPosition).
 
 ## [0.2.0-beta.8] — 2026-11-06
 

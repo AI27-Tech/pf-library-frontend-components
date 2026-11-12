@@ -1,5 +1,7 @@
 export type Presence = "online" | "offline";
 
+const LOCALE = "es-MX";
+
 export function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -14,57 +16,73 @@ export function initials(name?: string) {
     .join("");
 }
 
-/**
- * Convierte una fecha a un timestamp inteligente.
- * Ejemplos: "Today", "Yesterday", "2 days ago", "Mar 15, 2:30 PM"
- */
-export function formatSmartTimestamp(date: Date | number | string): string {
-  const d = typeof date === "string" ? new Date(date) : new Date(date);
-  // Una fecha inválida no debe renderizarse como "NaN:NaN": se devuelve vacío y la UI la oculta.
-  if (Number.isNaN(d.getTime())) return "";
-  const now = new Date();
-  
-  const isToday =
-    d.getDate() === now.getDate() &&
-    d.getMonth() === now.getMonth() &&
-    d.getFullYear() === now.getFullYear();
+function parseFecha(fecha: Date | string): Date | null {
+  const d = typeof fecha === "string" ? new Date(fecha) : fecha;
+  return Number.isNaN(d.getTime()) ? null : d;
+}
 
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  const isYesterday =
-    d.getDate() === yesterday.getDate() &&
-    d.getMonth() === yesterday.getMonth() &&
-    d.getFullYear() === yesterday.getFullYear();
+/** Hora local `HH:mm` en es-MX. Devuelve cadena vacía si la fecha no es válida. */
+export function formatHora(fecha: Date | string): string {
+  const d = parseFecha(fecha);
+  if (!d) return "";
+  return d.toLocaleTimeString(LOCALE, { hour: "2-digit", minute: "2-digit" });
+}
 
-  const daysAgo = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
-  const isThisWeek = daysAgo < 7 && daysAgo >= 0;
+/** Fecha y hora cortas en es-MX, por ejemplo "12 nov, 10:40". */
+export function formatFechaHora(fecha: Date | string): string {
+  const d = parseFecha(fecha);
+  if (!d) return "";
+  return d.toLocaleString(LOCALE, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+}
 
-  // Formato de hora
-  const hour = d.getHours().toString().padStart(2, "0");
-  const minute = d.getMinutes().toString().padStart(2, "0");
-  const timeStr = `${hour}:${minute}`;
+/** Tamaño legible en KB o MB. */
+export function formatearTamano(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
 
-  if (isToday) {
-    return `Today ${timeStr}`;
-  }
-  if (isYesterday) {
-    return `Yesterday ${timeStr}`;
-  }
-  if (isThisWeek) {
-    return `${daysAgo} days ago`;
-  }
+/** Misma fecha local (año, mes y día). */
+export function esMismoDia(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
 
-  // Formato: "Mar 15, 2:30 PM"
-  const monthDay = d.toLocaleDateString("en-US", {
-    month: "short",
+/** Clave `YYYY-MM-DD` del día local de una fecha. Cadena vacía si la fecha no es válida. */
+export function claveDiaLocal(fecha: string): string {
+  const d = parseFecha(fecha);
+  if (!d) return "";
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${mes}-${dia}`;
+}
+
+/** Etiqueta de un divisor de día: "Hoy", "Ayer" o la fecha larga en es-MX. */
+export function etiquetaDia(fecha: Date, ahora: Date, textos: { today: string; yesterday: string }): string {
+  if (esMismoDia(fecha, ahora)) return textos.today;
+  const ayer = new Date(ahora);
+  ayer.setDate(ayer.getDate() - 1);
+  if (esMismoDia(fecha, ayer)) return textos.yesterday;
+  return fecha.toLocaleDateString(LOCALE, {
+    weekday: "long",
     day: "numeric",
+    month: "long",
+    year: fecha.getFullYear() === ahora.getFullYear() ? undefined : "numeric",
   });
-  return `${monthDay}, ${timeStr}`;
+}
+
+/**
+ * ¿Está el scroll cerca del final? `umbralPx` es la distancia máxima desde el fondo.
+ * Función pura para poder probarla sin layout.
+ */
+export function isNearBottom(
+  medidas: { scrollHeight: number; scrollTop: number; clientHeight: number },
+  umbralPx: number,
+): boolean {
+  return medidas.scrollHeight - medidas.scrollTop - medidas.clientHeight <= umbralPx;
 }
 
 /**
  * Genera un UUID v4 para `clientMessageId` (clave de idempotencia del envío).
- * Usa `crypto.randomUUID` y, en contextos no seguros donde no existe, `getRandomValues`.
+ * Usa `crypto.randomUUID` y, en contextos donde no existe, `getRandomValues`.
  */
 export function generarClientMessageId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {

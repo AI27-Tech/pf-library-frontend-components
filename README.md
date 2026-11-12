@@ -319,3 +319,44 @@ Aplica a `DateInput`, `Calendar`, `TimePicker` y `DateTimeInput`.
 - **Límites** `min` y `max`: inclusivos. En `DateTimeInput`, la hora solo se restringe el día del límite.
 - **Modo controlado**: con `value`, el padre es la fuente de verdad. Si no actualiza `value`, el campo vuelve al valor vigente al confirmar. Sin `value`, el componente guarda su propio valor.
 - **Límites de `DateTimeInput`**: no acepta formatos de escritura distintos a `DD/MM/AAAA` para la fecha ni `HH:mm` para la hora. No tiene `dateParser` ni `valueFormat` personalizados.
+
+## Mensajería (`MessagePanel`): contrato y reglas (@ai27-tech/ui)
+
+Contrato de referencia: `pf-pkg-contracts`, tag `v0.1.0-tracer.40`, `contracts/openapi/mensajeria.yaml`. La librería no importa el contrato: el consumidor convierte el JSON a los tipos de `src/components/MessagePanel/types.ts`.
+
+### Campo del contrato → prop de la librería
+
+| Contrato (`mensajeria.yaml`) | Prop o tipo en la librería | Quién lo usa |
+| --- | --- | --- |
+| `Mensaje.secuencia` | `Mensaje.secuencia` (orden de la lista) | `MessageThread` |
+| `Mensaje.audiencia_autor` | `Mensaje.audienciaAutor`; `isOwn` lo decide el consumidor | `MessageThread` |
+| `Mensaje.alias_mostrado` | `Mensaje.aliasMostrado` / `aliasMostrado` | `MessageBubble` |
+| `Mensaje.creado_en` | `Mensaje.creadoEn` / `creadoEn` (hora local) | `MessageBubble`, `MessageThread` (divisores) |
+| `Mensaje.cuerpo` | `Mensaje.cuerpo` / `children` | `MessageBubble` |
+| `Mensaje.adjuntos_ids` | `Mensaje.adjuntosIds`; el consumidor resuelve los adjuntos en `renderAttachments` | `MessageThread`, `MessageAttachment` |
+| `Mensaje.actor_real`, `rol_al_enviar` | Solo en `renderAudit` (no se muestran por defecto) | Consumidor (audiencia Interno) |
+| `Conversacion.estado` | `estadoConversacion` (`abierta`, `solo_lectura`, `cerrada`) | `MessageComposer`, `ConversationStatus` |
+| `Conversacion.escritura_hasta` | `ConversationStatus.escrituraHasta` | `ConversationStatus` |
+| `Conversacion.reclamo_activo` | `ConversationStatus.reclamadaPor` y `reclamoPropio`; el portal resuelve el nombre | `ConversationStatus` |
+| `Conversacion.atendida_en` | `ConversationStatus.atendida` (booleano) | `ConversationStatus` |
+| `Conversacion.ultima_secuencia` | `MessageList.ultimaSecuencia` | `MessageList` |
+| `Conversacion.hay_mas` | `hayMas` y `onCargarAnteriores` | `MessageList`, `MessageThread` |
+| `ReciboEntrada.hasta_secuencia` | `ultimaSecuenciaLeida` (solo el divisor "Mensajes nuevos") | `MessageThread` |
+| `EnviarMensajeEntrada.client_message_id`, `cuerpo`, `adjuntos_ids` | `onSend({ clientMessageId, cuerpo })` y `onAttach` | `MessageComposer` |
+| `EnviarMensajeEntrada.version_reclamo_esperada`, `motivo_override` | No los conoce la librería: el consumidor los agrega al llamar a la API | Consumidor |
+
+### Reglas de la conversación (la librería no las aplica)
+
+La librería solo muestra lo que recibe. El consumidor decide qué botones aparecen y el servidor valida cada acción.
+
+| Acción | Quién puede | Fuente |
+| --- | --- | --- |
+| Reclamar | Solo si la conversación está en el pool. Con responsable activo responde `409`, aunque la versión sea la vigente | DEC-123 |
+| Responder | Solo el responsable con reclamo activo | Addendum §4 (punto 4) |
+| Liberar | El responsable del reclamo | Addendum §4 (punto 6) |
+| Transferir | El responsable. En V1 la transferencia devuelve la conversación al pool; no se dirige a un ejecutivo concreto | DEC-119 |
+| Marcar atendida | Acción explícita del responsable. Responder no la marca | DEC-117 |
+| Ver y leer | Supervisor y coordinador solo leen conversaciones (sin acciones de reclamo) | DEC-131 |
+| Override de supervisor | Cerrado en V1: el envío no lleva `motivo_override` | DEC-107 |
+
+Errores del servidor: `409` por conflicto de versión o de reclamo, y `403` por falta de permiso. Se muestran con `MessageComposer`/`MessagePanel` `notice` o con un `MessageBubble` en estado `failed`.

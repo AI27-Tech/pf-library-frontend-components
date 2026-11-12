@@ -313,90 +313,90 @@ Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisi
 
 ## P8. MessagePanel
 
-- [ ] 41. Contrato y decisiones
-  - [ ] 41.1 En `pf-pkg-contracts`: `git fetch --tags` y confirmar el último tag. Si es posterior a `v0.1.0-tracer.40`, repetir la comparación de `Mensaje`, `Conversacion`, `EstadoConversacion` y `EnviarMensajeEntrada` con `v0.1.0-tracer.9` y ajustar `design.md`.
-  - [ ] 41.2 Leer siempre del tag (`git show <tag>:contracts/openapi/mensajeria.yaml`), no del árbol de trabajo, que está en una rama de feature.
+- [x] 41. Contrato y decisiones
+  - [x] 41.1 En `pf-pkg-contracts`: `git fetch --tags` y confirmar el último tag. Si es posterior a `v0.1.0-tracer.40`, repetir la comparación de `Mensaje`, `Conversacion`, `EstadoConversacion` y `EnviarMensajeEntrada` con `v0.1.0-tracer.9` y ajustar `design.md`.
+  - [x] 41.2 Leer siempre del tag (`git show <tag>:contracts/openapi/mensajeria.yaml`), no del árbol de trabajo, que está en una rama de feature.
   - [x] 41.3 D11 a D17 confirmadas (2026-11-12).
-  - [ ] 41.4 Contrastar el diseño de P8 con las reglas de conversación del `Addendum` (`docs/addenda/addendum-conversacion-de-negocio-y-bandeja-compartida.md`, §4 a §8) y con DEC-107, DEC-117, DEC-118 y DEC-127 en el repo de contexto. Hasta ahora se verificó contra el texto del contrato y contra `afordancias.ts` del portal interno, no contra esos documentos.
+  - [x] 41.4 Contrastar el diseño de P8 con las reglas de conversación del `Addendum` (`docs/addenda/addendum-conversacion-de-negocio-y-bandeja-compartida.md`, §4 a §8) y con DEC-107, DEC-117, DEC-118 y DEC-127 en el repo de contexto. Hasta ahora se verificó contra el texto del contrato y contra `afordancias.ts` del portal interno, no contra esos documentos.
   - _Requisitos: R25.1, R25.4_
 
-- [ ] 42. Tipos, textos y alineación
-  - [ ] 42.1 Renombrar `Mensaje.secuenciaMensaje` a `secuencia` en `types.ts`, `MessagePanel.test.tsx`, `MessagePanel.stories.tsx` y en cualquier otro uso (D12).
-  - [ ] 42.2 Cambiar los comentarios que citan `v0.1.0-tracer.9`.
-  - [ ] 42.3 Crear `labels.ts` con los textos por defecto en español de `design.md` y que cada componente acepte `labels` (D13).
-  - [ ] 42.4 Agregar a `CONSUMING.md` la tabla campo del contrato → prop de la librería, y la tabla de reglas de la conversación (quién reclama, responde, libera, transfiere y marca atendida; solo lectura de `supervisor`/`coordinador`; errores `409` y `403`), con el aviso de que la librería no las aplica (R26.7).
-  - [ ] 42.5 Agregar un test con un `Mensaje` completo basado en el ejemplo del contrato.
+- [x] 42. Tipos, textos y alineación
+  - [x] 42.1 Renombrar `Mensaje.secuenciaMensaje` a `secuencia` en `types.ts`, `MessagePanel.test.tsx`, `MessagePanel.stories.tsx` y en cualquier otro uso (D12).
+  - [x] 42.2 Cambiar los comentarios que citan `v0.1.0-tracer.9`.
+  - [x] 42.3 Crear `labels.ts` con los textos por defecto en español de `design.md` y que cada componente acepte `labels` (D13).
+  - [x] 42.4 Agregar a `CONSUMING.md` la tabla campo del contrato → prop de la librería, y la tabla de reglas de la conversación (quién reclama, responde, libera, transfiere y marca atendida; solo lectura de `supervisor`/`coordinador`; errores `409` y `403`), con el aviso de que la librería no las aplica (R26.7).
+  - [x] 42.5 Agregar un test con un `Mensaje` completo basado en el ejemplo del contrato.
   - _Requisitos: R25_
 
-- [ ] 43. Abrir y cerrar el panel
-  - [ ] 43.1 Reestructurar `MessagePanel` sin botones anidados: `headerMain` (botón) y `headerActions` (botones hermanos). Quitar el `stopPropagation` de `IconButton` si deja de ser necesario.
-  - [ ] 43.2 Estado `open` / `defaultOpen` / `onOpenChange`, conservando `onToggle`.
-  - [ ] 43.3 Cuerpo colapsable con `grid-template-rows`, `visibility` y `keepMounted` (D14); sin movimiento con `prefers-reduced-motion`.
-  - [ ] 43.4 Foco: al abrir por acción del usuario, al primer `textarea` habilitado; al minimizar con el foco dentro, al botón del encabezado.
-  - [ ] 43.5 `aria-expanded`, `aria-controls`, `aria-labelledby`.
-  - [ ] 43.6 Slots `toolbar` y `notice` con estilo propio.
-  - [ ] 43.7 Altura del cuerpo `min(28rem, 70dvh)`.
+- [x] 43. Abrir y cerrar el panel
+  - [x] 43.1 Reestructurar `MessagePanel` sin botones anidados: `headerMain` (botón) y `headerActions` (botones hermanos). Quitar el `stopPropagation` de `IconButton` si deja de ser necesario.
+  - [x] 43.2 Estado `open` / `defaultOpen` / `onOpenChange`, conservando `onToggle`.
+  - [x] 43.3 Cuerpo colapsable con `grid-template-rows`, `visibility` y `keepMounted` (D14); sin movimiento con `prefers-reduced-motion`.
+  - [x] 43.4 Foco: al abrir por acción del usuario, al primer `textarea` habilitado; al minimizar con el foco dentro, al botón del encabezado.
+  - [x] 43.5 `aria-expanded`, `aria-controls`, `aria-labelledby`.
+  - [x] 43.6 Slots `toolbar` y `notice` con estilo propio.
+  - [x] 43.7 Altura del cuerpo `min(28rem, 70dvh)`.
   - _Requisitos: R26.2, R30_
 
-- [ ] 44. `ConversationStatus`
-  - [ ] 44.1 Crear el componente con `Badge` de estado, responsable, atendida y `escrituraHasta`.
-  - [ ] 44.2 Stories: abierta, solo lectura, cerrada, reclamo propio, reclamo ajeno, en el pool, atendida, y "Vista del cliente" (sin datos de reclamo).
+- [x] 44. `ConversationStatus`
+  - [x] 44.1 Crear el componente con `Badge` de estado, responsable, atendida y `escrituraHasta`.
+  - [x] 44.2 Stories: abierta, solo lectura, cerrada, reclamo propio, reclamo ajeno, en el pool, atendida, y "Vista del cliente" (sin datos de reclamo).
   - _Requisitos: R26.1, R26.3, R26.4_
 
-- [ ] 45. Mensajes
-  - [ ] 45.1 `groupMessages.ts` (función pura): agrupación por día y por autor consecutivo con menos de 5 minutos.
-  - [ ]* 45.2 Pruebas de `groupMessages` (cambio de día, de autor, límite de 5 minutos).
-  - [ ] 45.3 `MessageBubble`: `deliveryStatus`, `deliveryError`, `onRetry` (el botón solo si existe), `groupPosition`, `pre-wrap` y ruptura de palabras largas.
-  - [ ] 45.4 `MessageThread` con divisores de día (Hoy, Ayer, fecha larga `es-MX`), `isOwn`, `renderAudit`, `renderAttachments`, orden por `secuencia`, descarte de ids repetidos y `pendientes` (`MensajePendiente`).
-  - [ ]* 45.4b Pruebas del orden por `secuencia` con `creadoEn` desordenado, ids repetidos y un pendiente que se confirma.
-  - [ ] 45.5 `MessageAttachment` (D17) con estados `ready`, `uploading` y `error`.
-  - [ ] 45.6 Estilo discreto para `slotAuditoria`.
+- [x] 45. Mensajes
+  - [x] 45.1 `groupMessages.ts` (función pura): agrupación por día y por autor consecutivo con menos de 5 minutos.
+  - [x]* 45.2 Pruebas de `groupMessages` (cambio de día, de autor, límite de 5 minutos).
+  - [x] 45.3 `MessageBubble`: `deliveryStatus`, `deliveryError`, `onRetry` (el botón solo si existe), `groupPosition`, `pre-wrap` y ruptura de palabras largas.
+  - [x] 45.4 `MessageThread` con divisores de día (Hoy, Ayer, fecha larga `es-MX`), `isOwn`, `renderAudit`, `renderAttachments`, orden por `secuencia`, descarte de ids repetidos y `pendientes` (`MensajePendiente`).
+  - [x]* 45.4b Pruebas del orden por `secuencia` con `creadoEn` desordenado, ids repetidos y un pendiente que se confirma.
+  - [x] 45.5 `MessageAttachment` (D17) con estados `ready`, `uploading` y `error`.
+  - [x] 45.6 Estilo discreto para `slotAuditoria`.
   - _Requisitos: R27_
 
-- [ ] 46. `MessageList`
-  - [ ] 46.1 Detección `isNearBottom` y auto-desplazamiento condicionado.
-  - [ ] 46.2 Botón flotante "N mensajes nuevos".
-  - [ ] 46.3 Conservar la posición al cargar mensajes anteriores; `loadingPrevious`.
-  - [ ] 46.4 `loading` con esqueletos de burbujas y `emptyState`.
-  - [ ] 46.5 Divisor "Mensajes nuevos" con `ultimaSecuenciaLeida`.
-  - [ ] 46.6 `role="log"`, `aria-live="polite"`, `aria-relevant="additions"`.
+- [x] 46. `MessageList`
+  - [x] 46.1 Detección `isNearBottom` y auto-desplazamiento condicionado.
+  - [x] 46.2 Botón flotante "N mensajes nuevos".
+  - [x] 46.3 Conservar la posición al cargar mensajes anteriores; `loadingPrevious`.
+  - [x] 46.4 `loading` con esqueletos de burbujas y `emptyState`.
+  - [x] 46.5 Divisor "Mensajes nuevos" con `ultimaSecuenciaLeida`.
+  - [x] 46.6 `role="log"`, `aria-live="polite"`, `aria-relevant="additions"`.
   - [ ]* 46.7 Prueba de `isNearBottom`.
   - _Requisitos: R28_
 
-- [ ] 47. `MessageComposer`
-  - [ ] 47.1 Guardia de IME (`isComposing`).
-  - [ ] 47.2 `sending` con `Spinner` en el botón y sin doble envío.
-  - [ ] 47.3 `onAttach` con botón `Paperclip`.
-  - [ ] 47.4 `maxLength` con contador visible desde el 80 %.
-  - [ ] 47.5 `composerRef` y `autoFocus`.
+- [x] 47. `MessageComposer`
+  - [x] 47.1 Guardia de IME (`isComposing`).
+  - [x] 47.2 `sending` con `Spinner` en el botón y sin doble envío.
+  - [x] 47.3 `onAttach` con botón `Paperclip`.
+  - [x] 47.4 `maxLength` con contador visible desde el 80 %.
+  - [x] 47.5 `composerRef` y `autoFocus`.
   - _Requisitos: R29_
 
-- [ ] 48. Muelle y barra
-  - [ ] 48.1 Token `--ui-z-dock: 900` en `tokens.css` y uso en `.dock` (D15).
-  - [ ] 48.2 `dockReducer` (función pura) y `useMessageDock` (D16) con capacidad por ancho de ventana.
-  - [ ]* 48.3 Pruebas de `dockReducer` (abrir, cerrar, alternar, desbordar, capacidad 1).
-  - [ ] 48.4 `MessageDock` con `overflowCount`, `overflow` y chip "+N" con `Popover`.
-  - [ ] 48.5 Móvil (≤ 560 px): un panel a todo el ancho.
-  - [ ] 48.6 `MessageDockBar` sin botones anidados, con `lastMessageAt`, `badge` opcional y nombre accesible propio.
-  - [ ] 48.7 `DockConversation.lastMessageAt` y `badge` en el tipo.
+- [x] 48. Muelle y barra
+  - [x] 48.1 Token `--ui-z-dock: 900` en `tokens.css` y uso en `.dock` (D15).
+  - [x] 48.2 `dockReducer` (función pura) y `useMessageDock` (D16) con capacidad por ancho de ventana.
+  - [x]* 48.3 Pruebas de `dockReducer` (abrir, cerrar, alternar, desbordar, capacidad 1).
+  - [x] 48.4 `MessageDock` con `overflowCount`, `overflow` y chip "+N" con `Popover`.
+  - [x] 48.5 Móvil (≤ 560 px): un panel a todo el ancho.
+  - [x] 48.6 `MessageDockBar` sin botones anidados, con `lastMessageAt`, `badge` opcional y nombre accesible propio.
+  - [x] 48.7 `DockConversation.lastMessageAt` y `badge` en el tipo.
   - _Requisitos: R31_
 
 - [ ] 49. Estilo
-  - [ ] 49.1 Reemplazar los valores sueltos de `MessagePanel.module.css` por tokens o variables locales.
-  - [ ] 49.2 Burbujas agrupadas, radios por posición, alias y hora con la escala de tipografía de tokens, scrollbar fino.
-  - [ ] 49.3 Foco visible en encabezado, acciones, lista, compositor y envío.
+  - [x] 49.1 Reemplazar los valores sueltos de `MessagePanel.module.css` por tokens o variables locales.
+  - [x] 49.2 Burbujas agrupadas, radios por posición, alias y hora con la escala de tipografía de tokens, scrollbar fino.
+  - [x] 49.3 Foco visible en encabezado, acciones, lista, compositor y envío.
   - [ ] 49.4 Revisar tema claro y oscuro.
   - _Requisitos: R32_
 
 - [ ] 50. Stories, pruebas y cierre de P8
-  - [ ] 50.1 Stories (R24): panel abierto y minimizado, controlado y no controlado, con `toolbar` y `notice`, solo lectura, cerrada, cargando, vacío, mensajes fallidos y enviando, con adjuntos, muelle con 1, 3 y 6 conversaciones y desborde, barra con no leídos, vista angosta.
-  - [ ] 50.2 Buscar en `pf-web-frontend-internal`, `pf-web-frontend-client` y `pf-web-frontend-analist-panel` el uso de `MessagePanel`, de las props obsoletas `author`/`time` y de los textos en inglés (`Minimize`, `Messaging`, `Write a message`). Reportar el resultado.
-  - [ ] 50.3 Actualizar `MessagePanel.test.tsx` (renombre, textos, estructura del encabezado).
-  - [ ]* 50.4 Pruebas de comportamiento: abrir/cerrar sin doble alternancia, ausencia de botones anidados, foco al abrir y al minimizar, IME, `keepMounted`.
+  - [x] 50.1 Stories (R24): panel abierto y minimizado, controlado y no controlado, con `toolbar` y `notice`, solo lectura, cerrada, cargando, vacío, mensajes fallidos y enviando, con adjuntos, muelle con 1, 3 y 6 conversaciones y desborde, barra con no leídos, vista angosta.
+  - [x] 50.2 Buscar en `pf-web-frontend-internal`, `pf-web-frontend-client` y `pf-web-frontend-analist-panel` el uso de `MessagePanel`, de las props obsoletas `author`/`time` y de los textos en inglés (`Minimize`, `Messaging`, `Write a message`). Reportar el resultado.
+  - [x] 50.3 Actualizar `MessagePanel.test.tsx` (renombre, textos, estructura del encabezado).
+  - [x]* 50.4 Pruebas de comportamiento: abrir/cerrar sin doble alternancia, ausencia de botones anidados, foco al abrir y al minimizar, IME, `keepMounted`.
   - [ ] 50.5 Probar el build local en `PanelConversacion` de `pf-web-frontend-internal`, sin publicar: reemplazar el armado manual de banner, acciones y "cargar anteriores" por `ConversationStatus`, `toolbar`, `notice` y `loadingPrevious`, y confirmar que el flujo (reclamar, enviar, devolver) sigue funcionando.
-  - [ ] 50.6 Exportar `ConversationStatus`, `MessageThread`, `MessageAttachment`, `useMessageDock` y los tipos nuevos en `src/index.ts`.
-  - [ ] 50.7 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 50.8 CHANGELOG: "Cambiado" (`secuencia`, textos en español, muelle bajo `Modal`, contenido montado al minimizar, encabezado sin botones anidados, auto-scroll condicionado), "Agregado" (componentes nuevos), "Obsoleto" (`author`, `time`).
+  - [x] 50.6 Exportar `ConversationStatus`, `MessageThread`, `MessageAttachment`, `useMessageDock` y los tipos nuevos en `src/index.ts`.
+  - [x] 50.7 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 50.8 CHANGELOG: "Cambiado" (`secuencia`, textos en español, muelle bajo `Modal`, contenido montado al minimizar, encabezado sin botones anidados, auto-scroll condicionado), "Agregado" (componentes nuevos), "Obsoleto" (`author`, `time`).
 
 ## P9. Timeline
 
