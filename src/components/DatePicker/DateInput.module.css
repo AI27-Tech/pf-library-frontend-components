@@ -12,18 +12,26 @@
   gap: 2px;
 }
 
+/* 18 px para no alterar la altura del campo. El área de clic se amplía con ::before. */
 .iconButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.125rem;
+  height: 1.125rem;
   padding: 0;
   border: none;
   border-radius: var(--ui-radius, 0.25rem);
   background: transparent;
   color: var(--ui-color-text-muted, #94a3b8);
   cursor: pointer;
+}
+
+.iconButton::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
 }
 
 .iconButton:hover:not(:disabled) {
@@ -42,8 +50,8 @@
 }
 
 .iconButton svg {
-  width: 1rem;
-  height: 1rem;
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 /* Panel: presets a la izquierda y calendario a la derecha */

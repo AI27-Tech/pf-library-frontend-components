@@ -97,18 +97,26 @@
   flex: 0 0 auto;
 }
 
+/* 18 px para no alterar la altura del campo. El área de clic se amplía con ::before. */
 .actionButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.125rem;
+  height: 1.125rem;
   padding: 0;
   border: none;
   border-radius: var(--ui-radius, 0.25rem);
   background: transparent;
   color: var(--ui-color-text-muted, #94a3b8);
   cursor: pointer;
+}
+
+.actionButton::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
 }
 
 .actionButton:hover {
@@ -122,8 +130,8 @@
 }
 
 .actionButton svg {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 /* Contador de caracteres (Textarea con showCount) */

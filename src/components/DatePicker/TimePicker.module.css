@@ -4,7 +4,7 @@
   max-width: 100%;
 }
 
-/* El campo mide lo que mide su contenido, no el 100 % del contenedor */
+/* Ancho natural: el campo mide lo que mide su contenido (segmentos, separadores y botones). */
 .root .container {
   width: max-content;
   max-width: 100%;
@@ -13,16 +13,18 @@
 
 /* Segmentos: sin borde ni fondo; el foco se ve en el campo completo */
 .segment {
-  /* En em, no en ch: el placeholder "HH" y "MM" son más anchos que dos dígitos. */
-  width: 2.4em;
-  min-width: 2.4em;
+  /* En em: el placeholder "HH" y "MM" necesitan ese ancho. Texto alineado a la izquierda,
+     como en el resto de los campos, para que el valor empiece en el mismo punto. */
+  width: 1.75em;
+  min-width: 1.75em;
   padding: 0;
   border: none;
   border-radius: var(--ui-radius, 0.25rem);
   background: transparent;
   color: inherit;
   font: inherit;
-  text-align: center;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
   outline: none;
   caret-color: transparent;
   cursor: pointer;
@@ -41,24 +43,33 @@
 }
 
 .period {
-  width: 3.4em;
-  min-width: 3.4em;
+  width: 2.6em;
+  min-width: 2.6em;
 }
 
 .separator {
-  padding: 0 1px;
+  margin: 0 0.25em;
   color: var(--ui-color-text-muted, #94a3b8);
   user-select: none;
 }
 
-.clearButton {
+/* Botones de acción a la derecha, con el mismo tamaño y espaciado que DateInput */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  margin-left: var(--ui-space-2, 0.5rem);
+}
+
+/* 18 px para no alterar la altura del campo. El área de clic se amplía con ::before. */
+.actionButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-left: var(--ui-space-1, 0.25rem);
+  width: 1.125rem;
+  height: 1.125rem;
   padding: 0;
   border: none;
   border-radius: var(--ui-radius, 0.25rem);
@@ -67,19 +78,25 @@
   cursor: pointer;
 }
 
-.clearButton:hover {
+.actionButton::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+
+.actionButton:hover {
   color: var(--ui-color-text, #e2e8f0);
   background-color: var(--ui-color-surface-container-high, #242b3a);
 }
 
-.clearButton:focus-visible {
+.actionButton:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
 
-.clearButton svg {
-  width: 0.9rem;
-  height: 0.9rem;
+.actionButton svg {
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 /* Panel: presets a la izquierda y columnas de hora a la derecha */

@@ -196,14 +196,14 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 24.12 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`. _Lint, typecheck, 89 pruebas y `pnpm build-storybook` pasan. Revisión visual confirmada por el equipo._
   - _Requisitos: R19.3_
 
-- [ ] 25. Mejoras de `Form` acordadas en 18.2
+- [-] 25. Mejoras de `Form` acordadas en 18.2
   - Restricciones: igual que la tarea 24.
-  - [ ] 25.1 `FormActions` pegajoso: prop opt-in `sticky` que fija la barra al fondo del área visible.
-  - [ ] 25.2 `FormSection` colapsable: prop opt-in `collapsible`, con `defaultOpen` (no controlado) y `open` con `onOpenChange` (controlado). La leyenda funciona como botón y expone `aria-expanded`.
-  - [ ] 25.3 `FormRow`: sin cambios funcionales. Reemplazar el `cx` local de `Form.tsx` por el de `Input/utils.ts` (H8).
-  - [ ] 25.4 Stories de `Form.stories.tsx` para `FormActions` pegajoso, `FormSection` colapsable y `FormRow`.
-  - [ ] 25.5 Formulario completo en `Form.stories.tsx` que use los pickers nuevos. Depende de las tareas 20 a 23: no empezar antes de que existan `DateInput` y `TimePicker`.
-  - [ ] 25.6 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`.
+  - [x] 25.1 `FormActions` pegajoso: prop opt-in `sticky` que fija la barra al fondo del área visible. _Clase `sticky` en `Form.module.css`._
+  - [x] 25.2 `FormSection` colapsable: prop opt-in `collapsible`, con `defaultOpen` (no controlado) y `open` con `onOpenChange` (controlado). La leyenda funciona como botón y expone `aria-expanded`. _El contenido va en un `div` con `hidden` y `aria-controls`._
+  - [x] 25.3 `FormRow`: sin cambios funcionales. Reemplazar el `cx` local de `Form.tsx` por el de `Input/utils.ts` (H8). _Hecho._
+  - [x] 25.4 Stories de `Form.stories.tsx` para `FormActions` pegajoso, `FormSection` colapsable y `FormRow`. _`StickyActions`, `CollapsibleSections` y `Rows`._
+  - [x] 25.5 Formulario completo en `Form.stories.tsx` que use los pickers nuevos. _`FullFormWithPickers` usa `DateInput` y `TimePicker`. Los pickers de la tarea 20 a 22 ya existen; la 23 (`DateTimeInput`) no se usa aquí._
+  - [x] 25.6 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`. _Lint, typecheck, 89 pruebas y `pnpm build-storybook` pasan. Verificación temporal de 6 casos de `FormSection` y `FormActions`, eliminada después. Ajustes tras revisión visual: alturas de `DateInput`, `TimePicker` e `Input` unificadas a 36 px (botones de acción de 18 px con área de clic ampliada); `TimePicker` ocupa el ancho de su columna; barra pegajosa con borde a borde en la story `StickyActions`. Pendiente: revisión visual final por el equipo._
   - _Requisitos: R19.3_
 
 - [ ] 26. Cierre de P5

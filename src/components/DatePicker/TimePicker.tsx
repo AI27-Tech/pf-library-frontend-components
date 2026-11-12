@@ -120,6 +120,15 @@ function stepOf(step: number): number {
   return Math.max(1, Math.floor(step));
 }
 
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  );
+}
+
 function ClearIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -469,15 +478,31 @@ export function TimePicker({
             />
           </Fragment>
         ))}
-        {clearable && interactive && hasInput && (
-          <button
-            type="button"
-            className={styles.clearButton}
-            aria-label="Borrar hora"
-            onClick={clear}
-          >
-            <ClearIcon />
-          </button>
+        {((clearable && hasInput) || withDropdown) && interactive && (
+          <span className={styles.actions}>
+            {clearable && hasInput && (
+              <button
+                type="button"
+                className={styles.actionButton}
+                aria-label="Borrar hora"
+                onClick={clear}
+              >
+                <ClearIcon />
+              </button>
+            )}
+            {withDropdown && (
+              <button
+                type="button"
+                className={styles.actionButton}
+                aria-label="Abrir horas"
+                aria-expanded={dropdownOpen}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => setOpen((current) => !current)}
+              >
+                <ClockIcon />
+              </button>
+            )}
+          </span>
         )}
       </div>
 
