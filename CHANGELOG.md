@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Agregado
+- **Fechas y horas (`DatePicker`)**: `Calendar` (vistas de días, meses y años; teclado de rejilla ARIA; `min`, `max`, `isDateDisabled`, `weekStartsOn`), `DateInput` (escritura `DD/MM/AAAA`, presets, `clearable`, `displayFormat`), `TimePicker` (segmentos de hora, minuto y segundo; AM/PM con `format="12h"`; dropdown con opciones deshabilitadas fuera de rango; presets y pegado), `DateTimeInput` (fecha y hora en un solo valor `YYYY-MM-DDTHH:mm`) y `getTimeRange` para generar listas de horas. Contrato de valores documentado en el README.
+- **`FormField`**: prop `showOptional` (muestra "(opcional)") y `orientation="horizontal"`.
+- **`Textarea`**: prop `showCount` con contador de caracteres (`actual/máximo` con `maxLength`).
+- **`Input`**: `clearable` con `onClear`, y `passwordToggle` para mostrar u ocultar contraseñas. Estado de solo lectura con `readOnly`.
+- **`Select`**: `state`, `readOnly`, `id` y `aria-describedby`.
+- **`Checkbox`, `Radio` y `Switch`**: prop `size` (`sm`, `md`, `lg`) e `invalid`.
+- **`FormSection`**: prop `collapsible` con `defaultOpen`, `open` y `onOpenChange`.
+- **`FormActions`**: prop `sticky`.
 - **`Popover`**: contenedor flotante anclado a un elemento. Se renderiza en un portal a `document.body` con `position: fixed`, abre `bottom`, `top` o `auto`, se ajusta al viewport, se reposiciona en scroll y resize, y se cierra con clic fuera o `Escape`. Acepta `align`, `offset`, `matchAnchorWidth` y `role`. Usa el token `--ui-z-popover`.
 - **Clase `.ui-sr-only`** en `base.css`: texto visible solo para lectores de pantalla.
 - **`Skeleton`, `SkeletonText`, `SkeletonCard` y `SkeletonTable`**: placeholders de carga. Son decorativos para lectores de pantalla, y el contenedor anuncia "Cargando" con `role="status"` y `aria-busy`. `SkeletonCard` usa `Card` como contenedor.
@@ -25,6 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`Tabs`, `TabList`, `Tab` y `TabPanel`**: pestañas controladas y no controladas, con navegación por teclado (flechas con vuelta, `Home` y `End`), `icon`, `badge` y `disabled`.
 
 ### Cambiado
+- **`Popover`**: si el contenido no cabe ni arriba ni abajo, se mantiene dentro del viewport. Nueva prop `onPositioned`, que avisa cuando el contenido ya es visible.
+- **`Input`**: el estado `error` ahora pinta el borde. Antes solo marcaba `aria-invalid`.
+- **`Select`**: `FormField` lo asocia con su etiqueta y con el texto de ayuda o error (antes el `id` no llegaba al control).
+- **`Checkbox`, `Radio` y `Switch`**: ya no envían la prop `invalid` al `<input>`. Si el control está inválido, se marca con `aria-invalid`. El radio del checkbox pasa a `--ui-radius`, igual que `Input`.
+- **`Form`**: `Form.tsx` usa el `cx` compartido de `Input/utils.ts`.
 - **`Table` con `loading`**: muestra filas en skeleton que conservan las columnas, la selección y la expansión, en lugar de un spinner. El checkbox de seleccionar todo queda deshabilitado mientras carga. Se quitó el spinner y su CSS de `Table.module.css`.
 - **`ImageCard`** (y `ImageGrid`, que la usa): mientras la imagen carga, muestra un placeholder `Skeleton` sobre el area de imagen. Si la imagen falla, el placeholder se retira. No cambian las props.
 - **`Sidebar`**: el botón de colapso pasa del pie al encabezado y es solo icono (`PanelLeftClose` / `PanelLeftOpen` de `lucide-react`), centrado cuando la barra está contraída. El encabezado se muestra si hay `header` u `onToggleCollapse`. La prop `footer` ahora es la única que renderiza el pie. Sin `onToggleCollapse` no hay botón, como antes. Si una barra con `onToggleCollapse` no tenía `header`, ahora muestra una fila de encabezado de 3.5 rem con solo el botón.

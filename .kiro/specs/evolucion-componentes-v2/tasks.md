@@ -174,7 +174,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Cierre: revisión visual confirmada por el equipo._
   - _Requisitos: R17_
 
-- [-] 23. `DateTimeInput`
+- [x] 23. `DateTimeInput` _Cerrada. Revisión visual confirmada por el equipo._
   - [x] 23.1 Composición de `DateInput` y `TimePicker` con estado interno por partes. _`DateTimeInput.tsx`. La hora tiene ancho natural; la fecha ocupa el resto de la fila._
   - [x] 23.2 Emisión combinada solo con ambas partes; `defaultTime`; reparto de `min`/`max`. _Un valor externo no vacío reemplaza las dos partes; uno vacío no borra una parte a medias. La hora se restringe solo el día del límite._
   - [x] 23.3 Story que documenta el comportamiento de "parte a medias" y el uso de `key` para reiniciar. _`ResetWithKey` y `PartialState`, más 9 stories en total._
@@ -197,7 +197,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 24.12 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`. _Lint, typecheck, 89 pruebas y `pnpm build-storybook` pasan. Revisión visual confirmada por el equipo._
   - _Requisitos: R19.3_
 
-- [-] 25. Mejoras de `Form` acordadas en 18.2
+- [x] 25. Mejoras de `Form` acordadas en 18.2 _Cerrada. Revisión visual confirmada por el equipo._
   - Restricciones: igual que la tarea 24.
   - [x] 25.1 `FormActions` pegajoso: prop opt-in `sticky` que fija la barra al fondo del área visible. _Clase `sticky` en `Form.module.css`._
   - [x] 25.2 `FormSection` colapsable: prop opt-in `collapsible`, con `defaultOpen` (no controlado) y `open` con `onOpenChange` (controlado). La leyenda funciona como botón y expone `aria-expanded`. _El contenido va en un `div` con `hidden` y `aria-controls`._
@@ -207,10 +207,11 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 25.6 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`. _Lint, typecheck, 89 pruebas y `pnpm build-storybook` pasan. Verificación temporal de 6 casos de `FormSection` y `FormActions`, eliminada después. Ajustes tras revisión visual: alturas de `DateInput`, `TimePicker` e `Input` unificadas a 36 px (botones de acción de 18 px con área de clic ampliada); `TimePicker` ocupa el ancho de su columna; barra pegajosa con borde a borde en la story `StickyActions`. Pendiente: revisión visual final por el equipo._
   - _Requisitos: R19.3_
 
-- [ ] 26. Cierre de P5
-  - [ ] 26.1 Exportar `Calendar`, `DateInput`, `TimePicker`, `getTimeRange`, `DateTimeInput` y sus tipos en `src/index.ts`.
-  - [ ] 26.2 Documentar en `CONSUMING.md` el contrato de valores (cadenas de hora de pared, `""` vacío) y el límite de `DateTimeInput`.
-  - [ ] 26.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+- [x] 26. Cierre de P5
+  - [x] 26.1 Exportar `Calendar`, `DateInput`, `TimePicker`, `getTimeRange`, `DateTimeInput` y sus tipos en `src/index.ts`. _Barrel en `components/DatePicker/index.ts`._
+  - [x] 26.2 Documentar el contrato de valores (cadenas de hora de pared, `""` vacío) y el límite de `DateTimeInput`. _Se escribió en la sección "Fechas y horas: contrato de valores" del README. `CONSUMING.md` solo apunta al README desde una consolidación anterior, así que no se duplicó allí._
+  - [x] 26.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`. _Todo pasa: 89 pruebas, build de librería y build de Storybook._
+  - [x] 26.4 CHANGELOG: "Agregado" y "Cambiado" según lo acordado en 18.2. _Entradas en `[Unreleased]`._
   - [ ] 26.4 CHANGELOG: "Agregado" y "Cambiado" según lo acordado en 18.2.
 
 ## P6. Tablas y filtros

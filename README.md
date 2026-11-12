@@ -303,3 +303,15 @@ src/
 ## Licencia
 
 Uso interno — Equipo AI27
+
+## Fechas y horas: contrato de valores (@ai27-tech/ui)
+
+Aplica a `DateInput`, `Calendar`, `TimePicker` y `DateTimeInput`.
+
+- **Fecha** (`DateInput`, `Calendar`): `YYYY-MM-DD`. Sin fecha, `""`. Al escribir se usa `DD/MM/AAAA`. `displayFormat="AAAA Mmm DD"` cambia solo la visualización cuando el campo no tiene foco.
+- **Hora** (`TimePicker`): `HH:mm` o `HH:mm:ss`, siempre en 24 h. `format="12h"` cambia solo la visualización. Sin hora, `""`. Se emite solo cuando todos los segmentos requeridos están completos.
+- **Fecha y hora** (`DateTimeInput`): `YYYY-MM-DDTHH:mm`, o `YYYY-MM-DDTHH:mm:ss` con `withSeconds`. Sin valor, `""`. Se emite solo cuando fecha y hora están completas.
+- **Hora de pared**: los valores no llevan zona horaria. La librería no los convierte con `new Date(string)`. Quien guarda el valor decide la zona.
+- **Límites** `min` y `max`: inclusivos. En `DateTimeInput`, la hora solo se restringe el día del límite.
+- **Modo controlado**: con `value`, el padre es la fuente de verdad. Si no actualiza `value`, el campo vuelve al valor vigente al confirmar. Sin `value`, el componente guarda su propio valor.
+- **Límites de `DateTimeInput`**: no acepta formatos de escritura distintos a `DD/MM/AAAA` para la fecha ni `HH:mm` para la hora. No tiene `dateParser` ni `valueFormat` personalizados.

@@ -37,6 +37,23 @@ export type { TooltipProps } from "./components/Tooltip";
 // Popover
 export { Popover } from "./components/Popover";
 export type { PopoverProps } from "./components/Popover";
+// DatePicker
+export {
+  Calendar,
+  DateInput,
+  TimePicker,
+  DateTimeInput,
+  getTimeRange,
+} from "./components/DatePicker";
+export type {
+  CalendarProps,
+  CalendarView,
+  DateInputProps,
+  DatePreset,
+  TimePickerProps,
+  TimePreset,
+  DateTimeInputProps,
+} from "./components/DatePicker";
 
 // FilterBar
 export { FilterBar } from "./components/FilterBar";
