@@ -89,9 +89,12 @@ export function Popover({
     const opensUp =
       position === "top" ||
       (position === "auto" && spaceBelow < contentHeight && spaceAbove > spaceBelow);
-    const top = opensUp
+    const rawTop = opensUp
       ? anchorRect.top - offset - contentHeight
       : anchorRect.bottom + offset;
+    // Si no cabe abajo ni arriba, se mantiene dentro del viewport aunque tape el ancla.
+    const maxTop = window.innerHeight - contentHeight - VIEWPORT_MARGIN;
+    const top = Math.max(VIEWPORT_MARGIN, Math.min(rawTop, maxTop));
 
     const rawLeft = align === "end" ? anchorRect.right - contentWidth : anchorRect.left;
     const maxLeft = window.innerWidth - contentWidth - VIEWPORT_MARGIN;

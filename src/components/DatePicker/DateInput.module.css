@@ -1,0 +1,84 @@
+.root {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 12rem;
+}
+
+/* Botones de acción dentro del campo (borrar y calendario) */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+}
+
+.iconButton:hover:not(:disabled) {
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.iconButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.iconButton:disabled {
+  opacity: var(--ui-opacity-disabled, 0.55);
+  cursor: not-allowed;
+}
+
+.iconButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Panel: presets a la izquierda y calendario a la derecha */
+.panel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+.presets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1, 0.25rem);
+  min-width: 8rem;
+  padding-right: var(--ui-space-3, 0.75rem);
+  border-right: 1px solid var(--ui-color-border-subtle, #242d3d);
+}
+
+.preset {
+  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  text-align: left;
+  cursor: pointer;
+}
+
+.preset:hover {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.preset:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}

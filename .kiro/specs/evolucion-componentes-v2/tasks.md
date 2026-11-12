@@ -141,7 +141,7 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 19.2 Pruebas unitarias: años bisiestos, fin de mes, `addMonths` desde el día 31, rejilla con `weekStartsOn` 0 y 1, análisis de texto con `/`, `-` y `.`, fechas inválidas, `min`/`max`. _Hecho en `dateUtils.test.ts`: 48 pruebas pasan con `pnpm test`. Incluye también `today` con reloj simulado._
   - _Requisitos: R15.6_
 
-- [-] 20. `Calendar`
+- [x] 20. `Calendar` _Cerrada. Revisión visual en Storybook confirmada por el equipo en tema claro y oscuro._
   - [x] 20.1 Vistas de días, meses y años; encabezado con navegación. _`Calendar.tsx`. El título cambia de vista y los botones anterior y siguiente avanzan según la vista (mes, año o bloque de 12 años)._
   - [x] 20.2 Grid ARIA con roving tabindex; teclado completo (flechas, `PageUp`/`PageDown`, `Shift` + estas, `Home`/`End`, `Enter`/`Espacio`). _Teclado implementado en la vista de días. Decisión: `Shift` + flechas avanza o retrocede un año. En meses y años se usan botones nativos (Tab y Enter)._
   - [x] 20.3 Estados: hoy, seleccionado, fuera de mes, deshabilitado (`min`, `max`, `isDateDisabled`). _Los días deshabilitados usan `aria-disabled`, para que sigan siendo alcanzables con el teclado. Un mes o año fuera de rango se deshabilita por completo. Días de otros meses: texto atenuado y borde punteado, elegibles (decisión de revisión visual)._
@@ -150,13 +150,15 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Verificado con una prueba temporal de 9 casos (teclado, selección, rangos, navegación entre vistas, lunes y domingo como inicio), que luego se eliminó. Pendiente: revisión visual en Storybook y tema oscuro/claro._
   - _Requisitos: R15_
 
-- [ ] 21. `DateInput`
-  - [ ] 21.1 Campo con `Input`, botón de calendario y botón de limpiar; formato `DD/MM/AAAA`.
-  - [ ] 21.2 Confirmación del texto en `blur`/`Enter`; si es inválido o fuera de rango, volver al valor vigente.
-  - [ ] 21.3 `Popover` con `Calendar` y columna de `presets`.
-  - [ ] 21.4 Teclado: `ArrowDown` abre y mueve el foco al calendario; `Escape` cierra y devuelve el foco.
-  - [ ] 21.5 Compatibilidad con `FormField` (`id`, `invalid`, `aria-describedby`); modo controlado y no controlado.
-  - [ ] 21.6 Stories: básico, con presets, `clearable`, error, dentro de `FormField`, dentro de `Modal`.
+- [x] 21. `DateInput` _Cerrada. Revisión visual confirmada por el equipo._
+  - [x] 21.1 Campo con `Input`, botón de calendario y botón de limpiar; formato `DD/MM/AAAA`. _`DateInput.tsx`, con `DateInput.module.css`._
+  - [x] 21.2 Confirmación del texto en `blur`/`Enter`; si es inválido o fuera de rango, volver al valor vigente. _Texto vacío: emite `""` solo con `clearable`._
+  - [x] 21.3 `Popover` con `Calendar` y columna de `presets`. _Presets con valor fijo o función._
+  - [x] 21.4 Teclado: `ArrowDown` abre y mueve el foco al calendario; `Escape` cierra y devuelve el foco. _`Tab` cierra. Si el clic es fuera del panel, el foco no vuelve al campo._
+  - [x] 21.5 Compatibilidad con `FormField` (`id`, `invalid`, `aria-describedby`); modo controlado y no controlado. _El color de error del campo depende de la corrección H1 (24.1). Hasta entonces, `invalid` no pinta el borde en `Input`._
+  - [x] 21.6 Stories: básico, con presets, `clearable`, error, dentro de `FormField`, dentro de `Modal`. _Incluye también `WithRange`, `Sizes`, `Disabled` y `Controlled`._
+  - _Verificado con una prueba temporal de 13 casos, eliminada después. Revisión visual confirmada por el equipo._
+  - _Corrección tras revisión: el calendario se salía de la pantalla en tamaños md y lg cuando el campo estaba cerca del borde inferior. Causa: `Popover` no limitaba `top` si no cabía ni arriba ni abajo. Ahora se mantiene dentro del viewport. Medido en 1280×800, 1024×640 y 800×600 con los tres tamaños. Limitación: en viewports muy bajos el panel puede tapar el campo. Suite completa: 89 pruebas pasan._
   - _Requisitos: R16_
 
 - [ ] 22. `TimePicker`
