@@ -131,9 +131,9 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
 
 ## P5. Formularios y pickers
 
-- [ ] 18. Auditoría de formularios (D7)
-  - [ ] 18.1 Revisar `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch`, `FormField` y `Form` (CSS y TSX): altura, radio, foco, deshabilitado, error, solo lectura, tamaños.
-  - [ ] 18.2 Escribir `auditoria-formularios.md` con diferencias y mejoras candidatas, y acordar con el equipo cuáles entran. Las tareas 24 y 25 se detallan a partir de ese acuerdo.
+- [x] 18. Auditoría de formularios (D7)
+  - [x] 18.1 Revisar `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch`, `FormField` y `Form` (CSS y TSX): altura, radio, foco, deshabilitado, error, solo lectura, tamaños. _Hecho por lectura de código, sin navegador. Hallazgos en `auditoria-formularios.md`: H1 (`Input` no muestra error, clase `.error` inexistente), H2 (`FormField` no cablea `Select`), H3 (`invalid` llega a checkbox/radio/switch)._
+  - [x] 18.2 Escribir `auditoria-formularios.md` con diferencias y mejoras candidatas, y acordar con el equipo cuáles entran. Las tareas 24 y 25 se detallan a partir de ese acuerdo. _Acordado: se corrigen H1 a H3; solo lectura se hace explícito; radios se unifican en 4px; entran todas las candidatas de la sección 3. Detalle en la sección 5 de `auditoria-formularios.md`. Pendiente: confirmar la fecha de la respuesta y que la lista de candidatas esté completa._
   - _Requisitos: R19.1, R19.2_
 
 - [ ] 19. Módulo de fechas
@@ -176,15 +176,32 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Requisitos: R18_
 
 - [ ] 24. Mejoras de formularios acordadas en 18.2
-  - [ ] 24.1 Implementar los cambios de `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch` acordados.
-  - [ ] 24.2 Implementar los cambios de `FormField` acordados.
-  - [ ] 24.3 Actualizar `Input.stories.tsx`, `Select.stories.tsx`, `Choice.stories.tsx` y `FormField.stories.tsx`: cada cambio acordado tiene su story, con los estados deshabilitado, error y solo lectura.
-  - Detallar las subtareas cuando termine 18.2.
+  - Restricciones: todo cambio mantiene la API existente (las funciones nuevas son opt-in y el valor por defecto no cambia), no agrega colores y reutiliza `Input.module.css`, `Choice.module.css` y `FormField.module.css`. Los comentarios nuevos van en español.
+  - [ ] 24.1 Correcciones H1 a H3 de `auditoria-formularios.md`:
+    - `Input`: el estado `error` aplica la clase de borde de error (`invalid`), para que el borde rojo se vea.
+    - `Select` (variante por defecto y `SelectSearchable`): aceptar `id` y `aria-describedby` y pasarlos al control, para que `FormField` los asocie.
+    - `FormField`: inyectar `invalid` solo en hijos que lo declaran, o hacer que `Checkbox`, `Radio` y `Switch` lo consuman sin enviarlo al `<input>`.
+  - [ ] 24.2 Solo lectura (H4): estilos de `readOnly` en `Input`, `Textarea` y `Select` con los tokens de la decisión 2 (fondo `surface-container-low`, borde `border-subtle`, texto `text`, cursor `default`). El anillo de foco se mantiene.
+  - [ ] 24.3 Estados de validación unificados (H5): `state` (`error`, `warning`, `success`) en `Textarea` y `Select`. `invalid` queda como alias deprecado, igual que en `Input`.
+  - [ ] 24.4 Radios unificados (decisión 3): la caja de `Checkbox` y `Radio` usa `--ui-radius`. `Switch` mantiene su forma.
+  - [ ] 24.5 Tamaños en `Checkbox`, `Radio` y `Switch` (H7): prop `size` opt-in (`sm`, `md`, `lg`), con `md` igual al tamaño actual.
+  - [ ] 24.6 Indicador de opcional en `FormField`: prop opt-in que muestra "(opcional)" en campos no requeridos.
+  - [ ] 24.7 Orientación horizontal en `FormField`: prop `orientation` (`vertical` por defecto, `horizontal`), con la etiqueta a la izquierda del control.
+  - [ ] 24.8 Contador de caracteres en `Textarea`: prop opt-in `showCount`, que usa `maxLength` cuando está definido.
+  - [ ] 24.9 `Input` con `clearable`: botón opt-in para borrar el valor, con callback `onClear`. Usa `endAdornment`, sin cambiar la API existente.
+  - [ ] 24.10 `Input` con mostrar y ocultar contraseña: prop opt-in para `type="password"`, con botón que alterna el tipo.
+  - [ ] 24.11 Stories de `Input.stories.tsx`, `Select.stories.tsx`, `Choice.stories.tsx` y `FormField.stories.tsx`. Cada cambio tiene su story, con los estados deshabilitado, error y solo lectura.
+  - [ ] 24.12 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`.
   - _Requisitos: R19.3_
 
 - [ ] 25. Mejoras de `Form` acordadas en 18.2
-  - Detallar las subtareas cuando termine 18.2 (`FormActions` pegajoso, `FormSection` colapsable, `FormRow`, si se aprueban).
-  - Incluir la actualización de `Form.stories.tsx` con un formulario completo que use los pickers nuevos.
+  - Restricciones: igual que la tarea 24.
+  - [ ] 25.1 `FormActions` pegajoso: prop opt-in `sticky` que fija la barra al fondo del área visible.
+  - [ ] 25.2 `FormSection` colapsable: prop opt-in `collapsible`, con `defaultOpen` (no controlado) y `open` con `onOpenChange` (controlado). La leyenda funciona como botón y expone `aria-expanded`.
+  - [ ] 25.3 `FormRow`: sin cambios funcionales. Reemplazar el `cx` local de `Form.tsx` por el de `Input/utils.ts` (H8).
+  - [ ] 25.4 Stories de `Form.stories.tsx` para `FormActions` pegajoso, `FormSection` colapsable y `FormRow`.
+  - [ ] 25.5 Formulario completo en `Form.stories.tsx` que use los pickers nuevos. Depende de las tareas 20 a 23: no empezar antes de que existan `DateInput` y `TimePicker`.
+  - [ ] 25.6 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`.
   - _Requisitos: R19.3_
 
 - [ ] 26. Cierre de P5
