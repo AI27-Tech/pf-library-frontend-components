@@ -83,19 +83,19 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 10.6 Actualizar `Sidebar.stories.tsx`: con `header` y botón, sin `header` y con botón, colapsada. La story `Interactive` actual cambia el `header` a un icono cuando la barra se colapsa (`collapsed ? <Icon/> : <span>`); con D2 el contenido del encabezado se oculta al colapsar, así que ese icono ya no se verá. Ajustar la story y revisar si los consumidores hacen lo mismo (tarea 12.3).
   - _Requisitos: R6_
 
-- [ ] 11. `Breadcrumb`
-  - [ ] 11.1 Crear `src/components/Breadcrumb/` con `items`, `separator`, `as`, `href`, `onClick`, `icon`.
-  - [ ] 11.2 Semántica `nav` / `ol` y `aria-current="page"` en el último elemento.
-  - [ ] 11.3 Colapso con `maxItems` y menú de "…" usando `Popover`.
-  - [ ] 11.4 Truncado de etiquetas con `title`.
-  - [ ] 11.5 Stories: básico, con iconos, con `as` (enlace simulado de router), colapsado, etiquetas largas.
+- [x] 11. `Breadcrumb`
+  - [x] 11.1 Crear `src/components/Breadcrumb/` con `items`, `separator`, `as`, `href`, `onClick`, `icon`.
+  - [x] 11.2 Semántica `nav` / `ol` y `aria-current="page"` en el último elemento.
+  - [x] 11.3 Colapso con `maxItems` y menú de "…" usando `Popover`.
+  - [x] 11.4 Truncado de etiquetas con `title`.
+  - [x] 11.5 Stories: básico, con iconos, con `as` (enlace simulado de router), colapsado, etiquetas largas.
   - _Requisitos: R7_
 
-- [ ] 12. Cierre de P3
-  - [ ] 12.1 Exportar en `src/index.ts`.
-  - [ ] 12.2 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 12.3 Probar el build local en `pf-web-frontend-internal` (`NavigationSidebar`) y `pf-web-frontend-analist-panel` (`AppShell`): botón visible, colapsa y expande, sin solapamiento. Sin publicar.
-  - [ ] 12.4 CHANGELOG: "Agregado" (`Breadcrumb`); "Cambiado" (botón del `Sidebar` pasa al encabezado y es solo icono; el pie queda para `footer`).
+- [-] 12. Cierre de P3
+  - [x] 12.1 Exportar en `src/index.ts`. _`Breadcrumb` exportado; `Sidebar` ya estaba._
+  - [x] 12.2 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`. _Todos pasan._
+  - [ ] 12.3 Probar el build local en `pf-web-frontend-internal` (`NavigationSidebar`) y `pf-web-frontend-analist-panel` (`AppShell`): botón visible, colapsa y expande, sin solapamiento. Sin publicar. _Pendiente: los consumidores usan versiones publicadas (`0.2.0-beta.6` y `beta.8`). Probar el build local exige cambiar sus dependencias, decisión del equipo. Hallazgo: `BrandHeader` de `NavigationSidebar` muestra una "A" al contraer, y con D2 esa marca se oculta._
+  - [x] 12.4 CHANGELOG: "Agregado" (`Breadcrumb`); "Cambiado" (botón del `Sidebar` pasa al encabezado y es solo icono; el pie queda para `footer`).
 
 ## P4. Estructura de información
 

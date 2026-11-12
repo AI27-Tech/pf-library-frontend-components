@@ -139,6 +139,10 @@ export type {
   SidebarItemProps,
 } from "./components/Sidebar";
 
+// Breadcrumb
+export { Breadcrumb } from "./components/Breadcrumb";
+export type { BreadcrumbProps, BreadcrumbItemData } from "./components/Breadcrumb";
+
 // Skeleton
 export { Skeleton, SkeletonText, SkeletonCard, SkeletonTable } from "./components/Skeleton";
 export type {
