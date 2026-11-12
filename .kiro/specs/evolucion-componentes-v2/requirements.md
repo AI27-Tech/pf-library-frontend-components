@@ -246,6 +246,169 @@ La librería (`0.2.0-beta.8`) no tiene breadcrumb, skeletons ni pickers de fecha
 
 ---
 
+---
+
+# Ampliación (2026-11-12): P8, P9 y P10
+
+P1 a P7 están implementados. Esta ampliación agrega tres partes. **Orden de implementación: P10, P8, P9.** P10 va primero para que P8 y P9 nazcan con Lucide y no se reescriban.
+
+## Decisiones de la ampliación
+
+| # | Decisión | Estado |
+| --- | --- | --- |
+| D11 | Lucide en todo el repo (código, stories, docs). Se mantiene empaquetado dentro de `dist` (hoy ya lo está) y no se vuelve peer dependency | Confirmada |
+| D12 | `Mensaje.secuenciaMensaje` se renombra a `secuencia`, que es el nombre real del contrato. Ruptura en beta: ningún portal usa el tipo hoy | Confirmada |
+| D13 | Textos por defecto de mensajería pasan a español, con `labels` para sobrescribirlos (misma lógica que D4) | Confirmada |
+| D14 | El panel de mensajes conserva montado su contenido al minimizar (`keepMounted`, por defecto `true`) para no perder el scroll de la conversación. Hoy se desmonta | Confirmada (cambia comportamiento) |
+| D15 | El muelle sube de nivel de capa a un token propio por debajo de `Modal`. Hoy comparte `z-index` con el overlay del `Modal` | Confirmada (cambia comportamiento) |
+| D16 | Se agrega el hook `useMessageDock` para manejar paneles abiertos, minimizados y desbordados | Confirmada |
+| D17 | Adjuntos en el chat: componente de presentación `MessageAttachment`. La subida (`intenciones-subida`) queda en el consumidor | Confirmada |
+| D18 | `rolAlEnviar` se mantiene `string`; el contrato ya tiene el enum `Rol` de ocho valores (ADR 22), pero la librería no importa contratos (D1 de `mensajes-contrato-tracer-9`) | Abierta; sin cambio |
+
+## P8. Mensajería (`MessagePanel`) al día con el contrato y afinada
+
+**Contrato de referencia:** `pf-pkg-contracts`, tag `v0.1.0-tracer.40`, `contracts/openapi/mensajeria.yaml`. La librería hoy declara `v0.1.0-tracer.9`. El checkout local del repo de contratos está en una rama de feature, así que el contrato se lee del tag y no del árbol de trabajo.
+
+**Qué cambió en el contrato desde `tracer.9` (verificado):** los esquemas `Mensaje`, `Conversacion`, `EstadoConversacion`, `EnviarMensajeEntrada` e `IntencionSubida` no cambiaron. Lo nuevo es `TrabajoBandeja` y `RevisionBandeja` (bandeja con cursor), emergencias (`CasoEmergencia`, `EmergenciaReaccion`, `NotaEmergencia`), auditoría de conversaciones, y reglas de acceso: `supervisor` y `coordinador` solo leen conversaciones y reciben `403` al enviar, reclamar, liberar, transferir, marcar atendida o registrar recibos (DEC-127). Por tanto la alineación **no** requiere campos nuevos en `Mensaje`. Sí requiere corregir un nombre y cubrir lo que hoy cada portal arma a mano.
+
+**Evidencia de lo que falta (de `pf-web-frontend-internal/src/features/conversaciones/PanelConversacion.tsx`):** usa las props `author` y `time`, ya obsoletas; arma a mano el banner de estado, la fila de botones (reclamar, devolver, marcar atendida), el botón y el estado de "cargar anteriores", el estado vacío y el texto "Atendida"; y monta `MessagePanel` con `open` fijo y sin `onToggle`.
+
+### R25. Alineación con el contrato
+
+1. `Mensaje` usa el campo `secuencia` (D12). Los demás campos coinciden con el contrato en camelCase: `conversacionId`, `clientMessageId`, `audienciaAutor`, `aliasMostrado`, `actorReal`, `rolAlEnviar`, `cuerpo`, `adjuntosIds`, `creadoEn`.
+2. `MessageList` y la documentación hablan de `secuencia`; `ultimaSecuencia` se conserva (coincide con `Conversacion.ultima_secuencia`).
+3. `CONSUMING.md` incluye una tabla "campo del contrato → prop de la librería" para `Mensaje`, `Conversacion` (estado, `escritura_hasta`, `reclamo_activo`, `atendida_en`, `ultima_secuencia`) y `EnviarMensajeEntrada`.
+4. Todo comentario que cite `v0.1.0-tracer.9` pasa a citar `v0.1.0-tracer.40`.
+5. La librería sigue sin importar `@ai27-tech/contracts`. Un test unitario con un `Mensaje` completo basado en el ejemplo del contrato verifica que el tipo y el componente aceptan todos sus campos.
+6. `MessageBubble` deja de recomendar `author` y `time`; se retiran de las stories y del test. Las props siguen funcionando (obsoletas) hasta la próxima beta mayor.
+
+### R26. Estado de la conversación y acciones
+
+1. Existe `ConversationStatus`, componente de presentación que recibe: `estado` (`abierta | solo_lectura | cerrada`), `escrituraHasta`, `atendida`, `reclamadaPor` (alias de quien tiene el reclamo) y `reclamoPropio` (si el reclamo es del visor). Muestra una `Badge` de estado, el responsable y, si aplica, hasta cuándo se puede escribir.
+2. `MessagePanel` acepta `toolbar` (fila de acciones bajo el encabezado, para botones como reclamar, devolver y marcar atendida) y `notice` (franja de aviso, por ejemplo "información desactualizada"). Ambos con estilo propio, sin estilos en línea del consumidor.
+3. La librería no decide qué acción está permitida; esa regla (`capacidades`) es del consumidor. Con `supervisor` o `coordinador` el consumidor puede pasar el compositor deshabilitado y un `notice`.
+4. `ConversationStatus` y el compositor son coherentes: si `estado` es `solo_lectura` o `cerrada`, el compositor está inactivo y muestra el texto de solo lectura (ya existe).
+5. **Qué ve cada audiencia.** En el contrato, `reclamo_activo` y `bandeja_id` solo se entregan a audiencia Interno. Todos los datos de reclamo de `ConversationStatus` son opcionales: si el portal del cliente no los pasa, no se muestra nada del reclamo ni del pool. Hay una story "Vista del cliente" (solo estado y hasta cuándo puede escribir).
+6. **El responsable es un alias que pone el consumidor.** El contrato entrega `responsable_id` (un identificador), no un nombre. `reclamadaPor` es el nombre ya resuelto por el portal.
+7. **Reglas de la conversación documentadas, no codificadas.** La librería no decide quién puede reclamar, devolver, transferir, marcar atendida o responder. Esas reglas son del contrato y las aplica el consumidor. `CONSUMING.md` las resume en una tabla (R25.3): solo `ejecutivo` reclama; solo el responsable con reclamo activo responde, libera, transfiere y marca atendida; `supervisor` y `coordinador` solo leen y reciben `403`; responder no marca atendida (DEC-117); el override de supervisor está cerrado en V1 (DEC-107); un reclamo concurrente perdido responde `409 conflicto_version_reclamo`; una conversación vencida responde `409 conversacion_solo_lectura`.
+
+### R27. Mensajes
+
+1. `MessageBubble` acepta `deliveryStatus` `"sending" | "sent" | "failed"` (por defecto `"sent"`), `deliveryError` (texto del motivo) y `onRetry`. En `sending` muestra un indicador discreto. En `failed` muestra el aviso y el motivo; el botón "Reintentar" aparece **solo si el consumidor pasa `onRetry`**. Reintentar debe reenviar el mismo `clientMessageId`: el contrato lo trata como idempotente y devuelve el mensaje original. No tiene sentido reintentar con el mismo envío cuando la causa es `409 conflicto_version_reclamo`, `409 conversacion_solo_lectura` o `403`; en esos casos el consumidor no pasa `onRetry` y explica el motivo en `deliveryError`.
+2. Los mensajes consecutivos del mismo autor (misma `audienciaAutor` y `aliasMostrado`, a menos de 5 minutos entre sí) se agrupan: el alias solo aparece en el primero y la hora solo en el último.
+3. Existe `MessageThread`, que recibe `mensajes: Mensaje[]`, `isOwn(mensaje)` y `pendientes?: MensajePendiente[]`, y renderiza la lista con divisores de día automáticos (Hoy, Ayer, fecha), agrupación y `slotAuditoria` por mensaje. **El orden es siempre por `secuencia` ascendente, nunca por `creadoEn`** (el contrato lo exige en `listarMensajes`). Un mensaje con el mismo `id` que otro ya presente se ignora. `MensajePendiente` (`clientMessageId`, `cuerpo`, `creadoEn`, `deliveryStatus`, `deliveryError?`, `onRetry?`) representa un envío que todavía no tiene `secuencia`; se dibuja al final, después del último mensaje confirmado, y desaparece cuando llega el mensaje con ese `clientMessageId`. Los componentes de bajo nivel (`MessageList`, `MessageBubble`, `MessageDayDivider`) siguen disponibles.
+4. `MessageAttachment` (D17): recibe `nombre`, `tamanoBytes`, `tipoMedio` (nombres del contrato), `status` (`ready | uploading | error`) y `onOpen`. La librería no descarga ni sube archivos.
+5. `slotAuditoria` (actor real y rol al enviar) se muestra con un estilo discreto de metadatos, claramente distinto del cuerpo, y solo si el consumidor lo pasa.
+6. El texto del mensaje conserva saltos de línea (`white-space: pre-wrap`) y rompe palabras largas y URL sin desbordar la burbuja.
+
+### R28. Lista de mensajes
+
+1. El auto-desplazamiento solo ocurre si el usuario está cerca del final (umbral de 4 rem) o si el mensaje nuevo es propio. Si el usuario leía historial, no se mueve el scroll.
+2. Cuando llegan mensajes mientras el usuario no está al final, aparece un botón flotante "N mensajes nuevos" que baja al final al activarlo.
+3. Al cargar mensajes anteriores (`onCargarAnteriores`), la posición de lectura se conserva; no salta.
+4. `loadingPrevious` deshabilita el control y lo muestra en estado de carga.
+5. `emptyState` (nodo) y `loading` (muestra esqueletos de burbujas con `Skeleton`).
+6. Un divisor "Mensajes nuevos" puede colocarse antes del primer mensaje no leído mediante `ultimaSecuenciaLeida` (el consumidor la obtiene del recibo `leido`).
+7. El contenedor tiene `role="log"`, `aria-live="polite"` y `aria-relevant="additions"`.
+
+### R29. Compositor
+
+1. Enter envía; Shift+Enter inserta salto de línea; durante composición con IME (`isComposing`) Enter no envía.
+2. `sending` muestra el botón de envío en estado de carga y evita doble envío.
+3. `onAttach` (opcional) muestra un botón de clip que el consumidor atiende; la librería no abre el selector.
+4. `maxLength` opcional con contador visible al acercarse al límite.
+5. Se puede enfocar desde fuera (`composerRef` o `autoFocus`).
+6. El borrador no se pierde al minimizar el panel (D14).
+7. Textos por defecto en español (D13).
+
+### R30. Abrir y cerrar el panel
+
+1. El encabezado del panel no anida botones: el control de título/avatar es un `<button>` y las acciones de minimizar y cerrar son botones hermanos. Hoy hay un `<button>` dentro de otro `<button>`, que es HTML inválido.
+2. Modo controlado (`open` y `onOpenChange`) y no controlado (`defaultOpen`). `onToggle` se conserva y se llama junto con `onOpenChange`.
+3. `aria-expanded` y `aria-controls` en el botón del encabezado, apuntando al cuerpo.
+4. Al minimizar, el cuerpo sigue montado (D14) pero oculto: sale del orden de tabulación y de los lectores de pantalla (`visibility: hidden`).
+5. Al expandir por acción del usuario, el foco pasa al compositor si hay uno habilitado. Al minimizar con el foco dentro del panel, el foco vuelve al botón del encabezado.
+6. La expansión y el minimizado se animan con una transición breve y respetan `prefers-reduced-motion`.
+7. `onClose` oculta el panel desde fuera; el botón de cerrar solo aparece si hay `onClose`.
+8. Clic en el encabezado alterna; clic en minimizar alterna una sola vez (hoy hay `stopPropagation` por la anidación).
+
+### R31. Muelle (`MessageDock`) y barra
+
+1. El muelle usa un token de capa propio `--ui-z-dock` por debajo de `--ui-z-modal` (D15). Un `Modal` abierto queda por encima del muelle.
+2. `useMessageDock` (D16) maneja la lista de paneles: `open(id)`, `close(id)`, `toggle(id)`, `barOpen`, `toggleBar()`, `panels` (visibles) y `overflow`. Abrir un panel lo coloca en primer lugar; si se excede la capacidad, el más antiguo pasa a `overflow`. La capacidad se calcula por ancho de la ventana (`maxPanels` la fija).
+3. `MessageDock` muestra un chip "+N" cuando hay paneles en `overflow`; al activarlo abre un `Popover` con la lista para traerlos al frente.
+4. En pantallas de 560 px o menos, solo hay un panel visible, a todo el ancho, y la barra principal ocupa el ancho disponible.
+5. La barra principal (`MessageDockBar`) tiene encabezado sin botones anidados (misma corrección que R30.1), contador de no leídos y lista con: nombre, vista previa, hora del último mensaje (`lastMessageAt`), indicador de no leído y estado opcional.
+6. Los textos por defecto del muelle y de la barra están en español: "Mensajería", "Minimizar", "Expandir", "Cerrar conversación", "Sin leer". `role="region"` con nombre accesible único (hoy el muelle y la barra se llaman igual).
+7. El muelle ignora los eventos de puntero fuera de sus hijos (ya lo hace) y no bloquea el contenido de la página.
+
+### R32. Estilo
+
+1. Encabezado con avatar, presencia, nombre, subtítulo y badge de no leídos, sin saltos de layout al truncar.
+2. Burbujas con jerarquía clara: propias con `--ui-color-primary`, ajenas con `--ui-color-surface-raised`; radios por posición en el grupo; hora y alias con la escala de tipografía de tokens.
+3. Altura del cuerpo `min(28rem, 70dvh)`; barra de scroll fina con colores de tokens.
+4. Estados de foco visibles en encabezado, acciones, lista, compositor y botón de envío.
+5. Sin colores ni valores de tamaño fuera de tokens (steering §1 y §3). Los tamaños sueltos actuales del CSS de `MessagePanel` (`0.6875rem`, `0.625rem`, `0.15rem`) pasan a tokens existentes o a variables locales.
+6. Tema claro y oscuro verificados en Storybook.
+
+## P9. Línea del tiempo (`Timeline`)
+
+### R33. Datos y semántica
+
+1. `Timeline` recibe `items`: `{ id, title, description?, timestamp?, dateTime?, icon?, status?, content? }[]`.
+2. `status`: `completed | current | upcoming | error | warning`. Por defecto `upcoming`.
+3. Se renderiza como `<ol>` con un `<li>` por punto. El punto actual lleva `aria-current="step"`. Cada estado tiene un texto solo para lectores de pantalla ("Completado", "En curso", "Pendiente", "Error", "Aviso"), sobrescribible con `labels`.
+4. Si hay `dateTime`, la marca de tiempo se renderiza como `<time dateTime>`.
+5. `onItemClick(item, index)` opcional: con él, el contenido del punto es un `<button>`.
+
+### R34. Orientación y responsividad
+
+1. `orientation`: `"vertical"` (por defecto) o `"horizontal"`.
+2. Vertical: marcador a la izquierda y contenido a la derecha, línea de conexión continua. Con `align="alternate"` y contenedor ancho (40 rem o más), el contenido alterna a izquierda y derecha; en contenedores angostos vuelve a una sola columna.
+3. Horizontal: los puntos se reparten el ancho disponible de forma uniforme; cada punto tiene un ancho mínimo (`minItemWidth`, por defecto 8 rem). Si no caben, el contenedor hace scroll horizontal con `scroll-snap`, atenuado en los bordes, y el punto `current` se centra al montar.
+4. `stackBelow` (px): por debajo de ese ancho de contenedor, una línea del tiempo horizontal se muestra vertical. Se mide con `ResizeObserver` sobre el contenedor, no sobre la ventana.
+5. Horizontal con `align="alternate"`: el contenido alterna arriba y abajo de la línea para aprovechar el ancho con muchos puntos.
+6. Funciona con 0, 1, 2 y N puntos (probado con 100). Con 1 punto no dibuja línea; con 0 muestra `emptyState`.
+7. `maxVisible` limita los puntos mostrados y agrega un control "Mostrar N más" / "Mostrar menos" con `aria-expanded`.
+8. `reverse` invierte el orden visual (más reciente primero) sin cambiar el arreglo recibido.
+9. El texto largo no desborda: títulos y descripciones se ajustan en varias líneas, las palabras largas se rompen.
+
+### R35. Estilo y estados
+
+1. Tamaños `sm | md | lg` (marcador de 1, 1.5 y 2 rem).
+2. Colores de estado solo con tokens existentes: `completed` y `current` con `--ui-color-primary`; `error` con `--ui-color-danger`; `warning` con `--ui-color-warning`; `upcoming` con borde `--ui-color-border-strong` y marcador hueco.
+3. El tramo de línea que sale de un punto `completed` es sólido y de color primario; los demás tramos son punteados y atenuados.
+4. Icono por defecto por estado, de Lucide: `Check` para `completed`, `X` para `error`, `TriangleAlert` para `warning`; `current` y `upcoming` sin icono. `icon` lo sustituye.
+5. El punto `current` tiene un anillo con pulso suave; sin movimiento con `prefers-reduced-motion`.
+6. `loading` muestra esqueletos con la misma forma de la línea; `loadingItems` controla cuántos.
+7. Hover y foco visibles en puntos clickables.
+
+### R36. Calidad
+
+1. Stories (R24): vertical, horizontal, alternada, con 1, 3, 12 y 100 puntos, `maxVisible`, `reverse`, `stackBelow`, cargando, vacío, tamaños, estados, con iconos propios, ancho angosto, y un ejemplo "Historial de estados del viaje" con los estados del contrato `viaje.estados.yaml`.
+2. Exportado en `src/index.ts` con sus tipos.
+3. Probada la navegación por teclado (Tab sobre puntos clickables) y el panel de accesibilidad.
+
+## P10. Iconos con Lucide en todo el repo
+
+### R37. Sin SVG hechos a mano
+
+1. Ningún archivo bajo `src/` (componentes, stories, tests) define iconos con `<svg>`, `<path>`, `<circle>`, `<rect>`, `<polyline>` ni `<line>` escritos a mano. Todo icono viene de `lucide-react`.
+2. Cubre al menos los 16 archivos de componentes con iconos en línea (`Calendar`, `DateInput`, `TimePicker`, `FilterBar`, `FilterTable`, `Form`, `Checkbox`, `Input`, `Select`, `SelectSearchable`, `MessagePanel/shared`, `Table`, `Modal`, `Navbar`, `Pagination`, `Toast`) y las stories de `Button`, `Card`, `Navbar` e `Input`.
+3. Los iconos se importan por nombre (`import { X } from "lucide-react"`), para que el empaquetado conserve solo los usados.
+4. Un icono decorativo es `aria-hidden`; uno que es el único contenido de un botón lleva el nombre en el botón (`aria-label`).
+5. El aspecto no cambia: tamaño, grosor y alineación se conservan (por ejemplo `strokeWidth={3}` en el check de `Checkbox`). Las reglas de CSS que dimensionan `svg` siguen aplicando.
+6. Si un icono necesario no existe en Lucide, se usa `createLucideIcon` y se documenta; no se escribe un `<svg>` suelto.
+
+### R38. Verificación y empaquetado
+
+1. Una regla de ESLint (`no-restricted-syntax`) prohíbe `<svg>` en `src/` y `.storybook/`. `pnpm lint` falla si reaparece.
+2. `pnpm build:lib` genera `dist` sin referencias a `lucide-react` como import externo y con un tamaño de `dist/ui-library.js` comparable al anterior (se reporta la diferencia).
+3. `lucide-react` sigue como `devDependency` y empaquetado (D11). `CONSUMING.md` dice que la librería lo incluye y que los portales no necesitan instalarlo para usar `@ai27-tech/ui`.
+4. Las demás menciones de iconos en `README.md`, `CONSUMING.md` y documentación de stories se actualizan.
+
+---
+
 ## Requisitos transversales
 
 ### R24. Storybook
@@ -272,6 +435,8 @@ Storybook es la muestra oficial de cada componente. Aplica a todo componente nue
 6. `CONSUMING.md` documenta los componentes nuevos y el contrato de valores de los pickers.
 
 ## Fuera de alcance
+
+- De P8: aplicar permisos de la conversación (quién puede reclamar, devolver, transferir, responder); pantalla o diálogo de transferencia; manejo del `409` de reclamo (lo muestra el consumidor con `notice`); override de supervisor (cerrado en V1, DEC-107); notas de emergencia (`NotaEmergencia`, superficie distinta de la conversación); eventos de "escribiendo" (no verificados en el contrato).
 
 - Selector de rango de fechas.
 - Tonos de color nuevos para badges (D9).

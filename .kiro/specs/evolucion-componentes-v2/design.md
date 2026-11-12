@@ -446,6 +446,299 @@ Implementación con una variable local `--ui-badge-tone` por variante y aparienc
 
 ---
 
+---
+
+# Ampliación (2026-11-12): P8, P9 y P10
+
+Orden de implementación: **P10, P8, P9**. Las APIs son propuesta hasta implementarse. Convención de nombres: identificadores técnicos en inglés; sustantivos del contrato en español (`secuencia`, `reclamo`, `escrituraHasta`). Las props de `MessagePanel` ya existentes (`hayMas`, `onCargarAnteriores`, `ultimaSecuencia`) no se renombran.
+
+## P10. Iconos con Lucide
+
+### Estado verificado
+
+- 16 archivos de componentes y 4 de stories dibujan iconos con `<svg>` y `<path>`/`<circle>`/`<rect>`/`<polyline>`. Ya usan Lucide 7 componentes (`Alert`, `Breadcrumb`, `Section`, `Sidebar`, `Stat`, `Visor` y, a medias, `FilterBar`) y 11 stories.
+- `lucide-react@1.47.0` está como `devDependency`. `dist/ui-library.js` (142 KB) lo trae empaquetado: `vite.config.ts` solo declara `react` y `react-dom` como externos y el bundle no contiene ningún `import ... from "lucide-react"`. Los portales fijan `lucide-react@1.43.0`; no hay conflicto porque la librería no lo importa en tiempo de ejecución.
+- Decisión D11: se mantiene así. La alternativa (peer dependency y externo) deduplica el paquete pero obliga a cada portal a mantener una versión compatible.
+
+### Mapeo (verificar cada nombre contra `node_modules/lucide-react` antes de usarlo)
+
+| Archivo | Icono propio actual | Lucide |
+| --- | --- | --- |
+| `Calendar.tsx` | chevrones izquierda/derecha (`polyline`) | `ChevronLeft`, `ChevronRight` |
+| `DateInput.tsx` | calendario, limpiar | `CalendarDays` (evita chocar con el componente `Calendar`), `X` |
+| `TimePicker.tsx` | reloj, limpiar | `Clock`, `X` |
+| `FilterBar.tsx` | lupa, cerrar chip | `Search`, `X` (`strokeWidth={2.5}`) |
+| `FilterTable.tsx` | lupa | `Search` |
+| `Form.tsx` | chevron de sección | `ChevronDown` |
+| `Checkbox.tsx` | palomita | `Check` (`strokeWidth={3}`) |
+| `Input.tsx` | limpiar, ojo / ojo tachado | `X`, `Eye`, `EyeOff` |
+| `Select.tsx`, `SelectSearchable.tsx` | chevron | `ChevronDown` |
+| `MessagePanel/shared.tsx` | minimizar, cerrar, expandir, enviar | `Minus`, `X`, `ChevronUp`, `Send` |
+| `Table.tsx` | orden neutro / activo, chevron de fila | `ChevronsUpDown`, `ArrowUp`, `ChevronRight` |
+| `Modal.tsx` | cerrar | `X` |
+| `Navbar.tsx` | menú, cerrar | `Menu`, `X` |
+| `Pagination.tsx` | anterior, siguiente | `ChevronLeft`, `ChevronRight` |
+| `Toast.tsx` | info, éxito, aviso, error, cerrar | `Info`, `CircleCheck`, `TriangleAlert`, `CircleX`, `X` (los mismos que ya usa `Alert`) |
+| Stories `Button`, `Card`, `Navbar`, `Input` | más, flecha, caja, lupa | `Plus`, `ArrowRight`, `Package`/`Box`, `Box`, `Search` |
+
+### Reglas de implementación
+
+- Los tamaños siguen saliendo del CSS (`:global(svg) { width; height }`), que gana sobre los atributos `width`/`height` de Lucide. Donde no hay regla, se pasa `size`.
+- `strokeWidth` se pasa solo donde el icono actual no usa 2.
+- Los iconos decorativos son `aria-hidden` (Lucide ya lo aplica si no hay `aria-label`). Un botón solo-icono mantiene su `aria-label`.
+- `Table`: el indicador de orden cambia de dos trazos propios a `ChevronsUpDown` (neutro) y `ArrowUp` (activo; `desc` sigue rotando 180°). La rotación se hace con CSS como hoy.
+- Para detectar regresiones: regla de ESLint en `eslint.config.js`:
+
+```js
+"no-restricted-syntax": ["error", {
+  selector: "JSXOpeningElement[name.name='svg']",
+  message: "Usa un icono de lucide-react (o createLucideIcon) en lugar de un <svg> a mano."
+}]
+```
+
+- Las búsquedas de verificación (`<svg`, `<path`, `d="M`) cubren también `README.md`, `CONSUMING.md` y los comentarios MDX/JSDoc con ejemplos.
+
+### Riesgo
+
+Cambiar glifos altera el aspecto sutilmente (los trazos de Lucide no son idénticos a los actuales). Se compara cada componente en Storybook antes y después, en tema claro y oscuro. El cambio de `Table` (orden) y `Toast` es el más visible.
+
+## P8. MessagePanel
+
+### Contrato `v0.1.0-tracer.40` frente a la librería
+
+| Contrato (`mensajeria.yaml`) | Librería hoy | Acción |
+| --- | --- | --- |
+| `Mensaje.secuencia` | `secuenciaMensaje` | Renombrar a `secuencia` (D12) |
+| `Mensaje.{id, conversacion_id, client_message_id, audiencia_autor, alias_mostrado, actor_real, rol_al_enviar, cuerpo, adjuntos_ids, creado_en}` | Todos presentes en camelCase | Sin cambio |
+| `Conversacion.{estado, escritura_hasta, ultima_secuencia, reclamo_activo, atendida_en, version_reclamo}` | `EstadoConversacion` y `ultimaSecuencia` | Nuevo `ConversationStatus` y slots `toolbar`/`notice` |
+| `EnviarMensajeEntrada.{client_message_id, cuerpo, adjuntos_ids, version_reclamo_esperada, motivo_override}` | `onSend({ clientMessageId, cuerpo })` | `adjuntosIds` se agrega al evento si el consumidor adjunta; `versionReclamoEsperada` y `motivoOverride` los completa el consumidor al llamar a la API. La librería no los conoce |
+| `ReciboEntrada.hasta_secuencia` | No aplica | Se usa `ultimaSecuenciaLeida` solo para el divisor "Mensajes nuevos" |
+| `IntencionSubida` (adjuntos) | Slot `adjuntos` sin componente | `MessageAttachment` de presentación y `onAttach` en el compositor |
+| `Rol` (8 valores) | `rolAlEnviar: string` | Sin cambio (D18) |
+
+### Estructura de archivos
+
+Se mantiene `src/components/MessagePanel/` y se agregan: `ConversationStatus.tsx`, `MessageThread.tsx`, `MessageAttachment.tsx`, `useMessageDock.ts`, `labels.ts`, `groupMessages.ts`. `shared.tsx` pasa a importar iconos de Lucide (P10).
+
+### Panel (`MessagePanel.tsx`)
+
+```tsx
+<section className={styles.surface} aria-labelledby={titleId}>
+  <div className={cx(styles.header, open && styles.expanded)}>
+    <button type="button" className={styles.headerMain} aria-expanded={open} aria-controls={bodyId} onClick={toggle}>
+      {avatar && <Avatar ... />}
+      <span className={styles.headerText}>
+        <span id={titleId} className={styles.name}>{name}</span>
+        {subtitle && <span className={styles.subtitle}>{subtitle}</span>}
+      </span>
+    </button>
+    <span className={styles.headerActions}>
+      <IconButton label={labels.minimize/expand} onClick={toggle}>…</IconButton>
+      {onClose && <IconButton label={labels.close} onClick={onClose}>…</IconButton>}
+    </span>
+  </div>
+  <div id={bodyId} className={styles.collapsible} data-open={open}>
+    <div className={styles.collapsibleInner}>{toolbar}{notice}{children}{composer}</div>
+  </div>
+</section>
+```
+
+- El `<button>` ya no contiene botones. `IconButton` no necesita `stopPropagation`: ya no está dentro del control de título. El minimizar alterna una vez.
+- Estado: `const [inner, setInner] = useState(defaultOpen ?? true)`; `open = props.open ?? inner`. `toggle` llama `onOpenChange?.(!open)` y `onToggle?.()`, y actualiza `inner` si no es controlado.
+- Animación: `.collapsible { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--ui-duration-base) var(--ui-ease-standard); }` y `[data-open="false"] { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows ..., visibility 0s linear var(--ui-duration-base); }` con `.collapsibleInner { overflow: hidden; min-height: 0; }`. `visibility: hidden` saca el contenido del orden de tabulación y de los lectores sin `inert` (compatible con React 18 y 19). Con `prefers-reduced-motion`, sin transición.
+- Foco: un `useEffect` detecta el paso de cerrado a abierto **originado por el usuario** (bandera `userToggled` que se pone en `toggle` y se limpia en el efecto) y enfoca el primer `textarea:not(:disabled)` del cuerpo. Al minimizar con el foco dentro del cuerpo, enfoca `headerMain`.
+- `keepMounted` (D14): el cuerpo siempre está en el DOM. Para quien quiera lo anterior, `keepMounted={false}` lo desmonta al minimizar.
+- Alturas: `.body { height: min(28rem, 70dvh); }`. Si el navegador no soporta `dvh`, cae a `vh` con una declaración previa.
+
+### `ConversationStatus`
+
+```ts
+export interface ConversationStatusProps {
+  estado: EstadoConversacion;
+  escrituraHasta?: string | null;     // ISO 8601
+  atendida?: boolean;
+  reclamadaPor?: string | null;       // alias de quien tiene el reclamo
+  reclamoPropio?: boolean;
+  labels?: Partial<ConversationStatusLabels>;
+}
+```
+
+Todos los datos de reclamo son opcionales: en el contrato `reclamo_activo` solo llega a audiencia Interno, y trae `responsable_id` sin nombre, así que `reclamadaPor` lo resuelve el portal. Si no se pasa, la fila no muestra responsable ni pool (vista del cliente). Una fila compacta: `Badge` de estado (`abierta` → `secure`, `solo_lectura` → `warning`, `cerrada` → `neutral`), responsable ("Reclamada por …" / "Reclamada por ti" / "En el pool"), "Atendida" con `Check` y, con `escrituraHasta`, "Escribe hasta …" con `formatSmartTimestamp`. No decide permisos.
+
+### Mensajes
+
+- `types.ts`: `Mensaje.secuencia`; `DeliveryStatus = "sending" | "sent" | "failed"`.
+- `MessageBubble`: props nuevas `deliveryStatus`, `deliveryError`, `onRetry` (el botón "Reintentar" solo se dibuja si existe `onRetry`), `groupPosition` (`"single" | "first" | "middle" | "last"`, lo calcula `MessageThread` o el consumidor). `first`/`single` muestran alias; `last`/`single` muestran hora. Radios: la esquina del lado del autor es pequeña en `middle`/`last`.
+- `groupMessages.ts`: `groupMessages(mensajes)` devuelve `{ dia, items: { mensaje, groupPosition }[] }[]`. Agrupa por día local y por autor consecutivo con menos de 5 minutos. Función pura.
+- `MensajePendiente`: `{ clientMessageId, cuerpo, creadoEn, deliveryStatus, deliveryError?, onRetry? }`. Es un envío optimista que aún no tiene `secuencia`.
+- `MessageThread`: `mensajes`, `isOwn`, `pendientes?`, `renderAudit?(mensaje)`, `renderAttachments?(mensaje)`, más las props de `MessageList`. Antes de agrupar, ordena una copia de `mensajes` por `secuencia` ascendente (nunca por `creadoEn`) y descarta ids repetidos. Los `pendientes` van al final y se descartan cuando aparece un mensaje con su `clientMessageId`. Las horas y los días de los divisores salen de `creadoEn`; el orden, de `secuencia`. Usa `groupMessages` y `MessageDayDivider` con etiqueta "Hoy" / "Ayer" / fecha larga (`Intl.DateTimeFormat`, `es-MX`).
+- `MessageAttachment`: chip con icono de archivo (`FileText`/`Image`/`Paperclip` según `tipoMedio`), `nombre` truncado, tamaño legible (`KB`/`MB`), y estados `uploading` (`Spinner` pequeño), `error` (color de peligro) y `ready` (botón si hay `onOpen`).
+- Auditoría: `.audit` con `--ui-text-label-sm-*` y color `--ui-color-text-muted`, separado del cuerpo por un divisor tenue.
+
+### `MessageList`
+
+- Detección de "cerca del final": `scrollHeight - scrollTop - clientHeight <= threshold` (4 rem en px, leído de `getComputedStyle`), guardada en un `ref` actualizado por `onScroll`.
+- Efecto al cambiar `ultimaSecuencia`: si estaba cerca del final o el último mensaje es propio (`lastIsOwn`), baja; si no, incrementa `pending` y muestra el botón flotante.
+- Al prepender historial: antes de cargar se guarda `scrollHeight`; tras el render, `scrollTop += nuevoScrollHeight - previo`. Se dispara cuando cambia el primer hijo. Como la librería no controla los datos, se activa cuando `loadingPrevious` pasa de `true` a `false`.
+- Atributos: `role="log"`, `aria-live="polite"`, `aria-relevant="additions"`.
+- Estados: `loading` → `SkeletonMessages` (3 a 5 burbujas alternadas con `Skeleton`); lista vacía y sin `loading` → `emptyState`.
+- `MessageList` pierde la rama "sin `ultimaSecuencia` desplaza en cada render" solo si se confirma que ningún consumidor la usa; hoy se conserva para no romper.
+
+### `MessageComposer`
+
+- Guardia de IME: `if (e.nativeEvent.isComposing || e.keyCode === 229) return;` antes de interpretar Enter.
+- `sending`: deshabilita el textarea y el botón; el botón muestra `Spinner` (P2).
+- `onAttach`: botón `Paperclip` a la izquierda del textarea.
+- `maxLength`: contador `n / max` visible desde el 80 %.
+- `ref` hacia el textarea (`composerRef`).
+- Altura automática con `max-height` ya existente; se reinicia al enviar (ya existe).
+- Valor y reinicio del borrador: siguen siendo del consumidor.
+
+### Muelle y barra
+
+- `--ui-z-dock: 900;` en `tokens.css`; `.dock { z-index: var(--ui-z-dock); }`. El `Popover` (1100) y el `Modal` (1000) quedan por encima.
+- `useMessageDock`:
+
+```ts
+interface DockState { order: string[]; minimized: Record<string, boolean>; barOpen: boolean }
+type DockAction =
+  | { type: "open"; id: string; capacity: number }
+  | { type: "close"; id: string }
+  | { type: "toggle"; id: string }
+  | { type: "toggleBar" } | { type: "setCapacity"; capacity: number };
+export function dockReducer(state: DockState, action: DockAction): DockState;
+export function useMessageDock(opts?: { maxPanels?: number }): {
+  panels: { id: string; minimized: boolean }[];
+  overflow: string[];
+  barOpen: boolean;
+  open(id: string): void; close(id: string): void; toggle(id: string): void; toggleBar(): void;
+};
+```
+
+  `dockReducer` es una función pura (testeable). Capacidad: `Math.max(1, Math.floor((window.innerWidth - barWidth - gaps) / panelWidth))` con `panelWidth` y `barWidth` leídos de los tokens `--ui-surface-panel-width` y `--ui-surface-panel-width-sm`; se recalcula en `resize`. Con `maxPanels` se usa ese valor.
+- `MessageDock` acepta `overflow?: ReactNode` y `overflowCount?: number`; con `overflowCount > 0` renderiza el chip "+N" (botón) que abre un `Popover` con `overflow`.
+- Móvil (≤ 560 px): `.surface { width: 100%; }` y el muelle sin `padding` horizontal; solo se renderiza el primer panel (la capacidad mínima es 1).
+- `MessageDockBar`: mismo encabezado sin anidación que el panel; lista con `Avatar`, nombre, `convoPreview`, `lastMessageAt` formateado con `formatSmartTimestamp`, punto de no leído y (opcional) `badge`. El contenedor lleva `role="region"` con `aria-label` distinto al del muelle.
+
+### Textos (`labels.ts`)
+
+Cada componente acepta `labels?: Partial<...>` y mezcla con los defaults en español:
+
+| Componente | Claves |
+| --- | --- |
+| `MessagePanel` | `minimize` "Minimizar", `expand` "Expandir", `close` "Cerrar conversación", `conversation` "Conversación" |
+| `MessageDock` / `MessageDockBar` | `title` "Mensajería", `minimize`, `expand`, `unread` "Sin leer", `overflow` "Más conversaciones" |
+| `MessageList` | `loadPrevious` "Cargar mensajes anteriores", `loadingPrevious` "Cargando…", `newMessages(n)` "N mensajes nuevos", `unreadDivider` "Mensajes nuevos", `empty` "Aún no hay mensajes" |
+| `MessageComposer` | `placeholder` "Escribe un mensaje…", `readOnly` "Conversación en solo lectura", `send` "Enviar mensaje", `attach` "Adjuntar archivo", `message` "Mensaje" |
+| `MessageBubble` | `sending` "Enviando…", `failed` "No se envió", `retry` "Reintentar", `you` "Tú" |
+
+### Pruebas
+
+`MessagePanel.test.tsx` se actualiza (renombre de `secuencia`, textos en español, estructura del encabezado). Pruebas recomendadas (opcionales): `dockReducer`, `groupMessages`, abrir/cerrar con foco, ausencia de botones anidados, IME en el compositor, scroll inteligente con `ResizeObserver`/`scrollTo` simulados.
+
+### Riesgos de P8
+
+| Riesgo | Mitigación |
+| --- | --- |
+| Los portales dependen de los textos en inglés (`Minimize`, `Messaging`) o del DOM del encabezado | Buscar esas cadenas en los tres portales (tarea 50.2); `labels` permite restaurarlas |
+| `keepMounted` por defecto cambia el ciclo de vida (efectos del contenido siguen corriendo minimizados) | Documentarlo; `keepMounted={false}` conserva lo anterior |
+| El muelle por debajo del `Modal` cambia el apilado | Documentarlo en el CHANGELOG (D15) |
+| El scroll inteligente no se puede probar bien en jsdom | Probar la lógica pura (`isNearBottom`) y revisar el resto en Storybook |
+
+## P9. Timeline
+
+### API
+
+```ts
+export type TimelineStatus = "completed" | "current" | "upcoming" | "error" | "warning";
+export interface TimelineItemData {
+  id: Key;
+  title: ReactNode;
+  description?: ReactNode;
+  timestamp?: ReactNode;
+  dateTime?: string;
+  icon?: ReactNode;
+  status?: TimelineStatus;      // "upcoming"
+  content?: ReactNode;          // contenido libre bajo la descripción
+}
+export interface TimelineProps extends HTMLAttributes<HTMLOListElement> {
+  items: TimelineItemData[];
+  orientation?: "vertical" | "horizontal";   // "vertical"
+  align?: "start" | "alternate";             // "start"
+  size?: "sm" | "md" | "lg";                 // "md"
+  minItemWidth?: string;                     // "8rem" (horizontal)
+  stackBelow?: number;                       // px, solo horizontal
+  maxVisible?: number;
+  reverse?: boolean;
+  onItemClick?: (item: TimelineItemData, index: number) => void;
+  loading?: boolean; loadingItems?: number;  // 4
+  emptyState?: ReactNode;
+  labels?: Partial<TimelineLabels>;
+  "aria-label"?: string;
+}
+```
+
+`TimelineLabels`: `completed` "Completado", `current` "En curso", `upcoming` "Pendiente", `error` "Error", `warning` "Aviso", `showMore(n)` "Mostrar n más", `showLess` "Mostrar menos", `empty` "Sin eventos".
+
+### Estructura
+
+```tsx
+<div ref={containerRef} className={styles.root} data-orientation={effectiveOrientation} data-align={align} data-size={size}>
+  <div className={styles.scroller} role={overflowing ? "region" : undefined} tabIndex={overflowing ? 0 : undefined} aria-label=…>
+    <ol className={styles.list} aria-label=…>
+      {visible.map((item) => (
+        <li key=… className={styles.item} data-status={status} aria-current={status === "current" ? "step" : undefined}>
+          <div className={styles.rail}><span className={styles.marker}>{icon}</span><span className={styles.connector} /></div>
+          <div className={styles.content}>…<span className="ui-sr-only">{statusLabel}</span></div>
+        </li>
+      ))}
+    </ol>
+  </div>
+  {hidden > 0 && <button …>{showMore}</button>}
+</div>
+```
+
+- **Orientación efectiva:** `effectiveOrientation = orientation === "horizontal" && stackBelow && width < stackBelow ? "vertical" : orientation`. `width` viene de un `ResizeObserver` sobre `root` (no sobre `window`). Sin `ResizeObserver` (jsdom) se asume el ancho completo.
+- **Vertical:** `.item { display: grid; grid-template-columns: var(--tl-marker) 1fr; column-gap: var(--ui-space-3); }`. `.connector` es una línea `position: absolute` desde el marcador hasta el borde inferior del `li` (`top: marker; bottom: calc(-1 * gap)`), por lo que se adapta a cualquier alto de contenido. El último `li` no la pinta.
+- **Vertical alternada:** en `@container (min-width: 40rem)` (el `root` tiene `container-type: inline-size`) el `li` pasa a `grid-template-columns: 1fr var(--tl-marker) 1fr` y los pares colocan el contenido a la izquierda. Es una media consulta de contenedor con valor fijo, porque `var()` no es válido dentro de la condición.
+- **Horizontal:** `.list { display: flex; }`, `.item { flex: 1 0 var(--ui-timeline-min-item, 8rem); display: flex; flex-direction: column; }`. El `rail` es una fila: marcador y `connector` que se estira (`flex: 1`) hasta el siguiente. `.scroller { overflow-x: auto; scroll-snap-type: x proximity; }` y `.item { scroll-snap-align: center; }`. Con pocos puntos `flex: 1` los reparte; con muchos superan el ancho y activan el scroll. Los bordes se atenúan con `mask-image: linear-gradient(...)` solo cuando hay scroll (`data-overflow`).
+- **Horizontal alternada:** los `li` pares invierten `flex-direction` (contenido arriba, riel abajo) y se reserva alto para ambos lados.
+- **Detección de desbordamiento:** `scrollWidth > clientWidth + 1`, medido en el mismo `ResizeObserver`.
+- **Centrar el actual:** `useEffect` al montar y al cambiar el índice `current`: `el.scrollIntoView({ inline: "center", block: "nearest" })` solo si `overflowing`. Con `prefers-reduced-motion`, sin `smooth`.
+- **Orden y recorte:** `ordered = reverse ? [...items].reverse() : items`; `visible = expanded ? ordered : ordered.slice(0, maxVisible)`.
+- **Conectores por estado:** el tramo bajo un punto `completed` usa `--ui-color-primary` sólido; el resto usa `border-style: dashed` con `--ui-color-border-strong`. Con `reverse`, el tramo se calcula por el elemento que lo origina en el orden de datos, no en el visual.
+- **Marcador:** círculo de `--tl-marker` (1, 1.5, 2 rem). `completed` relleno primario y texto `--ui-color-on-primary`; `current` relleno primario con anillo (`box-shadow` con `color-mix` de primario al 25 %) y pulso; `upcoming` hueco con borde fuerte; `error` y `warning` rellenos con sus tokens y texto `--ui-color-on-danger` / `--ui-color-on-primary`.
+- **Interacción:** con `onItemClick`, `.content` es un `<button>` con hover (`--ui-color-surface-raised`) y foco visible.
+- **Carga:** `loading` renderiza `loadingItems` filas con `Skeleton` circular y líneas de texto, en la orientación efectiva.
+- **Texto largo:** `.title, .description { overflow-wrap: anywhere; }`.
+- **Iconos por defecto:** `Check`, `X` y `TriangleAlert` de `lucide-react`, tamaño proporcional al marcador (60 %).
+
+### Ejemplo de uso para el historial de un viaje
+
+```tsx
+<Timeline
+  orientation="horizontal"
+  stackBelow={560}
+  items={[
+    { id: "SOLICITADO", title: "Solicitado", timestamp: "10 nov, 08:12", status: "completed" },
+    { id: "APROBADO", title: "Aprobado", timestamp: "10 nov, 09:03", status: "completed" },
+    { id: "EN_TRANSITO", title: "En recorrido", description: "Parada 2 de 3", status: "current" },
+    { id: "CERRADO", title: "Cerrado", status: "upcoming" },
+  ]}
+/>
+```
+
+### Riesgos de P9
+
+| Riesgo | Mitigación |
+| --- | --- |
+| La línea vertical se corta con contenido de alto variable | El conector se posiciona respecto del `li`, no con altura fija; story con contenido largo |
+| `@container` no soportado en navegadores viejos | Sin soporte, la línea alternada degrada a una columna (comportamiento válido). Los navegadores de destino son los evergreen de los portales |
+| 100+ puntos en horizontal pesan | `maxVisible` (en horizontal se recorta y se informa); sin virtualización en esta ola |
+| `ResizeObserver` ausente en jsdom | Guardia; las pruebas de orientación usan un `ResizeObserver` simulado |
+
+---
+
 ## Riesgos
 
 | Riesgo | Mitigación |

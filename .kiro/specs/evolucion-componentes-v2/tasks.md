@@ -272,9 +272,178 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 34.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`. _Pasan. Las 89 pruebas también._
   - [x] 34.4 CHANGELOG: "Agregado".
 
+## Ampliación (2026-11-12): P10, P8 y P9
+
+Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisiones D11 a D17 confirmadas el 2026-11-12 (siguen las recomendaciones); D18 sin cambio. Detalle en `requirements.md`.
+
+## P10. Iconos con Lucide
+
+- [ ] 36. Preparación
+  - [ ] 36.1 Verificar contra `node_modules/lucide-react` que existen los nombres del mapeo de `design.md` (`ChevronsUpDown`, `CalendarDays`, `EyeOff`, `Minus`, `Send`, `Paperclip`, etc.). Ajustar el mapeo si algún nombre cambió en la versión 1.47.
+  - [ ] 36.2 Guardar capturas de referencia en Storybook (tema claro y oscuro) de los componentes afectados.
+  - [ ] 36.3 Anotar el tamaño actual de `dist/ui-library.js` (142 KB al 2026-11-12).
+  - _Requisitos: R37, R38_
+
+- [ ] 37. Reemplazar iconos en componentes
+  - [ ] 37.1 `Calendar.tsx`, `DateInput.tsx`, `TimePicker.tsx`.
+  - [ ] 37.2 `Input.tsx`, `Select.tsx`, `SelectSearchable.tsx`, `Checkbox.tsx` (`strokeWidth={3}`).
+  - [ ] 37.3 `FilterBar.tsx`, `FilterTable.tsx`, `Form.tsx`.
+  - [ ] 37.4 `Table.tsx` (orden y chevron de fila) y `Pagination.tsx`.
+  - [ ] 37.5 `Modal.tsx`, `Navbar.tsx`, `Toast.tsx` (mismos iconos que `Alert`).
+  - [ ] 37.6 `MessagePanel/shared.tsx` (`Minus`, `X`, `ChevronUp`, `Send`). Se completa su reestructura en P8.
+  - [ ] 37.7 Eliminar las funciones de icono locales que queden sin uso.
+  - _Requisitos: R37.1 a R37.6_
+
+- [ ] 38. Reemplazar iconos en stories
+  - [ ] 38.1 `Button.stories.tsx`, `Card.stories.tsx`, `Navbar.stories.tsx`, `Input.stories.tsx`.
+  - [ ] 38.2 Revisar el resto de stories y `.storybook/` por `<svg`.
+  - _Requisitos: R37.1_
+
+- [ ] 39. Evitar regresiones y verificar
+  - [ ] 39.1 Agregar la regla `no-restricted-syntax` de `design.md` a `eslint.config.js` para `src/**` y `.storybook/**`.
+  - [ ] 39.2 Buscar `<svg`, `<path`, `<circle`, `<rect`, `<polyline`, `<line` y `d="M` en `src/`, `.storybook/`, `README.md` y `CONSUMING.md`; el resultado debe estar vacío.
+  - [ ] 39.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [ ] 39.4 Comparar el tamaño de `dist/ui-library.js` con 36.3 y confirmar que `dist` no importa `lucide-react` como externo.
+  - [ ] 39.5 Comparar las capturas de 36.2 en tema claro y oscuro. Revisar con cuidado `Table` (orden) y `Toast`.
+  - _Requisitos: R38_
+
+- [ ] 40. Documentación de P10
+  - [ ] 40.1 `CONSUMING.md`: la librería incluye Lucide; los portales no necesitan instalarlo para usar `@ai27-tech/ui`.
+  - [ ] 40.2 CHANGELOG `[Unreleased]`: "Cambiado" (iconos de Lucide, orden de `Table`) y "Agregado" (regla de lint).
+
+## P8. MessagePanel
+
+- [ ] 41. Contrato y decisiones
+  - [ ] 41.1 En `pf-pkg-contracts`: `git fetch --tags` y confirmar el último tag. Si es posterior a `v0.1.0-tracer.40`, repetir la comparación de `Mensaje`, `Conversacion`, `EstadoConversacion` y `EnviarMensajeEntrada` con `v0.1.0-tracer.9` y ajustar `design.md`.
+  - [ ] 41.2 Leer siempre del tag (`git show <tag>:contracts/openapi/mensajeria.yaml`), no del árbol de trabajo, que está en una rama de feature.
+  - [x] 41.3 D11 a D17 confirmadas (2026-11-12).
+  - [ ] 41.4 Contrastar el diseño de P8 con las reglas de conversación del `Addendum` (`docs/addenda/addendum-conversacion-de-negocio-y-bandeja-compartida.md`, §4 a §8) y con DEC-107, DEC-117, DEC-118 y DEC-127 en el repo de contexto. Hasta ahora se verificó contra el texto del contrato y contra `afordancias.ts` del portal interno, no contra esos documentos.
+  - _Requisitos: R25.1, R25.4_
+
+- [ ] 42. Tipos, textos y alineación
+  - [ ] 42.1 Renombrar `Mensaje.secuenciaMensaje` a `secuencia` en `types.ts`, `MessagePanel.test.tsx`, `MessagePanel.stories.tsx` y en cualquier otro uso (D12).
+  - [ ] 42.2 Cambiar los comentarios que citan `v0.1.0-tracer.9`.
+  - [ ] 42.3 Crear `labels.ts` con los textos por defecto en español de `design.md` y que cada componente acepte `labels` (D13).
+  - [ ] 42.4 Agregar a `CONSUMING.md` la tabla campo del contrato → prop de la librería, y la tabla de reglas de la conversación (quién reclama, responde, libera, transfiere y marca atendida; solo lectura de `supervisor`/`coordinador`; errores `409` y `403`), con el aviso de que la librería no las aplica (R26.7).
+  - [ ] 42.5 Agregar un test con un `Mensaje` completo basado en el ejemplo del contrato.
+  - _Requisitos: R25_
+
+- [ ] 43. Abrir y cerrar el panel
+  - [ ] 43.1 Reestructurar `MessagePanel` sin botones anidados: `headerMain` (botón) y `headerActions` (botones hermanos). Quitar el `stopPropagation` de `IconButton` si deja de ser necesario.
+  - [ ] 43.2 Estado `open` / `defaultOpen` / `onOpenChange`, conservando `onToggle`.
+  - [ ] 43.3 Cuerpo colapsable con `grid-template-rows`, `visibility` y `keepMounted` (D14); sin movimiento con `prefers-reduced-motion`.
+  - [ ] 43.4 Foco: al abrir por acción del usuario, al primer `textarea` habilitado; al minimizar con el foco dentro, al botón del encabezado.
+  - [ ] 43.5 `aria-expanded`, `aria-controls`, `aria-labelledby`.
+  - [ ] 43.6 Slots `toolbar` y `notice` con estilo propio.
+  - [ ] 43.7 Altura del cuerpo `min(28rem, 70dvh)`.
+  - _Requisitos: R26.2, R30_
+
+- [ ] 44. `ConversationStatus`
+  - [ ] 44.1 Crear el componente con `Badge` de estado, responsable, atendida y `escrituraHasta`.
+  - [ ] 44.2 Stories: abierta, solo lectura, cerrada, reclamo propio, reclamo ajeno, en el pool, atendida, y "Vista del cliente" (sin datos de reclamo).
+  - _Requisitos: R26.1, R26.3, R26.4_
+
+- [ ] 45. Mensajes
+  - [ ] 45.1 `groupMessages.ts` (función pura): agrupación por día y por autor consecutivo con menos de 5 minutos.
+  - [ ]* 45.2 Pruebas de `groupMessages` (cambio de día, de autor, límite de 5 minutos).
+  - [ ] 45.3 `MessageBubble`: `deliveryStatus`, `deliveryError`, `onRetry` (el botón solo si existe), `groupPosition`, `pre-wrap` y ruptura de palabras largas.
+  - [ ] 45.4 `MessageThread` con divisores de día (Hoy, Ayer, fecha larga `es-MX`), `isOwn`, `renderAudit`, `renderAttachments`, orden por `secuencia`, descarte de ids repetidos y `pendientes` (`MensajePendiente`).
+  - [ ]* 45.4b Pruebas del orden por `secuencia` con `creadoEn` desordenado, ids repetidos y un pendiente que se confirma.
+  - [ ] 45.5 `MessageAttachment` (D17) con estados `ready`, `uploading` y `error`.
+  - [ ] 45.6 Estilo discreto para `slotAuditoria`.
+  - _Requisitos: R27_
+
+- [ ] 46. `MessageList`
+  - [ ] 46.1 Detección `isNearBottom` y auto-desplazamiento condicionado.
+  - [ ] 46.2 Botón flotante "N mensajes nuevos".
+  - [ ] 46.3 Conservar la posición al cargar mensajes anteriores; `loadingPrevious`.
+  - [ ] 46.4 `loading` con esqueletos de burbujas y `emptyState`.
+  - [ ] 46.5 Divisor "Mensajes nuevos" con `ultimaSecuenciaLeida`.
+  - [ ] 46.6 `role="log"`, `aria-live="polite"`, `aria-relevant="additions"`.
+  - [ ]* 46.7 Prueba de `isNearBottom`.
+  - _Requisitos: R28_
+
+- [ ] 47. `MessageComposer`
+  - [ ] 47.1 Guardia de IME (`isComposing`).
+  - [ ] 47.2 `sending` con `Spinner` en el botón y sin doble envío.
+  - [ ] 47.3 `onAttach` con botón `Paperclip`.
+  - [ ] 47.4 `maxLength` con contador visible desde el 80 %.
+  - [ ] 47.5 `composerRef` y `autoFocus`.
+  - _Requisitos: R29_
+
+- [ ] 48. Muelle y barra
+  - [ ] 48.1 Token `--ui-z-dock: 900` en `tokens.css` y uso en `.dock` (D15).
+  - [ ] 48.2 `dockReducer` (función pura) y `useMessageDock` (D16) con capacidad por ancho de ventana.
+  - [ ]* 48.3 Pruebas de `dockReducer` (abrir, cerrar, alternar, desbordar, capacidad 1).
+  - [ ] 48.4 `MessageDock` con `overflowCount`, `overflow` y chip "+N" con `Popover`.
+  - [ ] 48.5 Móvil (≤ 560 px): un panel a todo el ancho.
+  - [ ] 48.6 `MessageDockBar` sin botones anidados, con `lastMessageAt`, `badge` opcional y nombre accesible propio.
+  - [ ] 48.7 `DockConversation.lastMessageAt` y `badge` en el tipo.
+  - _Requisitos: R31_
+
+- [ ] 49. Estilo
+  - [ ] 49.1 Reemplazar los valores sueltos de `MessagePanel.module.css` por tokens o variables locales.
+  - [ ] 49.2 Burbujas agrupadas, radios por posición, alias y hora con la escala de tipografía de tokens, scrollbar fino.
+  - [ ] 49.3 Foco visible en encabezado, acciones, lista, compositor y envío.
+  - [ ] 49.4 Revisar tema claro y oscuro.
+  - _Requisitos: R32_
+
+- [ ] 50. Stories, pruebas y cierre de P8
+  - [ ] 50.1 Stories (R24): panel abierto y minimizado, controlado y no controlado, con `toolbar` y `notice`, solo lectura, cerrada, cargando, vacío, mensajes fallidos y enviando, con adjuntos, muelle con 1, 3 y 6 conversaciones y desborde, barra con no leídos, vista angosta.
+  - [ ] 50.2 Buscar en `pf-web-frontend-internal`, `pf-web-frontend-client` y `pf-web-frontend-analist-panel` el uso de `MessagePanel`, de las props obsoletas `author`/`time` y de los textos en inglés (`Minimize`, `Messaging`, `Write a message`). Reportar el resultado.
+  - [ ] 50.3 Actualizar `MessagePanel.test.tsx` (renombre, textos, estructura del encabezado).
+  - [ ]* 50.4 Pruebas de comportamiento: abrir/cerrar sin doble alternancia, ausencia de botones anidados, foco al abrir y al minimizar, IME, `keepMounted`.
+  - [ ] 50.5 Probar el build local en `PanelConversacion` de `pf-web-frontend-internal`, sin publicar: reemplazar el armado manual de banner, acciones y "cargar anteriores" por `ConversationStatus`, `toolbar`, `notice` y `loadingPrevious`, y confirmar que el flujo (reclamar, enviar, devolver) sigue funcionando.
+  - [ ] 50.6 Exportar `ConversationStatus`, `MessageThread`, `MessageAttachment`, `useMessageDock` y los tipos nuevos en `src/index.ts`.
+  - [ ] 50.7 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [ ] 50.8 CHANGELOG: "Cambiado" (`secuencia`, textos en español, muelle bajo `Modal`, contenido montado al minimizar, encabezado sin botones anidados, auto-scroll condicionado), "Agregado" (componentes nuevos), "Obsoleto" (`author`, `time`).
+
+## P9. Timeline
+
+- [ ] 51. Núcleo
+  - [ ] 51.1 `src/components/Timeline/` con tipos, `<ol>`/`<li>`, estado, texto para lectores y `<time>`.
+  - [ ] 51.2 CSS vertical con conector posicionado respecto del `li`.
+  - [ ] 51.3 CSS horizontal con reparto uniforme, `minItemWidth`, scroll, `scroll-snap` y atenuado de bordes.
+  - [ ] 51.4 Variante `alternate` en ambas orientaciones.
+  - _Requisitos: R33, R34.1 a R34.3, R34.5_
+
+- [ ] 52. Responsividad
+  - [ ] 52.1 `ResizeObserver` sobre el contenedor: ancho y desbordamiento (con guardia si no existe).
+  - [ ] 52.2 `stackBelow`: orientación efectiva.
+  - [ ] 52.3 Centrar el punto `current` cuando hay scroll.
+  - [ ] 52.4 `@container (min-width: 40rem)` para la alternada vertical.
+  - _Requisitos: R34.2 a R34.4_
+
+- [ ] 53. Estados y estilo
+  - [ ] 53.1 Marcadores y conectores por estado con tokens existentes.
+  - [ ] 53.2 Iconos por defecto de Lucide (`Check`, `X`, `TriangleAlert`) e `icon` personalizado.
+  - [ ] 53.3 Tamaños `sm | md | lg`.
+  - [ ] 53.4 Anillo con pulso en `current`, sin movimiento con `prefers-reduced-motion`.
+  - [ ] 53.5 `onItemClick` con botón, hover y foco visible.
+  - _Requisitos: R33.5, R35_
+
+- [ ] 54. N puntos y casos límite
+  - [ ] 54.1 `maxVisible` con "Mostrar n más" / "Mostrar menos" (`aria-expanded`).
+  - [ ] 54.2 `reverse` sin alterar los datos.
+  - [ ] 54.3 `loading` con `Skeleton` y `emptyState`.
+  - [ ] 54.4 Verificar a mano 0, 1, 2, 3, 12 y 100 puntos en ambas orientaciones, y un título de 200 caracteres sin espacios.
+  - _Requisitos: R34.6 a R34.9, R35.6_
+
+- [ ] 55. Stories (R24)
+  - [ ] 55.1 Vertical, horizontal, alternada (ambas), 1, 3, 12 y 100 puntos, `maxVisible`, `reverse`, `stackBelow`, cargando, vacío, tamaños, estados, iconos propios, `onItemClick`, ancho angosto.
+  - [ ] 55.2 Ejemplo "Historial de estados del viaje" con los estados de `viaje.estados.yaml`.
+  - _Requisitos: R36.1_
+
+- [ ] 56. Cierre de P9
+  - [ ] 56.1 Exportar `Timeline` y sus tipos en `src/index.ts`.
+  - [ ] 56.2 Revisión con el teclado (Tab sobre puntos clickables) y con el panel de accesibilidad.
+  - [ ] 56.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [ ] 56.4 `CONSUMING.md` y CHANGELOG "Agregado".
+  - _Requisitos: R36.2, R36.3_
+
 ## Cierre final
 
-- [ ] 35. Verificación de la ola
+- [ ] 35. Verificación de la ola (ejecutar al terminar P8, P9 y P10)
   - [ ] 35.1 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook` desde un árbol limpio.
   - [ ] 35.1b Recorrer Storybook completo en tema claro y oscuro: todos los componentes nuevos y modificados tienen sus stories, sin errores en consola ni violaciones nuevas en el panel de accesibilidad.
   - [ ] 35.2 Revisar la lista de verificación del steering (sección 8) por cada componente nuevo o modificado.
