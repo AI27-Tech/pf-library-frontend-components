@@ -245,32 +245,32 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 30.3 Stories: actualizar `Table.stories.tsx` y `FilterTable.stories.tsx`, y crear `FilterBar.stories.tsx` (hoy no existe), en ambos `layout`, con carga, vacío, selección con acciones masivas, encabezado fijo, filtros activos y filtro buscable. _Las stories pendientes de 27 y 28 también quedan cubiertas aquí. Pendiente revisión visual en Storybook._
   - _Requisitos: R21.6, R21.7_
 
-- [-] 31. Cierre de P6
+- [x] 31. Cierre de P6
   - [x] 31.1 Buscar en los consumidores (`pf-web-frontend-*`) pruebas o código que dependan de los textos en inglés ("No data to display.", "Select all rows", "Search...", "result"). _Búsqueda en `src` y `tests` de los tres consumidores: ningún texto cambiado aparece. `BandejaViajes.test.tsx` busca el botón con `/limpiar|clear/i`, y sigue encontrando "Limpiar todos los filtros"._
-  - [ ] 31.2 Probar el build local en `pf-web-frontend-internal` (`FichaEditor`, `Catalogos`). _Pendiente: el consumidor usa `@ai27-tech/ui` desde `node_modules`, no el build local de esta librería._
+  - [x] 31.2 Probar el build local en `pf-web-frontend-internal` (`FichaEditor`, `Catalogos`). _Hecho sin tocar el consumidor: un config temporal (ya borrado) apunta `@ai27-tech/ui` al `dist` local. Build de Vite sin errores; el bundle tiene el texto nuevo y no el viejo. `tests/viajes/FichaEditor.test.tsx` y `tests/catalogos/Catalogos.test.tsx`: 13 de 13 pasan, igual que con la versión publicada. No corrí `tsc` del consumidor porque usa los tipos publicados; tampoco revisión visual._
   - [x] 31.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`. _Todos pasan: 89 pruebas, build de la librería y build de Storybook sin errores._
   - [x] 31.4 CHANGELOG: "Agregado", y "Cambiado" para textos en español y `Table loading`.
 
 ## P7. Badges
 
-- [ ] 32. Apariencia, tamaño y alias
-  - [ ] 32.1 Capturas de las stories actuales como referencia visual.
-  - [ ] 32.2 Reestructurar el CSS con variables locales de tono, conservando los porcentajes de mezcla actuales por variante.
-  - [ ] 32.3 Agregar `appearance` (`soft | solid | outline`) y `size` (`sm | md`).
-  - [ ] 32.4 Agregar variantes `info`, `primary` y `secondary`.
-  - [ ] 32.5 Verificar que las cinco variantes actuales en `soft` / `sm` se ven igual que la referencia.
-  - [ ] 32.6 Verificar combinaciones con `dot`, `pulse`, `pill`, `truncate`, `expandOnHover`, `fixedWidth` y `tooltip`.
+- [x] 32. Apariencia, tamaño y alias
+  - [x] 32.1 Capturas de las stories actuales como referencia visual. _Revisión visual hecha por el usuario en Storybook._
+  - [x] 32.2 Reestructurar el CSS con variables locales de tono, conservando los porcentajes de mezcla actuales por variante.
+  - [x] 32.3 Agregar `appearance` (`soft | solid | outline`) y `size` (`sm | md`).
+  - [x] 32.4 Agregar variantes `info`, `primary` y `secondary`. _`info` es alias de `escort`, como en el diseño. `secondary` usa 60 % de mezcla en `soft`; el diseño no fijaba el porcentaje._
+  - [x] 32.5 Verificar que las cinco variantes actuales en `soft` / `sm` se ven igual que la referencia. _Revisión visual del usuario, y lectura del CSS: los valores de `soft`/`sm` no cambian._
+  - [x] 32.6 Verificar combinaciones con `dot`, `pulse`, `pill`, `truncate`, `expandOnHover`, `fixedWidth` y `tooltip`. _Story `Combinaciones` y revisión visual del usuario._
   - _Requisitos: R22.1 a R22.6_
 
-- [ ] 33. Contraste (D10)
-  - [ ] 33.1 Medir el contraste de `solid` con `--ui-color-on-primary` para `secure`, `alert`, `warning` y `escort`, en tema oscuro y claro.
-  - [ ] 33.2 Reportar los pares que queden por debajo de 4.5:1. No agregar tokens sin aprobación.
+- [x] 33. Contraste (D10)
+  - [x] 33.1 Medir el contraste de `solid` con `--ui-color-on-primary` para `secure`, `alert`, `warning` y `escort`, en tema oscuro y claro. _Calculado con la fórmula WCAG sobre los valores hex de `tokens.css`, no sobre el render. Oscuro: secure 12,4:1; alert 10,0:1; warning 13,1:1; escort 7,1:1. Claro: secure 3,49:1; alert 5,43:1; warning 3,64:1; escort 4,77:1._
+  - [x] 33.2 Reportar los pares que queden por debajo de 4.5:1. No agregar tokens sin aprobación. _Quedan por debajo de 4,5:1 en tema claro: `secure` (3,49:1) y `warning` (3,64:1). Decisión pendiente (D10): tokens `on-success` / `on-warning`, o aceptar el contraste._
 
-- [ ] 34. Stories y cierre de P7
-  - [ ] 34.1 Story de matriz variante × apariencia × tamaño.
-  - [ ] 34.2 Story "Estados del viaje" con las 12 combinaciones de estado V1 mapeadas a variante + apariencia, y una nota de que la paleta solo distingue 4 tonos (D9).
-  - [ ] 34.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 34.4 CHANGELOG: "Agregado".
+- [x] 34. Stories y cierre de P7
+  - [x] 34.1 Story de matriz variante × apariencia × tamaño. _`Matriz`._
+  - [-] 34.2 Story "Estados del viaje" con las 12 combinaciones de estado V1 mapeadas a variante + apariencia, y una nota de que la paleta solo distingue 4 tonos (D9). _Eliminada por decisión del usuario: la librería no define cómo se usan los badges. Cada consumidor mapea sus estados. Las 4 tonos de D9 se mantienen como nota de diseño._
+  - [x] 34.3 `pnpm lint`, `pnpm typecheck`, `pnpm build:lib`, `pnpm build-storybook`. _Pasan. Las 89 pruebas también._
+  - [x] 34.4 CHANGELOG: "Agregado".
 
 ## Cierre final
 

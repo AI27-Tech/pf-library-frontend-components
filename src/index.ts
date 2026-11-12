@@ -30,7 +30,7 @@ export type {
 
 // Badge
 export { Badge } from "./components/Badge";
-export type { BadgeProps, BadgeVariant } from "./components/Badge";
+export type { BadgeProps, BadgeVariant, BadgeAppearance, BadgeSize } from "./components/Badge";
 // Tooltip
 export { Tooltip } from "./components/Tooltip";
 export type { TooltipProps } from "./components/Tooltip";

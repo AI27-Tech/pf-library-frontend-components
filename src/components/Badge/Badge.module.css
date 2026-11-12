@@ -3,12 +3,13 @@
   align-items: center;
   gap: 0.375rem;
   box-sizing: border-box;
-  height: 1.25rem; /* 20px compact chip */
-  padding: 0 0.5rem;
+  /* Tamaño: sm (20px, por defecto) o md (24px). Ver .sizeMd. */
+  height: var(--ui-badge-height, 1.25rem);
+  padding: 0 var(--ui-badge-padding-x, 0.5rem);
   border: 1px solid transparent;
   border-radius: var(--ui-radius, 0.25rem);
   font-family: var(--ui-font-family, inherit);
-  font-size: 0.625rem; /* label-sm 10px */
+  font-size: var(--ui-badge-font-size, 0.625rem); /* label-sm 10px */
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.06em;
@@ -17,6 +18,13 @@
   vertical-align: middle;
   /* No dejar que el badge rebase a su contenedor: si la card es angosta, cede. */
   max-width: 100%;
+}
+
+/* Tamaño md: 24px de alto y la escala label-md. */
+.sizeMd {
+  --ui-badge-height: 1.5rem;
+  --ui-badge-font-size: var(--ui-text-label-md-size, 0.6875rem);
+  --ui-badge-padding-x: 0.625rem;
 }
 
 /* Badge con truncado: el texto largo se recorta con puntos suspensivos limpios
@@ -107,35 +115,105 @@
   }
 }
 
-/* ── Variants ─────────────────────────────────────────────────────────────
-   Translucent fill + colored text + subtle border, per AI27 status chips. */
+/* ── Tonos por variante ──────────────────────────────────────────────────
+   Cada variante fija su tono (--ui-badge-tone), el color de texto de `soft` y
+   `outline` (--ui-badge-fg), y el fondo y borde de `soft` (--ui-badge-bg y
+   --ui-badge-border). Los porcentajes de mezcla son los de cada variante antes
+   de este cambio, para que `soft` en `sm` no cambie de aspecto. */
 
 .secure {
-  background-color: color-mix(in srgb, var(--ui-color-success) 14%, transparent);
-  color: var(--ui-color-success);
-  border-color: color-mix(in srgb, var(--ui-color-success) 32%, transparent);
+  --ui-badge-tone: var(--ui-color-success);
+  --ui-badge-fg: var(--ui-color-success);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-success) 14%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-success) 32%, transparent);
 }
 
 .alert {
-  background-color: color-mix(in srgb, var(--ui-color-danger) 16%, transparent);
-  color: var(--ui-color-danger);
-  border-color: color-mix(in srgb, var(--ui-color-danger) 42%, transparent);
+  --ui-badge-tone: var(--ui-color-danger);
+  --ui-badge-fg: var(--ui-color-danger);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-danger) 16%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-danger) 42%, transparent);
 }
 
 .escort {
-  background-color: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
-  color: var(--ui-color-info);
-  border-color: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
+  --ui-badge-tone: var(--ui-color-primary);
+  --ui-badge-fg: var(--ui-color-info);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
 }
 
 .warning {
-  background-color: color-mix(in srgb, var(--ui-color-warning) 16%, transparent);
-  color: var(--ui-color-warning);
-  border-color: color-mix(in srgb, var(--ui-color-warning) 40%, transparent);
+  --ui-badge-tone: var(--ui-color-warning);
+  --ui-badge-fg: var(--ui-color-warning);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-warning) 16%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-warning) 40%, transparent);
 }
 
 .neutral {
-  background-color: var(--ui-color-surface-raised, #242b3a);
+  --ui-badge-tone: var(--ui-color-surface-raised, #242b3a);
+  --ui-badge-fg: var(--ui-color-text-muted);
+  --ui-badge-bg: var(--ui-color-surface-raised, #242b3a);
+  --ui-badge-border: var(--ui-color-border);
+}
+
+/* Alias: `info` se ve igual que `escort` (tono primario, texto info). */
+.info {
+  --ui-badge-tone: var(--ui-color-primary);
+  --ui-badge-fg: var(--ui-color-info);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
+}
+
+.primary {
+  --ui-badge-tone: var(--ui-color-primary);
+  --ui-badge-fg: var(--ui-color-primary);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
+  --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
+}
+
+.secondary {
+  --ui-badge-tone: var(--ui-color-secondary);
+  --ui-badge-fg: var(--ui-color-on-secondary);
+  --ui-badge-bg: color-mix(in srgb, var(--ui-color-secondary) 60%, transparent);
+  --ui-badge-border: var(--ui-color-secondary);
+}
+
+/* ── Apariencias ─────────────────────────────────────────────────────────── */
+
+/* soft: fondo translúcido, texto del tono y borde suave (apariencia por defecto). */
+.soft {
+  background-color: var(--ui-badge-bg);
+  color: var(--ui-badge-fg);
+  border-color: var(--ui-badge-border);
+}
+
+/* solid: fondo del tono con texto sobre primario. Ver D10 para el contraste en tema claro. */
+.solid {
+  background-color: var(--ui-badge-tone);
+  color: var(--ui-color-on-primary);
+  border-color: var(--ui-badge-tone);
+}
+
+.solid.neutral {
+  background-color: var(--ui-color-text-muted);
+  color: var(--ui-color-surface);
+  border-color: var(--ui-color-text-muted);
+}
+
+.solid.secondary {
+  background-color: var(--ui-color-secondary);
+  color: var(--ui-color-on-secondary);
+  border-color: var(--ui-color-secondary);
+}
+
+/* outline: fondo transparente, borde y texto del tono. */
+.outline {
+  background-color: transparent;
+  color: var(--ui-badge-fg);
+  border-color: var(--ui-badge-tone);
+}
+
+.outline.neutral {
   color: var(--ui-color-text-muted);
   border-color: var(--ui-color-border);
 }

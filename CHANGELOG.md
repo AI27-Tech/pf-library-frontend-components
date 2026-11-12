@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`FilterTable`**: `filterLayout`, `labels` (tipo `FilterTableLabels`), `tableLabels` (pasa los textos a `Table`) y `loading`, que llega también a la barra de filtros. Los filtros se pasan completos a `FilterBar`: antes se perdían `variant`, `searchPlaceholder`, `noResultsText` e `icon`.
 - **Storybook**: historias nuevas de `Table` (encabezado fijo, sin rayas, `minWidth` y `truncate`, acciones masivas, etiquetas personalizadas), de `FilterTable` (disposiciones, filtros activos, carga, selección, filtro buscable) y el archivo nuevo `FilterBar.stories.tsx`.
 
+- **`Badge`**: `appearance` (`"soft"` por defecto, `"solid"`, `"outline"`), `size` (`"sm"` por defecto, `"md"` de 24 px) y las variantes `info`, `primary` y `secondary`. Las cinco variantes existentes en `soft` y `sm` se ven igual. Se agregan historias de matriz y de combinaciones.
+
 ### Cambiado
 - **Textos por defecto en español** (`Table`, `FilterTable`, `FilterBar`): "No data to display." pasa a "No hay datos para mostrar."; "Select all rows" a "Seleccionar todas las filas"; "Search..." a "Buscar..."; "Clear" a "Limpiar"; "N result(s)" a "N resultado(s)". Se sobrescriben con `labels`.
 - **`Table`**: los checkboxes de selección usan el `Checkbox` de la librería. Las columnas ordenables sin orden activo muestran dos flechas atenuadas. Los separadores usan `--ui-color-divider`. Las rayas alternas se controlan con `striped` (por defecto, igual que antes). El panel expandido entra con una transición breve, sin ella con movimiento reducido. Mientras carga, la tabla usa "Cargando" como `aria-label` si no se pasa uno.
