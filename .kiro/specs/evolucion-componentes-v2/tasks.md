@@ -141,12 +141,13 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 19.2 Pruebas unitarias: años bisiestos, fin de mes, `addMonths` desde el día 31, rejilla con `weekStartsOn` 0 y 1, análisis de texto con `/`, `-` y `.`, fechas inválidas, `min`/`max`. _Hecho en `dateUtils.test.ts`: 48 pruebas pasan con `pnpm test`. Incluye también `today` con reloj simulado._
   - _Requisitos: R15.6_
 
-- [ ] 20. `Calendar`
-  - [ ] 20.1 Vistas de días, meses y años; encabezado con navegación.
-  - [ ] 20.2 Grid ARIA con roving tabindex; teclado completo (flechas, `PageUp`/`PageDown`, `Shift` + estas, `Home`/`End`, `Enter`/`Espacio`).
-  - [ ] 20.3 Estados: hoy, seleccionado, fuera de mes, deshabilitado (`min`, `max`, `isDateDisabled`).
-  - [ ] 20.4 Nombres de meses y días con `Intl.DateTimeFormat` (`timeZone: "UTC"`).
-  - [ ] 20.5 Story con `min`/`max`, `weekStartsOn` y fechas deshabilitadas.
+- [-] 20. `Calendar`
+  - [x] 20.1 Vistas de días, meses y años; encabezado con navegación. _`Calendar.tsx`. El título cambia de vista y los botones anterior y siguiente avanzan según la vista (mes, año o bloque de 12 años)._
+  - [x] 20.2 Grid ARIA con roving tabindex; teclado completo (flechas, `PageUp`/`PageDown`, `Shift` + estas, `Home`/`End`, `Enter`/`Espacio`). _Teclado implementado en la vista de días. Decisión: `Shift` + flechas avanza o retrocede un año. En meses y años se usan botones nativos (Tab y Enter)._
+  - [x] 20.3 Estados: hoy, seleccionado, fuera de mes, deshabilitado (`min`, `max`, `isDateDisabled`). _Los días deshabilitados usan `aria-disabled`, para que sigan siendo alcanzables con el teclado. Un mes o año fuera de rango se deshabilita por completo. Días de otros meses: texto atenuado y borde punteado, elegibles (decisión de revisión visual)._
+  - [x] 20.4 Nombres de meses y días con `Intl.DateTimeFormat` (`timeZone: "UTC"`). _Fechas construidas con `Date.UTC`._
+  - [x] 20.5 Story con `min`/`max`, `weekStartsOn` y fechas deshabilitadas. _`Calendar.stories.tsx`, con 5 stories._
+  - _Verificado con una prueba temporal de 9 casos (teclado, selección, rangos, navegación entre vistas, lunes y domingo como inicio), que luego se eliminó. Pendiente: revisión visual en Storybook y tema oscuro/claro._
   - _Requisitos: R15_
 
 - [ ] 21. `DateInput`
