@@ -47,7 +47,7 @@ export const Interactive: Story = {
     return (
       <div style={{ height: 420, display: "flex" }}>
         <Sidebar
-          header={collapsed ? <Icon path={icons.home} /> : <span>Acme Admin</span>}
+          header={<span>Acme Admin</span>}
           collapsed={collapsed}
           onToggleCollapse={() => setCollapsed((v) => !v)}
         >
@@ -66,6 +66,53 @@ export const Interactive: Story = {
       </div>
     );
   },
+};
+
+export const WithHeaderAndToggle: Story = {
+  render: () => (
+    <div style={{ height: 300, display: "flex" }}>
+      <Sidebar
+        header={<span>Acme Admin</span>}
+        onToggleCollapse={() => {}}
+      >
+        <SidebarItem icon={<Icon path={icons.home} />} active>
+          Dashboard
+        </SidebarItem>
+      </Sidebar>
+    </div>
+  ),
+};
+
+export const ToggleWithoutHeader: Story = {
+  render: () => (
+    <div style={{ height: 300, display: "flex" }}>
+      <Sidebar onToggleCollapse={() => {}}>
+        <SidebarItem icon={<Icon path={icons.home} />} active>
+          Dashboard
+        </SidebarItem>
+        <SidebarItem icon={<Icon path={icons.orders} />}>Orders</SidebarItem>
+      </Sidebar>
+    </div>
+  ),
+};
+
+export const Collapsed: Story = {
+  render: () => (
+    <div style={{ height: 300, display: "flex" }}>
+      <Sidebar
+        header={<span>Acme Admin</span>}
+        collapsed
+        onToggleCollapse={() => {}}
+      >
+        <SidebarItem icon={<Icon path={icons.home} />} active>
+          Dashboard
+        </SidebarItem>
+        <SidebarItem icon={<Icon path={icons.orders} />} badge={3}>
+          Orders
+        </SidebarItem>
+      </Sidebar>
+    </div>
+  ),
 };
 
 export const AsLinks: Story = {
