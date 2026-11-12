@@ -174,10 +174,11 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - _Cierre: revisión visual confirmada por el equipo._
   - _Requisitos: R17_
 
-- [ ] 23. `DateTimeInput`
-  - [ ] 23.1 Composición de `DateInput` y `TimePicker` con estado interno por partes.
-  - [ ] 23.2 Emisión combinada solo con ambas partes; `defaultTime`; reparto de `min`/`max`.
-  - [ ] 23.3 Story que documenta el comportamiento de "parte a medias" y el uso de `key` para reiniciar.
+- [-] 23. `DateTimeInput`
+  - [x] 23.1 Composición de `DateInput` y `TimePicker` con estado interno por partes. _`DateTimeInput.tsx`. La hora tiene ancho natural; la fecha ocupa el resto de la fila._
+  - [x] 23.2 Emisión combinada solo con ambas partes; `defaultTime`; reparto de `min`/`max`. _Un valor externo no vacío reemplaza las dos partes; uno vacío no borra una parte a medias. La hora se restringe solo el día del límite._
+  - [x] 23.3 Story que documenta el comportamiento de "parte a medias" y el uso de `key` para reiniciar. _`ResetWithKey` y `PartialState`, más 9 stories en total._
+  - _Verificado con una prueba temporal de 9 casos, eliminada después. Suite completa: 89 pruebas pasan. Pendiente: revisión visual en Storybook._
   - _Requisitos: R18_
 
 - [x] 24. Mejoras de formularios acordadas en 18.2 _Cerrada. Revisión visual confirmada por el equipo._
