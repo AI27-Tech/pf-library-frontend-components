@@ -89,6 +89,69 @@
   opacity: var(--ui-opacity-disabled, 0.55);
 }
 
+/* Botones de acción dentro del campo: borrar y mostrar contraseña */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+}
+
+.actionButton:hover {
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.actionButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.actionButton svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* Contador de caracteres (Textarea con showCount) */
+.counter {
+  display: block;
+  margin-top: var(--ui-space-1, 0.25rem);
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  text-align: right;
+}
+
+/* Solo lectura (decisión 2): se ve distinto de un campo editable, sin perder el foco visible */
+.field.readOnly {
+  background-color: var(--ui-color-surface-container-low, #161b24);
+  border-color: var(--ui-color-border-subtle, #242d3d);
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.field.readOnly .control {
+  cursor: default;
+}
+
+/* El foco debe seguir visible aunque el campo sea de solo lectura */
+.field.readOnly:focus-within {
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
 /* Adornos */
 .adornment {
   display: inline-flex;

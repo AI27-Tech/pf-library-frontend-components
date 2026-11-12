@@ -70,3 +70,29 @@ function SearchIcon() {
     </svg>
   );
 }
+
+export const StateError: Story = {
+  args: { state: "error", defaultValue: "No válido" },
+};
+
+export const StateWarning: Story = {
+  args: { state: "warning", defaultValue: "Revisar" },
+};
+
+export const StateSuccess: Story = {
+  args: { state: "success", defaultValue: "Correcto" },
+};
+
+export const ReadOnly: Story = {
+  args: { readOnly: true, defaultValue: "Solo lectura" },
+};
+
+/** El botón de borrar solo aparece cuando hay texto. */
+export const Clearable: Story = {
+  args: { clearable: true, defaultValue: "Borra este texto" },
+};
+
+/** En `type="password"`, el botón alterna entre ver y ocultar el texto. */
+export const PasswordToggle: Story = {
+  args: { type: "password", passwordToggle: true, defaultValue: "secreto" },
+};

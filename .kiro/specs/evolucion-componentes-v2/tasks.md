@@ -180,23 +180,20 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [ ] 23.3 Story que documenta el comportamiento de "parte a medias" y el uso de `key` para reiniciar.
   - _Requisitos: R18_
 
-- [ ] 24. Mejoras de formularios acordadas en 18.2
+- [x] 24. Mejoras de formularios acordadas en 18.2 _Cerrada. Revisión visual confirmada por el equipo._
   - Restricciones: todo cambio mantiene la API existente (las funciones nuevas son opt-in y el valor por defecto no cambia), no agrega colores y reutiliza `Input.module.css`, `Choice.module.css` y `FormField.module.css`. Los comentarios nuevos van en español.
-  - [ ] 24.1 Correcciones H1 a H3 de `auditoria-formularios.md`:
-    - `Input`: el estado `error` aplica la clase de borde de error (`invalid`), para que el borde rojo se vea.
-    - `Select` (variante por defecto y `SelectSearchable`): aceptar `id` y `aria-describedby` y pasarlos al control, para que `FormField` los asocie.
-    - `FormField`: inyectar `invalid` solo en hijos que lo declaran, o hacer que `Checkbox`, `Radio` y `Switch` lo consuman sin enviarlo al `<input>`.
-  - [ ] 24.2 Solo lectura (H4): estilos de `readOnly` en `Input`, `Textarea` y `Select` con los tokens de la decisión 2 (fondo `surface-container-low`, borde `border-subtle`, texto `text`, cursor `default`). El anillo de foco se mantiene.
-  - [ ] 24.3 Estados de validación unificados (H5): `state` (`error`, `warning`, `success`) en `Textarea` y `Select`. `invalid` queda como alias deprecado, igual que en `Input`.
-  - [ ] 24.4 Radios unificados (decisión 3): la caja de `Checkbox` y `Radio` usa `--ui-radius`. `Switch` mantiene su forma.
-  - [ ] 24.5 Tamaños en `Checkbox`, `Radio` y `Switch` (H7): prop `size` opt-in (`sm`, `md`, `lg`), con `md` igual al tamaño actual.
-  - [ ] 24.6 Indicador de opcional en `FormField`: prop opt-in que muestra "(opcional)" en campos no requeridos.
-  - [ ] 24.7 Orientación horizontal en `FormField`: prop `orientation` (`vertical` por defecto, `horizontal`), con la etiqueta a la izquierda del control.
-  - [ ] 24.8 Contador de caracteres en `Textarea`: prop opt-in `showCount`, que usa `maxLength` cuando está definido.
-  - [ ] 24.9 `Input` con `clearable`: botón opt-in para borrar el valor, con callback `onClear`. Usa `endAdornment`, sin cambiar la API existente.
-  - [ ] 24.10 `Input` con mostrar y ocultar contraseña: prop opt-in para `type="password"`, con botón que alterna el tipo.
-  - [ ] 24.11 Stories de `Input.stories.tsx`, `Select.stories.tsx`, `Choice.stories.tsx` y `FormField.stories.tsx`. Cada cambio tiene su story, con los estados deshabilitado, error y solo lectura.
-  - [ ] 24.12 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`.
+  - [x] 24.1 Correcciones H1 a H3 de `auditoria-formularios.md`: _H1: `Input` con `state="error"` aplica la clase `invalid`. H2: `Select` (y `SelectSearchable`) acepta `id` y `aria-describedby`. H3: `Checkbox`, `Radio` y `Switch` consumen `invalid` y lo convierten en `aria-invalid`, sin enviarlo al DOM._
+  - [x] 24.2 Solo lectura (H4): _`readOnly` en `Input`, `Textarea` y `Select` (la lista no abre). Tokens de la decisión 2. El foco sigue visible._
+  - [x] 24.3 Estados de validación unificados (H5): _`state` en `Textarea` y `Select`. `invalid` sigue como alias._
+  - [x] 24.4 Radios unificados (decisión 3): _la caja del `Checkbox` usa `--ui-radius`. `Radio` sigue circular y `Switch` sigue como píldora._
+  - [x] 24.5 Tamaños en `Checkbox`, `Radio` y `Switch` (H7): _prop `size` (`sm`, `md`, `lg`). Los valores de `sm` y `lg` del interruptor son estimados, no medidos en navegador._
+  - [x] 24.6 Indicador de opcional en `FormField`: _prop `showOptional`, muestra "(opcional)" en campos no requeridos._
+  - [x] 24.7 Orientación horizontal en `FormField`: _prop `orientation` (`vertical` por defecto, `horizontal` con etiqueta a la izquierda)._
+  - [x] 24.8 Contador de caracteres en `Textarea`: _prop `showCount`. Muestra `actual/máximo` con `maxLength`, o solo el total sin él._
+  - [x] 24.9 `Input` con `clearable`: _botón "Borrar" solo cuando hay texto y el campo es editable. Con `onClear`. El campo emite `""` en modo controlado y no controlado._
+  - [x] 24.10 `Input` con mostrar y ocultar contraseña: _prop `passwordToggle` en `type="password"`, con `aria-pressed`._
+  - [x] 24.11 Stories: _`Input` (estados, solo lectura, `clearable`, contraseña), `Select` (estado success, solo lectura), `Choice` (tamaños e inválido), `FormField` (opcional, horizontal, contador)._
+  - [x] 24.12 Validar con `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build-storybook`. _Lint, typecheck, 89 pruebas y `pnpm build-storybook` pasan. Revisión visual confirmada por el equipo._
   - _Requisitos: R19.3_
 
 - [ ] 25. Mejoras de `Form` acordadas en 18.2

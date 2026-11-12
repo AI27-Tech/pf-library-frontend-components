@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from "./Input.module.css";
 import selectStyles from "./SelectCustom.module.css";
 import { cx, type InputSize } from "./utils";
+import type { InputState } from "./Input";
 import { SelectSearchable } from "./SelectSearchable";
 
 export interface SelectOption {
@@ -14,8 +15,16 @@ export interface SelectOption {
 export interface SelectProps {
   /** Size of the select. */
   size?: InputSize;
-  /** Marks the field as invalid (also sets aria-invalid). */
+  /** Marks the field as invalid (also sets aria-invalid). Equivale a `state="error"`. */
   invalid?: boolean;
+  /** Estado de validación: error (rojo), warning (naranja), success (verde). */
+  state?: InputState;
+  /** Solo lectura: el valor se ve, pero no se puede abrir la lista para cambiarlo. */
+  readOnly?: boolean;
+  /** Identificador del control. `FormField` lo asocia a su etiqueta. */
+  id?: string;
+  /** Ids de textos de ayuda o error. `FormField` lo completa. */
+  "aria-describedby"?: string;
   /** Options to render. */
   options?: SelectOption[];
   /** Placeholder shown as a disabled first option. */
@@ -68,6 +77,10 @@ export function Select(props: SelectProps) {
 function SelectDefault({
   size = "md",
   invalid = false,
+  state,
+  readOnly = false,
+  id,
+  "aria-describedby": describedBy,
   options = [],
   placeholder,
   value: controlledValue,
@@ -77,6 +90,8 @@ function SelectDefault({
   className,
   selectRef,
 }: SelectProps) {
+  const effectiveState = invalid ? "error" : state;
+  const interactive = !disabled && !readOnly;
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | number | undefined>(
     defaultValue ?? (placeholder ? "" : undefined),
@@ -122,17 +137,22 @@ function SelectDefault({
       data-size={size}
     >
       <button
+        id={id}
         className={cx(
           styles.field,
           styles[size],
-          invalid && styles.invalid,
+          effectiveState === "error" && styles.invalid,
+          effectiveState === "warning" && styles.warning,
+          effectiveState === "success" && styles.success,
           disabled && styles.disabled,
+          readOnly && styles.readOnly,
           selectStyles.trigger,
           className,
         )}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={() => interactive && setIsOpen(!isOpen)}
         disabled={disabled}
-        aria-invalid={invalid || undefined}
+        aria-invalid={effectiveState === "error" || undefined}
+        aria-describedby={describedBy}
         type="button"
       >
         <span className={selectStyles.displayValue}>{displayLabel}</span>

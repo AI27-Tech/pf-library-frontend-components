@@ -17,6 +17,10 @@ export interface FormFieldProps {
   error?: ReactNode;
   /** Marks the field as required (adds an asterisk). */
   required?: boolean;
+  /** Muestra "(opcional)" junto a la etiqueta de los campos no requeridos. Por defecto: false. */
+  showOptional?: boolean;
+  /** Disposición: `vertical` (etiqueta arriba) u `horizontal` (etiqueta a la izquierda). Por defecto: "vertical". */
+  orientation?: "vertical" | "horizontal";
   /** Explicit id for the control. Auto-generated if omitted. */
   htmlFor?: string;
   className?: string;
@@ -40,6 +44,8 @@ export function FormField({
   helpText,
   error,
   required = false,
+  showOptional = false,
+  orientation = "vertical",
   htmlFor,
   className,
   children,
@@ -66,7 +72,7 @@ export function FormField({
   }
 
   return (
-    <div className={cx(styles.field, className)}>
+    <div className={cx(styles.field, orientation === "horizontal" && styles.horizontal, className)}>
       {label && (
         <label className={styles.label} htmlFor={controlId}>
           {label}
@@ -75,6 +81,7 @@ export function FormField({
               *
             </span>
           )}
+          {!required && showOptional && <span className={styles.optional}> (opcional)</span>}
         </label>
       )}
       {control}
