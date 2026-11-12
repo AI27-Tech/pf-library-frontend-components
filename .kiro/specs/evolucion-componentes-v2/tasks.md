@@ -279,37 +279,37 @@ Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisi
 ## P10. Iconos con Lucide
 
 - [ ] 36. Preparación
-  - [ ] 36.1 Verificar contra `node_modules/lucide-react` que existen los nombres del mapeo de `design.md` (`ChevronsUpDown`, `CalendarDays`, `EyeOff`, `Minus`, `Send`, `Paperclip`, etc.). Ajustar el mapeo si algún nombre cambió en la versión 1.47.
+  - [x] 36.1 Verificar contra `node_modules/lucide-react` que existen los nombres del mapeo de `design.md` (`ChevronsUpDown`, `CalendarDays`, `EyeOff`, `Minus`, `Send`, `Paperclip`, etc.). Ajustar el mapeo si algún nombre cambió en la versión 1.47.
   - [ ] 36.2 Guardar capturas de referencia en Storybook (tema claro y oscuro) de los componentes afectados.
-  - [ ] 36.3 Anotar el tamaño actual de `dist/ui-library.js` (142 KB al 2026-11-12).
+  - [x] 36.3 Anotar el tamaño actual de `dist/ui-library.js` (142 KB al 2026-11-12).
   - _Requisitos: R37, R38_
 
-- [ ] 37. Reemplazar iconos en componentes
-  - [ ] 37.1 `Calendar.tsx`, `DateInput.tsx`, `TimePicker.tsx`.
-  - [ ] 37.2 `Input.tsx`, `Select.tsx`, `SelectSearchable.tsx`, `Checkbox.tsx` (`strokeWidth={3}`).
-  - [ ] 37.3 `FilterBar.tsx`, `FilterTable.tsx`, `Form.tsx`.
-  - [ ] 37.4 `Table.tsx` (orden y chevron de fila) y `Pagination.tsx`.
-  - [ ] 37.5 `Modal.tsx`, `Navbar.tsx`, `Toast.tsx` (mismos iconos que `Alert`).
-  - [ ] 37.6 `MessagePanel/shared.tsx` (`Minus`, `X`, `ChevronUp`, `Send`). Se completa su reestructura en P8.
-  - [ ] 37.7 Eliminar las funciones de icono locales que queden sin uso.
+- [x] 37. Reemplazar iconos en componentes
+  - [x] 37.1 `Calendar.tsx`, `DateInput.tsx`, `TimePicker.tsx`.
+  - [x] 37.2 `Input.tsx`, `Select.tsx`, `SelectSearchable.tsx`, `Checkbox.tsx` (`strokeWidth={3}`).
+  - [x] 37.3 `FilterBar.tsx`, `FilterTable.tsx`, `Form.tsx`.
+  - [x] 37.4 `Table.tsx` (orden y chevron de fila) y `Pagination.tsx`.
+  - [x] 37.5 `Modal.tsx`, `Navbar.tsx`, `Toast.tsx` (mismos iconos que `Alert`).
+  - [x] 37.6 `MessagePanel/shared.tsx` (`Minus`, `X`, `ChevronUp`, `Send`). Se completa su reestructura en P8.
+  - [x] 37.7 Eliminar las funciones de icono locales que queden sin uso.
   - _Requisitos: R37.1 a R37.6_
 
-- [ ] 38. Reemplazar iconos en stories
-  - [ ] 38.1 `Button.stories.tsx`, `Card.stories.tsx`, `Navbar.stories.tsx`, `Input.stories.tsx`.
-  - [ ] 38.2 Revisar el resto de stories y `.storybook/` por `<svg`.
+- [x] 38. Reemplazar iconos en stories
+  - [x] 38.1 `Button.stories.tsx`, `Card.stories.tsx`, `Navbar.stories.tsx`, `Input.stories.tsx`.
+  - [x] 38.2 Revisar el resto de stories y `.storybook/` por `<svg`.
   - _Requisitos: R37.1_
 
 - [ ] 39. Evitar regresiones y verificar
-  - [ ] 39.1 Agregar la regla `no-restricted-syntax` de `design.md` a `eslint.config.js` para `src/**` y `.storybook/**`.
-  - [ ] 39.2 Buscar `<svg`, `<path`, `<circle`, `<rect`, `<polyline`, `<line` y `d="M` en `src/`, `.storybook/`, `README.md` y `CONSUMING.md`; el resultado debe estar vacío.
-  - [ ] 39.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
-  - [ ] 39.4 Comparar el tamaño de `dist/ui-library.js` con 36.3 y confirmar que `dist` no importa `lucide-react` como externo.
+  - [x] 39.1 Agregar la regla `no-restricted-syntax` de `design.md` a `eslint.config.js` para `src/**` y `.storybook/**`.
+  - [x] 39.2 Buscar `<svg`, `<path`, `<circle`, `<rect`, `<polyline`, `<line` y `d="M` en `src/`, `.storybook/`, `README.md` y `CONSUMING.md`; el resultado debe estar vacío.
+  - [x] 39.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`.
+  - [x] 39.4 Comparar el tamaño de `dist/ui-library.js` con 36.3 y confirmar que `dist` no importa `lucide-react` como externo.
   - [ ] 39.5 Comparar las capturas de 36.2 en tema claro y oscuro. Revisar con cuidado `Table` (orden) y `Toast`.
   - _Requisitos: R38_
 
-- [ ] 40. Documentación de P10
-  - [ ] 40.1 `CONSUMING.md`: la librería incluye Lucide; los portales no necesitan instalarlo para usar `@ai27-tech/ui`.
-  - [ ] 40.2 CHANGELOG `[Unreleased]`: "Cambiado" (iconos de Lucide, orden de `Table`) y "Agregado" (regla de lint).
+- [x] 40. Documentación de P10
+  - [x] 40.1 `CONSUMING.md`: la librería incluye Lucide; los portales no necesitan instalarlo para usar `@ai27-tech/ui`.
+  - [x] 40.2 CHANGELOG `[Unreleased]`: "Cambiado" (iconos de Lucide, orden de `Table`) y "Agregado" (regla de lint).
 
 ## P8. MessagePanel
 

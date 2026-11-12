@@ -1,3 +1,4 @@
+import { Eye, EyeOff, X } from "lucide-react";
 import { useRef, useState, type InputHTMLAttributes, type ReactNode, type Ref } from "react";
 import styles from "./Input.module.css";
 import { cx, type InputSize } from "./utils";
@@ -33,24 +34,6 @@ function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
   } else if (ref) {
     (ref as { current: T | null }).current = value;
   }
-}
-
-function ClearIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
-  );
-}
-
-function EyeIcon({ hidden }: { hidden: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-      <circle cx="12" cy="12" r="3" />
-      {hidden && <path d="M3 3l18 18" />}
-    </svg>
-  );
 }
 
 export function Input({
@@ -155,7 +138,7 @@ export function Input({
               aria-label="Borrar"
               onClick={clear}
             >
-              <ClearIcon />
+              <X />
             </button>
           )}
           {showToggle && (
@@ -166,7 +149,7 @@ export function Input({
               aria-pressed={revealed}
               onClick={() => setRevealed((current) => !current)}
             >
-              <EyeIcon hidden={revealed} />
+              {revealed ? <EyeOff /> : <Eye />}
             </button>
           )}
         </span>

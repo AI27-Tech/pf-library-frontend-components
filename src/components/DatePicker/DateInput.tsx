@@ -1,3 +1,4 @@
+import { CalendarDays, X } from "lucide-react";
 import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Input } from "../Input/Input";
 import type { InputSize } from "../Input/utils";
@@ -84,23 +85,6 @@ function toVisualDisplay(iso: string, locale: string): string {
 
 function resolvePreset(preset: DatePreset): string {
   return typeof preset.value === "function" ? preset.value() : preset.value;
-}
-
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <path d="M16 2v4M8 2v4M3 10h18" />
-    </svg>
-  );
-}
-
-function ClearIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
-  );
 }
 
 export function DateInput({
@@ -277,7 +261,7 @@ export function DateInput({
                 aria-label="Borrar fecha"
                 onClick={clear}
               >
-                <ClearIcon />
+                <X />
               </button>
             )}
             <button
@@ -291,7 +275,7 @@ export function DateInput({
               disabled={!interactive}
               onClick={() => (open ? setOpen(false) : openPanel())}
             >
-              <CalendarIcon />
+              <CalendarDays />
             </button>
           </span>
         }

@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import type { ReactNode } from "react";
 import { Table, type TableLabels, type TableProps } from "../Table";
 import { Input } from "../Input/Input";
@@ -66,15 +67,6 @@ export interface FilterTableProps<T> extends Omit<TableProps<T>, "labels"> {
   tableLabels?: Partial<TableLabels>;
 }
 
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.3-4.3" />
-    </svg>
-  );
-}
-
 export function FilterTable<T>({
   search,
   onSearchChange,
@@ -109,7 +101,7 @@ export function FilterTable<T>({
       value={search ?? ""}
       onChange={(e) => onSearchChange!(e.target.value)}
       placeholder={placeholder}
-      startAdornment={<SearchIcon />}
+      startAdornment={<Search />}
       aria-label={labels.search}
       type="search"
     />

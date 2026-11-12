@@ -1,3 +1,4 @@
+import { ChevronUp, Minus, Send, X } from "lucide-react";
 import type { ReactNode } from "react";
 import styles from "./MessagePanel.module.css";
 import { cx, initials, type Presence } from "./utils";
@@ -50,33 +51,21 @@ export function IconButton({
 }
 
 export function MinimizeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M5 12h14" />
-    </svg>
+  return (<Minus />
   );
 }
 
 export function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
+  return (<X />
   );
 }
 
 export function ExpandIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 15l-6-6-6 6" />
-    </svg>
+  return (<ChevronUp />
   );
 }
 
 export function SendIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4z" />
-    </svg>
+  return (<Send />
   );
 }

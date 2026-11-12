@@ -1,3 +1,4 @@
+import { Clock, X } from "lucide-react";
 import {
   Fragment,
   useEffect,
@@ -118,23 +119,6 @@ function stepped(range: FieldRange, step: number): number[] {
 
 function stepOf(step: number): number {
   return Math.max(1, Math.floor(step));
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  );
-}
-
-function ClearIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
-  );
 }
 
 export function TimePicker({
@@ -487,7 +471,7 @@ export function TimePicker({
                 aria-label="Borrar hora"
                 onClick={clear}
               >
-                <ClearIcon />
+                <X />
               </button>
             )}
             {withDropdown && (
@@ -499,7 +483,7 @@ export function TimePicker({
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => setOpen((current) => !current)}
               >
-                <ClockIcon />
+                <Clock />
               </button>
             )}
           </span>

@@ -1,4 +1,5 @@
 import { useId, useState, type FormHTMLAttributes, type HTMLAttributes, type ReactNode } from "react";
+import { ChevronDown } from "lucide-react";
 import styles from "./Form.module.css";
 import { cx } from "../Input/utils";
 
@@ -34,22 +35,6 @@ export interface FormSectionProps
   onOpenChange?: (open: boolean) => void;
 }
 
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      className={cx(styles.chevron, open && styles.chevronOpen)}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
 
 /** Agrupa campos relacionados con un título y descripción opcionales. */
 export function FormSection({
@@ -86,7 +71,7 @@ export function FormSection({
               onClick={toggle}
             >
               {title}
-              <ChevronIcon open={isOpen} />
+              <ChevronDown className={cx(styles.chevron, isOpen && styles.chevronOpen)} />
             </button>
           ) : (
             title

@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import type { Ref } from "react";
 import { useRef, useState, useEffect } from "react";
 import styles from "./Input.module.css";
@@ -50,21 +51,6 @@ export interface SelectProps {
 }
 
 export type SelectVariant = "default" | "searchable";
-
-function ChevronIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
 
 /** Despacha a la variante indicada. La variante por defecto no cambia de DOM ni de comportamiento. */
 export function Select(props: SelectProps) {
@@ -160,7 +146,7 @@ function SelectDefault({
           className={cx(styles.adornment, styles.selectArrow)}
           aria-hidden="true"
         >
-          <ChevronIcon />
+          <ChevronDown />
         </span>
       </button>
 

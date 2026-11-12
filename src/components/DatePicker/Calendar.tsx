@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cx } from "../Input/utils";
 import styles from "./Calendar.module.css";
 import {
@@ -91,15 +92,6 @@ function clampDate(date: DateParts, min: DateParts | null, max: DateParts | null
 /** Posición del día dentro de su semana, contando desde `weekStartsOn`. */
 function offsetInWeek(date: DateParts, weekStartsOn: WeekStart): number {
   return (weekdayOf(date) - weekStartsOn + 7) % 7;
-}
-
-function ChevronIcon({ direction }: { direction: "left" | "right" }) {
-  const points = direction === "left" ? "15 18 9 12 15 6" : "9 18 15 12 9 6";
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points={points} />
-    </svg>
-  );
 }
 
 export function Calendar({
@@ -299,7 +291,7 @@ export function Calendar({
           aria-label={prevLabel}
           onClick={() => shiftFocus(-1)}
         >
-          <ChevronIcon direction="left" />
+          <ChevronLeft />
         </button>
         {view === "years" ? (
           <span className={styles.title}>{title}</span>
@@ -318,7 +310,7 @@ export function Calendar({
           aria-label={nextLabel}
           onClick={() => shiftFocus(1)}
         >
-          <ChevronIcon direction="right" />
+          <ChevronRight />
         </button>
       </div>
 

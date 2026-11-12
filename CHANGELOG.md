@@ -39,9 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`Badge`**: `appearance` (`"soft"` por defecto, `"solid"`, `"outline"`), `size` (`"sm"` por defecto, `"md"` de 24 px) y las variantes `info`, `primary` y `secondary`. Las cinco variantes existentes en `soft` y `sm` se ven igual. Se agregan historias de matriz y de combinaciones.
 
+- **Regla de lint**: `eslint.config.js` prohibe `<svg>` en `src/` y `.storybook/` (`no-restricted-syntax`). Los iconos se importan de `lucide-react`.
+
 ### Cambiado
 - **Textos por defecto en español** (`Table`, `FilterTable`, `FilterBar`): "No data to display." pasa a "No hay datos para mostrar."; "Select all rows" a "Seleccionar todas las filas"; "Search..." a "Buscar..."; "Clear" a "Limpiar"; "N result(s)" a "N resultado(s)". Se sobrescriben con `labels`.
-- **`Table`**: los checkboxes de selección usan el `Checkbox` de la librería. Las columnas ordenables sin orden activo muestran dos flechas atenuadas. Los separadores usan `--ui-color-divider`. Las rayas alternas se controlan con `striped` (por defecto, igual que antes). El panel expandido entra con una transición breve, sin ella con movimiento reducido. Mientras carga, la tabla usa "Cargando" como `aria-label` si no se pasa uno.
+- **`Table`**: los checkboxes de selección usan el `Checkbox` de la librería. Las columnas ordenables sin orden activo muestran `ChevronsUpDown` atenuado; con orden, `ArrowUp`. Los separadores usan `--ui-color-divider`. Las rayas alternas se controlan con `striped` (por defecto, igual que antes). El panel expandido entra con una transición breve, sin ella con movimiento reducido. Mientras carga, la tabla usa "Cargando" como `aria-label` si no se pasa uno.
 - **`FilterBar`**: los chips usan un icono SVG en lugar de "✕" y el estilo de píldora. Las etiquetas de los filtros siguen el estilo de `FormField`, y un control con filtro activo se resalta con borde primario.
 - **`Popover`**: si el contenido no cabe ni arriba ni abajo, se mantiene dentro del viewport. Nueva prop `onPositioned`, que avisa cuando el contenido ya es visible.
 - **`Input`**: el estado `error` ahora pinta el borde. Antes solo marcaba `aria-invalid`.
@@ -51,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`Table` con `loading`**: muestra filas en skeleton que conservan las columnas, la selección y la expansión, en lugar de un spinner. El checkbox de seleccionar todo queda deshabilitado mientras carga. Se quitó el spinner y su CSS de `Table.module.css`.
 - **`ImageCard`** (y `ImageGrid`, que la usa): mientras la imagen carga, muestra un placeholder `Skeleton` sobre el area de imagen. Si la imagen falla, el placeholder se retira. No cambian las props.
 - **`Sidebar`**: el botón de colapso pasa del pie al encabezado y es solo icono (`PanelLeftClose` / `PanelLeftOpen` de `lucide-react`), centrado cuando la barra está contraída. El encabezado se muestra si hay `header` u `onToggleCollapse`. La prop `footer` ahora es la única que renderiza el pie. Sin `onToggleCollapse` no hay botón, como antes. Si una barra con `onToggleCollapse` no tenía `header`, ahora muestra una fila de encabezado de 3.5 rem con solo el botón.
+- **Iconos**: todos los iconos de componentes y stories salen de `lucide-react`; antes habia SVG dibujados a mano en unos 20 archivos. Los trazos de Lucide no son identicos a los anteriores, asi que el aspecto cambia sutilmente. `Toast` y `Alert` usan los mismos iconos. `dist/ui-library.js` pasa de 145 436 a 139 987 bytes.
 
 ## [0.2.0-beta.8] — 2026-11-06
 

@@ -1,3 +1,4 @@
+import { Search, X } from "lucide-react";
 import { useRef, useState, type HTMLAttributes, type ReactNode } from "react";
 import { Grid3x3, List } from "lucide-react";
 import { Select, type SelectOption, type SelectVariant } from "../Input/Select";
@@ -90,23 +91,6 @@ export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
   loading?: boolean;
 }
 
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.3-4.3" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" aria-hidden="true">
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  );
-}
-
 export function FilterBar({
   filters,
   filterValues = {},
@@ -160,7 +144,7 @@ export function FilterBar({
 
   const searchBox = hasSearch && (
     <div className={styles.searchBox}>
-      <SearchIcon />
+      <Search />
       <input
         type="search"
         className={styles.searchInput}
@@ -188,7 +172,7 @@ export function FilterBar({
             {filter.label}: <strong>{filter.displayValue}</strong>
           </span>
           <span className={styles.chipRemove}>
-            <CloseIcon />
+            <X strokeWidth={2.5} />
           </span>
         </button>
       ))}

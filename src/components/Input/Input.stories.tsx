@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Input } from "./Input";
 
@@ -47,7 +48,7 @@ export const Disabled: Story = {
 
 export const WithAdornments: Story = {
   args: {
-    startAdornment: <SearchIcon />,
+    startAdornment: <Search />,
     placeholder: "Search...",
   },
 };
@@ -61,15 +62,6 @@ export const Sizes: Story = {
     </div>
   ),
 };
-
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.3-4.3" />
-    </svg>
-  );
-}
 
 export const StateError: Story = {
   args: { state: "error", defaultValue: "No válido" },

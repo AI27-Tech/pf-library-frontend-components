@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import type { InputHTMLAttributes, ReactNode, Ref } from "react";
 import styles from "./Choice.module.css";
 import { cx, type InputSize } from "./utils";
@@ -12,14 +13,6 @@ export interface CheckboxProps
   size?: InputSize;
   /** Marca el control como inválido (aria-invalid y borde de error). */
   invalid?: boolean;
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 13l4 4L19 7" />
-    </svg>
-  );
 }
 
 export function Checkbox({
@@ -52,7 +45,7 @@ export function Checkbox({
         {...props}
       />
       <span className={styles.box} aria-hidden="true">
-        <CheckIcon />
+        <Check strokeWidth={3} />
       </span>
       {label && <span>{label}</span>}
     </label>

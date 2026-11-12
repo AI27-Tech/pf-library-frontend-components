@@ -1,3 +1,4 @@
+import { Box } from "lucide-react";
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Navbar, NavbarLink } from "./Navbar";
@@ -12,15 +13,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-function LogoIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2l9 5v10l-9 5-9-5V7z" />
-      <path d="M12 12l9-5M12 12v10M12 12L3 7" />
-    </svg>
-  );
-}
 
 export const Basic: Story = {
   render: () => {
@@ -41,7 +33,7 @@ export const Basic: Story = {
       <Navbar
         brand={
           <>
-            <LogoIcon />
+            <Box />
             Acme
           </>
         }

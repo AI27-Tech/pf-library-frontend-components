@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
 import styles from "./Input.module.css";
 import selectStyles from "./SelectCustom.module.css";
@@ -10,21 +11,6 @@ export type SelectSearchableProps = SelectProps;
 /** Índice del primer elemento habilitado de la lista, o -1 si no hay ninguno. */
 function firstEnabledIndex(options: SelectOption[]): number {
   return options.findIndex((option) => !option.disabled);
-}
-
-function ChevronIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
 }
 
 /**
@@ -193,7 +179,7 @@ export function SelectSearchable({
           onBlur={closeAndRestore}
         />
         <span className={cx(styles.adornment, styles.selectArrow)} aria-hidden="true">
-          <ChevronIcon />
+          <ChevronDown />
         </span>
       </div>
 

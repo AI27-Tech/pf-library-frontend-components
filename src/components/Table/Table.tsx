@@ -1,3 +1,4 @@
+import { ArrowUp, ChevronRight, ChevronsUpDown } from "lucide-react";
 import { Fragment, type ReactNode, type Key } from "react";
 import styles from "./Table.module.css";
 import { SkeletonRows } from "./SkeletonRows";
@@ -136,22 +137,8 @@ function SortIcon({ state }: { state: SortDirection | null }) {
       )}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-        {state === null ? (
-          <path d="M7 9l5-5 5 5M7 15l5 5 5-5" />
-        ) : (
-          <path d="M12 5v14M6 11l6-6 6 6" />
-        )}
-      </svg>
+      {state === null ? <ChevronsUpDown /> : <ArrowUp />}
     </span>
-  );
-}
-
-function ChevronIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 6l6 6-6 6" />
-    </svg>
   );
 }
 
@@ -338,7 +325,7 @@ export function Table<T>({
                             aria-label={isExpanded ? labels.collapseRow : labels.expandRow}
                             aria-expanded={isExpanded}
                           >
-                            <ChevronIcon />
+                            <ChevronRight />
                           </button>
                         )}
                       </td>

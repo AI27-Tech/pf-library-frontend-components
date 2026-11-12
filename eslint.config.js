@@ -19,4 +19,13 @@ export default defineConfig([globalIgnores(['dist', 'storybook-static']), {
   languageOptions: {
     globals: globals.browser,
   },
+}, {
+  // Los iconos vienen de lucide-react; un <svg> a mano reintroduce el dibujo propio (R37).
+  files: ['src/**/*.{ts,tsx}', '.storybook/**/*.{ts,tsx}'],
+  rules: {
+    'no-restricted-syntax': ['error', {
+      selector: "JSXOpeningElement[name.name='svg']",
+      message: 'Usa un icono de lucide-react (o createLucideIcon) en lugar de un <svg> a mano.',
+    }],
+  },
 }, ...storybook.configs["flat/recommended"]])

@@ -222,6 +222,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 import { Button, Table, Modal } from "@ai27-tech/ui";
 ```
 
+### Iconos
+
+La librería incluye `lucide-react` empaquetado en `dist`. Las apps **no** necesitan instalarlo para usar `@ai27-tech/ui`.
+
 ### Modo oscuro
 
 El tema se controla con tokens. Actívalo estableciendo `data-theme` en `<html>`:
