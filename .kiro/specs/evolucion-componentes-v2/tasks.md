@@ -136,9 +136,9 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 18.2 Escribir `auditoria-formularios.md` con diferencias y mejoras candidatas, y acordar con el equipo cuáles entran. Las tareas 24 y 25 se detallan a partir de ese acuerdo. _Acordado: se corrigen H1 a H3; solo lectura se hace explícito; radios se unifican en 4px; entran todas las candidatas de la sección 3. Detalle en la sección 5 de `auditoria-formularios.md`. Pendiente: confirmar la fecha de la respuesta y que la lista de candidatas esté completa._
   - _Requisitos: R19.1, R19.2_
 
-- [ ] 19. Módulo de fechas
-  - [ ] 19.1 `src/components/DatePicker/dateUtils.ts` con las funciones puras del diseño. Sin `new Date(string)`; solo `Date.UTC` para el día de la semana.
-  - [ ]* 19.2 Pruebas unitarias: años bisiestos, fin de mes, `addMonths` desde el día 31, rejilla con `weekStartsOn` 0 y 1, análisis de texto con `/`, `-` y `.`, fechas inválidas, `min`/`max`.
+- [x] 19. Módulo de fechas
+  - [x] 19.1 `src/components/DatePicker/dateUtils.ts` con las funciones puras del diseño. Sin `new Date(string)`; solo `Date.UTC` para el día de la semana. _Hecho. `pnpm typecheck` y `pnpm lint` pasan. Comprobación rápida de casos borde (bisiesto, 31 de enero + 1 mes, rejillas lunes y domingo, `DD/MM/AAAA` con separador mixto) sin pruebas formales._
+  - [x] 19.2 Pruebas unitarias: años bisiestos, fin de mes, `addMonths` desde el día 31, rejilla con `weekStartsOn` 0 y 1, análisis de texto con `/`, `-` y `.`, fechas inválidas, `min`/`max`. _Hecho en `dateUtils.test.ts`: 48 pruebas pasan con `pnpm test`. Incluye también `today` con reloj simulado._
   - _Requisitos: R15.6_
 
 - [ ] 20. `Calendar`
