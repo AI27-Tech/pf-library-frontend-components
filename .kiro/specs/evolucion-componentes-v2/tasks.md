@@ -212,7 +212,6 @@ Comandos de verificación en `repos/pf-library-frontend-components`: `pnpm lint`
   - [x] 26.2 Documentar el contrato de valores (cadenas de hora de pared, `""` vacío) y el límite de `DateTimeInput`. _Se escribió en la sección "Fechas y horas: contrato de valores" del README. `CONSUMING.md` solo apunta al README desde una consolidación anterior, así que no se duplicó allí._
   - [x] 26.3 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook`. _Todo pasa: 89 pruebas, build de librería y build de Storybook._
   - [x] 26.4 CHANGELOG: "Agregado" y "Cambiado" según lo acordado en 18.2. _Entradas en `[Unreleased]`._
-  - [ ] 26.4 CHANGELOG: "Agregado" y "Cambiado" según lo acordado en 18.2.
 
 ## P6. Tablas y filtros
 
@@ -360,7 +359,7 @@ Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisi
   - [x] 46.4 `loading` con esqueletos de burbujas y `emptyState`.
   - [x] 46.5 Divisor "Mensajes nuevos" con `ultimaSecuenciaLeida`.
   - [x] 46.6 `role="log"`, `aria-live="polite"`, `aria-relevant="additions"`.
-  - [ ]* 46.7 Prueba de `isNearBottom`.
+  - [x]* 46.7 Prueba de `isNearBottom`.
   - _Requisitos: R28_
 
 - [x] 47. `MessageComposer`
@@ -444,9 +443,9 @@ Orden de ejecución: **P10, luego P8, luego P9**, y al final la tarea 35. Decisi
 ## Cierre final
 
 - [ ] 35. Verificación de la ola (ejecutar al terminar P8, P9 y P10)
-  - [ ] 35.1 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook` desde un árbol limpio.
+  - [x] 35.1 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build:lib`, `pnpm build-storybook` desde un árbol limpio.
   - [ ] 35.1b Recorrer Storybook completo en tema claro y oscuro: todos los componentes nuevos y modificados tienen sus stories, sin errores en consola ni violaciones nuevas en el panel de accesibilidad.
   - [ ] 35.2 Revisar la lista de verificación del steering (sección 8) por cada componente nuevo o modificado.
-  - [ ] 35.3 Confirmar que `src/index.ts` exporta todo lo nuevo y que ningún export existente cambió de nombre.
-  - [ ] 35.4 Actualizar `CONSUMING.md` y `README.md` con la lista de componentes nuevos.
+  - [x] 35.3 Confirmar que `src/index.ts` exporta todo lo nuevo y que ningún export existente cambió de nombre.
+  - [x] 35.4 Actualizar `CONSUMING.md` y `README.md` con la lista de componentes nuevos.
   - [ ] 35.5 Resumir al equipo los cambios visibles y las decisiones D8 a D10 que sigan abiertas. La versión y la publicación quedan fuera de este spec.

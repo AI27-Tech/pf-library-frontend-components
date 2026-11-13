@@ -24,6 +24,11 @@ Librería de componentes React reutilizables para los proyectos frontend del equ
 - **FilterTable** — Table con barra de búsqueda y filtros
 - **Navbar** — barra de navegación superior responsive
 - **Sidebar** — navegación lateral colapsable
+- **Timeline**: historia de estados en vertical u horizontal, con alternada, `stackBelow`, `maxVisible` y `reverse`.
+- **DatePicker**: `Calendar`, `DateInput`, `TimePicker` y `DateTimeInput`. El contrato de valores estÃ¡ en la secciÃ³n de fechas y horas.
+- **Skeleton, Spinner y ProgressBar**: estados de carga.
+- **Breadcrumb, Stack, Inline, Grid y Popover**: navegaciÃ³n, disposiciÃ³n y contenido flotante.
+- **MensajerÃ­a (piezas nuevas)**: `ConversationStatus`, `MessageThread`, `MessageAttachment`, `MessageDock` y `useMessageDock`. Ver la secciÃ³n de mensajerÃ­a.
 
 ---
 
