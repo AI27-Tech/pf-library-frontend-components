@@ -1,3 +1,4 @@
+import { CircleCheck, CircleX, Info, TriangleAlert, X } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Toast.module.css";
@@ -37,39 +38,11 @@ export interface ToastProps {
 }
 
 const icons: Record<ToastVariant, ReactNode> = {
-  info: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5M12 8h.01" />
-    </svg>
-  ),
-  success: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M8 12l3 3 5-6" />
-    </svg>
-  ),
-  warning: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3l9 16H3z" />
-      <path d="M12 10v4M12 17h.01" />
-    </svg>
-  ),
-  error: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M15 9l-6 6M9 9l6 6" />
-    </svg>
-  ),
+  info: <Info />,
+  success: <CircleCheck />,
+  warning: <TriangleAlert />,
+  error: <CircleX />,
 };
-
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  );
-}
 
 export function Toast({
   variant = "info",
@@ -119,7 +92,7 @@ export function Toast({
           onClick={onClose}
           aria-label="Descartar"
         >
-          <CloseIcon />
+          <X />
         </button>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
 import styles from "./Input.module.css";
 import selectStyles from "./SelectCustom.module.css";
@@ -12,21 +13,6 @@ function firstEnabledIndex(options: SelectOption[]): number {
   return options.findIndex((option) => !option.disabled);
 }
 
-function ChevronIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
-
 /**
  * Variante buscable de `Select`. El campo es un combobox: escribir filtra las
  * opciones y las flechas, Enter, Escape y Tab controlan la lista.
@@ -34,6 +20,10 @@ function ChevronIcon() {
 export function SelectSearchable({
   size = "md",
   invalid = false,
+  state,
+  readOnly = false,
+  id,
+  "aria-describedby": describedBy,
   options = [],
   placeholder,
   value: controlledValue,
@@ -45,6 +35,7 @@ export function SelectSearchable({
   searchPlaceholder,
   noResultsText = "Sin resultados",
 }: SelectSearchableProps) {
+  const effectiveState = invalid ? "error" : state;
   const listboxId = useId();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -156,33 +147,39 @@ export function SelectSearchable({
         className={cx(
           styles.field,
           styles[size],
-          invalid && styles.invalid,
+          effectiveState === "error" && styles.invalid,
+          effectiveState === "warning" && styles.warning,
+          effectiveState === "success" && styles.success,
           disabled && styles.disabled,
+          readOnly && styles.readOnly,
           selectStyles.trigger,
           selectStyles.searchBox,
           className,
         )}
       >
         <input
+          id={id}
           type="text"
           role="combobox"
           className={selectStyles.searchInput}
           value={displayText}
           placeholder={searchPlaceholder ?? placeholder ?? "Buscar..."}
           disabled={disabled}
+          readOnly={readOnly}
           aria-expanded={isOpen}
           aria-controls={listboxId}
           aria-autocomplete="list"
           aria-activedescendant={activeId}
-          aria-invalid={invalid || undefined}
+          aria-invalid={effectiveState === "error" || undefined}
+          aria-describedby={describedBy}
           autoComplete="off"
           onChange={(event) => handleInputChange(event.target.value)}
-          onClick={openList}
-          onKeyDown={handleKeyDown}
+          onClick={readOnly ? undefined : openList}
+          onKeyDown={readOnly ? undefined : handleKeyDown}
           onBlur={closeAndRestore}
         />
         <span className={cx(styles.adornment, styles.selectArrow)} aria-hidden="true">
-          <ChevronIcon />
+          <ChevronDown />
         </span>
       </div>
 

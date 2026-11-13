@@ -1,0 +1,103 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--ui-font-family, inherit);
+  color: var(--ui-color-text);
+}
+
+.tabList {
+  display: flex;
+  align-items: stretch;
+  gap: var(--ui-space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--ui-color-border);
+  scrollbar-width: thin;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-2) var(--ui-space-3);
+  margin-bottom: -1px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--ui-radius-sm) var(--ui-radius-sm) 0 0;
+  background: transparent;
+  color: var(--ui-color-text-muted);
+  font: inherit;
+  font-size: var(--ui-text-body-md-size);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--ui-transition),
+    background-color var(--ui-transition),
+    border-color var(--ui-transition);
+}
+
+.tab:hover:not(:disabled) {
+  color: var(--ui-color-text);
+  background-color: var(--ui-color-surface-container-high);
+}
+
+.tab:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ui-focus-ring);
+}
+
+.active {
+  color: var(--ui-color-text);
+  border-bottom-color: var(--ui-color-primary);
+}
+
+.tab:disabled {
+  opacity: var(--ui-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.icon {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon :global(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.label {
+  min-width: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 var(--ui-space-1);
+  border-radius: var(--ui-radius-full);
+  background-color: var(--ui-color-surface-container-highest);
+  color: var(--ui-color-text);
+  font-size: var(--ui-text-label-md-size);
+  font-weight: 700;
+}
+
+.panel {
+  padding-top: var(--ui-space-4);
+}
+
+.panel:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring);
+  border-radius: var(--ui-radius-sm);
+}
+
+.panel[hidden] {
+  display: none;
+}

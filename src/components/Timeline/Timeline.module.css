@@ -1,0 +1,311 @@
+/* ── Raíz: el contenedor se mide para la alternada (@container) ─────────────── */
+.root {
+  container-type: inline-size;
+  box-sizing: border-box;
+  min-width: 0;
+  color: var(--ui-color-text, #e2e8f0);
+  font-family: var(--ui-font-family, inherit);
+  --tl-gap: var(--ui-space-3, 0.75rem);
+  --tl-pad: var(--ui-space-4, 1rem);
+  --tl-marker: 1.5rem;
+}
+
+.root[data-size="sm"] {
+  --tl-marker: 1rem;
+}
+
+.root[data-size="md"] {
+  --tl-marker: 1.5rem;
+}
+
+.root[data-size="lg"] {
+  --tl-marker: 2rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.empty {
+  padding: var(--ui-space-4, 1rem) 0;
+  color: var(--ui-color-text-muted, #94a3b8);
+  font-size: var(--ui-font-size-sm, 0.75rem);
+}
+
+/* ── Elemento de punto (li) y su riel ─────────────────────────────────────── */
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--tl-marker) minmax(0, 1fr);
+  column-gap: var(--tl-gap);
+  padding-bottom: var(--tl-pad);
+}
+
+.item:last-child {
+  padding-bottom: 0;
+}
+
+.rail {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marker {
+  flex: 0 0 auto;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tl-marker);
+  height: var(--tl-marker);
+  border: 2px solid var(--ui-color-border-strong, #374151);
+  border-radius: 50%;
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-on-primary, #0e1117);
+  box-sizing: border-box;
+}
+
+.marker :global(svg) {
+  width: 60%;
+  height: 60%;
+}
+
+.content {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.connector {
+  position: absolute;
+  top: var(--tl-marker);
+  bottom: calc(-1 * var(--tl-pad));
+  left: 50%;
+  width: 0;
+  transform: translateX(-50%);
+  border-left: 2px dashed var(--ui-color-border-strong, #374151);
+  opacity: 0.7;
+}
+
+.connectorSolid {
+  border-left-style: solid;
+  border-left-color: var(--ui-color-primary, #7c9df0);
+  opacity: 1;
+}
+
+/* ── Texto ────────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--ui-space-2, 0.5rem);
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--ui-font-size-md, 0.8125rem);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.timestamp {
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.description,
+.extra {
+  display: block;
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+  overflow-wrap: anywhere;
+}
+
+/* Estados. El marcador usa solo tokens existentes. */
+.item[data-status="completed"] .marker {
+  background-color: var(--ui-color-primary, #7c9df0);
+  border-color: var(--ui-color-primary, #7c9df0);
+}
+
+.item[data-status="current"] .marker {
+  background-color: var(--ui-color-primary, #7c9df0);
+  border-color: var(--ui-color-primary, #7c9df0);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ui-color-primary, #7c9df0) 25%, transparent);
+  animation: tlPulso 2s ease-in-out infinite;
+}
+
+.item[data-status="upcoming"] .marker {
+  background-color: transparent;
+  border-color: var(--ui-color-border-strong, #374151);
+}
+
+.item[data-status="error"] .marker {
+  background-color: var(--ui-color-danger, #fca5a5);
+  border-color: var(--ui-color-danger, #fca5a5);
+  color: var(--ui-color-on-danger, #381a20);
+}
+
+.item[data-status="warning"] .marker {
+  background-color: var(--ui-color-warning, #fcd34d);
+  border-color: var(--ui-color-warning, #fcd34d);
+}
+
+@keyframes tlPulso {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ui-color-primary, #7c9df0) 25%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--ui-color-primary, #7c9df0) 10%, transparent);
+  }
+}
+
+/* Puntos clicables: hover y foco visibles. */
+.clickable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  width: 100%;
+  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
+  margin: 0 calc(-1 * var(--ui-space-2, 0.5rem));
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background-color: var(--ui-color-surface-raised, #242b3a);
+}
+
+.clickable:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.toggle {
+  margin-top: var(--ui-space-2, 0.5rem);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--ui-color-primary, #7c9df0);
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  cursor: pointer;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+/* ── Alternada vertical: el contenido alterna a los dos lados en contenedores anchos ── */
+@container (min-width: 40rem) {
+  .root[data-orientation="vertical"][data-align="alternate"] .item {
+    grid-template-columns: minmax(0, 1fr) var(--tl-marker) minmax(0, 1fr);
+  }
+
+  .root[data-orientation="vertical"][data-align="alternate"] .rail {
+    grid-column: 2;
+  }
+
+  .root[data-orientation="vertical"][data-align="alternate"] .content {
+    grid-column: 3;
+  }
+
+  .root[data-orientation="vertical"][data-align="alternate"] .item:nth-child(even) .content {
+    grid-column: 1;
+    text-align: end;
+    align-items: flex-end;
+  }
+}
+
+/* ── Horizontal ───────────────────────────────────────────────────────────── */
+.root[data-orientation="horizontal"] .scroller {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.root[data-orientation="horizontal"][data-overflow] .scroller {
+  mask-image: linear-gradient(to right, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
+}
+
+.root[data-orientation="horizontal"] .list {
+  display: flex;
+  align-items: stretch;
+  min-width: 100%;
+}
+
+.root[data-orientation="horizontal"] .item {
+  flex: 1 0 var(--tl-min-item, 8rem);
+  min-width: var(--tl-min-item, 8rem);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+  scroll-snap-align: center;
+}
+
+.root[data-orientation="horizontal"] .rail {
+  flex-direction: row;
+  align-self: auto;
+  width: 100%;
+  min-height: var(--tl-marker);
+  align-items: center;
+}
+
+.root[data-orientation="horizontal"] .connector {
+  position: static;
+  flex: 1 1 auto;
+  width: auto;
+  height: 0;
+  margin-left: var(--tl-gap);
+  transform: none;
+  border-left: 0;
+  border-top: 2px dashed var(--ui-color-border-strong, #374151);
+  opacity: 0.7;
+}
+
+.root[data-orientation="horizontal"] .connectorSolid {
+  border-top-style: solid;
+  border-top-color: var(--ui-color-primary, #7c9df0);
+  opacity: 1;
+}
+
+.root[data-orientation="horizontal"] .content {
+  margin-top: var(--tl-gap);
+}
+
+/* Alternada horizontal: el contenido alterna arriba y abajo de la línea. */
+.root[data-orientation="horizontal"][data-align="alternate"] .item {
+  min-height: 9rem;
+}
+
+.root[data-orientation="horizontal"][data-align="alternate"] .item:nth-child(even) {
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+}
+
+.root[data-orientation="horizontal"][data-align="alternate"] .item:nth-child(even) .content {
+  margin-top: 0;
+  margin-bottom: var(--tl-gap);
+}
+
+/* ── Movimiento reducido: sin pulso ni transiciones ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .item[data-status="current"] .marker {
+    animation: none;
+  }
+}

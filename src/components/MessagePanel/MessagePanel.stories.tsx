@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { MessagePanel } from "./MessagePanel";
-import { MessageDock, MessageDockBar, type DockConversation } from "./MessageDock";
-import { MessageList, MessageBubble, MessageDayDivider } from "./MessageList";
+import { ConversationStatus } from "./ConversationStatus";
+import { MessageAttachment } from "./MessageAttachment";
 import { MessageComposer } from "./MessageComposer";
-import type { AudienciaAutor, EstadoConversacion, Mensaje } from "./types";
+import { MessageDock, MessageDockBar, type DockConversation } from "./MessageDock";
+import { MessagePanel } from "./MessagePanel";
+import { MessageThread } from "./MessageThread";
+import { useMessageDock } from "./useMessageDock";
+import type { EstadoConversacion, Mensaje, MensajePendiente } from "./types";
 import { generarClientMessageId } from "./utils";
 
 const meta = {
@@ -12,314 +15,389 @@ const meta = {
   component: MessagePanel,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen" },
+  args: { name: "Central C4" },
 } satisfies Meta<typeof MessagePanel>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Audiencia del visor en las historias. Los mensajes con esta audiencia se muestran propios. */
-const VISOR_INTERNO: AudienciaAutor = "Interno";
+/** Actor del visor en las historias. Los mensajes con este `actorReal` se muestran propios. */
+const VISOR = "ejecutivo-ana";
 
-interface Conversacion {
-  id: string;
-  nombre: string;
-  online: boolean;
-  estado: EstadoConversacion;
-  mensajes: Mensaje[];
-}
+const hace = (minutos: number) => new Date(Date.now() - minutos * 60_000).toISOString();
 
 function mensaje(
-  conversacionId: string,
-  secuenciaMensaje: number,
-  audienciaAutor: AudienciaAutor,
-  aliasMostrado: string,
+  secuencia: number,
   cuerpo: string,
-  creadoEn: string,
+  minutos: number,
   extra: Partial<Mensaje> = {},
 ): Mensaje {
   return {
-    id: `${conversacionId}-${secuenciaMensaje}`,
-    conversacionId,
-    secuenciaMensaje,
-    clientMessageId: generarClientMessageId(),
-    audienciaAutor,
-    aliasMostrado,
+    id: `m-${secuencia}`,
+    conversacionId: "conv-1",
+    secuencia,
+    clientMessageId: `cmid-${secuencia}`,
+    audienciaAutor: "Interno",
+    aliasMostrado: "Central C4",
     cuerpo,
-    creadoEn,
+    creadoEn: hace(minutos),
+    actorReal: "otro-operador",
     ...extra,
   };
 }
 
-const conversacionesIniciales: Conversacion[] = [
-  {
-    id: "c4",
-    nombre: "Central C4",
-    online: true,
-    estado: "abierta",
-    mensajes: [
-      mensaje("c4", 1, "Cliente", "Central C4", "Unidad TTR-8821 entrando a Arco Norte.", "2026-11-06T10:40:00-06:00"),
-      mensaje("c4", 2, "Interno", "Yo", "Confirmado, escolta enlazada.", "2026-11-06T10:41:00-06:00", {
-        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
-        rolAlEnviar: "monitorista",
-      }),
-    ],
-  },
-  {
-    id: "dispatch",
-    nombre: "Despacho Bajío",
-    online: false,
-    estado: "abierta",
-    mensajes: [
-      mensaje("dispatch", 1, "Cliente", "Despacho Bajío", "¿Estatus de la ruta 12?", "2026-11-06T09:15:00-06:00"),
-    ],
-  },
-  {
-    id: "escort",
-    nombre: "Escolta 07",
-    online: true,
-    estado: "solo_lectura",
-    mensajes: [
-      mensaje("escort", 1, "Cliente", "Escolta 07", "En posición.", "2026-11-06T08:02:00-06:00"),
-    ],
-  },
+const propio = (secuencia: number, cuerpo: string, minutos: number): Mensaje =>
+  mensaje(secuencia, cuerpo, minutos, { actorReal: VISOR, aliasMostrado: "Yo", rolAlEnviar: "ejecutivo" });
+
+const isOwn = (m: Mensaje) => m.actorReal === VISOR;
+
+const hilo: Mensaje[] = [
+  mensaje(1, "Unidad TTR-8821 entrando a Arco Norte.", 42, { aliasMostrado: "Central C4", audienciaAutor: "Cliente" }),
+  mensaje(2, "Confirmado, escolta enlazada.", 41),
+  mensaje(3, "Llegamos a la caseta 3.", 12),
+  propio(4, "Recibido. Sigue el enlace.", 11),
+  propio(5, "Cualquier cambio avísame.", 10),
+  propio(6, "Ok, gracias.", 2),
 ];
 
-/** Muelle de conversación múltiple estilo LinkedIn completo, totalmente controlado. */
-export const MultiConversation: Story = {
-  args: { name: "" },
-  render: () => {
-    const [conversaciones, setConversaciones] = useState(conversacionesIniciales);
-    const [barAbierta, setBarAbierta] = useState(true);
-    // Paneles abiertos: id -> ¿expandido?
-    const [panelesAbiertos, setPanelesAbiertos] = useState<Record<string, boolean>>({ c4: true });
-    const [borradores, setBorradores] = useState<Record<string, string>>({});
+/** Estado mínimo para que la conversación de demo responda a los envíos. */
+function useConversacion(inicial: Mensaje[]) {
+  const [mensajes, setMensajes] = useState(inicial);
+  const enviar = (cuerpo: string) => {
+    setMensajes((prev) => [
+      ...prev,
+      propio(prev.length + 1, cuerpo, 0),
+    ]);
+  };
+  return { mensajes, enviar };
+}
 
-    const abrirConversacion = (id: string) => {
-      setPanelesAbiertos((prev) => ({ ...prev, [id]: true }));
-    };
-    const alternarPanel = (id: string) => {
-      setPanelesAbiertos((prev) => ({ ...prev, [id]: !prev[id] }));
-    };
-    const cerrarPanel = (id: string) => {
-      setPanelesAbiertos((prev) => {
-        const siguiente = { ...prev };
-        delete siguiente[id];
-        return siguiente;
-      });
-    };
+function Compositor({
+  onSend,
+  estado = "abierta",
+  sending = false,
+  maxLength,
+  onAttach,
+}: {
+  onSend: (cuerpo: string) => void;
+  estado?: EstadoConversacion;
+  sending?: boolean;
+  maxLength?: number;
+  onAttach?: () => void;
+}) {
+  const [borrador, setBorrador] = useState("");
+  return (
+    <MessageComposer
+      value={borrador}
+      onChange={setBorrador}
+      onSend={(envio) => {
+        onSend(envio.cuerpo);
+        setBorrador("");
+      }}
+      estadoConversacion={estado}
+      sending={sending}
+      maxLength={maxLength}
+      onAttach={onAttach}
+    />
+  );
+}
 
-    const enviar = (id: string, cuerpo: string) => {
-      setConversaciones((prev) =>
-        prev.map((c) => {
-          if (c.id !== id) return c;
-          const secuencia = c.mensajes.length + 1;
-          return {
-            ...c,
-            mensajes: [
-              ...c.mensajes,
-              mensaje(c.id, secuencia, VISOR_INTERNO, "Yo", cuerpo, new Date().toISOString()),
-            ],
-          };
-        }),
-      );
-      setBorradores((prev) => ({ ...prev, [id]: "" }));
-    };
+/** Panel con hilo y compositor funcionales, sin estado externo. */
+function PanelDemo(props: Partial<ComponentProps<typeof MessagePanel>> & { inicial?: Mensaje[]; estado?: EstadoConversacion }) {
+  const { inicial = hilo, estado = "abierta", ...resto } = props;
+  const { mensajes, enviar } = useConversacion(inicial);
+  return (
+    <MessagePanel
+      name="Central C4"
+      subtitle="Viaje 1042"
+      avatar={{ name: "Central C4" }}
+      presence="online"
+      {...resto}
+      composer={
+        <Compositor onSend={enviar} estado={estado} maxLength={500} />
+      }
+    >
+      <MessageThread mensajes={mensajes} isOwn={isOwn} ultimaSecuenciaLeida={4} />
+    </MessagePanel>
+  );
+}
 
-    const conversacionesDock: DockConversation[] = conversaciones.map((c) => ({
-      id: c.id,
-      conversacionId: c.id,
-      name: c.nombre,
-      preview: c.mensajes[c.mensajes.length - 1]?.cuerpo,
-      avatar: { name: c.nombre },
-      unread: false,
-    }));
-
-    return (
-      <div style={{ height: 520, padding: "1rem", color: "var(--ui-color-text-muted)" }}>
-        Área de la app. Las conversaciones se anclan abajo a la derecha.
-
-        <MessageDock
-          bar={
-            <MessageDockBar
-              title="Mensajería"
-              open={barAbierta}
-              onToggle={() => setBarAbierta((v) => !v)}
-              unreadCount={2}
-              conversations={conversacionesDock}
-              onSelect={abrirConversacion}
-            />
-          }
-        >
-          {conversaciones
-            .filter((c) => c.id in panelesAbiertos)
-            .map((c) => {
-              const abierto = panelesAbiertos[c.id];
-              const ultimo = c.mensajes[c.mensajes.length - 1];
-              return (
-                <MessagePanel
-                  key={c.id}
-                  name={c.nombre}
-                  subtitle={c.online ? "Activo ahora" : "Desconectado"}
-                  avatar={{ name: c.nombre }}
-                  presence={c.online ? "online" : "offline"}
-                  open={abierto}
-                  onToggle={() => alternarPanel(c.id)}
-                  onClose={() => cerrarPanel(c.id)}
-                  composer={
-                    <MessageComposer
-                      value={borradores[c.id] ?? ""}
-                      onChange={(v) => setBorradores((prev) => ({ ...prev, [c.id]: v }))}
-                      onSend={(envio) => enviar(c.id, envio.cuerpo)}
-                      placeholder="Escribe un mensaje…"
-                      estadoConversacion={c.estado}
-                    />
-                  }
-                >
-                  <MessageList ultimaSecuencia={ultimo?.secuenciaMensaje}>
-                    <MessageDayDivider>Hoy</MessageDayDivider>
-                    {c.mensajes.map((m) => (
-                      <MessageBubble
-                        key={m.id}
-                        mensaje={m}
-                        own={m.audienciaAutor === VISOR_INTERNO}
-                        avatar={m.audienciaAutor === VISOR_INTERNO ? undefined : { name: m.aliasMostrado }}
-                      />
-                    ))}
-                  </MessageList>
-                </MessagePanel>
-              );
-            })}
-        </MessageDock>
-      </div>
-    );
-  },
+/** Panel expandido con el hilo completo. */
+export const Abierto: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <PanelDemo />
+    </div>
+  ),
 };
 
-/** Un único panel de conversación, en línea (no acoplado). */
-export const SinglePanel: Story = {
-  args: { name: "" },
+/** Minimizado: solo queda la barra de encabezado. */
+export const Minimizado: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <PanelDemo defaultOpen={false} />
+    </div>
+  ),
+};
+
+/** Controlado: el estado `open` lo guarda el consumidor. */
+export const Controlado: Story = {
   render: () => {
     const [abierto, setAbierto] = useState(true);
-    const [borrador, setBorrador] = useState("");
-    const mensajes: Mensaje[] = [
-      mensaje("c4", 1, "Cliente", "Central C4", "Unidad entrando al corredor.", "2026-11-06T10:40:00-06:00"),
-      mensaje("c4", 2, "Interno", "Yo", "Recibido.", "2026-11-06T10:41:00-06:00"),
-    ];
     return (
-      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
-        <MessagePanel
-          name="Central C4"
-          subtitle="Activo ahora"
-          avatar={{ name: "Central C4" }}
-          presence="online"
-          open={abierto}
-          onToggle={() => setAbierto((v) => !v)}
-          onClose={() => setAbierto(false)}
-          composer={
-            <MessageComposer
-              value={borrador}
-              onChange={setBorrador}
-              onSend={() => setBorrador("")}
-            />
-          }
-        >
-          <MessageList ultimaSecuencia={mensajes[mensajes.length - 1].secuenciaMensaje}>
-            {mensajes.map((m) => (
-              <MessageBubble
-                key={m.id}
-                mensaje={m}
-                own={m.audienciaAutor === VISOR_INTERNO}
-                avatar={m.audienciaAutor === VISOR_INTERNO ? undefined : { name: m.aliasMostrado }}
-              />
-            ))}
-          </MessageList>
-        </MessagePanel>
+      <div style={{ position: "fixed", right: 16, bottom: 0, display: "grid", gap: 8 }}>
+        <button type="button" onClick={() => setAbierto((v) => !v)}>
+          Cambiar desde fuera ({abierto ? "abierto" : "minimizado"})
+        </button>
+        <PanelDemo open={abierto} onOpenChange={setAbierto} />
       </div>
     );
   },
 };
 
-/** Vista de cliente: el visor es `Cliente`. Los mensajes de la operación se muestran sin campos internos. */
-export const VistaCliente: Story = {
-  args: { name: "" },
-  render: () => {
-    const mensajes: Mensaje[] = [
-      mensaje("c4", 1, "Interno", "Coordinación AI27", "Su unidad salió de planta.", "2026-11-06T10:40:00-06:00", {
-        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
-        rolAlEnviar: "monitorista",
-      }),
-      mensaje("c4", 2, "Cliente", "Cliente", "Gracias.", "2026-11-06T10:41:00-06:00"),
-    ];
-    return (
-      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
-        <MessagePanel name="Coordinación AI27" subtitle="Servicio TTR-8821" open>
-          <MessageList ultimaSecuencia={mensajes[mensajes.length - 1].secuenciaMensaje}>
-            {mensajes.map((m) => (
-              <MessageBubble key={m.id} mensaje={m} own={m.audienciaAutor === "Cliente"} />
-            ))}
-          </MessageList>
-        </MessagePanel>
-      </div>
-    );
-  },
+/** Barra de herramientas y aviso de estado, con `toolbar` y `notice`. */
+export const ConToolbarYAviso: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <PanelDemo
+        toolbar={<button type="button">Reclamar</button>}
+        notice={<span>Otro ejecutivo tiene el reclamo. Espera a que lo libere.</span>}
+      />
+    </div>
+  ),
 };
 
-/** Vista interna con el slot de auditoría: muestra actor real y rol solo porque la historia lo pide. */
-export const VistaInternaConAuditoria: Story = {
-  args: { name: "" },
-  render: () => {
-    const mensajes: Mensaje[] = [
-      mensaje("c4", 1, "Interno", "Yo", "Confirmado.", "2026-11-06T10:41:00-06:00", {
-        actorReal: "0b6f2c1e-3d1a-4f7e-9a55-2e7c1d9a8b10",
-        rolAlEnviar: "monitorista",
-      }),
-    ];
-    return (
-      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
-        <MessagePanel name="Central C4" open>
-          <MessageList ultimaSecuencia={mensajes[0].secuenciaMensaje}>
-            {mensajes.map((m) => (
-              <MessageBubble
-                key={m.id}
-                mensaje={m}
-                own
-                slotAuditoria={
-                  <span style={{ fontSize: "0.75rem" }}>
-                    {m.actorReal} · {m.rolAlEnviar}
-                  </span>
-                }
-              />
-            ))}
-          </MessageList>
-        </MessagePanel>
-      </div>
-    );
-  },
-};
-
-/** Conversación en solo lectura: el compositor no acepta texto ni envío. */
+/** Sin permiso de escritura: el campo queda deshabilitado con el texto de solo lectura. */
 export const SoloLectura: Story = {
-  args: { name: "" },
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <PanelDemo
+        estado="solo_lectura"
+        toolbar={<ConversationStatus estado="solo_lectura" reclamadaPor="Ana Ruiz" />}
+      />
+    </div>
+  ),
+};
+
+/** Conversación cerrada: lectura sin escritura. */
+export const Cerrada: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <PanelDemo
+        estado="cerrada"
+        toolbar={<ConversationStatus estado="cerrada" reclamadaPor={null} atendida />}
+      />
+    </div>
+  ),
+};
+
+/** Carga inicial: esqueletos en lugar del hilo. */
+export const Cargando: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread mensajes={[]} isOwn={isOwn} loading />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Sin mensajes: texto de lista vacía por defecto. */
+export const Vacio: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread mensajes={[]} isOwn={isOwn} />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Envíos en curso y fallidos, con reintento. */
+export const MensajesFallidosYEnviando: Story = {
   render: () => {
-    const mensajes: Mensaje[] = [
-      mensaje("escort", 1, "Cliente", "Escolta 07", "En posición.", "2026-11-06T08:02:00-06:00"),
+    const pendientes: MensajePendiente[] = [
+      { clientMessageId: generarClientMessageId(), cuerpo: "Revisa la caseta 4", creadoEn: hace(0), deliveryStatus: "sending" },
+      {
+        clientMessageId: generarClientMessageId(),
+        cuerpo: "Confirma la hora de salida",
+        creadoEn: hace(0),
+        deliveryStatus: "failed",
+        deliveryError: "Sin conexión",
+        onRetry: () => undefined,
+      },
     ];
     return (
-      <div style={{ height: 480, display: "flex", alignItems: "flex-end", padding: "1rem" }}>
-        <MessagePanel name="Escolta 07" open>
-          <MessageList ultimaSecuencia={mensajes[0].secuenciaMensaje} hayMas onCargarAnteriores={() => {}}>
-            {mensajes.map((m) => (
-              <MessageBubble key={m.id} mensaje={m} />
-            ))}
-          </MessageList>
-          <MessageComposer
-            value=""
-            onChange={() => {}}
-            onSend={() => {}}
-            estadoConversacion="solo_lectura"
-            textoSoloLectura="Conversación en solo lectura"
+      <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+        <MessagePanel name="Central C4" composer={<Compositor onSend={() => undefined} sending />}>
+          <MessageThread mensajes={hilo} isOwn={isOwn} pendientes={pendientes} />
+        </MessagePanel>
+      </div>
+    );
+  },
+};
+
+/** Adjuntos con los tres estados: listo, subiendo y con error. */
+export const ConAdjuntos: Story = {
+  render: () => {
+    const adjuntos: Mensaje[] = [
+      propio(1, "Manifiesto de carga adjunto.", 5),
+      mensaje(2, "Foto del sello.", 4, { actorReal: "otro-operador" }),
+    ];
+    return (
+      <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+        <MessagePanel name="Central C4" composer={<Compositor onSend={() => undefined} />}>
+          <MessageThread
+            mensajes={adjuntos}
+            isOwn={isOwn}
+            renderAttachments={(m) =>
+              m.secuencia === 1 ? (
+                <MessageAttachment nombre="manifiesto-carga.pdf" tamano={248_000} tipoMedio="application/pdf" onOpen={() => undefined} />
+              ) : (
+                <>
+                  <MessageAttachment nombre="sello.jpg" tamano={1_400_000} tipoMedio="image/jpeg" estado="uploading" />
+                  <MessageAttachment nombre="video.mp4" tamano={52_000_000} tipoMedio="video/mp4" estado="error" />
+                </>
+              )
+            }
           />
         </MessagePanel>
+      </div>
+    );
+  },
+};
+
+/** Auditoría por mensaje, visible solo cuando el consumidor la pasa. */
+export const ConAuditoria: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread
+          mensajes={hilo}
+          isOwn={isOwn}
+          renderAudit={(m) => (m.rolAlEnviar ? `${m.rolAlEnviar} · ${m.actorReal}` : null)}
+        />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Ancho angosto: el panel ocupa lo que haya disponible. */
+export const VistaAngosta: Story = {
+  render: () => (
+    <div style={{ width: 340, height: 520, position: "fixed", right: 0, bottom: 0 }}>
+      <PanelDemo />
+    </div>
+  ),
+};
+
+/* ── Muelle ─────────────────────────────────────────────────────────────── */
+
+const conversacionesDemo = [
+  "Central C4",
+  "Despacho Bajío",
+  "Escolta 07",
+  "Escolta 12",
+  "Operación Norte",
+  "Cliente Logística",
+];
+
+function MuelleDemo({ total, capacidad = 3 }: { total: number; capacidad?: number }) {
+  const nombres = conversacionesDemo.slice(0, total);
+  const dock = useMessageDock({ maxPanels: capacidad });
+  const [mensajes, setMensajes] = useState<Record<string, Mensaje[]>>(
+    Object.fromEntries(nombres.map((n, i) => [`c${i}`, [mensaje(1, `Mensaje de prueba en ${n}`, 4 + i)]])),
+  );
+
+  // Al montar se abren todas, para que el muelle muestre el overflow.
+  useEffect(() => {
+    [...nombres.keys()].reverse().forEach((i) => dock.open(`c${i}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const filas: DockConversation[] = nombres.map((n, i) => ({
+    id: `c${i}`,
+    name: n,
+    preview: `Mensaje de prueba en ${n}`,
+    lastMessageAt: hace(4 + i),
+    unread: i < 2,
+  }));
+
+  const porId = (id: string) => nombres[Number(id.slice(1))];
+  const panelesAbiertos = dock.panels.map((p) => ({ ...p, nombre: porId(p.id) }));
+  const enOverflow = dock.overflow.map((id) => ({ id, nombre: porId(id) }));
+
+  return (
+    <div style={{ height: 520, padding: "1rem", color: "var(--ui-color-text-muted)" }}>
+      Área de la app. Las conversaciones se anclan abajo a la derecha.
+      <MessageDock
+        overflowCount={enOverflow.length}
+        overflow={enOverflow.map((c) => (
+          <button key={c.id} type="button" onClick={() => dock.open(c.id)} style={{ padding: 8, textAlign: "left" }}>
+            {c.nombre}
+          </button>
+        ))}
+        bar={
+          <MessageDockBar
+            open={dock.barOpen}
+            onToggle={dock.toggleBar}
+            unreadCount={filas.filter((f) => f.unread).length}
+            conversations={filas}
+            onSelect={(id) => dock.open(id)}
+          />
+        }
+      >
+        {panelesAbiertos.map((p) => (
+          <MessagePanel
+            key={p.id}
+            name={p.nombre}
+            open={!p.minimized}
+            onOpenChange={() => dock.toggle(p.id)}
+            onClose={() => dock.close(p.id)}
+            composer={
+              <Compositor
+                onSend={(cuerpo) =>
+                  setMensajes((prev) => ({
+                    ...prev,
+                    [p.id]: [...(prev[p.id] ?? []), propio((prev[p.id]?.length ?? 0) + 1, cuerpo, 0)],
+                  }))
+                }
+              />
+            }
+          >
+            <MessageThread mensajes={mensajes[p.id] ?? []} isOwn={isOwn} />
+          </MessagePanel>
+        ))}
+      </MessageDock>
+    </div>
+  );
+}
+
+/** Muelle con una conversación abierta. */
+export const Muelle1: Story = {
+  render: () => <MuelleDemo total={1} />,
+};
+
+/** Muelle con tres conversaciones, todas caben. */
+export const Muelle3: Story = {
+  render: () => <MuelleDemo total={3} />,
+};
+
+/** Muelle con seis conversaciones: tres visibles y el resto en el chip "+N". */
+export const Muelle6: Story = {
+  render: () => <MuelleDemo total={6} />,
+};
+
+/** Barra de mensajería con no leídos y vista previa, sin muelle. */
+export const BarraConNoLeidos: Story = {
+  render: () => {
+    const conversaciones: DockConversation[] = [
+      { id: "a", name: "Central C4", preview: "Confirmado, escolta enlazada.", lastMessageAt: hace(3), unread: true },
+      { id: "b", name: "Despacho Bajío", preview: "¿Estatus de la ruta 12?", lastMessageAt: hace(70), unread: false },
+    ];
+    return (
+      <div style={{ position: "fixed", right: 16, bottom: 0 }}>
+        <MessageDockBar open unreadCount={1} conversations={conversaciones} />
       </div>
     );
   },

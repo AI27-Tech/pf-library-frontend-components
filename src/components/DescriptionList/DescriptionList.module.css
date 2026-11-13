@@ -1,0 +1,45 @@
+.list {
+  display: grid;
+  gap: var(--ui-space-3) var(--ui-space-5);
+  margin: 0;
+  min-width: 0;
+  font-family: var(--ui-font-family, inherit);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1);
+  min-width: 0;
+}
+
+.label {
+  margin: 0;
+  font-size: var(--ui-text-label-md-size);
+  line-height: var(--ui-text-label-md-line);
+  font-weight: var(--ui-text-label-md-weight);
+  letter-spacing: var(--ui-text-label-md-tracking);
+  text-transform: uppercase;
+  color: var(--ui-color-text-muted);
+}
+
+.value {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--ui-text-body-md-size);
+  line-height: var(--ui-text-body-md-line);
+  color: var(--ui-color-text);
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: var(--ui-color-text-placeholder);
+}
+
+/* Horizontal: nombre y valor en la misma fila. */
+.list[data-orientation="horizontal"] .item {
+  display: grid;
+  grid-template-columns: minmax(6rem, max-content) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--ui-space-3);
+}

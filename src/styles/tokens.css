@@ -114,7 +114,9 @@
   --ui-font-size-xl: 1.125rem;   /* 18px — telemetry-lg equivalent */
 
   /* Z-index */
+  --ui-z-dock: 900;
   --ui-z-modal: 1000;
+  --ui-z-popover: 1100;
 
   /* ── Component-specific sizing tokens ──────────────────────────────────
      Used for consistent dimensions across component families. */

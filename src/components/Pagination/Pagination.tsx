@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "./Pagination.module.css";
 
 function cx(...classes: Array<string | false | undefined>) {
@@ -63,22 +64,6 @@ function getPageRange(
   return range;
 }
 
-function PrevIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M15 6l-6 6 6 6" />
-    </svg>
-  );
-}
-
-function NextIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 6l6 6-6 6" />
-    </svg>
-  );
-}
-
 export function Pagination({
   page,
   pageSize,
@@ -136,7 +121,7 @@ export function Pagination({
           disabled={current <= 1}
           aria-label="Previous page"
         >
-          <PrevIcon />
+          <ChevronLeft />
         </button>
 
         {pages.map((p, i) =>
@@ -165,7 +150,7 @@ export function Pagination({
           disabled={current >= totalPages}
           aria-label="Next page"
         >
-          <NextIcon />
+          <ChevronRight />
         </button>
       </div>
     </nav>

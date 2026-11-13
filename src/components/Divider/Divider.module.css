@@ -1,0 +1,39 @@
+.divider {
+  flex: 0 0 auto;
+  background-color: var(--ui-color-border-subtle);
+}
+
+.horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.vertical {
+  align-self: stretch;
+  width: 1px;
+  height: auto;
+}
+
+.labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-3);
+  width: 100%;
+  font-family: var(--ui-font-family, inherit);
+}
+
+.line {
+  flex: 1 1 auto;
+  height: 1px;
+  background-color: var(--ui-color-border-subtle);
+}
+
+.label {
+  flex: 0 0 auto;
+  font-size: var(--ui-text-label-md-size);
+  line-height: var(--ui-text-label-md-line);
+  font-weight: var(--ui-text-label-md-weight);
+  letter-spacing: var(--ui-text-label-md-tracking);
+  text-transform: uppercase;
+  color: var(--ui-color-text-muted);
+}

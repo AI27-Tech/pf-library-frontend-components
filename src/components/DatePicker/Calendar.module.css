@@ -1,0 +1,162 @@
+.calendar {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ui-space-2, 0.5rem);
+  box-sizing: border-box;
+  padding: var(--ui-space-3, 0.75rem);
+  font-family: var(--ui-font-family, inherit);
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface, #1c222e);
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+}
+
+/* Encabezado: anterior, título y siguiente */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-2, 0.5rem);
+}
+
+.title {
+  flex: 1 1 auto;
+  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.title:hover {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.navButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.title:focus-visible,
+.navButton:focus-visible,
+.day:focus-visible,
+.cell:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+/* Rejilla de días */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(7, 2.25rem);
+  gap: 2px;
+}
+
+.weekday {
+  padding: var(--ui-space-1, 0.25rem) 0;
+  text-align: center;
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius, 0.25rem);
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  cursor: pointer;
+  user-select: none;
+}
+
+.day:hover {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+/* Días de otro mes: texto atenuado y borde punteado. Siguen siendo elegibles. */
+.outside {
+  color: var(--ui-color-text-muted, #94a3b8);
+  border-style: dashed;
+  border-color: var(--ui-color-border-strong, #374151);
+}
+
+.outside:hover {
+  background-color: transparent;
+}
+
+.today {
+  border-color: var(--ui-color-primary, #7c9df0);
+}
+
+/* Selección: relleno primario en días, meses y años */
+.selected,
+.selected:hover {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
+}
+
+.disabled,
+.cell:disabled {
+  opacity: var(--ui-opacity-disabled, 0.55);
+  cursor: not-allowed;
+}
+
+.disabled:hover,
+.cell:disabled:hover {
+  background-color: transparent;
+}
+
+/* Vistas de meses y años */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ui-space-1, 0.25rem);
+}
+
+.cell {
+  height: 2.5rem;
+  padding: 0 var(--ui-space-2, 0.5rem);
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  cursor: pointer;
+}
+
+.cell:hover:not(:disabled) {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}

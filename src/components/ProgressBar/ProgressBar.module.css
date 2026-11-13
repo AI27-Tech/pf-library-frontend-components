@@ -1,0 +1,53 @@
+.track {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--ui-color-surface-container-highest);
+  border-radius: var(--ui-radius-full);
+}
+
+.sm {
+  height: var(--ui-space-1);
+}
+
+.md {
+  height: var(--ui-space-2);
+}
+
+.fill {
+  height: 100%;
+  width: 0;
+  background-color: var(--ui-color-primary);
+  border-radius: inherit;
+  transition: width var(--ui-duration-base) var(--ui-ease-standard);
+}
+
+/* Barra que se desplaza: el relleno ocupa el 40 % y recorre el track. */
+.indeterminate .fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  animation: ui-progress-slide 1.2s var(--ui-ease-standard) infinite;
+}
+
+@keyframes ui-progress-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+
+  .indeterminate .fill {
+    animation: none;
+    transform: none;
+  }
+}

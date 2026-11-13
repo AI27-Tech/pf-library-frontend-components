@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "./Badge";
 import { ImageGrid } from "../ImageGrid";
@@ -262,6 +263,62 @@ export const FixedWidthDiagnostic: Story = {
       <p style={{ fontSize: "0.75rem", color: "#888", fontStyle: "italic" }}>
         💡 Los cuatro badges deben tener EXACTAMENTE el mismo ancho (7rem).
       </p>
+    </div>
+  ),
+};
+
+// ── P7: apariencia, tamaño y alias ──────────────────────────────────────────
+
+const variantes = ["secure", "alert", "escort", "warning", "neutral", "info", "primary", "secondary"] as const;
+const apariencias = ["soft", "solid", "outline"] as const;
+const tamanos = ["sm", "md"] as const;
+
+/** Matriz completa: cada variante en las tres apariencias y los dos tamaños. */
+export const Matriz: Story = {
+  render: () => (
+    <div style={{ display: "grid", gridTemplateColumns: "auto repeat(6, auto)", gap: "0.5rem 1rem", alignItems: "center" }}>
+      <span />
+      {apariencias.flatMap((a) =>
+        tamanos.map((t) => (
+          <span key={`${a}-${t}`} style={{ fontSize: "0.6875rem", color: "var(--ui-color-text-muted)" }}>
+            {a} / {t}
+          </span>
+        )),
+      )}
+      {variantes.map((v) => (
+        <Fragment key={v}>
+          <span style={{ fontSize: "0.75rem", color: "var(--ui-color-text-muted)" }}>{v}</span>
+          {apariencias.flatMap((a) =>
+            tamanos.map((t) => (
+              <Badge key={`${v}-${a}-${t}`} variant={v} appearance={a} size={t}>
+                {v}
+              </Badge>
+            )),
+          )}
+        </Fragment>
+      ))}
+    </div>
+  ),
+};
+
+/** Combinaciones con los modificadores: punto, pulso, píldora, truncado, expansión, ancho fijo y tooltip. */
+export const Combinaciones: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "flex-start" }}>
+      <Badge variant="secure" appearance="solid" size="md" dot pill>Sólido md con punto y píldora</Badge>
+      <Badge variant="alert" appearance="outline" pulse>Alerta outline pulso</Badge>
+      <Badge variant="warning" appearance="soft" pill truncate={"8rem"} tooltip="custom">
+        Texto muy largo que se recorta en píldora truncada
+      </Badge>
+      <Badge variant="escort" appearance="solid" truncate expandOnHover>
+        Texto largo que se despliega al pasar el cursor
+      </Badge>
+      <Badge variant="neutral" appearance="outline" truncate fixedWidth size="md">
+        Ancho fijo md
+      </Badge>
+      <Badge variant="primary" appearance="soft" truncate tooltip="native">
+        Tooltip nativo con texto largo
+      </Badge>
     </div>
   ),
 };

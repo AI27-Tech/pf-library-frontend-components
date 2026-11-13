@@ -77,3 +77,35 @@ export const FullForm: Story = {
     </form>
   ),
 };
+
+/** `showOptional` marca los campos no requeridos. */
+export const Optional: Story = {
+  args: { children: null },
+  render: () => (
+    <FormField label="Teléfono" showOptional>
+      <Input placeholder="Opcional" />
+    </FormField>
+  ),
+};
+
+/** Etiqueta a la izquierda del control, con la ayuda debajo. */
+export const Horizontal: Story = {
+  args: { children: null },
+  render: () => (
+    <div style={{ width: 420 }}>
+      <FormField label="Nombre completo" orientation="horizontal" helpText="Como aparece en tu identificación">
+        <Input />
+      </FormField>
+    </div>
+  ),
+};
+
+/** Contador de caracteres con `maxLength`. */
+export const WithCounter: Story = {
+  args: { children: null },
+  render: () => (
+    <FormField label="Comentario" helpText="Máximo 120 caracteres">
+      <Textarea showCount maxLength={120} defaultValue="Texto de ejemplo" />
+    </FormField>
+  ),
+};

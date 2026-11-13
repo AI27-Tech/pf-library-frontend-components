@@ -1,0 +1,17 @@
+/* Fila: fecha ocupa el espacio disponible; hora tiene su ancho natural */
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3, 0.75rem);
+  width: 100%;
+  min-width: 0;
+}
+
+.date {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.time {
+  flex: 0 0 auto;
+}

@@ -24,6 +24,11 @@ Librería de componentes React reutilizables para los proyectos frontend del equ
 - **FilterTable** — Table con barra de búsqueda y filtros
 - **Navbar** — barra de navegación superior responsive
 - **Sidebar** — navegación lateral colapsable
+- **Timeline**: historia de estados en vertical u horizontal, con alternada, `stackBelow`, `maxVisible` y `reverse`.
+- **DatePicker**: `Calendar`, `DateInput`, `TimePicker` y `DateTimeInput`. El contrato de valores estÃ¡ en la secciÃ³n de fechas y horas.
+- **Skeleton, Spinner y ProgressBar**: estados de carga.
+- **Breadcrumb, Stack, Inline, Grid y Popover**: navegaciÃ³n, disposiciÃ³n y contenido flotante.
+- **MensajerÃ­a (piezas nuevas)**: `ConversationStatus`, `MessageThread`, `MessageAttachment`, `MessageDock` y `useMessageDock`. Ver la secciÃ³n de mensajerÃ­a.
 
 ---
 
@@ -222,6 +227,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 import { Button, Table, Modal } from "@ai27-tech/ui";
 ```
 
+### Iconos
+
+La librería incluye `lucide-react` empaquetado en `dist`. Las apps **no** necesitan instalarlo para usar `@ai27-tech/ui`.
+
 ### Modo oscuro
 
 El tema se controla con tokens. Actívalo estableciendo `data-theme` en `<html>`:
@@ -303,3 +312,77 @@ src/
 ## Licencia
 
 Uso interno — Equipo AI27
+
+## Fechas y horas: contrato de valores (@ai27-tech/ui)
+
+Aplica a `DateInput`, `Calendar`, `TimePicker` y `DateTimeInput`.
+
+- **Fecha** (`DateInput`, `Calendar`): `YYYY-MM-DD`. Sin fecha, `""`. Al escribir se usa `DD/MM/AAAA`. `displayFormat="AAAA Mmm DD"` cambia solo la visualización cuando el campo no tiene foco.
+- **Hora** (`TimePicker`): `HH:mm` o `HH:mm:ss`, siempre en 24 h. `format="12h"` cambia solo la visualización. Sin hora, `""`. Se emite solo cuando todos los segmentos requeridos están completos.
+- **Fecha y hora** (`DateTimeInput`): `YYYY-MM-DDTHH:mm`, o `YYYY-MM-DDTHH:mm:ss` con `withSeconds`. Sin valor, `""`. Se emite solo cuando fecha y hora están completas.
+- **Hora de pared**: los valores no llevan zona horaria. La librería no los convierte con `new Date(string)`. Quien guarda el valor decide la zona.
+- **Límites** `min` y `max`: inclusivos. En `DateTimeInput`, la hora solo se restringe el día del límite.
+- **Modo controlado**: con `value`, el padre es la fuente de verdad. Si no actualiza `value`, el campo vuelve al valor vigente al confirmar. Sin `value`, el componente guarda su propio valor.
+- **Límites de `DateTimeInput`**: no acepta formatos de escritura distintos a `DD/MM/AAAA` para la fecha ni `HH:mm` para la hora. No tiene `dateParser` ni `valueFormat` personalizados.
+
+## Mensajería (`MessagePanel`): contrato y reglas (@ai27-tech/ui)
+
+Contrato de referencia: `pf-pkg-contracts`, tag `v0.1.0-tracer.40`, `contracts/openapi/mensajeria.yaml`. La librería no importa el contrato: el consumidor convierte el JSON a los tipos de `src/components/MessagePanel/types.ts`.
+
+### Campo del contrato → prop de la librería
+
+| Contrato (`mensajeria.yaml`) | Prop o tipo en la librería | Quién lo usa |
+| --- | --- | --- |
+| `Mensaje.secuencia` | `Mensaje.secuencia` (orden de la lista) | `MessageThread` |
+| `Mensaje.audiencia_autor` | `Mensaje.audienciaAutor`; `isOwn` lo decide el consumidor | `MessageThread` |
+| `Mensaje.alias_mostrado` | `Mensaje.aliasMostrado` / `aliasMostrado` | `MessageBubble` |
+| `Mensaje.creado_en` | `Mensaje.creadoEn` / `creadoEn` (hora local) | `MessageBubble`, `MessageThread` (divisores) |
+| `Mensaje.cuerpo` | `Mensaje.cuerpo` / `children` | `MessageBubble` |
+| `Mensaje.adjuntos_ids` | `Mensaje.adjuntosIds`; el consumidor resuelve los adjuntos en `renderAttachments` | `MessageThread`, `MessageAttachment` |
+| `Mensaje.actor_real`, `rol_al_enviar` | Solo en `renderAudit` (no se muestran por defecto) | Consumidor (audiencia Interno) |
+| `Conversacion.estado` | `estadoConversacion` (`abierta`, `solo_lectura`, `cerrada`) | `MessageComposer`, `ConversationStatus` |
+| `Conversacion.escritura_hasta` | `ConversationStatus.escrituraHasta` | `ConversationStatus` |
+| `Conversacion.reclamo_activo` | `ConversationStatus.reclamadaPor` y `reclamoPropio`; el portal resuelve el nombre | `ConversationStatus` |
+| `Conversacion.atendida_en` | `ConversationStatus.atendida` (booleano) | `ConversationStatus` |
+| `Conversacion.ultima_secuencia` | `MessageList.ultimaSecuencia` | `MessageList` |
+| `Conversacion.hay_mas` | `hayMas` y `onCargarAnteriores` | `MessageList`, `MessageThread` |
+| `ReciboEntrada.hasta_secuencia` | `ultimaSecuenciaLeida` (solo el divisor "Mensajes nuevos") | `MessageThread` |
+| `EnviarMensajeEntrada.client_message_id`, `cuerpo`, `adjuntos_ids` | `onSend({ clientMessageId, cuerpo })` y `onAttach` | `MessageComposer` |
+| `EnviarMensajeEntrada.version_reclamo_esperada`, `motivo_override` | No los conoce la librería: el consumidor los agrega al llamar a la API | Consumidor |
+
+### Reglas de la conversación (la librería no las aplica)
+
+La librería solo muestra lo que recibe. El consumidor decide qué botones aparecen y el servidor valida cada acción.
+
+| Acción | Quién puede | Fuente |
+| --- | --- | --- |
+| Reclamar | Solo si la conversación está en el pool. Con responsable activo responde `409`, aunque la versión sea la vigente | DEC-123 |
+| Responder | Solo el responsable con reclamo activo | Addendum §4 (punto 4) |
+| Liberar | El responsable del reclamo | Addendum §4 (punto 6) |
+| Transferir | El responsable. En V1 la transferencia devuelve la conversación al pool; no se dirige a un ejecutivo concreto | DEC-119 |
+| Marcar atendida | Acción explícita del responsable. Responder no la marca | DEC-117 |
+| Ver y leer | Supervisor y coordinador solo leen conversaciones (sin acciones de reclamo) | DEC-131 |
+| Override de supervisor | Cerrado en V1: el envío no lleva `motivo_override` | DEC-107 |
+
+Errores del servidor: `409` por conflicto de versión o de reclamo, y `403` por falta de permiso. Se muestran con `MessageComposer`/`MessagePanel` `notice` o con un `MessageBubble` en estado `failed`.
+
+## Timeline: uso (@ai27-tech/ui)
+
+Muestra la historia de estados de un elemento, por ejemplo el historial de un viaje.
+
+```tsx
+<Timeline
+  orientation="horizontal"
+  stackBelow={560}
+  items={[
+    { id: 'SOLICITADO', title: 'Solicitado', timestamp: '10 nov, 08:12', dateTime: '2026-11-10T08:12:00Z', status: 'completed' },
+    { id: 'EN_TRANSITO', title: 'En recorrido', description: 'Parada 2 de 3', status: 'current' },
+    { id: 'CERRADO', title: 'Cerrado', status: 'upcoming' },
+  ]}
+/>
+```
+
+- `status`: `completed`, `current`, `upcoming` (por defecto), `error` o `warning`. El punto `current` lleva `aria-current="step"`.
+- Con `dateTime` la marca de tiempo se renderiza como `<time>`.
+- `labels` cambia los textos en español (por ejemplo `showMore`, `empty` o los nombres de estado).
+- La librería usa el tamaño del contenedor, no el de la ventana, para decidir si una línea horizontal se muestra vertical (`stackBelow`).
