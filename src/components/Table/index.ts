@@ -4,4 +4,5 @@ export type {
   Column,
   SortState,
   SortDirection,
+  TableLabels,
 } from "./Table";

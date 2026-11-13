@@ -1,4 +1,5 @@
 import { useState, type ReactNode, type HTMLAttributes } from "react";
+import { Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 function cx(...classes: Array<string | false | undefined>) {
@@ -47,7 +48,7 @@ export function Navbar({
           aria-label="Alternar navegación"
           aria-expanded={open}
         >
-          {open ? <CloseIcon /> : <MenuIcon />}
+          {open ? <X /> : <Menu />}
         </button>
       )}
     </nav>
@@ -82,18 +83,3 @@ export function NavbarLink({
   );
 }
 
-function MenuIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  );
-}

@@ -1,6 +1,8 @@
-import { useRef, type KeyboardEvent, type ReactNode } from "react";
+import { useRef, type KeyboardEvent, type ReactNode, type RefObject } from "react";
+import { Paperclip, Send } from "lucide-react";
+import { Spinner } from "../Spinner";
 import styles from "./MessagePanel.module.css";
-import { SendIcon } from "./shared";
+import { COMPOSER_LABELS, resolverLabels, type ComposerLabels } from "./labels";
 import type { EnviarMensajeEntrada, EstadoConversacion } from "./types";
 import { generarClientMessageId } from "./utils";
 
@@ -18,27 +20,48 @@ export interface MessageComposerProps {
   placeholder?: string;
   /** Deshabilitar entrada y envío. */
   disabled?: boolean;
-  /** Control de envío final personalizado (por defecto un botón de icono de envío). */
+  /** Hay un envío en curso: bloquea el campo y el botón para evitar doble envío. */
+  sending?: boolean;
+  /** Abrir el selector de archivos. El botón solo aparece si se pasa. */
+  onAttach?: () => void;
+  /** Longitud máxima del cuerpo. Desde el 80 % se muestra el contador. */
+  maxLength?: number;
+  /** Ref del campo de texto, por ejemplo para enfocarlo desde fuera. */
+  composerRef?: RefObject<HTMLTextAreaElement | null>;
+  /** Enfoca el campo al montar. */
+  autoFocus?: boolean;
+  /** Control de envío personalizado. Por defecto, un botón con icono de envío. */
   sendButton?: ReactNode;
   /** Estado de la conversación. Con `solo_lectura` o `cerrada` no se puede escribir ni enviar. */
   estadoConversacion?: EstadoConversacion;
-  /** Texto que se muestra cuando la conversación está en solo lectura o cerrada. */
+  /** Texto que reemplaza al placeholder en solo lectura. Por defecto, `labels.readOnly`. */
   textoSoloLectura?: string;
+  /** Textos del compositor en español. */
+  labels?: Partial<ComposerLabels>;
 }
 
 export function MessageComposer({
   value,
   onChange,
   onSend,
-  placeholder = "Write a message…",
+  placeholder,
   disabled = false,
+  sending = false,
+  onAttach,
+  maxLength,
+  composerRef,
+  autoFocus = false,
+  sendButton,
   estadoConversacion = "abierta",
-  textoSoloLectura = "Conversación en solo lectura",
+  textoSoloLectura,
+  labels: labelsPersonalizadas,
 }: MessageComposerProps) {
-  const ref = useRef<HTMLTextAreaElement>(null);
+  const labels = resolverLabels(COMPOSER_LABELS, labelsPersonalizadas);
+  const refInterna = useRef<HTMLTextAreaElement>(null);
+  const ref = composerRef ?? refInterna;
 
   const soloLectura = estadoConversacion === "solo_lectura" || estadoConversacion === "cerrada";
-  const inactivo = disabled || soloLectura;
+  const inactivo = disabled || soloLectura || sending;
   const canSend = value.trim().length > 0 && !inactivo;
 
   const send = () => {
@@ -51,6 +74,8 @@ export function MessageComposer({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    // Durante la composición de IME (acentos, japonés, etc.) Enter confirma el texto, no envía.
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       send();
@@ -62,31 +87,55 @@ export function MessageComposer({
     el.style.height = `${el.scrollHeight}px`;
   };
 
+  const mostrarContador = maxLength !== undefined && value.length >= maxLength * 0.8;
+
   return (
-    <div className={styles.composer}>
-      <textarea
-        ref={ref}
-        className={styles.composerInput}
-        value={value}
-        rows={1}
-        placeholder={soloLectura ? textoSoloLectura : placeholder}
-        disabled={inactivo}
-        aria-label="Mensaje"
-        onChange={(e) => {
-          onChange(e.target.value);
-          autoGrow(e.target);
-        }}
-        onKeyDown={handleKeyDown}
-      />
-      <button
-        type="button"
-        className={styles.sendBtn}
-        onClick={send}
-        disabled={!canSend}
-        aria-label="Enviar mensaje"
-      >
-        <SendIcon />
-      </button>
+    <div className={styles.composerWrap}>
+      <div className={styles.composer}>
+        {onAttach && (
+          <button
+            type="button"
+            className={styles.attachBtn}
+            onClick={onAttach}
+            disabled={inactivo}
+            aria-label={labels.attach}
+          >
+            <Paperclip />
+          </button>
+        )}
+        <textarea
+          ref={ref}
+          className={styles.composerInput}
+          value={value}
+          rows={1}
+          maxLength={maxLength}
+          autoFocus={autoFocus}
+          placeholder={soloLectura ? (textoSoloLectura ?? labels.readOnly) : (placeholder ?? labels.placeholder)}
+          disabled={inactivo}
+          aria-label={labels.message}
+          onChange={(e) => {
+            onChange(e.target.value);
+            autoGrow(e.target);
+          }}
+          onKeyDown={handleKeyDown}
+        />
+        {sendButton ?? (
+          <button
+            type="button"
+            className={styles.sendBtn}
+            onClick={send}
+            disabled={!canSend}
+            aria-label={labels.send}
+          >
+            {sending ? <Spinner size="sm" label={labels.send} /> : <Send />}
+          </button>
+        )}
+      </div>
+      {mostrarContador && (
+        <span className={styles.counter} aria-live="polite">
+          {value.length} / {maxLength}
+        </span>
+      )}
     </div>
   );
 }

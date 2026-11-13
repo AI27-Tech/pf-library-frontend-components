@@ -23,7 +23,7 @@ Estas reglas aplican **siempre** que se cree, agregue o modifique un componente 
 
 ## 3. Tokens compartidos (fuente única de verdad)
 
-Todo valor de tamaño, forma o espaciado debe salir de los tokens centrales ubicados en: `<ruta-de-tokens>`.
+Todo valor de tamaño, forma o espaciado debe salir de los tokens centrales ubicados en: `src/styles/tokens.css`.
 
 - Prohibido usar valores sueltos ("mágicos") como `padding: 13px` o `border-radius: 7px`.
 - Si un valor necesario no existe, **agregarlo primero a los tokens** y luego consumirlo, en lugar de escribirlo directamente en el componente.

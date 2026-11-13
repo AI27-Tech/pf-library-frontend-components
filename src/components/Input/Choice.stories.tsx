@@ -44,3 +44,23 @@ export const Switches: Story = {
     </div>
   ),
 };
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <Checkbox size="sm" label="Pequeño" />
+      <Checkbox size="md" label="Mediano" />
+      <Checkbox size="lg" label="Grande" />
+    </div>
+  ),
+};
+
+export const Invalid: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <Checkbox invalid label="Acepto los términos" />
+      <Radio invalid label="Opción requerida" />
+      <Switch invalid label="Activo" />
+    </div>
+  ),
+};

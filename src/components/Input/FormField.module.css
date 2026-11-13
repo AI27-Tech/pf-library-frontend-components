@@ -16,6 +16,30 @@
   margin-left: 0.15rem;
 }
 
+.optional {
+  font-weight: 400;
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+/* Etiqueta a la izquierda, control y textos a la derecha */
+.horizontal {
+  display: grid;
+  grid-template-columns: minmax(7rem, 30%) minmax(0, 1fr);
+  column-gap: var(--ui-space-4, 1rem);
+  row-gap: var(--ui-space-1, 0.25rem);
+  align-items: start;
+}
+
+.horizontal > .label {
+  grid-column: 1;
+  grid-row: 1;
+  padding-top: 0.5rem;
+}
+
+.horizontal > :not(.label) {
+  grid-column: 2;
+}
+
 .help {
   font-size: var(--ui-font-size-sm, 0.8125rem);
   color: var(--ui-color-text-muted, #94a3b8);

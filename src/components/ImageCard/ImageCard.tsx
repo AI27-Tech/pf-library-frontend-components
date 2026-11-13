@@ -1,6 +1,7 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import { useCallback, useState, type HTMLAttributes, type ReactNode } from "react";
 import styles from "./ImageCard.module.css";
 import { Badge, type BadgeVariant } from "../Badge";
+import { Skeleton } from "../Skeleton/Skeleton";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -29,7 +30,10 @@ export interface BadgeConfig {
 }
 
 export interface ImageCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  /** URL de la imagen principal. Omitir o pasar vacío para mostrar contenido personalizado (children). */
+  /**
+   * URL de la imagen principal. Omitir o pasar vacío para mostrar contenido personalizado (children).
+   * Mientras carga se muestra un placeholder `Skeleton`, que se retira al cargar o fallar.
+   */
   src?: string;
   /** Texto alternativo para la imagen. */
   alt: string;
@@ -66,6 +70,19 @@ export function ImageCard({
   const badgesToShow = (badges || []).slice(0, 2);
   const hasCustomContent = children && (!src || src === '');
 
+  // La imagen "asentada" (cargó o falló) se guarda junto con su URL. Si `src` cambia,
+  // la URL nueva no coincide y el placeholder vuelve a mostrarse, sin efectos extra.
+  const [settledSrc, setSettledSrc] = useState<string | undefined>(undefined);
+  const isImageLoading = Boolean(src) && !hasCustomContent && settledSrc !== src;
+
+  // Una imagen ya cargada (caché o hidratación) puede no disparar onLoad.
+  const imgRef = useCallback(
+    (img: HTMLImageElement | null) => {
+      if (img?.complete && img.naturalWidth > 0) setSettledSrc(src);
+    },
+    [src],
+  );
+
   return (
     <div
       className={cx(
@@ -97,9 +114,19 @@ export function ImageCard({
             {children}
           </div>
         ) : src ? (
-          <img src={src} alt={alt} className={styles.image} />
+          <img
+            ref={imgRef}
+            src={src}
+            alt={alt}
+            className={styles.image}
+            onLoad={() => setSettledSrc(src)}
+            onError={() => setSettledSrc(src)}
+          />
         ) : (
           <div className={styles.customContent} />
+        )}
+        {isImageLoading && (
+          <Skeleton variant="rect" width="100%" height="100%" className={styles.placeholder} />
         )}
         {badgesToShow.length > 0 && (
           <div className={styles.badgesContainer}>

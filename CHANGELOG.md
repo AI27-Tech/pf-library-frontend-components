@@ -7,6 +7,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Agregado
+
+- **Sidebar**: nueva prop `headerCollapsed` con el contenido del encabezado cuando la barra está contraída (por ejemplo, un logo pequeño). Si se omite, el encabezado queda vacío al contraer.
+
+### Cambiado
+
+- **Sidebar**: el botón de colapso se mueve a la esquina inferior derecha, en una fila al final de la barra, centrado cuando la barra está contraída. Ya no está en el encabezado. El encabezado solo muestra `header`, y `footer` queda entre el contenido y el botón.
+
+## [0.3.0-beta.1] — 2026-11-12
+### Agregado
+- **Fechas y horas (`DatePicker`)**: `Calendar` (vistas de días, meses y años; teclado de rejilla ARIA; `min`, `max`, `isDateDisabled`, `weekStartsOn`), `DateInput` (escritura `DD/MM/AAAA`, presets, `clearable`, `displayFormat`), `TimePicker` (segmentos de hora, minuto y segundo; AM/PM con `format="12h"`; dropdown con opciones deshabilitadas fuera de rango; presets y pegado), `DateTimeInput` (fecha y hora en un solo valor `YYYY-MM-DDTHH:mm`) y `getTimeRange` para generar listas de horas. Contrato de valores documentado en el README.
+- **`FormField`**: prop `showOptional` (muestra "(opcional)") y `orientation="horizontal"`.
+- **`Textarea`**: prop `showCount` con contador de caracteres (`actual/máximo` con `maxLength`).
+- **`Input`**: `clearable` con `onClear`, y `passwordToggle` para mostrar u ocultar contraseñas. Estado de solo lectura con `readOnly`.
+- **`Select`**: `state`, `readOnly`, `id` y `aria-describedby`.
+- **`Checkbox`, `Radio` y `Switch`**: prop `size` (`sm`, `md`, `lg`) e `invalid`.
+- **`FormSection`**: prop `collapsible` con `defaultOpen`, `open` y `onOpenChange`.
+- **`FormActions`**: prop `sticky`.
+- **`Popover`**: contenedor flotante anclado a un elemento. Se renderiza en un portal a `document.body` con `position: fixed`, abre `bottom`, `top` o `auto`, se ajusta al viewport, se reposiciona en scroll y resize, y se cierra con clic fuera o `Escape`. Acepta `align`, `offset`, `matchAnchorWidth` y `role`. Usa el token `--ui-z-popover`.
+- **Clase `.ui-sr-only`** en `base.css`: texto visible solo para lectores de pantalla.
+- **`Skeleton`, `SkeletonText`, `SkeletonCard` y `SkeletonTable`**: placeholders de carga. Son decorativos para lectores de pantalla, y el contenedor anuncia "Cargando" con `role="status"` y `aria-busy`. `SkeletonCard` usa `Card` como contenedor.
+- **`Spinner`**: indicador giratorio en tamaños `sm`, `md` y `lg`, con etiqueta accesible.
+- **`ProgressBar`**: barra determinada (con `value`, ajustado a 0-100) e indeterminada.
+- **`Table`**: prop `loadingRows` (por defecto 5) para el número de filas en carga.
+- **`Breadcrumb`**: ruta de navegación con `items` (`label`, `href`, `icon`, `onClick`, `as`), separador configurable y `maxItems`. Con `maxItems`, los elementos intermedios se pliegan tras un botón "…" que abre un `Popover`. El último elemento lleva `aria-current="page"`. Las etiquetas largas se truncan y muestran el texto completo en `title`.
+- **`Stack`, `Inline` y `Grid`**: contenedores de disposición con `gap` de 0 a 6 (mapeado a `--ui-space-*`), `align`, `justify`, `as`, `wrap` en `Inline`, y `columns` o `minItemWidth` en `Grid`.
+- **`PageHeader`**: encabezado de página con título (`h1` o `h2` según `titleAs`), descripción, `breadcrumb`, `actions` y una zona inferior para `Tabs`. Bajo 40 rem de ancho, las acciones pasan debajo del título.
+- **`Section`**: sección con `<section>` y `aria-labelledby`. Con `collapsible`, el encabezado es un botón con `aria-expanded`; admite modo controlado y no controlado.
+- **`DescriptionList`**: lista clave-valor con `dl`, `dt` y `dd`. Admite de 1 a 4 columnas, orientación `vertical` u `horizontal`, `span` por elemento y `emptyValue` para valores vacíos.
+- **`Stat`**: métrica sobre `Card` con valor, icono, texto de apoyo y tendencia. La tendencia se comunica con flecha y texto accesible, no solo con color. `invertTrend` invierte el color de subir y bajar. `loading` muestra `Skeleton`.
+- **`EmptyState`**: estado vacío con icono, título, descripción y acción, en tamaños `sm` y `md`.
+- **`Alert`**: mensaje en línea con variantes `info`, `success`, `warning` y `danger`. `warning` y `danger` usan `role="alert"`; las otras dos, `role="status"`. Botón de cierre opcional.
+- **`Divider`**: separador horizontal o vertical, con etiqueta opcional en horizontal.
+- **`Tabs`, `TabList`, `Tab` y `TabPanel`**: pestañas controladas y no controladas, con navegación por teclado (flechas con vuelta, `Home` y `End`), `icon`, `badge` y `disabled`.
+
+- **`Table`**: `stickyHeader` (encabezado fijo), `striped`, `bulkActions` (barra de acciones masivas con contador), `labels` (tipo `TableLabels`, exportado), `emptyState` por defecto con `EmptyState`, y columnas con `minWidth` y `truncate`.
+- **`FilterBar`**: `layout="toolbar"` (búsqueda, botón "Filtros (n)" que abre un `Popover`, chips debajo), `labels` (tipo `FilterBarLabels`) y `loading`.
+- **`FilterTable`**: `filterLayout`, `labels` (tipo `FilterTableLabels`), `tableLabels` (pasa los textos a `Table`) y `loading`, que llega también a la barra de filtros. Los filtros se pasan completos a `FilterBar`: antes se perdían `variant`, `searchPlaceholder`, `noResultsText` e `icon`.
+- **Storybook**: historias nuevas de `Table` (encabezado fijo, sin rayas, `minWidth` y `truncate`, acciones masivas, etiquetas personalizadas), de `FilterTable` (disposiciones, filtros activos, carga, selección, filtro buscable) y el archivo nuevo `FilterBar.stories.tsx`.
+
+- **`Badge`**: `appearance` (`"soft"` por defecto, `"solid"`, `"outline"`), `size` (`"sm"` por defecto, `"md"` de 24 px) y las variantes `info`, `primary` y `secondary`. Las cinco variantes existentes en `soft` y `sm` se ven igual. Se agregan historias de matriz y de combinaciones.
+
+- **Regla de lint**: `eslint.config.js` prohibe `<svg>` en `src/` y `.storybook/` (`no-restricted-syntax`). Los iconos se importan de `lucide-react`.
+
+- **MensajerÃ­a (MessagePanel)**: ConversationStatus (estado, responsable, atendida y ventana de escritura), MessageThread (orden por secuencia, divisores de dÃ­a y de mensajes nuevos, envÃ­os pendientes), MessageAttachment (estados eady, uploading y error), useMessageDock y dockReducer (paneles abiertos, minimizados y overflow), groupMessages (agrupaciÃ³n de burbujas), MessageDockBar con lastMessageAt y adge. El panel acepta 	oolbar, 
+otice, open, defaultOpen, onOpenChange, keepMounted y labels. El compositor acepta sending, onAttach, maxLength (contador desde el 80 %), composerRef y utoFocus, y no envÃ­a durante la composiciÃ³n de IME. La librerÃ­a agrega una regla de lint para no escribir <svg> a mano.
+
+- **Timeline**: lÃ­nea del tiempo de estados con `orientation` vertical u horizontal, `align="alternate"` (con contenedor de 40 rem o mÃ¡s), `stackBelow` (una horizontal se muestra vertical en contenedores angostos, medido con `ResizeObserver`), `maxVisible` con control de expandir, `reverse`, `onItemClick`, `loading` y `emptyState`. Estados `completed`, `current`, `upcoming`, `error` y `warning` con iconos de Lucide; textos en espaÃ±ol sobrescribibles con `labels`.
+
+### Cambiado
+- **Textos por defecto en español** (`Table`, `FilterTable`, `FilterBar`): "No data to display." pasa a "No hay datos para mostrar."; "Select all rows" a "Seleccionar todas las filas"; "Search..." a "Buscar..."; "Clear" a "Limpiar"; "N result(s)" a "N resultado(s)". Se sobrescriben con `labels`.
+- **`Table`**: los checkboxes de selección usan el `Checkbox` de la librería. Las columnas ordenables sin orden activo muestran `ChevronsUpDown` atenuado; con orden, `ArrowUp`. Los separadores usan `--ui-color-divider`. Las rayas alternas se controlan con `striped` (por defecto, igual que antes). El panel expandido entra con una transición breve, sin ella con movimiento reducido. Mientras carga, la tabla usa "Cargando" como `aria-label` si no se pasa uno.
+- **`FilterBar`**: los chips usan un icono SVG en lugar de "✕" y el estilo de píldora. Las etiquetas de los filtros siguen el estilo de `FormField`, y un control con filtro activo se resalta con borde primario.
+- **`Popover`**: si el contenido no cabe ni arriba ni abajo, se mantiene dentro del viewport. Nueva prop `onPositioned`, que avisa cuando el contenido ya es visible.
+- **`Input`**: el estado `error` ahora pinta el borde. Antes solo marcaba `aria-invalid`.
+- **`Select`**: `FormField` lo asocia con su etiqueta y con el texto de ayuda o error (antes el `id` no llegaba al control).
+- **`Checkbox`, `Radio` y `Switch`**: ya no envían la prop `invalid` al `<input>`. Si el control está inválido, se marca con `aria-invalid`. El radio del checkbox pasa a `--ui-radius`, igual que `Input`.
+- **`Form`**: `Form.tsx` usa el `cx` compartido de `Input/utils.ts`.
+- **`Table` con `loading`**: muestra filas en skeleton que conservan las columnas, la selección y la expansión, en lugar de un spinner. El checkbox de seleccionar todo queda deshabilitado mientras carga. Se quitó el spinner y su CSS de `Table.module.css`.
+- **`ImageCard`** (y `ImageGrid`, que la usa): mientras la imagen carga, muestra un placeholder `Skeleton` sobre el area de imagen. Si la imagen falla, el placeholder se retira. No cambian las props.
+- **`Sidebar`**: el botón de colapso pasa del pie al encabezado y es solo icono (`PanelLeftClose` / `PanelLeftOpen` de `lucide-react`), centrado cuando la barra está contraída. El encabezado se muestra si hay `header` u `onToggleCollapse`. La prop `footer` ahora es la única que renderiza el pie. Sin `onToggleCollapse` no hay botón, como antes. Si una barra con `onToggleCollapse` no tenía `header`, ahora muestra una fila de encabezado de 3.5 rem con solo el botón.
+- **Iconos**: todos los iconos de componentes y stories salen de `lucide-react`; antes habia SVG dibujados a mano en unos 20 archivos. Los trazos de Lucide no son identicos a los anteriores, asi que el aspecto cambia sutilmente. `Toast` y `Alert` usan los mismos iconos. `dist/ui-library.js` pasa de 145 436 a 139 987 bytes.
+- **MessagePanel**: el encabezado ya no tiene botones anidados (headerMain y headerActions son hermanos). El contenido sigue montado al minimizar (keepMounted, por defecto); con alse se desmonta. El desplazamiento automÃ¡tico solo ocurre al llegar un mensaje, o cuando el usuario estÃ¡ cerca del final; si no, aparece el botÃ³n de mensajes nuevos.
+- **MensajerÃ­a: secuencia**: Mensaje.secuenciaMensaje se renombra a secuencia, igual que en el contrato 0.1.0-tracer.40.
+- **MensajerÃ­a: textos en espaÃ±ol**: los textos por defecto pasan a espaÃ±ol (Minimizar, Enviar mensaje, Escribe un mensajeâ€¦, Mensajes nuevos, etc.). Se sobrescriben con labels.
+- **Muelle**: sus paneles usan el token --ui-z-dock (900), por debajo de Modal (1000). Antes quedaban en 1000 y se apilaban igual que el modal.
+- **MessageBubble**: muestra la hora en es-MX y no muestra el alias en los mensajes de en medio de un grupo. Los radios de la burbuja dependen de su posiciÃ³n en el grupo (groupPosition).
+
 ## [0.2.0-beta.8] — 2026-11-06
 
 ### Agregado

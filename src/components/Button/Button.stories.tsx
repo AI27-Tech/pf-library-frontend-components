@@ -1,3 +1,4 @@
+import { ArrowRight, Plus } from "lucide-react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./Button";
 
@@ -104,9 +105,9 @@ export const Sizes: Story = {
 export const WithIcons: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-      <Button {...args} startIcon={<PlusIcon />}>Add item</Button>
-      <Button {...args} variant="outline" endIcon={<ArrowIcon />}>Next</Button>
-      <Button {...args} variant="ghost" startIcon={<PlusIcon />} aria-label="Add" />
+      <Button {...args} startIcon={<Plus />}>Add item</Button>
+      <Button {...args} variant="outline" endIcon={<ArrowRight />}>Next</Button>
+      <Button {...args} variant="ghost" startIcon={<Plus />} aria-label="Add" />
     </div>
   ),
 };
@@ -134,18 +135,3 @@ export const FullWidth: Story = {
   ],
 };
 
-function PlusIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M12 5v14M5 12h14" />
-    </svg>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
-  );
-}
