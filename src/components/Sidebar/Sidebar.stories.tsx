@@ -115,3 +115,31 @@ export const Collapsed: Story = {
     </div>
   ),
 };
+
+/** Logo distinto según el estado: completo al expandir y solo icono al contraer. */
+export const ConLogoAlContraer: Story = {
+  render: () => {
+    const [collapsed, setCollapsed] = useState(false);
+    return (
+      <div style={{ height: 420, display: "flex" }}>
+        <Sidebar
+          header={<strong>Acme Admin</strong>}
+          headerCollapsed={<House aria-label="Acme" />}
+          collapsed={collapsed}
+          onToggleCollapse={() => setCollapsed((v) => !v)}
+        >
+          <SidebarItem icon={<House />} active label="Dashboard">
+            Dashboard
+          </SidebarItem>
+          <SidebarItem icon={<Package />} badge={3} label="Orders">
+            Orders
+          </SidebarItem>
+          <SidebarItem icon={<Users />} label="Customers">
+            Customers
+          </SidebarItem>
+        </Sidebar>
+        <div style={{ padding: "1rem", flex: 1 }}>Contenido. Usa el botón de la esquina inferior para contraer.</div>
+      </div>
+    );
+  },
+};

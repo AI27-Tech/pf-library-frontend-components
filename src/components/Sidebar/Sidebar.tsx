@@ -9,6 +9,8 @@ function cx(...classes: Array<string | false | undefined>) {
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   /** Área de encabezado / marca en la parte superior. */
   header?: ReactNode;
+  /** Contenido del encabezado cuando la barra está contraída (por ejemplo, un logo pequeño). Si se omite, el encabezado queda vacío al contraer. */
+  headerCollapsed?: ReactNode;
   /** Área de pie de página en la parte inferior. Solo se renderiza si se pasa. */
   footer?: ReactNode;
   /** Si la barra lateral se contrae solo a iconos (controlado). */
@@ -21,6 +23,7 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
 
 export function Sidebar({
   header,
+  headerCollapsed,
   footer,
   collapsed = false,
   onToggleCollapse,
@@ -34,27 +37,30 @@ export function Sidebar({
       data-collapsed={collapsed || undefined}
       {...props}
     >
-      {(header || onToggleCollapse) && (
+      {(header || headerCollapsed) && (
         <div className={styles.header}>
-          {header && <div className={styles.headerContent}>{header}</div>}
-          {onToggleCollapse && (
-            <button
-              type="button"
-              className={styles.toggle}
-              onClick={onToggleCollapse}
-              aria-label={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
-              aria-expanded={!collapsed}
-              title={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
-            >
-              {collapsed ? <PanelLeftOpen aria-hidden="true" /> : <PanelLeftClose aria-hidden="true" />}
-            </button>
-          )}
+          <div className={styles.headerContent}>{collapsed ? headerCollapsed : header}</div>
         </div>
       )}
 
       <div className={styles.nav}>{children}</div>
 
       {footer && <div className={styles.footer}>{footer}</div>}
+
+      {onToggleCollapse && (
+        <div className={styles.toggleRow}>
+          <button
+            type="button"
+            className={styles.toggle}
+            onClick={onToggleCollapse}
+            aria-label={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
+            aria-expanded={!collapsed}
+            title={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
+          >
+            {collapsed ? <PanelLeftOpen aria-hidden="true" /> : <PanelLeftClose aria-hidden="true" />}
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
