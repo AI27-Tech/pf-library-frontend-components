@@ -8,7 +8,16 @@ export type BadgeVariant =
   | "alert"
   | "escort"
   | "warning"
-  | "neutral";
+  | "neutral"
+  | "info"
+  | "primary"
+  | "secondary";
+
+/** Apariencia: `soft` (fondo translúcido, por defecto), `solid` (fondo sólido) u `outline` (solo borde). */
+export type BadgeAppearance = "soft" | "solid" | "outline";
+
+/** Tamaño: `sm` (20 px, por defecto) o `md` (24 px). */
+export type BadgeSize = "sm" | "md";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -17,6 +26,10 @@ function cx(...classes: Array<string | false | undefined>) {
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   /** Variante de estado, mapeado a señales tácticas de AI27. */
   variant?: BadgeVariant;
+  /** Apariencia visual. Por defecto: "soft" (la apariencia de siempre). */
+  appearance?: BadgeAppearance;
+  /** Tamaño. Por defecto: "sm" (20 px). "md" usa 24 px y la escala label-md. */
+  size?: BadgeSize;
   /** Mostrar un indicador de estado inicial. */
   dot?: boolean;
   /** Animar el indicador (para alertas en vivo/activas, por ejemplo jamming). Implica `dot`. */
@@ -71,6 +84,8 @@ interface TooltipState {
 
 export function Badge({
   variant = "neutral",
+  appearance = "soft",
+  size = "sm",
   dot = false,
   pulse = false,
   pill = false,
@@ -175,6 +190,8 @@ export function Badge({
       className={cx(
         styles.badge,
         styles[variant],
+        styles[appearance],
+        size === "md" && styles.sizeMd,
         pill && styles.pill,
         isTruncated && styles.truncate,
         isFixedWidth && styles.fixedWidth,

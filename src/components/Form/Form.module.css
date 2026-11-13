@@ -50,6 +50,57 @@
   gap: var(--ui-space-2, 0.5rem);
 }
 
+/* Barra fija al fondo del área visible (FormActions con sticky) */
+.sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
+}
+
+/* Sección colapsable (FormSection con collapsible) */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2, 0.5rem);
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--ui-font-size-md, 0.9375rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--ui-transition, 0.15s ease);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-4, 1rem);
+}
+
+.content[hidden] {
+  display: none;
+}
+
 .align-start { justify-content: flex-start; }
 .align-end { justify-content: flex-end; }
 .align-between { justify-content: space-between; }

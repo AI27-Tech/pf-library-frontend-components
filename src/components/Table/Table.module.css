@@ -40,8 +40,34 @@
   text-transform: uppercase;
   color: var(--ui-color-text-muted, #94a3b8);
   white-space: nowrap;
-  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  border-bottom: 1px solid var(--ui-color-divider, #1b2230);
   vertical-align: middle;
+}
+
+/* Encabezado fijo: el contenedor limita la altura y el scroll vertical ocurre dentro de la tabla. */
+.stickyHeader .th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--ui-color-surface, #1c222e);
+}
+
+/* Sombra de scroll horizontal: las capas "local" siguen al contenido y tapan la sombra
+   en los bordes cuando no hay nada que desplazar; las capas "scroll" quedan fijas al viewport. */
+.stickyHeader {
+  background:
+    linear-gradient(to right, var(--ui-color-surface, #1c222e) 30%, transparent) left center / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--ui-color-surface, #1c222e) 30%, transparent) right center / 2.5rem 100% no-repeat local,
+    linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent) left center / 0.75rem 100% no-repeat scroll,
+    linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent) right center / 0.75rem 100% no-repeat scroll,
+    var(--ui-color-surface, #1c222e);
+}
+
+.truncate {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .th.alignCenter,
@@ -78,6 +104,7 @@
   width: 0.9em;
   height: 0.9em;
   opacity: 0.4;
+  color: var(--ui-color-text-muted, #94a3b8);
   transition: opacity var(--ui-transition, 0.15s ease), transform var(--ui-transition, 0.15s ease);
 }
 
@@ -91,7 +118,7 @@
 }
 
 .td {
-  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  border-bottom: 1px solid var(--ui-color-divider, #1b2230);
   vertical-align: middle;
 }
 
@@ -103,8 +130,8 @@
     box-shadow var(--ui-transition, 0.15s ease);
 }
 
-/* Rayas de cebra para escaneo de alta densidad. */
-.row:nth-child(even) {
+/* Rayas de cebra para escaneo de alta densidad. Se desactivan con striped={false}. */
+.striped .row:nth-child(even) {
   background-color: color-mix(in srgb, var(--ui-color-surface-muted) 40%, transparent);
 }
 
@@ -131,25 +158,36 @@
   white-space: nowrap;
 }
 
+/* Barra de acciones masivas: aparece encima de la tabla con filas seleccionadas. */
+.bulkBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border-bottom: 1px solid var(--ui-color-divider, #1b2230);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  font-size: var(--ui-font-size-md, 0.8125rem);
+}
+
+.bulkCount {
+  font-weight: 600;
+  color: var(--ui-color-text, #e2e8f0);
+}
+
+.bulkActions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2, 0.5rem);
+}
+
 /* Estados */
 .state {
   padding: var(--ui-space-6, 2rem);
   text-align: center;
   color: var(--ui-color-text-muted, #94a3b8);
-}
-
-.spinner {
-  display: inline-block;
-  width: 1.4rem;
-  height: 1.4rem;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: ui-table-spin 0.6s linear infinite;
-}
-
-@keyframes ui-table-spin {
-  to { transform: rotate(360deg); }
 }
 
 /* ── Filas expandibles ─────────────────────────────────────────────────────── */
@@ -204,13 +242,26 @@
 .detailRow > .detailCell {
   padding: 0;
   background-color: var(--ui-color-surface-muted, #0e1117);
-  border-bottom: 1px solid var(--ui-color-border, #2d3748);
+  border-bottom: 1px solid var(--ui-color-divider, #1b2230);
   border-left: 2px solid var(--ui-color-primary, #7c9df0);
 }
 
-/* Envoltorio de relleno interno para que el borde de acento toque el borde de la fila. */
+/* Envoltorio de relleno interno para que el borde de acento toque el borde de la fila.
+   Entrada del panel: opacidad y desplazamiento corto. Solo al entrar; al contraer se desmonta. */
 .detailCell > * {
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
+  animation: ui-table-detail-in var(--ui-duration-base, 200ms) var(--ui-ease-standard, ease) both;
+}
+
+@keyframes ui-table-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Respetar preferencias de movimiento reducido */
@@ -219,8 +270,7 @@
     transition: none;
   }
 
-  .spinner {
+  .detailCell > * {
     animation: none;
-    border-right-color: inherit;
   }
 }

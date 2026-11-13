@@ -1,5 +1,9 @@
+import { ArrowUp, ChevronRight, ChevronsUpDown } from "lucide-react";
 import { Fragment, type ReactNode, type Key } from "react";
 import styles from "./Table.module.css";
+import { SkeletonRows } from "./SkeletonRows";
+import { Checkbox } from "../Input/Checkbox";
+import { EmptyState } from "../EmptyState";
 
 export type SortDirection = "asc" | "desc";
 
@@ -25,7 +29,36 @@ export interface Column<T> {
   sortable?: boolean;
   /** Ancho fijo, por ejemplo "120px" o "20%". */
   width?: string;
+  /** Ancho mínimo, por ejemplo "120px". */
+  minWidth?: string;
+  /** Corta el contenido con puntos suspensivos cuando no cabe en la celda. */
+  truncate?: boolean;
 }
+
+/** Textos de la interfaz de Table. Cada uno se puede sobrescribir con `labels`. */
+export interface TableLabels {
+  /** Mensaje cuando no hay filas. */
+  empty: string;
+  /** Etiqueta accesible del checkbox de seleccionar todas. */
+  selectAll: string;
+  /** Etiqueta accesible del checkbox de cada fila. */
+  selectRow: string;
+  /** Etiqueta accesible del botón para expandir una fila. */
+  expandRow: string;
+  /** Etiqueta accesible del botón para contraer una fila. */
+  collapseRow: string;
+  /** Etiqueta accesible de la tabla mientras carga, si no se pasa `aria-label`. */
+  loading: string;
+}
+
+const defaultLabels: TableLabels = {
+  empty: "No hay datos para mostrar.",
+  selectAll: "Seleccionar todas las filas",
+  selectRow: "Seleccionar fila",
+  expandRow: "Expandir fila",
+  collapseRow: "Contraer fila",
+  loading: "Cargando",
+};
 
 export interface TableProps<T> {
   /** Definiciones de columnas. */
@@ -54,14 +87,30 @@ export interface TableProps<T> {
   expandedKeys?: Set<Key>;
   /** Llamado cuando se expande o contrae una fila. */
   onExpandedChange?: (keys: Set<Key>) => void;
-  /** Estado de carga. Muestra un spinner en lugar de filas. */
+  /** Estado de carga. Muestra filas en skeleton en lugar de datos. */
   loading?: boolean;
-  /** Contenido mostrado cuando no hay datos. */
+  /** Número de filas en skeleton mientras carga. Por defecto: 5. */
+  loadingRows?: number;
+  /** Contenido mostrado cuando no hay datos. Por defecto: un `EmptyState` con `labels.empty`. */
   emptyState?: ReactNode;
+  /**
+   * Barra de acciones masivas. Se muestra encima de la tabla cuando hay filas seleccionadas
+   * y recibe las claves seleccionadas.
+   */
+  bulkActions?: (selectedKeys: Set<Key>) => ReactNode;
+  /** Textos de la interfaz. Parciales: los no indicados usan los valores en español. */
+  labels?: Partial<TableLabels>;
   /** Densidad de filas. */
   density?: "comfortable" | "compact";
   /** Resaltar filas al pasar el mouse. Por defecto: true. */
   hoverable?: boolean;
+  /**
+   * Fija el encabezado al hacer scroll vertical. El contenedor necesita una altura máxima
+   * (por ejemplo, vía `className`) para que el scroll ocurra dentro de la tabla. Por defecto: false.
+   */
+  stickyHeader?: boolean;
+  /** Rayas alternas en las filas. Por defecto: true. */
+  striped?: boolean;
   className?: string;
   /** Etiqueta de accesibilidad / leyenda para la tabla. */
   "aria-label"?: string;
@@ -77,6 +126,7 @@ function alignClass(align?: Column<unknown>["align"]) {
   return undefined;
 }
 
+/** Columna ordenable: sin orden activo muestra dos flechas atenuadas; con orden, una sola flecha. */
 function SortIcon({ state }: { state: SortDirection | null }) {
   return (
     <span
@@ -87,18 +137,8 @@ function SortIcon({ state }: { state: SortDirection | null }) {
       )}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 5v14M6 11l6-6 6 6" />
-      </svg>
+      {state === null ? <ChevronsUpDown /> : <ArrowUp />}
     </span>
-  );
-}
-
-function ChevronIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 6l6 6-6 6" />
-    </svg>
   );
 }
 
@@ -115,12 +155,19 @@ export function Table<T>({
   expandedKeys,
   onExpandedChange,
   loading = false,
-  emptyState = "No data to display.",
+  loadingRows = 5,
+  emptyState,
+  bulkActions,
+  labels: labelsProp,
   density = "comfortable",
   hoverable = true,
+  stickyHeader = false,
+  striped = true,
   className,
   "aria-label": ariaLabel,
 }: TableProps<T>) {
+  const labels: TableLabels = { ...defaultLabels, ...labelsProp };
+  const selectedCount = selectedKeys?.size ?? 0;
   const selectable = Boolean(selectedKeys && onSelectionChange);
   const expandable = Boolean(expandedContent);
   const getKey = (row: T, index: number): Key =>
@@ -166,24 +213,36 @@ export function Table<T>({
 
   return (
     <div className={cx(styles.wrapper, className)}>
+      {bulkActions && selectedCount > 0 && (
+        <div className={styles.bulkBar}>
+          <span className={styles.bulkCount} aria-live="polite">
+            {selectedCount} {selectedCount === 1 ? "seleccionada" : "seleccionadas"}
+          </span>
+          <div className={styles.bulkActions}>{bulkActions(selectedKeys!)}</div>
+        </div>
+      )}
       <table
         className={cx(
           styles.table,
           styles[`density-${density}`],
           hoverable && styles.hoverable,
+          striped && styles.striped,
+          stickyHeader && styles.stickyHeader,
         )}
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? (loading ? labels.loading : undefined)}
+        aria-busy={loading || undefined}
       >
         <thead className={styles.thead}>
           <tr>
             {expandable && <th className={cx(styles.th, styles.expandCell)} aria-hidden="true" />}
             {selectable && (
               <th className={cx(styles.th, styles.selectCell)}>
-                <input
-                  type="checkbox"
+                <Checkbox
+                  size="sm"
                   checked={allSelected}
                   onChange={toggleAll}
-                  aria-label="Select all rows"
+                  disabled={loading}
+                  aria-label={labels.selectAll}
                 />
               </th>
             )}
@@ -196,8 +255,9 @@ export function Table<T>({
                     styles.th,
                     alignClass(col.align),
                     col.sortable && styles.sortable,
+                    col.truncate && styles.truncate,
                   )}
-                  style={col.width ? { width: col.width } : undefined}
+                  style={{ width: col.width, minWidth: col.minWidth }}
                   onClick={col.sortable ? () => handleSort(col) : undefined}
                   aria-sort={
                     isSorted
@@ -220,15 +280,16 @@ export function Table<T>({
         </thead>
         <tbody>
           {loading ? (
-            <tr>
-              <td className={styles.state} colSpan={totalCols}>
-                <span className={styles.spinner} aria-label="Cargando" />
-              </td>
-            </tr>
+            <SkeletonRows
+              rows={loadingRows}
+              columns={columns.length}
+              selectable={selectable}
+              expandable={expandable}
+            />
           ) : data.length === 0 ? (
             <tr>
               <td className={styles.state} colSpan={totalCols}>
-                {emptyState}
+                {emptyState ?? <EmptyState title={labels.empty} size="sm" />}
               </td>
             </tr>
           ) : (
@@ -261,10 +322,10 @@ export function Table<T>({
                             type="button"
                             className={cx(styles.expandBtn, isExpanded && styles.expanded)}
                             onClick={() => toggleExpanded(key)}
-                            aria-label={isExpanded ? "Contraer fila" : "Expandir fila"}
+                            aria-label={isExpanded ? labels.collapseRow : labels.expandRow}
                             aria-expanded={isExpanded}
                           >
-                            <ChevronIcon />
+                            <ChevronRight />
                           </button>
                         )}
                       </td>
@@ -274,18 +335,23 @@ export function Table<T>({
                         className={cx(styles.td, styles.selectCell)}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <input
-                          type="checkbox"
+                        <Checkbox
+                          size="sm"
                           checked={isSelected}
                           onChange={() => toggleRow(key)}
-                          aria-label="Seleccionar fila"
+                          aria-label={labels.selectRow}
                         />
                       </td>
                     )}
                     {columns.map((col) => (
                       <td
                         key={col.key}
-                        className={cx(styles.td, alignClass(col.align))}
+                        className={cx(
+                          styles.td,
+                          alignClass(col.align),
+                          col.truncate && styles.truncate,
+                        )}
+                        style={col.minWidth ? { minWidth: col.minWidth } : undefined}
                       >
                         {col.cell
                           ? col.cell(row, rowIndex)

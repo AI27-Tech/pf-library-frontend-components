@@ -168,26 +168,24 @@
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
   padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
-  background-color: var(--ui-color-primary, #7c9df0);
-  color: var(--ui-color-surface, #1c222e);
-  border: none;
+  background-color: color-mix(in srgb, var(--ui-color-primary, #7c9df0) 14%, transparent);
+  color: var(--ui-color-primary, #7c9df0);
+  border: 1px solid color-mix(in srgb, var(--ui-color-primary, #7c9df0) 32%, transparent);
   border-radius: var(--ui-radius-full, 9999px);
   font-size: var(--ui-font-size-xs, 0.75rem);
   font-weight: 600;
   cursor: pointer;
-  transition:
-    all var(--ui-duration-fast, 120ms) var(--ui-ease-standard, ease);
+  transition: background-color var(--ui-transition, 0.15s ease);
   outline: none;
 }
 
 .filterChip:hover {
-  background-color: var(--ui-color-primary-dark, #5a7ec4);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(124, 157, 240, 0.3);
+  background-color: color-mix(in srgb, var(--ui-color-primary, #7c9df0) 24%, transparent);
 }
 
-.filterChip:active {
-  transform: translateY(0);
+.filterChip:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .filterChip:focus-visible {
@@ -208,11 +206,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1em;
-  height: 1em;
-  font-weight: 700;
+  flex-shrink: 0;
   opacity: 0.8;
   transition: opacity var(--ui-transition, 0.15s ease);
+}
+
+.chipRemove svg {
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 .filterChip:hover .chipRemove {
@@ -232,16 +233,14 @@
   gap: var(--ui-space-2, 0.5rem);
 }
 
+/* Mismo tratamiento que la etiqueta de FormField (font-size sm, peso 600, texto principal). */
 .filterLabel {
   display: flex;
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
-  font-size: var(--ui-font-size-xs, 0.625rem);
+  font-size: var(--ui-font-size-sm, 0.8125rem);
   font-weight: 600;
-  color: var(--ui-color-text-muted, #94a3b8);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
+  color: var(--ui-color-text, #e2e8f0);
 }
 
 .icon {
@@ -255,6 +254,56 @@
 
 .filterSelect {
   width: 100%;
+}
+
+/* Control con filtro activo: borde primario. Se aplica con más especificidad que la clase del Select. */
+.filterColumn .filterSelectActive {
+  border-color: var(--ui-color-primary, #7c9df0);
+}
+
+.searchInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Layout toolbar: búsqueda, botón de filtros y vista en una fila; chips debajo. */
+.toolbarLayout {
+  padding: var(--ui-space-3, 0.75rem);
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2, 0.5rem);
+}
+
+.toolbarSearch {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.triggerAnchor {
+  display: inline-flex;
+}
+
+/* Contenido del popover de filtros. Ancho mínimo para que quepan dos columnas. */
+.popoverPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-4, 1rem);
+  width: min(28rem, calc(100vw - 2rem));
+  padding: var(--ui-space-4, 1rem);
+  background-color: var(--ui-color-surface-raised, #242b3a);
+  border: var(--ui-border-width, 1px) solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius-lg, 0.5rem);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+.popoverPanel .actions {
+  padding-top: var(--ui-space-2, 0.5rem);
 }
 
 /* Acciones */

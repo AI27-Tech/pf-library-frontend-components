@@ -1,9 +1,7 @@
-import type { FormHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import { useId, useState, type FormHTMLAttributes, type HTMLAttributes, type ReactNode } from "react";
+import { ChevronDown } from "lucide-react";
 import styles from "./Form.module.css";
-
-function cx(...classes: Array<string | false | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
+import { cx } from "../Input/utils";
 
 export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode;
@@ -27,21 +25,67 @@ export interface FormSectionProps
   title?: ReactNode;
   /** Descripción opcional debajo del título. */
   description?: ReactNode;
+  /** Permite plegar y desplegar el contenido desde el título. Por defecto: false. */
+  collapsible?: boolean;
+  /** Estado inicial cuando `collapsible` está activo y no se controla con `open`. Por defecto: true. */
+  defaultOpen?: boolean;
+  /** Estado abierto controlado. Activa el modo controlado. */
+  open?: boolean;
+  /** Se llama al plegar o desplegar la sección. */
+  onOpenChange?: (open: boolean) => void;
 }
+
 
 /** Agrupa campos relacionados con un título y descripción opcionales. */
 export function FormSection({
   title,
   description,
+  collapsible = false,
+  defaultOpen = true,
+  open,
+  onOpenChange,
   className,
   children,
   ...props
 }: FormSectionProps) {
+  const contentId = `${useId()}-contenido`;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isOpen = open ?? internalOpen;
+
+  function toggle() {
+    const next = !isOpen;
+    if (open === undefined) setInternalOpen(next);
+    onOpenChange?.(next);
+  }
+
   return (
     <fieldset className={cx(styles.section, className)} {...props}>
-      {title && <legend className={styles.legend}>{title}</legend>}
+      {title && (
+        <legend className={styles.legend}>
+          {collapsible ? (
+            <button
+              type="button"
+              className={styles.trigger}
+              aria-expanded={isOpen}
+              aria-controls={contentId}
+              onClick={toggle}
+            >
+              {title}
+              <ChevronDown className={cx(styles.chevron, isOpen && styles.chevronOpen)} />
+            </button>
+          ) : (
+            title
+          )}
+        </legend>
+      )}
       {description && <p className={styles.sectionDescription}>{description}</p>}
-      {children}
+      {collapsible ? (
+        <div id={contentId} hidden={!isOpen} className={styles.content}>
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </fieldset>
   );
 }
@@ -73,17 +117,28 @@ export function FormRow({
 export interface FormActionsProps extends HTMLAttributes<HTMLDivElement> {
   /** Alineación horizontal de las acciones. Por defecto: "end". */
   align?: "start" | "end" | "between" | "center";
+  /** Fija la barra al fondo del área visible mientras se desplaza el formulario. Por defecto: false. */
+  sticky?: boolean;
 }
 
 /** Barra de acciones para botones de envío / cancelación. */
 export function FormActions({
   align = "end",
+  sticky = false,
   className,
   children,
   ...props
 }: FormActionsProps) {
   return (
-    <div className={cx(styles.actions, styles[`align-${align}`], className)} {...props}>
+    <div
+      className={cx(
+        styles.actions,
+        styles[`align-${align}`],
+        sticky && styles.sticky,
+        className,
+      )}
+      {...props}
+    >
       {children}
     </div>
   );

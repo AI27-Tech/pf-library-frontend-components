@@ -1,0 +1,83 @@
+/* Placeholder de carga. Los colores salen de la escala de superficies del tema,
+   así que se adapta a tema claro y oscuro sin variables propias en :root. */
+.skeleton {
+  --sk-base: var(--ui-color-surface-container-high);
+  --sk-highlight: var(--ui-color-surface-container-highest);
+  display: block;
+  flex: 0 0 auto;
+  background: linear-gradient(
+    90deg,
+    var(--sk-base) 25%,
+    var(--sk-highlight) 50%,
+    var(--sk-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: ui-skeleton-shimmer 1.4s var(--ui-ease-standard) infinite;
+}
+
+/* Formas */
+.text {
+  width: 100%;
+  height: 1em;
+  border-radius: var(--ui-radius-sm);
+}
+
+.circle {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}
+
+.rect {
+  width: 100%;
+  height: var(--ui-space-6);
+  border-radius: var(--ui-radius);
+}
+
+/* Animaciones alternativas */
+.pulse {
+  background: var(--sk-base);
+  animation: ui-skeleton-pulse 1.4s var(--ui-ease-standard) infinite;
+}
+
+.static {
+  animation: none;
+}
+
+/* Compuestos */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+}
+
+.media {
+  height: 8rem;
+}
+
+@keyframes ui-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes ui-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Sin movimiento: el placeholder queda estático. */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .pulse {
+    animation: none;
+  }
+}

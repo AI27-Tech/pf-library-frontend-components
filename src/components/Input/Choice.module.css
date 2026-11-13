@@ -43,8 +43,72 @@
     border-color var(--ui-transition, 0.15s ease);
 }
 
+/* Mismo radio que Input (decisión 3) */
 .checkbox .box {
-  border-radius: var(--ui-radius-sm, 6px);
+  border-radius: var(--ui-radius, 0.25rem);
+}
+
+/* Tamaños (opt-in). `md` es el tamaño por defecto. */
+.sizeSm {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+}
+
+.sizeSm .box {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.sizeSm .box :global(svg) {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.sizeLg {
+  font-size: var(--ui-font-size-lg, 1.0625rem);
+}
+
+.sizeLg .box {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.sizeLg .box :global(svg) {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* Tamaños del interruptor */
+.sizeSm .track {
+  width: 2rem;
+  height: 1.15rem;
+}
+
+.sizeSm .thumb {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.sizeSm .nativeInput:checked + .track .thumb {
+  transform: translateX(0.8rem);
+}
+
+.sizeLg .track {
+  width: 3rem;
+  height: 1.7rem;
+}
+
+.sizeLg .thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.sizeLg .nativeInput:checked + .track .thumb {
+  transform: translateX(1.35rem);
+}
+
+/* Error: borde de la caja en rojo. El texto de error lo muestra FormField. */
+.invalid .box {
+  border-color: var(--ui-color-danger, #fca5a5);
 }
 
 .radio .box {

@@ -126,3 +126,12 @@ export const SearchableDisabledOptions: Story = {
     ],
   },
 };
+
+export const StateSuccess: Story = {
+  args: { state: "success", defaultValue: "mx" },
+};
+
+/** Solo lectura: el valor se ve, pero la lista no se abre. */
+export const ReadOnly: Story = {
+  args: { readOnly: true, defaultValue: "mx" },
+};

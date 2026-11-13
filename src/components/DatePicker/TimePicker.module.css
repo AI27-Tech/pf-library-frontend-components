@@ -1,0 +1,185 @@
+.root {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Ancho natural: el campo mide lo que mide su contenido (segmentos, separadores y botones). */
+.root .container {
+  width: max-content;
+  max-width: 100%;
+  gap: 0;
+}
+
+/* Segmentos: sin borde ni fondo; el foco se ve en el campo completo */
+.segment {
+  /* En em: el placeholder "HH" y "MM" necesitan ese ancho. Texto alineado a la izquierda,
+     como en el resto de los campos, para que el valor empiece en el mismo punto. */
+  width: 1.75em;
+  min-width: 1.75em;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  outline: none;
+  caret-color: transparent;
+  cursor: pointer;
+}
+
+.segment::placeholder {
+  color: var(--ui-color-text-placeholder, #64748b);
+}
+
+.segment:focus {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.segment:disabled {
+  cursor: not-allowed;
+}
+
+.period {
+  width: 2.6em;
+  min-width: 2.6em;
+}
+
+.separator {
+  margin: 0 0.25em;
+  color: var(--ui-color-text-muted, #94a3b8);
+  user-select: none;
+}
+
+/* Botones de acción a la derecha, con el mismo tamaño y espaciado que DateInput */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  margin-left: var(--ui-space-2, 0.5rem);
+}
+
+/* 18 px para no alterar la altura del campo. El área de clic se amplía con ::before. */
+.actionButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: var(--ui-color-text-muted, #94a3b8);
+  cursor: pointer;
+}
+
+.actionButton::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+
+.actionButton:hover {
+  color: var(--ui-color-text, #e2e8f0);
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.actionButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.actionButton svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Panel: presets a la izquierda y columnas de hora a la derecha */
+.panel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3, 0.75rem);
+}
+
+.presets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2, 0.5rem);
+  min-width: 7rem;
+  padding-right: var(--ui-space-3, 0.75rem);
+  border-right: 1px solid var(--ui-color-border-subtle, #242d3d);
+}
+
+.presetGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1, 0.25rem);
+}
+
+.presetLabel {
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  color: var(--ui-color-text-muted, #94a3b8);
+}
+
+.preset {
+  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius, 0.25rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  text-align: left;
+  cursor: pointer;
+}
+
+.preset:hover {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.preset:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+.columns {
+  display: flex;
+  gap: var(--ui-space-1, 0.25rem);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 3.5rem;
+  max-height: 14rem;
+  overflow-y: auto;
+}
+
+.option {
+  padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
+  border-radius: var(--ui-radius, 0.25rem);
+  font-size: var(--ui-font-size-sm, 0.8125rem);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.option:hover:not([aria-disabled="true"]) {
+  background-color: var(--ui-color-surface-container-high, #242b3a);
+}
+
+.option[aria-selected="true"] {
+  background-color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-on-primary, #0e1117);
+}
+
+.option[aria-disabled="true"] {
+  opacity: var(--ui-opacity-disabled, 0.55);
+  cursor: not-allowed;
+}
