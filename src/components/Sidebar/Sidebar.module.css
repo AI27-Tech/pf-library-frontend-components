@@ -85,7 +85,8 @@
 }
 
 .collapsed .headerContent {
-  display: none;
+  justify-content: center;
+  overflow: visible;
 }
 
 .nav {
@@ -195,6 +196,19 @@
 .footer {
   padding: var(--ui-space-2, 0.5rem);
   border-top: 1px solid var(--ui-color-border, #2d3748);
+}
+
+/* Botón de colapso: fila al final de la barra, a la derecha; centrado cuando la barra está contraída. */
+.toggleRow {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--ui-space-2, 0.5rem);
+  border-top: 1px solid var(--ui-color-border, #2d3748);
+}
+
+.collapsed .toggleRow {
+  justify-content: center;
 }
 
 

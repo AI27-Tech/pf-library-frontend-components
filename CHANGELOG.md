@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Agregado
+
+- **Sidebar**: nueva prop `headerCollapsed` con el contenido del encabezado cuando la barra está contraída (por ejemplo, un logo pequeño). Si se omite, el encabezado queda vacío al contraer.
+
+### Cambiado
+
+- **Sidebar**: el botón de colapso se mueve a la esquina inferior derecha, en una fila al final de la barra, centrado cuando la barra está contraída. Ya no está en el encabezado. El encabezado solo muestra `header`, y `footer` queda entre el contenido y el botón.
+
 ## [0.3.0-beta.1] — 2026-11-12
 ### Agregado
 - **Fechas y horas (`DatePicker`)**: `Calendar` (vistas de días, meses y años; teclado de rejilla ARIA; `min`, `max`, `isDateDisabled`, `weekStartsOn`), `DateInput` (escritura `DD/MM/AAAA`, presets, `clearable`, `displayFormat`), `TimePicker` (segmentos de hora, minuto y segundo; AM/PM con `format="12h"`; dropdown con opciones deshabilitadas fuera de rango; presets y pegado), `DateTimeInput` (fecha y hora en un solo valor `YYYY-MM-DDTHH:mm`) y `getTimeRange` para generar listas de horas. Contrato de valores documentado en el README.
