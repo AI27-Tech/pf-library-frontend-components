@@ -112,7 +112,7 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Button` se ven igual que antes (Requirement 12.3).
     - _Requirements: 9.1, 9.4, 10.11, 12.3_
 
-- [ ] 4. Stack, Inline y Grid (familia Estructura de pantalla)
+- [x] 4. Stack, Inline y Grid (familia Estructura de pantalla)
   - [x] 4.1 Hacer responsivos `Stack`, `Inline` y `Grid`
     - `Layout.module.css` y el TSX de `Grid`: `columns` acepta `number | Partial<Record<Breakpoint, number>>` . Variables `--ui-grid-cols-mobile/-tablet/-desktop`; con número: móvil 1, tablet `min(n, 2)`, escritorio `n`; con mapa se usa `resolveResponsiveColumns`. `minItemWidth` no cambia. Por DC-3, `Grid` responde al ancho de la ventana con `@media` (no se agrega `responsive="container"` ni `@container`); P1 queda cerrado.
     - `Stack` e `Inline`: `min-width: 0`; `Inline` con `flex-wrap: wrap`.
@@ -126,18 +126,18 @@ Convenciones:
     - Unidad: columnas por breakpoint con mapa y con número. Suite filtrada: sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 2.1, 2.2, 2.3, 2.10, 11.2, 11.4_
 
-  - [ ] 4.4 Revisión visual de `Stack`, `Inline` y `Grid`
+  - [x] 4.4 Revisión visual de `Stack`, `Inline` y `Grid`
     - Revisar en Storybook `Components/Layout › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: `Grid` de 4 columnas muestra 1 en móvil, 2 en tablet y 4 en escritorio; el mapa por breakpoint aplica el valor del rango y hereda el inmediato menor; `Inline` salta de línea sin desborde; sin barra horizontal en la página.
-    - Verificar que a 1280 px las stories existentes de `Layout` no cambiaron (Requirement 12.3).
+    - Verificar que a 1280 px las stories existentes de `Layout` no cambiaron (Requirement 12.3). 
     - _Requirements: 2.1, 2.2, 2.3, 2.10, 12.3_
 
-- [ ] 5. Card, CardHeader, CardBody y CardFooter (familia Estructura de pantalla)
-  - [ ] 5.1 Adaptar `Card` y `CardFooter`
+- [x] 5. Card, CardHeader, CardBody y CardFooter (familia Estructura de pantalla)
+  - [x] 5.1 Adaptar `Card` y `CardFooter`
     - `Card.module.css`: `min-width: 0` y `overflow-wrap: anywhere`. `CardFooter` en columna con hijos al 100 % en móvil (`@media (max-width: 39.99rem)`).
     - _Requirements: 2.8, 2.9, 12.2, 12.3_
 
-  - [ ] 5.2 Agregar Responsive_Story `Mobile` en `Card.stories.tsx`
+  - [x] 5.2 Agregar Responsive_Story `Mobile` en `Card.stories.tsx`
     - `Mobile`: tarjeta de viaje con título `LONG_TOKEN`, cifra `LONG_NUMBER` y pie con dos o tres botones.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -145,7 +145,7 @@ Convenciones:
     - Sin desborde con texto largo sin espacios en 320, 375, 768 y 1280; pie apilado en móvil; a11y.
     - _Requirements: 2.8, 2.9, 11.2, 11.4_
 
-  - [ ] 5.4 Revisión visual de `Card`
+  - [x] 5.4 Revisión visual de `Card`
     - Revisar en Storybook `Components/Card › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el texto largo se ajusta sin cortar la tarjeta; los botones del pie quedan en columna al 100 % en móvil y en fila en tablet y escritorio.
     - Verificar que a 1280 px las stories existentes de `Card` no cambiaron (Requirement 12.3).
