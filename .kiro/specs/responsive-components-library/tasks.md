@@ -113,16 +113,16 @@ Convenciones:
     - _Requirements: 9.1, 9.4, 10.11, 12.3_
 
 - [ ] 4. Stack, Inline y Grid (familia Estructura de pantalla)
-  - [ ] 4.1 Hacer responsivos `Stack`, `Inline` y `Grid`
-    - `Layout.module.css` y el TSX de `Grid`: `columns` acepta `number | Partial<Record<Breakpoint, number>>`. Variables `--ui-grid-cols-mobile/-tablet/-desktop`; con número: móvil 1, tablet `min(n, 2)`, escritorio `n`; con mapa se usa `resolveResponsiveColumns`. `minItemWidth` no cambia. Por DC-3, `Grid` responde al ancho de la ventana con `@media` (no se agrega `responsive="container"` ni `@container`); P1 queda cerrado.
+  - [x] 4.1 Hacer responsivos `Stack`, `Inline` y `Grid`
+    - `Layout.module.css` y el TSX de `Grid`: `columns` acepta `number | Partial<Record<Breakpoint, number>>` . Variables `--ui-grid-cols-mobile/-tablet/-desktop`; con número: móvil 1, tablet `min(n, 2)`, escritorio `n`; con mapa se usa `resolveResponsiveColumns`. `minItemWidth` no cambia. Por DC-3, `Grid` responde al ancho de la ventana con `@media` (no se agrega `responsive="container"` ni `@container`); P1 queda cerrado.
     - `Stack` e `Inline`: `min-width: 0`; `Inline` con `flex-wrap: wrap`.
     - _Requirements: 2.1, 2.2, 2.3, 2.10, 12.2, 12.3_
 
-  - [ ] 4.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Layout.stories.tsx`
+  - [x] 4.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Layout.stories.tsx`
     - `Mobile`: `Grid columns={4}` con tarjetas de viaje, `Inline` con 20 etiquetas, `Stack` con texto largo. `Tablet`: el mismo `Grid` (máximo 2 columnas) y un `Grid` con mapa por breakpoint.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
-  - [ ]* 4.3 Write tests for `Stack`, `Inline` y `Grid`
+  - [x]* 4.3 Write tests for `Stack`, `Inline` y `Grid`
     - Unidad: columnas por breakpoint con mapa y con número. Suite filtrada: sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 2.1, 2.2, 2.3, 2.10, 11.2, 11.4_
 

@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Grid, Inline, Stack } from "./Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN, makeItems, viaje } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Layout",
@@ -116,3 +118,66 @@ export const GridColumnsWinsOverMin: Story = {
     </Grid>
   ),
 };
+
+const TarjetaViaje = ({ indice }: { indice: number }) => (
+  <Box>
+    <Stack gap={1}>
+      <strong>{`${viaje.folio}-${indice + 1}`}</strong>
+      <span>{viaje.estado}</span>
+      <span>{viaje.destino}</span>
+    </Stack>
+  </Box>
+);
+
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <Stack gap={4} style={{ width: "100%" }}>
+        <Grid columns={4} gap={3}>
+          {Array.from({ length: 4 }, (_, i) => (
+            <TarjetaViaje key={i} indice={i} />
+          ))}
+        </Grid>
+        <Inline gap={2}>
+          {makeItems(20).map((item) => (
+            <Box key={item.id}>{item.etiqueta}</Box>
+          ))}
+        </Inline>
+        <Stack gap={2}>
+          <Box>
+            <span style={{ overflowWrap: "anywhere" }}>{LONG_TOKEN}</span>
+          </Box>
+          <Box>
+            Texto largo de bitácora con varias palabras que debe envolverse dentro del ancho
+            disponible sin empujar la página.
+          </Box>
+        </Stack>
+      </Stack>
+    </main>
+  ),
+};
+
+/** Móvil: 4 columnas se reducen a 1, la fila de etiquetas salta de línea y el texto largo se parte. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  render: () => (
+    <main>
+      <Stack gap={4} style={{ width: "100%" }}>
+        <Grid columns={4} gap={3}>
+          {Array.from({ length: 4 }, (_, i) => (
+            <TarjetaViaje key={i} indice={i} />
+          ))}
+        </Grid>
+        <Grid columns={{ mobile: 1, desktop: 4 }} gap={3}>
+          {Array.from({ length: 4 }, (_, i) => (
+            <Box key={i}>Mapa {i + 1}</Box>
+          ))}
+        </Grid>
+      </Stack>
+    </main>
+  ),
+};
+
+/** Tablet: el `Grid` de 4 columnas queda en 2. El mapa sin tablet hereda la columna de móvil (1). */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);
