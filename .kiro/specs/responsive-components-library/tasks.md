@@ -151,12 +151,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Card` no cambiaron (Requirement 12.3).
     - _Requirements: 2.8, 2.9, 12.3_
 
-- [ ] 6. Section (familia Estructura de pantalla)
-  - [ ] 6.1 Adaptar `Section`
+- [x] 6. Section (familia Estructura de pantalla)
+  - [x] 6.1 Adaptar `Section`
     - `Section.module.css`: `padding-inline: var(--ui-gutter-screen)` solo en móvil; `min-width: 0`.
     - _Requirements: 2.7, 12.2, 12.3_
 
-  - [ ] 6.2 Agregar Responsive_Story `Mobile` en `Section.stories.tsx`
+  - [x] 6.2 Agregar Responsive_Story `Mobile` en `Section.stories.tsx`
     - `Mobile`: sección con acciones, divisor y contenido largo; una variante colapsable.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -164,7 +164,7 @@ Convenciones:
     - El relleno lateral en móvil es el valor de `--ui-gutter-screen`; sin desborde; a11y (incluye `aria-expanded` al colapsar).
     - _Requirements: 2.7, 9.6, 11.2, 11.4_
 
-  - [ ] 6.4 Revisión visual de `Section`
+  - [x] 6.4 Revisión visual de `Section`
     - Revisar en Storybook `Components/Section › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: margen lateral de móvil visible y distinto del de tablet y escritorio; acciones del encabezado no se salen; colapsar y expandir conserva el contenido.
     - Verificar que a 1280 px las stories existentes de `Section` no cambiaron (Requirement 12.3).
