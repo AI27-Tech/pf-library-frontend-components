@@ -208,12 +208,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `EmptyState` no cambiaron (Requirement 12.3).
     - _Requirements: 2.10, 12.3_
 
-- [ ] 9. PageHeader (familia Estructura de pantalla)
-  - [ ] 9.1 Adaptar `PageHeader`
+- [x] 9. PageHeader (familia Estructura de pantalla)
+  - [x] 9.1 Adaptar `PageHeader`
     - `PageHeader.module.css`: migrar `@media (max-width: 40rem)` a `39.99rem`; apilar título, descripción y acciones en móvil (acciones debajo del título); `Breadcrumb` con `min-width: 0` y `overflow-wrap: anywhere`. Quitar `PageHeader` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 2.4, 2.5, 12.2, 12.3_
 
-  - [ ] 9.2 Agregar Responsive_Story `Mobile` y `Tablet` en `PageHeader.stories.tsx`
+  - [x] 9.2 Agregar Responsive_Story `Mobile` y `Tablet` en `PageHeader.stories.tsx`
     - `Mobile`: ruta con más elementos que `maxItems`, título largo y tres acciones. `Tablet`: el mismo encabezado en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -221,7 +221,7 @@ Convenciones:
     - Orden título, descripción, acciones en móvil; sin desborde con ruta plegada en 320, 375, 768 y 1280; a11y.
     - _Requirements: 2.4, 2.5, 11.2, 11.4_
 
-  - [ ] 9.4 Revisión visual de `PageHeader`
+  - [x] 9.4 Revisión visual de `PageHeader`
     - Revisar en Storybook `Components/PageHeader › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: en móvil las acciones quedan debajo del título; en tablet y escritorio quedan junto a él; la ruta se pliega sin ensanchar la página.
     - Verificar que a 1280 px las stories existentes de `PageHeader` no cambiaron y que el umbral pasó de `40rem` a `39.99rem` sin salto visible (Requirement 12.3).
