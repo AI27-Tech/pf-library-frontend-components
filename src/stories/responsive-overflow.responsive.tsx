@@ -83,6 +83,7 @@ describe('Responsive_Story: desbordamiento y accesibilidad por ancho', () => {
 
   for (const { id, Story } of responsiveStories) {
     describe(id, () => {
+      const axeIt = a11yMode(Story.parameters) === 'error' ? it : it.skip;
       for (const width of OVERFLOW_WIDTHS) {
         it(`no desborda la página a ${width} px`, async () => {
           await page.viewport(width, VIEWPORT_HEIGHT);
@@ -92,8 +93,7 @@ describe('Responsive_Story: desbordamiento y accesibilidad por ancho', () => {
           expect(root.scrollWidth, `scrollWidth en ${width} px`).toBeLessThanOrEqual(root.clientWidth);
         });
 
-        it(`cumple axe a ${width} px cuando a11y.test es error`, async () => {
-          if (a11yMode(Story.parameters) !== 'error') return;
+        axeIt(`cumple axe a ${width} px (a11y.test: error)`, async () => {
           await page.viewport(width, VIEWPORT_HEIGHT);
           render(<Story />);
           await settle();

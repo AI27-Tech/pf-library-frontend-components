@@ -34,7 +34,7 @@ export function responsiveStory<S extends StoryLike>(viewport: ResponsiveViewpor
     parameters: {
       ...story.parameters,
       responsive: true,
-      a11y: { ...parentA11y, test: 'error' },
+      a11y: { ...parentA11y, test: parentA11y.test ?? 'error' },
     },
     tags: parentTags.includes(RESPONSIVE_TAG) ? parentTags : [...parentTags, RESPONSIVE_TAG],
   };

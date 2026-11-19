@@ -92,12 +92,12 @@ Convenciones:
 - [x] 2. Checkpoint - Fundamentos
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Button (familia Acciones)
-  - [ ] 3.1 Ajustar `Button.module.css` y `Button.tsx`
+- [x] 3. Button (familia Acciones)
+  - [x] 3.1 Ajustar `Button.module.css` y `Button.tsx`
     - `@media (pointer: coarse)`: `min-height` y `min-width` de `var(--ui-touch-target-min)` en `sm`, `md`, `lg` y en botones de solo icono; ampliar con `::after` y `data-touch-extended` si el visible es menor, sin cambiar su apariencia. Conservar `aria-*` y foco visible.
     - _Requirements: 9.1, 9.3, 9.4, 9.6, 12.2, 12.3_
 
-  - [ ] 3.2 Agregar Responsive_Story `Mobile` en `Button.stories.tsx`
+  - [x] 3.2 Agregar Responsive_Story `Mobile` en `Button.stories.tsx`
     - `Mobile` con los tres tamaños, solo icono y etiqueta larga (`LONG_TOKEN`), en fila contigua para ver la separación de 8 px. Sin `Tablet` (la disposición no difiere).
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -106,7 +106,7 @@ Convenciones:
     - `npm run test:responsive -- -t "Components/Button"`.
     - _Requirements: 9.1, 9.4, 11.2, 11.3, 11.4_
 
-  - [ ] 3.4 Revisión visual de `Button`
+  - [x] 3.4 Revisión visual de `Button`
     - Revisar en Storybook `Components/Button › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: botones `sm`, `md` y `lg` y solo icono se ven y se aciertan con el pulgar (≥ 44 px con puntero grueso); la etiqueta larga no desborda; hay aire de 8 px entre botones contiguos; tema `light` y `dark` legibles.
     - Verificar que a 1280 px las stories existentes de `Button` se ven igual que antes (Requirement 12.3).
