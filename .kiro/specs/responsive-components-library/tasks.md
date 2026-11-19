@@ -189,12 +189,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Divider` no cambiaron (Requirement 12.3).
     - _Requirements: 2.10, 12.3_
 
-- [ ] 8. EmptyState (familia Estructura de pantalla)
-  - [ ] 8.1 Adaptar `EmptyState`
+- [x] 8. EmptyState (familia Estructura de pantalla)
+  - [x] 8.1 Adaptar `EmptyState`
     - `EmptyState.module.css`: `min-width: 0`, `overflow-wrap: anywhere`; acciones en columna en móvil si no caben.
     - _Requirements: 2.10, 12.2, 12.3_
 
-  - [ ] 8.2 Agregar Responsive_Story `Mobile` en `EmptyState.stories.tsx`
+  - [x] 8.2 Agregar Responsive_Story `Mobile` en `EmptyState.stories.tsx`
     - `Mobile`: título largo, descripción de 60 o más caracteres sin espacios y acción.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -202,7 +202,7 @@ Convenciones:
     - Sin desborde en 320, 375, 768 y 1280; Touch_Target de la acción; a11y.
     - _Requirements: 2.10, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 8.4 Revisión visual de `EmptyState`
+  - [x] 8.4 Revisión visual de `EmptyState`
     - Revisar en Storybook `Components/EmptyState › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: icono, título, descripción y acción centrados y dentro del ancho; la acción se acierta con el pulgar.
     - Verificar que a 1280 px las stories existentes de `EmptyState` no cambiaron (Requirement 12.3).
