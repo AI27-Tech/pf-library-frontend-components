@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Divider } from "./Divider";
 import { Inline, Stack } from "../Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Divider",
@@ -45,3 +47,23 @@ export const Vertical: Story = {
     </Inline>
   ),
 };
+
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <Stack gap={3}>
+        <span>Sección superior</span>
+        <Divider label={<span style={{ overflowWrap: "anywhere" }}>{LONG_TOKEN}</span>} />
+        <span>Sección inferior</span>
+        <Inline gap={3} style={{ height: 48 }}>
+          <span>Izquierda</span>
+          <Divider orientation="vertical" />
+          <span>Derecha</span>
+        </Inline>
+      </Stack>
+    </main>
+  ),
+};
+
+/** Móvil: la etiqueta larga se parte dentro de la línea y el divisor vertical no desborda. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

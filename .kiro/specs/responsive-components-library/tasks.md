@@ -170,12 +170,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Section` no cambiaron (Requirement 12.3).
     - _Requirements: 2.7, 12.3_
 
-- [ ] 7. Divider (familia Estructura de pantalla)
-  - [ ] 7.1 Adaptar `Divider`
+- [x] 7. Divider (familia Estructura de pantalla)
+  - [x] 7.1 Adaptar `Divider`
     - `Divider.module.css`: `min-width: 0`, `max-width: 100%`; la etiqueta se ajusta sin desborde.
     - _Requirements: 2.10, 12.2, 12.3_
 
-  - [ ] 7.2 Agregar Responsive_Story `Mobile` en `Divider.stories.tsx`
+  - [x] 7.2 Agregar Responsive_Story `Mobile` en `Divider.stories.tsx`
     - `Mobile`: divisor con etiqueta de `LONG_TOKEN` y divisor vertical dentro de un `Inline`.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -183,7 +183,7 @@ Convenciones:
     - Sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 2.10, 11.2, 11.4_
 
-  - [ ] 7.4 Revisión visual de `Divider`
+  - [x] 7.4 Revisión visual de `Divider`
     - Revisar en Storybook `Components/Divider › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: etiqueta larga contenida; línea completa al ancho; sin barra horizontal.
     - Verificar que a 1280 px las stories existentes de `Divider` no cambiaron (Requirement 12.3).
