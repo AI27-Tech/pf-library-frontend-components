@@ -8,6 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
+import { FOCUSABLE_SELECTOR, useFocusTrap } from "../../utils/useFocusTrap";
 
 export type ModalSize = "sm" | "md" | "lg";
 
@@ -15,8 +16,6 @@ function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-const FOCUSABLE =
-  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export interface ModalProps {
   /** Controla la visibilidad. */
@@ -60,7 +59,7 @@ export function Modal({
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const titleId = useId();
 
-  // Escape to close + focus trap.
+  // Escape to close.
   useEffect(() => {
     if (!open) return;
 
@@ -68,35 +67,15 @@ export function Modal({
       if (e.key === "Escape" && closeOnEsc) {
         e.stopPropagation();
         onClose();
-        return;
-      }
-      if (e.key === "Tab") {
-        const dialog = dialogRef.current;
-        if (!dialog) return;
-        const focusables = Array.from(
-          dialog.querySelectorAll<HTMLElement>(FOCUSABLE),
-        );
-        if (focusables.length === 0) {
-          e.preventDefault();
-          dialog.focus();
-          return;
-        }
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
-        if (e.shiftKey && active === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && active === last) {
-          e.preventDefault();
-          first.focus();
-        }
       }
     }
 
     document.addEventListener("keydown", handleKeyDown, true);
     return () => document.removeEventListener("keydown", handleKeyDown, true);
   }, [open, closeOnEsc, onClose]);
+
+  // Focus trap: Tab and Shift+Tab stay inside the dialog.
+  useFocusTrap(dialogRef, open);
 
   // Lock body scroll and manage focus while open.
   useEffect(() => {
@@ -108,7 +87,7 @@ export function Modal({
 
     // Move focus into the dialog.
     const dialog = dialogRef.current;
-    const firstFocusable = dialog?.querySelector<HTMLElement>(FOCUSABLE);
+    const firstFocusable = dialog?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
     (firstFocusable ?? dialog)?.focus();
 
     return () => {

@@ -26,70 +26,70 @@ Convenciones:
 ## Tasks
 
 - [ ] 1. Fase 0, Fundamentos (sin revisión visual)
-  - [ ] 1.1 Agregar tokens responsivos, bloque táctil base y documento de breakpoints
+  - [x] 1.1 Agregar tokens responsivos, bloque táctil base y documento de breakpoints
     - En `src/styles/tokens.css`: `--ui-touch-target-min: 2.75rem`, `--ui-gutter-screen` (móvil `--ui-space-4`, tablet `--ui-space-5`, escritorio `--ui-space-6`), `--ui-bp-tablet: 40rem`, `--ui-bp-desktop: 64rem` (solo documentan). No modificar `--ui-space-1` a `--ui-space-6`.
     - En `src/styles/base.css`: clase `.ui-touch` bajo `@media (pointer: coarse)`.
     - Crear `docs/responsive-breakpoints.md` con nombre, `rem` y px de cada umbral.
     - _Requirements: 1.1, 1.2, 1.3, 9.1_
 
-  - [ ] 1.2 Crear `breakpoints.ts`, `useMediaQuery` y `useBreakpoint`
+  - [x] 1.2 Crear `breakpoints.ts`, `useMediaQuery` y `useBreakpoint`
     - `src/utils/breakpoints.ts`: `BREAKPOINTS`, `type Breakpoint`, `getBreakpoint(widthPx)`.
     - `src/utils/useMediaQuery.ts` con `useSyncExternalStore` y `matchMedia` (en servidor devuelve `false`). `src/utils/useBreakpoint.ts` sobre `useMediaQuery`.
     - Exportar tipos desde `src/index.ts` solo si el diseño los expone al consumidor.
     - _Requirements: 1.4, 2.1, 2.2_
 
-  - [ ] 1.3 Crear funciones puras de `src/utils/responsive/`
+  - [x] 1.3 Crear funciones puras de `src/utils/responsive/`
     - `columns.ts`: `capColumns`, `resolveResponsiveColumns`, `ResponsiveColumns`. `pagination.ts`: `getPaginationItems(page, total, maxItems)`. `position.ts`: `clampToViewport(anchor, panel, viewport, margin)`. `swipe.ts`: `nextIndexOnSwipe(index, count, deltaX, threshold)`.
     - _Requirements: 2.1, 2.2, 2.3, 4.6, 5.12, 5.13, 6.6, 6.7, 7.1, 7.2, 7.3, 7.7, 7.8, 7.10, 7.11_
 
-  - [ ] 1.4 Crear o reutilizar `useFocusTrap`
+  - [x] 1.4 Crear o reutilizar `useFocusTrap`
     - Verificar con `grep` si `Modal` o `Visor` ya tienen trampa de foco. Si existe, extraerla a `src/utils/useFocusTrap.ts` y reutilizarla; si no, crearla (`useFocusTrap(ref, active)`, Tab y Mayús+Tab cíclicos). No cambiar el comportamiento observable de `Modal`.
     - _Requirements: 3.4, 7.12_
 
-  - [ ] 1.5 Crear el escáner de umbrales y el manifiesto de archivos heredados
+  - [x] 1.5 Crear el escáner de umbrales y el manifiesto de archivos heredados
     - `src/utils/__tests__/breakpoints-css.test.ts`: extrae cada condición `min-width`/`max-width` de `@media` y `@container` en `src/**/*.css`; falla con archivo y valor si no coincide con el Breakpoint_Set (`40rem`, `39.99rem`, `63.99rem`, `64rem`). Compara también `BREAKPOINTS` de TypeScript con los literales permitidos.
     - `src/utils/breakpoints-legacy.manifest.json`: lista los archivos con umbrales heredados que el escáner tolera temporalmente (`FilterBar`, `Form`, `Visor`, `ImageCarousel`, `Navbar`, `ImageCard`, `PageHeader`, `MessagePanel`; confirmar con `grep` antes de editar). Un archivo que no está en el manifiesto no puede tener umbrales ajenos al Breakpoint_Set.
     - Agregar al test una comprobación de que el manifiesto no contiene archivos que ya cumplen (para forzar su limpieza) y un modo estricto (`BREAKPOINTS_STRICT=1`) que falla si el manifiesto no está vacío.
     - _Requirements: 1.4, 1.5, 1.6, 1.9_
 
-  - [ ] 1.6 Instalar `fast-check`
+  - [x] 1.6 Instalar `fast-check`
     - `npm install --save-dev fast-check` y verificar que el proyecto Vitest `unit` lo resuelve. Sin dependencias de UI ni de media queries.
     - _Requirements: 1.8_
 
-  - [ ]* 1.7 Write property test for `getBreakpoint`
+  - [x]* 1.7 Write property test for `getBreakpoint`
     - **Property 1: Clasificación de ancho en un único breakpoint**
     - **Validates: Requirements 1.4, 2.1, 2.2**
 
-  - [ ]* 1.8 Write property tests for `capColumns` y `resolveResponsiveColumns`
+  - [x]* 1.8 Write property tests for `capColumns` y `resolveResponsiveColumns`
     - **Property 2: Tope de columnas por breakpoint**
     - **Property 3: Fallback de columnas por breakpoint en `Grid`**
     - **Validates: Requirements 2.1, 2.2, 2.3, 7.1, 7.2, 7.3**
 
-  - [ ]* 1.9 Write property test for `getPaginationItems`
+  - [x]* 1.9 Write property test for `getPaginationItems`
     - **Property 4: Ventana de paginación acotada y con la página actual**
     - **Validates: Requirements 4.6**
 
-  - [ ]* 1.10 Write property test for `clampToViewport`
+  - [x]* 1.10 Write property test for `clampToViewport`
     - **Property 5: Paneles flotantes dentro del viewport**
     - **Validates: Requirements 5.12, 5.13, 6.6, 6.7**
 
-  - [ ]* 1.11 Write property test for `nextIndexOnSwipe`
+  - [x]* 1.11 Write property test for `nextIndexOnSwipe`
     - **Property 6: Deslizamiento limitado al rango**
     - **Validates: Requirements 7.7, 7.8, 7.10, 7.11**
 
-  - [ ] 1.12 Configurar viewports, fábrica `responsiveStory` y fixtures compartidos
+  - [x] 1.12 Configurar viewports, fábrica `responsiveStory` y fixtures compartidos
     - `.storybook/preview.tsx`: `VIEWPORTS` (móvil 375x667, tablet 768x1024, escritorio 1280x800) como únicas opciones de `parameters.viewport.options`; verificar la API contra la versión instalada de Storybook 10.6. `parameters.a11y.test = 'error'` solo cuando `parameters.responsive` es `true`; las demás stories conservan `todo`.
     - `src/stories/responsiveStory.ts`: fábrica `responsiveStory(viewport: 'mobile' | 'tablet', story)` que fija `globals.viewport` y `parameters: { responsive: true }` sin anchos en línea.
     - `src/stories/responsiveFixtures.ts`: `LONG_TOKEN` (60 o más caracteres sin espacios), `LONG_NUMBER` (9 o más dígitos), `makeItems(n >= 20)` y datos de dominio (viaje, unidad, custodio, bitácora).
     - _Requirements: 10.1, 10.2, 10.6, 10.7, 11.6_
 
-  - [ ] 1.13 Crear el proyecto Vitest `responsive` y el script `test:responsive`
+  - [x] 1.13 Crear el proyecto Vitest `responsive` y el script `test:responsive`
     - En `vite.config.ts`: proyecto `responsive` (Chromium con `@vitest/browser-playwright` y `@storybook/addon-vitest`) que ejecuta solo las stories con `parameters.responsive === true`. No modificar los proyectos `unit` y `storybook`.
     - Pruebas por story en 320, 375, 768 y 1280 px: `document.documentElement.scrollWidth <= clientWidth`; contexto `hasTouch`/`isMobile` que mide `getBoundingClientRect()` de elementos interactivos (excluye `[data-touch-extended]`); a11y con reporte de regla y elemento.
     - Script npm `test:responsive` (`vitest run --project responsive`); admite `-t "Components/<Nombre>"` para filtrar por componente.
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5_
 
-- [ ] 2. Checkpoint - Fundamentos
+- [x] 2. Checkpoint - Fundamentos
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 3. Button (familia Acciones)

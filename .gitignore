@@ -28,3 +28,5 @@ storybook-static
 
 # npm pack tarballs
 *.tgz
+# Capturas y artefactos de Vitest (fallos de pruebas de navegador)
+.vitest/

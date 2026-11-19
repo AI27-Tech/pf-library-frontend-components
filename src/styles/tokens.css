@@ -154,6 +154,23 @@
   /* Default transition used across components (hover/focus/color/etc.). */
   --ui-transition: var(--ui-duration-fast) var(--ui-ease-standard);
 }
+/* -- Responsive (tarea 1.1) --------------------------------------------------
+   Los @media usan literales del Breakpoint_Set (40rem, 64rem). Los --ui-bp-*
+   solo documentan el umbral: las custom properties no se pueden usar en @media. */
+:root {
+  --ui-bp-tablet: 40rem;   /* 640px */
+  --ui-bp-desktop: 64rem;  /* 1024px */
+  /* Objetivo tactil minimo (44px). Solo se aplica con puntero grueso. */
+  --ui-touch-target-min: 2.75rem;
+  /* Margen lateral de pantalla: movil por defecto, sube en tablet y escritorio. */
+  --ui-gutter-screen: var(--ui-space-4);
+}
+@media (min-width: 40rem) {
+  :root { --ui-gutter-screen: var(--ui-space-5); }
+}
+@media (min-width: 64rem) {
+  :root { --ui-gutter-screen: var(--ui-space-6); }
+}
 
 /* ── Dark theme colors — Nocturne (default, dark-first) ──────────────────── */
 :root {
