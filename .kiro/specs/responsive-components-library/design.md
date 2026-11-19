@@ -2,7 +2,7 @@
 
 ## Overview
 
-Este diseño hace responsiva la librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) con un único conjunto de breakpoints, tamaños táctiles mínimos, stories de Storybook por viewport y una suite automatizada en navegador real. Cubre los 12 requisitos de `requirements.md`.
+Este diseño hace responsiva la librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) con un único conjunto de breakpoints, tamaños táctiles mínimos, stories de Storybook por viewport y una suite automatizada en navegador real. Cubre los 13 requisitos de `requirements.md`.
 
 Decisiones principales:
 
@@ -13,7 +13,9 @@ Decisiones principales:
 | D3 | CSS primero. JS solo donde CSS no alcanza: foco y estado del Sidebar móvil, gestos, reposicionamiento de paneles, Dock. | Menos código y sin parpadeo de primer render. |
 | D4 | La lógica con reglas numéricas o de estado se extrae a funciones puras en `src/utils/responsive/`. | Se prueban con propiedades sin navegador. |
 | D5 | Sin API rota. Toda prop nueva es opcional; en escritorio la salida es idéntica a la actual (Req 12). | Los portales actualizan sin migrar. |
-| D6 | Los componentes que dependen del ancho de su contenedor (`Table` apilada, `Timeline`) usan `@container`. El resto usa `@media`. | Coincide con el Req 1.5. Ver pendiente P1 para `Grid`. |
+| D6 | Los componentes que dependen del ancho de su contenedor (`Table` apilada, `Timeline`) usan `@container`. El resto usa `@media`. | Coincide con el Req 1.5. Excepción: `Grid` responde a la ventana con `@media` (DC-3). |
+| D7 | El CSS publicado no usa `@layer` (Req 13.5). | Una regla sin capa le gana a las utilidades de Tailwind 4, que viven en `@layer utilities`; conserva el aspecto de escritorio (Req 12.3). Ver «Coexistencia con Tailwind». |
+| D8 | La prueba de coexistencia usa un CSS equivalente a Tailwind en `src/stories/tailwind-equivalents.css`, dentro de `@layer utilities`, sin instalar `tailwindcss`. | Evita dependencias y que el preflight altere stories y capturas. Ver «Coexistencia con Tailwind». |
 
 ### Investigación
 
@@ -235,6 +237,32 @@ const VIEWPORTS = {
 - Pruebas: un `tsc` sobre fixtures de consumo de la versión anterior; comparación de capturas de las stories existentes a 1280 px (12.3); `grep` sobre `dist/` para confirmar que no aparece `@ai27-tech/contracts` (12.5).
 - Versión: `0.3.0-beta.2` o `0.4.0-beta.1` según el CHANGELOG (12.6). Se propone el segundo porque cambia el comportamiento en anchos menores al de escritorio.
 
+## Coexistencia con Tailwind (Req 13)
+
+**Sin `@layer`.** El CSS publicado no declara capas (13.5, D7). En la cascada, una regla sin capa tiene más prioridad que cualquier regla dentro de una capa, sin importar la especificidad. Las utilidades de Tailwind 4 viven en `@layer utilities`, así que una regla de la librería le gana a `w-full` o `hidden` aplicadas al mismo elemento. Solo el modificador importante `!` de Tailwind (`!w-full`) supera una regla sin capa. Publicar el CSS en `@layer ui` invertiría esto y podría cambiar el aspecto de escritorio (Req 12.3); queda como pregunta abierta Q1.
+
+**Tabla de equivalencias** (se publica en `docs/`, 13.3 y 13.4):
+
+| Breakpoint_Set | rem | px | Tailwind 4 |
+| --- | --- | --- | --- |
+| Corte móvil/tablet | 40rem | 640 | `sm` |
+| Sin corte | n/a | 768 | `md` (48rem): la librería no tiene corte aquí |
+| Corte tablet/escritorio | 64rem | 1024 | `lg` |
+
+**Guía de sobrescritura** (`docs/` y `docs/steering-consumidores/ai27-ui-library.md`, 13.6):
+- Utilidades de Tailwind sobre un contenedor propio que envuelve al Component (`<div className="w-full">`), no sobre el elemento raíz del Component.
+- Props de la librería cuando existan (`columns`, `responsive`, `labels`).
+- `!` solo cuando la utilidad debe actuar sobre el elemento raíz del Component y no hay prop equivalente.
+- El Gutter_Token no se acumula con `px-*` en el mismo contenedor: el Consumer usa uno u otro (13.10).
+
+**Prueba de coexistencia (13.8, 13.9, D8).** Una story aplica `w-full`, `hidden` y `sm:grid-cols-2` a Components y se ejecuta en cada Viewport_Preset. Verifica que los estilos calculados coinciden con lo documentado y que no hay Horizontal_Overflow. Las utilidades vienen de `src/stories/tailwind-equivalents.css`, escrito dentro de `@layer utilities` y solo usado por pruebas y stories. No se agrega `tailwindcss` como dependencia ni devDependency, porque su preflight podría alterar las stories y las capturas del Req 12.3. Riesgo: el CSS equivalente puede desfasarse de Tailwind; se mitiga con revisión manual en cada versión menor de Tailwind. Q2 deja abierta la opción de usar Tailwind real.
+
+**Test `tailwind-compat.test.ts`** (proyecto `unit`):
+- `package.json` no declara `tailwindcss`, `@tailwindcss/*` ni `postcss` en `dependencies` ni `peerDependencies` (13.1).
+- Ningún CSS de `src/` contiene `@layer` (13.5).
+- Las clases existentes no se renombran (13.11): `scripts/css-classes.mjs` genera un manifiesto normalizado (se quitan el hash y la línea de las clases de módulo) y se compara con `docs/css-classes.manifest.json`.
+- Toda clase nueva lleva prefijo `ui-` (13.12), incluidas las locales de módulos CSS.
+
 ## Data Models
 
 No hay persistencia. Los tipos nuevos son:
@@ -252,6 +280,7 @@ type DockAction =
   | { type: 'close'; id: string }
   | { type: 'draft'; id: string; value: string }
   | { type: 'setMaxOpen'; value: number };
+
 ```
 
 `dockReducer(state, action): DockState` mantiene la invariante `panels.filter(p => p.open).length <= maxOpen`. Al abrir con el cupo lleno, minimiza el panel abierto más antiguo sin tocar su `draft`. Se confirma contra `useMessageDock` actual al implementar; si el hook usa otro modelo, el reductor lo envuelve y no cambia su API pública.
@@ -316,6 +345,26 @@ La lógica visual (CSS, medidas, foco, gestos reales) no se prueba con propiedad
 
 **Validates: Requirements 4.1, 4.14**
 
+### Property 10: El CSS no declara capas
+
+*For any* archivo CSS de `src/` y del `styles.css` publicado, el contenido no contiene `@layer`.
+
+**Validates: Requirements 13.5**
+
+### Property 11: Umbrales equivalentes a Tailwind 4
+
+*For any* umbral de `@media`/`@container` del CSS de `src/`, su valor es 40rem o 64rem (con `39.99rem` como límite superior de rango), equivalentes a `sm` y `lg` de Tailwind 4, y no existe ningún corte en 48rem.
+
+**Validates: Requirements 13.3, 13.4**
+
+### Property 12: Clases conservadas o nuevas con prefijo `ui-`
+
+*For any* clase del manifiesto normalizado de la versión anterior, la clase existe en la versión actual; y *for any* clase que no estaba en el manifiesto, su nombre empieza con `ui-`.
+
+**Validates: Requirements 13.11, 13.12**
+
+Las Properties 10 a 12 se verifican de forma exhaustiva con tests unitarios sobre el conjunto finito de archivos y clases, no con `fast-check`: no hay entrada variable que generar.
+
 ## Error Handling
 
 | Situación | Tratamiento |
@@ -327,13 +376,16 @@ La lógica visual (CSS, medidas, foco, gestos reales) no se prueba con propiedad
 | `ResizeObserver`/`visualViewport` ausentes | Se omite el ajuste dinámico; queda el CSS con `dvh`. |
 | Cambio de breakpoint con Sidebar móvil abierto | Se cierra el panel, se quita el fondo y se libera la trampa de foco (3.7). |
 | `build-storybook` falla por una story | Se conserva la salida de Storybook, que nombra la story (10.9); no se suprime el error. |
+| Se agrega `@layer` al CSS, un umbral de 48rem o una clase nueva sin prefijo `ui-` | `tailwind-compat.test.ts` falla indicando archivo y valor (13.5, 13.12). |
+| Se renombra o elimina una clase existente | El test contra `docs/css-classes.manifest.json` falla con la clase faltante (13.11). |
+| `tailwindcss`, `@tailwindcss/*` o `postcss` aparecen en `dependencies`/`peerDependencies` | El test falla (13.1). |
 | Un componente no puede cumplir un requisito | Se registra la excepción con su motivo en `docs/responsive-excepciones.md` y en `CHANGELOG.md` (11.10). |
 
 ## Testing Strategy
 
-**Enfoque dual.** Pruebas de propiedades para las funciones puras y reductores (Properties 1 a 8, y 9 con render en jsdom). Pruebas de ejemplo y de navegador para CSS, foco, gestos y medidas.
+**Enfoque dual.** Pruebas de propiedades para las funciones puras y reductores (Properties 1 a 8, y 9 con render en jsdom). Las Properties 10 a 12 son tests unitarios exhaustivos (entrada finita), no PBT. Pruebas de ejemplo y de navegador para CSS, foco, gestos y medidas.
 
-**PBT.** Se usa `fast-check` como devDependency (a agregar; versión fija) dentro del proyecto Vitest `unit`. No se implementa PBT desde cero. Cada propiedad es un solo test con `fc.assert(..., { numRuns: 100 })` (la Property 9 puede usar 25 por el costo de render) y lleva el comentario `// Feature: responsive-components-library, Property N: <texto>`.
+**PBT.** Se usa `fast-check` como devDependency, aprobada (DC-1; versión fija) dentro del proyecto Vitest `unit`. No se implementa PBT desde cero. Cada propiedad es un solo test con `fc.assert(..., { numRuns: 100 })` (la Property 9 puede usar 25 por el costo de render) y lleva el comentario `// Feature: responsive-components-library, Property N: <texto>`.
 
 **Pruebas unitarias (ejemplo).**
 - Escaneo de CSS de breakpoints y paridad con `BREAKPOINTS` (1.6, 1.9).
@@ -341,6 +393,7 @@ La lógica visual (CSS, medidas, foco, gestos reales) no se prueba con propiedad
 - `Sidebar`: abrir, Escape, clic en fondo, clic en ítem, cambio de ancho, trampa de foco con `user-event` (3.4 a 3.7).
 - `labels` por defecto y personalizados (12.4).
 - `Grid` en escritorio produce el mismo estilo que antes (12.2).
+- `tailwind-compat.test.ts` (13.1, 13.5, 13.11, 13.12) y story de coexistencia con `w-full`, `hidden` y `sm:grid-cols-2` en cada Viewport_Preset (13.8, 13.9).
 
 **Pruebas en navegador (proyecto `storybook`, Chromium con Playwright).**
 - Sin desborde horizontal en 320, 375, 768 y 1280 px (2.5, 2.8, 2.10, 4.2, 6.9, 8.4, 11.2).
@@ -354,6 +407,17 @@ La lógica visual (CSS, medidas, foco, gestos reales) no se prueba con propiedad
 
 **Por qué no hay PBT sobre CSS ni sobre el build de Storybook.** Son configuración o estilos declarativos sin entrada variable; una ejecución basta (smoke): `npm run build-storybook` con código 0 (10.8), `npm run lint`, `npm run build` y `npm test` sin errores nuevos (11.8).
 
+## Decisiones confirmadas
+
+Decididas por el usuario el 2026-11-19.
+
+| ID | Decisión |
+| --- | --- |
+| DC-1 | `fast-check` se aprueba como devDependency. Corrige la nota previa de Testing Strategy, que lo marcaba como pendiente de agregar. |
+| DC-2 | `Visor` y `FilterBar` normalizan sus umbrales actuales (768 y 1024 px) al Breakpoint_Set. Cambia su comportamiento entre 640 y 1023 px. Se registra en `CHANGELOG.md` (11.8, 12.6) y respalda la versión `0.4.0-beta.1`. |
+| DC-3 | `Grid` responde al ancho de la ventana con `@media`. No se agrega `responsive="container"`. Ajusta D6 y la fila de `Grid`; cierra P1. |
+| DC-4 | Toda clase nueva, incluidas las locales de módulos CSS, lleva prefijo `ui-`. Cierra S5. |
+
 ## Supuestos y pendientes
 
 | ID | Tema | Estado |
@@ -362,5 +426,8 @@ La lógica visual (CSS, medidas, foco, gestos reales) no se prueba con propiedad
 | S2 | Valor `39.99rem` como límite superior en `max-width` | Convención de este diseño; evita el solape en el borde exacto de 40rem |
 | S3 | Valores de `--ui-gutter-screen` (`space-4`, `space-5`, `space-6`) | Propuesta, pendiente de confirmación |
 | S4 | Nombres de las props nuevas: `Table.responsive`, `FilterBar.collapsibleOnMobile`, `Sidebar.mobileOpen`, `SidebarTrigger` | Propuesta, pendiente de confirmación del equipo |
-| P1 | `Grid` (Req 2.1 y 2.2 hablan del ancho del contenedor). Un elemento no puede consultar su propio contenedor con CSS, así que se usa `@media` sobre el viewport. En un contenedor angosto dentro de una pantalla ancha, no colapsa. | Decisión abierta: aceptar la diferencia, o envolver `Grid` en un contenedor con `container-type` (cambia el DOM). |
+| P1 | `Grid` y ancho de contenedor | Cerrado por DC-3: `@media` sobre la ventana. |
 | P2 | Estructura interna de `useMessageDock`, tope de `Breadcrumb` y focos de `Visor`/`Modal` no se leyeron a fondo en este diseño | Verificar con grep al iniciar la implementación; el diseño asume que no hay trampa de foco reutilizable |
+| P3 | Confirmar si existe la prop `gutter={false}` al implementar (relacionada con 13.10) | Pendiente |
+| Q1 | Publicar el CSS en `@layer ui` (13.7) | Pregunta abierta; no es requisito |
+| Q2 | Usar Tailwind real en las pruebas de coexistencia en lugar del CSS equivalente (D8) | Pregunta abierta |

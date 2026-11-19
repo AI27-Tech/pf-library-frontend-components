@@ -24,6 +24,7 @@ La librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) tiene hoy u
 - Valores de breakpoints propuestos: móvil hasta 39.99rem, tablet de 40rem a 63.99rem, escritorio desde 64rem. Se eligieron por coincidir con el `40rem` de `PageHeader` y el rango de 560 a 1024px ya usado.
 - Tamaño táctil mínimo propuesto: 44 x 44 px CSS (criterio 2.5.5 de WCAG 2.2, nivel AAA), aplicado cuando el puntero es grueso (`pointer: coarse`). El nivel AA exige 24 x 24 px (criterio 2.5.8).
 - Sin cambios de API pública que rompan consumidores. Cualquier prop nueva es opcional con valor por defecto equivalente al comportamiento actual en escritorio.
+- Pregunta abierta: publicar el CSS de la Library dentro de una capa `@layer ui` (declarada antes de las capas de Tailwind) para que las utilidades de los Consumer puedan sobrescribirlo sin `!`. No es requisito de este spec.
 
 ## Glossary
 
@@ -39,6 +40,8 @@ La librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) tiene hoy u
 - **Token**: variable CSS con prefijo `--ui-*` definida en `src/styles/tokens.css`.
 - **Horizontal_Overflow**: condición en la que `scrollWidth` del documento supera su `clientWidth`.
 - **Consumer**: portal que usa la Library (`pf-web-frontend-internal`, `pf-web-frontend-client`, `pf-web-frontend-analist-panel`).
+- **Tailwind**: framework de utilidades CSS (versión 4) que usan los Consumer, con utilidades dentro de `@layer utilities`.
+- **Gutter_Token**: Token de espaciado lateral de pantalla (`--ui-gutter-screen` o equivalente).
 
 ## Requirements
 
@@ -64,8 +67,8 @@ La librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) tiene hoy u
 
 #### Acceptance Criteria
 
-1. WHEN la prop `columns` de `Grid` es mayor que 1 y el ancho del contenedor es de móvil, THE Grid SHALL mostrar exactamente 1 columna.
-2. WHEN la prop `columns` de `Grid` es mayor que 2 y el ancho del contenedor es de tablet, THE Grid SHALL mostrar un máximo de 2 columnas.
+1. WHEN la prop `columns` de `Grid` es mayor que 1 y el ancho de la ventana es de móvil, THE Grid SHALL mostrar exactamente 1 columna.
+2. WHEN la prop `columns` de `Grid` es mayor que 2 y el ancho de la ventana es de tablet, THE Grid SHALL mostrar un máximo de 2 columnas.
 3. WHERE el Consumer pasa un conjunto de valores de columnas por Breakpoint_Set, THE Grid SHALL aplicar el valor del Breakpoint_Set activo y, IF el Breakpoint_Set activo no tiene valor definido, THEN THE Grid SHALL aplicar el valor del Breakpoint_Set definido inmediatamente menor, o 1 columna si no existe ninguno.
 4. WHEN el ancho es de móvil, THE PageHeader SHALL apilar título, descripción y acciones en una sola columna, en ese orden de arriba hacia abajo, con las acciones debajo del título.
 5. WHEN el ancho es de móvil y el `Breadcrumb` del PageHeader tiene más elementos que `maxItems`, THE PageHeader SHALL plegar los elementos excedentes del `Breadcrumb` y SHALL mantener el ancho del documento igual al ancho del viewport (sin Horizontal_Overflow).
@@ -248,3 +251,22 @@ La librería `@ai27-tech/ui` (repo `pf-library-frontend-components`) tiene hoy u
 4. WHEN un Consumer pasa la prop `labels` a un Component, THE Component SHALL aplicar los textos recibidos, y WHEN la omite, THE Component SHALL mostrar los textos por defecto en español de la versión anterior.
 5. IF un Consumer usa un Component sin instalar `@ai27-tech/contracts`, THEN THE Library SHALL funcionar sin error de resolución de módulos, porque ningún archivo publicado de la Library importa ni declara dependencia (de ejecución, de pares o de tipos) de esa librería.
 6. WHEN la implementación se publica, THE Library SHALL incrementar su versión según el tipo de cambio (cambios compatibles como incremento menor o de prerrelease, cambios con ruptura como incremento mayor) y SHALL documentar en el CHANGELOG, antes de la publicación, cada cambio visible para los Consumer, incluidas las props nuevas y cualquier cambio de comportamiento en anchos menores al de escritorio.
+
+### Requirement 13: Coexistencia con Tailwind en los Consumer
+
+**User Story:** Como desarrollador de un portal que usa Tailwind, quiero saber cómo conviven las utilidades de Tailwind con los Component de la Library, para sobrescribir estilos sin sorpresas de cascada ni desbordes.
+
+#### Acceptance Criteria
+
+1. THE Library SHALL publicar su CSS sin declarar `tailwindcss`, `@tailwindcss/*`, `postcss` ni plugins de PostCSS en `dependencies` ni en `peerDependencies`.
+2. WHEN el archivo `styles.css` publicado se importa en un proyecto que no instala Tailwind, THE Library SHALL aplicar sus estilos sin errores de compilación ni de ejecución, y los Component SHALL renderizar con los mismos valores de estilo calculados que en un proyecto con Tailwind, sin diferencias en dimensiones, espaciado ni color.
+3. THE Library SHALL mantener los umbrales del Breakpoint_Set iguales en valor `rem` a `sm` (40rem, 640px) y `lg` (64rem, 1024px) de Tailwind 4.
+4. THE Library SHALL documentar en `docs/` una tabla de equivalencias entre cada umbral del Breakpoint_Set y los breakpoints de Tailwind, con la nota de que el Breakpoint_Set no tiene corte en `md` (48rem, 768px).
+5. THE Library SHALL conservar su CSS sin `@layer` para preservar el aspecto de escritorio exigido en el Requirement 12.3.
+6. THE Library SHALL documentar en `docs/` y en `docs/steering-consumidores/ai27-ui-library.md` cómo sobrescribir estilos de un Component desde un Consumer con Tailwind, indicando (a) que el CSS de la Library sin capa prevalece sobre las utilidades de Tailwind, (b) en qué casos concretos usar el modificador importante `!` de Tailwind, y (c) en qué casos usar las props de la Library, con al menos un ejemplo de cada uno.
+7. THE Library SHALL registrar la alternativa de publicar el CSS dentro de una capa `@layer ui` como pregunta abierta en la sección "Supuestos a confirmar con el equipo de la librería", sin convertirla en requisito de este spec.
+8. THE Responsive_Test_Suite SHALL incluir al menos una Responsive_Story o prueba de coexistencia que aplique las utilidades de Tailwind 4 `w-full`, `hidden` y `sm:grid-cols-2` a Components de la Library.
+9. WHEN la prueba de coexistencia se ejecuta en cada Viewport_Preset, THE Responsive_Test_Suite SHALL verificar que los estilos calculados coinciden con lo documentado según el criterio 6 de este requisito y que no hay Horizontal_Overflow.
+10. THE Library SHALL documentar que el Gutter_Token no se acumula con las utilidades `px-*` de Tailwind aplicadas al mismo contenedor, e indicar que el Consumer usa uno u otro, no ambos, en ese contenedor.
+11. THE Library SHALL conservar sin cambio de nombre todas las clases CSS existentes en la versión publicada inmediata anterior.
+12. THE Library SHALL nombrar con el prefijo `ui-` toda clase CSS que agregue, incluidas las clases locales de módulos CSS.
