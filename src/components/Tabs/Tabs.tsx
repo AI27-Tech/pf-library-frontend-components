@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useId,
   useRef,
   useState,
@@ -154,9 +155,16 @@ export interface TabProps extends Omit<HTMLAttributes<HTMLButtonElement>, "value
 export function Tab({ value, icon, badge, disabled = false, className, children, ...props }: TabProps) {
   const { active, select, baseId } = useTabsContext("Tab");
   const isActive = active === value;
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Mantiene visible la pestaña activa dentro de la fila que se desplaza. jsdom no implementa scrollIntoView.
+  useEffect(() => {
+    if (isActive) buttonRef.current?.scrollIntoView?.({ inline: "nearest", block: "nearest" });
+  }, [isActive]);
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       role="tab"
       id={tabId(baseId, value)}

@@ -8,6 +8,8 @@
 
 .tabList {
   display: flex;
+  min-width: 0;
+  max-width: 100%;
   align-items: stretch;
   gap: var(--ui-space-1);
   overflow-x: auto;
@@ -22,7 +24,6 @@
   align-items: center;
   gap: var(--ui-space-2);
   padding: var(--ui-space-2) var(--ui-space-3);
-  margin-bottom: -1px;
   border: none;
   border-bottom: 2px solid transparent;
   border-radius: var(--ui-radius-sm) var(--ui-radius-sm) 0 0;
@@ -100,4 +101,11 @@
 
 .panel[hidden] {
   display: none;
+}
+
+/* Objetivo táctil de 44 px con puntero grueso. */
+@media (pointer: coarse) {
+  .tab {
+    min-height: var(--ui-touch-target-min);
+  }
 }

@@ -227,12 +227,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `PageHeader` no cambiaron y que el umbral pasó de `40rem` a `39.99rem` sin salto visible (Requirement 12.3).
     - _Requirements: 2.4, 2.5, 12.3_
 
-- [ ] 10. Tabs, TabList, Tab y TabPanel (familia Estructura de pantalla)
-  - [ ] 10.1 Mantener visible la pestaña activa en `Tabs`
+- [x] 10. Tabs, TabList, Tab y TabPanel (familia Estructura de pantalla)
+  - [x] 10.1 Mantener visible la pestaña activa en `Tabs`
     - `Tabs.module.css`: `TabList` con desplazamiento horizontal interno y Touch_Target de 44 px con puntero grueso. Al activar una pestaña, `scrollIntoView({ inline: 'nearest', block: 'nearest' })`, con protección para jsdom.
     - _Requirements: 2.6, 9.2, 9.7, 12.2, 12.3_
 
-  - [ ] 10.2 Agregar Responsive_Story `Mobile` en `Tabs.stories.tsx`
+  - [x] 10.2 Agregar Responsive_Story `Mobile` en `Tabs.stories.tsx`
     - `Mobile`: 10 o más pestañas con nombres de dominio (Resumen, Bitácora, Evidencias, Incidencias…) y la pestaña activa al final.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -240,7 +240,7 @@ Convenciones:
     - La pestaña activa queda dentro del área visible del `TabList`; sin desborde de la página; Touch_Target; a11y (`role="tab"`, `aria-selected`).
     - _Requirements: 2.6, 9.2, 9.6, 11.2, 11.3, 11.4_
 
-  - [ ] 10.4 Revisión visual de `Tabs`
+  - [x] 10.4 Revisión visual de `Tabs`
     - Revisar en Storybook `Components/Tabs › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el `TabList` se desplaza solo dentro de su área; la pestaña activa queda visible; la página no se desplaza lateralmente; el cambio de orientación conserva la pestaña activa.
     - Verificar que a 1280 px las stories existentes de `Tabs` no cambiaron (Requirement 12.3).
