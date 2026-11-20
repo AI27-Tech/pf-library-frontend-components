@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DateTimeInput } from "./DateTimeInput";
+import { responsiveStory } from "../../stories/responsiveStory";
 import { FormField } from "../Input/FormField";
 
 const meta = {
@@ -30,8 +31,8 @@ const meta = {
     onChange: { control: false },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 460 }}>
+    (Story, context) => (
+      <div style={context.parameters.responsive === true ? undefined : { width: 460 }}>
         <Story />
       </div>
     ),
@@ -134,3 +135,28 @@ export const InFormField: Story = {
   ),
   args: { value: "2026-03-05T09:30" },
 };
+
+/** Movil: fecha y hora de salida del viaje, con presets de fecha. La fecha queda arriba y la hora abajo. */
+const mobileStory: Story = {
+  args: {
+    value: "2026-03-05T08:00",
+    dateProps: { presets: [{ label: "Hoy", value: "2026-03-05" }, { label: "Manana", value: "2026-03-06" }] },
+  },
+  render: (args) => (
+    <main>
+      <DateTimeInput {...args} />
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: el mismo campo en 768 px. */
+const tabletStory: Story = {
+  args: { value: "2026-03-05T08:00" },
+  render: (args) => (
+    <main>
+      <DateTimeInput {...args} />
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

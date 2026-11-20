@@ -612,12 +612,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `TimePicker` no cambiaron (Requirement 12.3).
     - _Requirements: 5.9, 5.12, 5.13, 12.3_
 
-- [ ] 30. DateTimeInput (familia Formularios, fechas)
-  - [ ] 30.1 Adaptar `DateTimeInput`
+- [x] 30. DateTimeInput (familia Formularios, fechas)
+  - [x] 30.1 Adaptar `DateTimeInput`
     - `DateTimeInput.module.css`: en móvil apila el selector de fecha sobre el de hora al 100 %; presets apilados; `clampToViewport` y `max-height` con `overflow: auto`.
     - _Requirements: 5.9, 5.10, 5.12, 5.13, 12.2, 12.3_
 
-  - [ ] 30.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DateTimeInput.stories.tsx`
+  - [x] 30.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DateTimeInput.stories.tsx`
     - `Mobile`: fecha y hora de salida del viaje con presets. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -625,7 +625,7 @@ Convenciones:
     - Fecha sobre hora en móvil; panel dentro del viewport; a11y.
     - _Requirements: 5.10, 5.12, 5.13, 11.2, 11.4_
 
-  - [ ] 30.4 Revisión visual de `DateTimeInput`
+  - [x] 30.4 Revisión visual de `DateTimeInput`
     - Revisar en Storybook `Components/DatePicker/DateTimeInput › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: fecha arriba y hora abajo en móvil, lado a lado en escritorio; el panel completo cabe; el valor elegido se refleja en el campo.
     - Verificar que a 1280 px las stories existentes de `DateTimeInput` no cambiaron (Requirement 12.3).
