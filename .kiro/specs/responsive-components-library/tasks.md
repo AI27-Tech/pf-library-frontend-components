@@ -688,12 +688,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Modal` no cambiaron (Requirement 12.3).
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 12.3_
 
-- [ ] 34. Popover (familia Avisos y superposiciones)
-  - [ ] 34.1 Adaptar `Popover`
+- [x] 34. Popover (familia Avisos y superposiciones)
+  - [x] 34.1 Adaptar `Popover`
     - `Popover.module.css`: `max-width: calc(100vw - 2 * var(--ui-space-2))`; posición con `clampToViewport`; contenido ajustado sin desborde; movimiento reducido.
     - _Requirements: 6.6, 6.10, 12.2, 12.3_
 
-  - [ ] 34.2 Agregar Responsive_Story `Mobile` en `Popover.stories.tsx`
+  - [x] 34.2 Agregar Responsive_Story `Mobile` en `Popover.stories.tsx`
     - `Mobile`: popover con menú de acciones largas anclado al borde derecho.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -701,7 +701,7 @@ Convenciones:
     - Panel dentro del viewport; ancho limitado; Escape; movimiento reducido; a11y.
     - _Requirements: 6.6, 6.10, 11.2, 11.4_
 
-  - [ ] 34.4 Revisión visual de `Popover`
+  - [x] 34.4 Revisión visual de `Popover`
     - Revisar en Storybook `Components/Popover › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el panel no se sale por los lados; el texto largo se ajusta; los elementos se aciertan con el pulgar.
     - Verificar que a 1280 px las stories existentes de `Popover` no cambiaron (Requirement 12.3).
