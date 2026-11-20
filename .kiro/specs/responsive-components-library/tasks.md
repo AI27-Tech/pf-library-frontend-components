@@ -537,11 +537,11 @@ Convenciones:
     - _Requirements: 5.5, 5.6, 12.3_
 
 - [ ] 26. Checkbox, Radio y Switch (familia Formularios)
-  - [ ] 26.1 Adaptar `Checkbox`, `Radio` y `Switch`
+  - [x] 26.1 Adaptar `Checkbox`, `Radio` y `Switch`
     - `Choice.module.css`: en móvil el área de activación, con su etiqueta, de al menos 44 x 44 px; etiqueta con `overflow-wrap: anywhere`; separación de 8 px entre opciones contiguas.
     - _Requirements: 5.7, 9.2, 9.4, 12.2, 12.3_
 
-  - [ ] 26.2 Agregar Responsive_Story `Mobile` en `Choice.stories.tsx`
+  - [x] 26.2 Agregar Responsive_Story `Mobile` en `Choice.stories.tsx`
     - `Mobile`: grupo de 10 `Checkbox`, grupo de `Radio` y varios `Switch` con etiquetas de dominio largas.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -549,7 +549,7 @@ Convenciones:
     - Área de activación ≥ 44 x 44 px incluida la etiqueta; separación ≥ 8 px; a11y (`role="switch"`, `aria-checked`).
     - _Requirements: 5.7, 9.2, 9.4, 11.3, 11.4_
 
-  - [ ] 26.4 Revisión visual de `Checkbox`, `Radio` y `Switch`
+  - [x] 26.4 Revisión visual de `Checkbox`, `Radio` y `Switch`
     - Revisar en Storybook `Components/Choice › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: tocar la etiqueta activa el control; las opciones contiguas no se confunden; etiquetas largas se envuelven.
     - Verificar que a 1280 px las stories existentes de `Choice` no cambiaron (Requirement 12.3).
