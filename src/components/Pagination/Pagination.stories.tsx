@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Pagination } from "./Pagination";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Pagination",
@@ -76,3 +77,45 @@ export const Empty: Story = {
     );
   },
 };
+
+/** Móvil: 50 páginas con la página actual en el medio. */
+const movilStory: Story = {
+  render: () => {
+    const [page, setPage] = useState(25);
+    return (
+      <main>
+        <Pagination page={page} pageSize={20} total={1000} onPageChange={setPage} />
+      </main>
+    );
+  },
+};
+
+export const Mobile: Story = responsiveStory("mobile", movilStory);
+
+/** Móvil con la página actual al inicio. */
+const movilInicioStory: Story = {
+  render: () => {
+    const [page, setPage] = useState(1);
+    return (
+      <main>
+        <Pagination page={page} pageSize={20} total={1000} onPageChange={setPage} />
+      </main>
+    );
+  },
+};
+
+export const MobileInicio: Story = responsiveStory("mobile", movilInicioStory);
+
+/** Móvil con la página actual al final. */
+const movilFinalStory: Story = {
+  render: () => {
+    const [page, setPage] = useState(50);
+    return (
+      <main>
+        <Pagination page={page} pageSize={20} total={1000} onPageChange={setPage} />
+      </main>
+    );
+  },
+};
+
+export const MobileFinal: Story = responsiveStory("mobile", movilFinalStory);

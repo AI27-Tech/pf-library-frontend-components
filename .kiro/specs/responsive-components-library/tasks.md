@@ -441,12 +441,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `FilterTable` no cambiaron (Requirement 12.3).
     - _Requirements: 4.1, 4.4, 9.7, 12.3_
 
-- [ ] 21. Pagination (familia Datos y listas)
-  - [ ] 21.1 Usar `getPaginationItems` en `Pagination`
+- [x] 21. Pagination (familia Datos y listas)
+  - [x] 21.1 Usar `getPaginationItems` en `Pagination`
     - En móvil, máximo 5 elementos visibles entre páginas, flechas y puntos suspensivos con la página actual visible; en tablet y escritorio se conserva el límite actual. Botones con Touch_Target de 44 px con puntero grueso y separación de 8 px.
     - _Requirements: 4.6, 9.2, 9.4, 12.2, 12.3_
 
-  - [ ] 21.2 Agregar Responsive_Story `Mobile` en `Pagination.stories.tsx`
+  - [x] 21.2 Agregar Responsive_Story `Mobile` en `Pagination.stories.tsx`
     - `Mobile`: 50 páginas con la página actual en el medio y en los extremos.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -454,7 +454,7 @@ Convenciones:
     - Máximo 5 elementos en móvil con la página actual visible; sin desborde; Touch_Target; a11y (`aria-current`, `aria-label`).
     - _Requirements: 4.6, 9.2, 9.4, 11.2, 11.3, 11.4_
 
-  - [ ] 21.4 Revisión visual de `Pagination`
+  - [x] 21.4 Revisión visual de `Pagination`
     - Revisar en Storybook `Components/Pagination › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: nunca más de 5 elementos en móvil; la página actual siempre se ve; flechas y páginas se aciertan con el pulgar.
     - Verificar que a 1280 px las stories existentes de `Pagination` no cambiaron (Requirement 12.3).
