@@ -593,12 +593,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `DateInput` no cambiaron (Requirement 12.3).
     - _Requirements: 5.9, 5.11, 5.12, 5.13, 12.3_
 
-- [ ] 29. TimePicker (familia Formularios, fechas)
-  - [ ] 29.1 Adaptar `TimePicker`
+- [x] 29. TimePicker (familia Formularios, fechas)
+  - [x] 29.1 Adaptar `TimePicker`
     - `TimePicker.module.css`: presets apilados sobre la lista de horas en móvil; `clampToViewport` y `max-height` con `overflow: auto`; opciones con Touch_Target de 44 px.
     - _Requirements: 5.9, 5.12, 5.13, 9.2, 12.2, 12.3_
 
-  - [ ] 29.2 Agregar Responsive_Story `Mobile` y `Tablet` en `TimePicker.stories.tsx`
+  - [x] 29.2 Agregar Responsive_Story `Mobile` y `Tablet` en `TimePicker.stories.tsx`
     - `Mobile`: selector con presets y lista de horas completa, cerca del borde inferior. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -606,7 +606,7 @@ Convenciones:
     - Panel dentro del viewport al abrir y tras `resize`; lista desplazable por dentro; a11y.
     - _Requirements: 5.9, 5.12, 5.13, 11.2, 11.4_
 
-  - [ ] 29.4 Revisión visual de `TimePicker`
+  - [x] 29.4 Revisión visual de `TimePicker`
     - Revisar en Storybook `Components/DatePicker/TimePicker › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: panel completo dentro de la pantalla; presets sobre la lista; las horas se aciertan con el pulgar.
     - Verificar que a 1280 px las stories existentes de `TimePicker` no cambiaron (Requirement 12.3).
