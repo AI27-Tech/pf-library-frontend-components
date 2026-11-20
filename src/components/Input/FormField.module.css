@@ -2,25 +2,24 @@
   display: flex;
   flex-direction: column;
   gap: var(--ui-space-1, 0.25rem);
+  min-width: 0;
   font-family: var(--ui-font-family, inherit);
 }
-
 .label {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: var(--ui-font-size-sm, 0.8125rem);
   font-weight: 600;
   color: var(--ui-color-text, #e2e8f0);
 }
-
 .required {
   color: var(--ui-color-danger, #fca5a5);
   margin-left: 0.15rem;
 }
-
 .optional {
   font-weight: 400;
   color: var(--ui-color-text-muted, #94a3b8);
 }
-
 /* Etiqueta a la izquierda, control y textos a la derecha */
 .horizontal {
   display: grid;
@@ -29,23 +28,34 @@
   row-gap: var(--ui-space-1, 0.25rem);
   align-items: start;
 }
-
+/* La etiqueta ocupa las dos filas: si es alta no empuja la ayuda o el error
+   lejos del control, que siempre queda en la fila 1 de la columna 2. */
 .horizontal > .label {
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   padding-top: 0.5rem;
 }
-
 .horizontal > :not(.label) {
   grid-column: 2;
 }
-
+/* En movil la etiqueta va encima del control y ambos ocupan todo el ancho. */
+@media (max-width: 39.99rem) {
+  .horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ui-space-1, 0.25rem);
+  }
+  .horizontal > .label {
+    padding-top: 0;
+  }
+}
 .help {
   font-size: var(--ui-font-size-sm, 0.8125rem);
   color: var(--ui-color-text-muted, #94a3b8);
+  overflow-wrap: anywhere;
 }
-
 .error {
   font-size: var(--ui-font-size-sm, 0.8125rem);
   color: var(--ui-color-danger, #fca5a5);
+  overflow-wrap: anywhere;
 }

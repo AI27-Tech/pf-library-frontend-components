@@ -461,11 +461,11 @@ Convenciones:
     - _Requirements: 4.6, 12.3_
 
 - [ ] 22. FormField (familia Formularios)
-  - [ ] 22.1 Adaptar `FormField`
+  - [x] 22.1 Adaptar `FormField`
     - `FormField.module.css`: orientación horizontal en columna en móvil (etiqueta sobre el control, ambos al 100 %); `min-width: 0`; ayuda y error con `overflow-wrap: anywhere`. Conserva `id`, `invalid` y `aria-describedby`.
     - _Requirements: 5.2, 9.6, 12.2, 12.3_
 
-  - [ ] 22.2 Agregar Responsive_Story `Mobile` en `FormField.stories.tsx`
+  - [x] 22.2 Agregar Responsive_Story `Mobile` en `FormField.stories.tsx`
     - `Mobile`: campo horizontal con etiqueta larga, ayuda y mensaje de error de 60 o más caracteres sin espacios.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -473,7 +473,7 @@ Convenciones:
     - Etiqueta sobre control en móvil; `aria-describedby` y `aria-invalid` intactos; sin desborde; a11y.
     - _Requirements: 5.2, 9.6, 11.2, 11.4_
 
-  - [ ] 22.4 Revisión visual de `FormField`
+  - [x] 22.4 Revisión visual de `FormField`
     - Revisar en Storybook `Components/FormField › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: en móvil etiqueta y control al 100 % apilados; en tablet y escritorio la horizontal conserva su disposición; ayuda y error no desbordan.
     - Verificar que a 1280 px las stories existentes de `FormField` no cambiaron (Requirement 12.3).
