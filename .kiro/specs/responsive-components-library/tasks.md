@@ -422,12 +422,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `FilterBar` no cambiaron (Requirement 12.3). Cambio de umbral registrado para el CHANGELOG.
     - _Requirements: 4.4, 4.5, 12.3_
 
-- [ ] 20. FilterTable (familia Datos y listas)
-  - [ ] 20.1 Adaptar `FilterTable`
+- [x] 20. FilterTable (familia Datos y listas)
+  - [x] 20.1 Adaptar `FilterTable`
     - `FilterTable.module.css` y TSX: propagar `collapsibleOnMobile` y `responsive` a `FilterBar` y `Table` como props opcionales (`tableLabels` sin cambios); filtros en una sola columna en móvil.
     - _Requirements: 4.1, 4.4, 4.5, 12.2, 12.3_
 
-  - [ ] 20.2 Agregar Responsive_Story `Mobile` y `Tablet` en `FilterTable.stories.tsx`
+  - [x] 20.2 Agregar Responsive_Story `Mobile` y `Tablet` en `FilterTable.stories.tsx`
     - `Mobile`: lista de viajes con búsqueda, filtros, 20 o más filas, `responsive="stacked"` y `collapsibleOnMobile`. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -435,7 +435,7 @@ Convenciones:
     - Filtros en una columna en móvil; tabla apilada; sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 4.1, 4.4, 11.2, 11.4_
 
-  - [ ] 20.4 Revisión visual de `FilterTable`
+  - [x] 20.4 Revisión visual de `FilterTable`
     - Revisar en Storybook `Components/FilterTable › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: búsqueda y filtros arriba en una columna; filas como tarjetas; filtrar, ordenar y paginar conservan el estado al girar el dispositivo.
     - Verificar que a 1280 px las stories existentes de `FilterTable` no cambiaron (Requirement 12.3).

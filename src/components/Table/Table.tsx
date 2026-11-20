@@ -49,6 +49,8 @@ export interface TableLabels {
   collapseRow: string;
   /** Etiqueta accesible de la tabla mientras carga, si no se pasa `aria-label`. */
   loading: string;
+  /** Nombre accesible del contenedor que se desplaza horizontalmente en modo `scroll`. */
+  scrollRegion: string;
 }
 
 const defaultLabels: TableLabels = {
@@ -58,6 +60,7 @@ const defaultLabels: TableLabels = {
   expandRow: "Expandir fila",
   collapseRow: "Contraer fila",
   loading: "Cargando",
+  scrollRegion: "Tabla con desplazamiento horizontal",
 };
 
 export interface TableProps<T> {
@@ -230,7 +233,13 @@ export function Table<T>({
   const role = (value: string) => (stacked ? value : undefined);
 
   return (
-    <div className={cx(styles.wrapper, stacked && styles.stackedWrapper, className)}>
+    <div
+      className={cx(styles.wrapper, stacked && styles.stackedWrapper, className)}
+      // En modo scroll el contenedor se desplaza: debe poder enfocarse con teclado y tener nombre.
+      tabIndex={stacked ? undefined : 0}
+      role={stacked ? undefined : "region"}
+      aria-label={stacked ? undefined : labels.scrollRegion}
+    >
       {bulkActions && selectedCount > 0 && (
         <div className={styles.bulkBar}>
           <span className={styles.bulkCount} aria-live="polite">
