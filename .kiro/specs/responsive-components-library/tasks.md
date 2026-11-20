@@ -402,13 +402,13 @@ Convenciones:
     - Verificar que sin la prop `responsive` y a 1280 px las stories existentes de `Table` no cambiaron (Requirement 12.3).
     - _Requirements: 4.1, 4.2, 4.3, 4.14, 12.3_
 
-- [ ] 19. FilterBar (familia Datos y listas)
-  - [ ] 19.1 Hacer responsivo `FilterBar`
+- [x] 19. FilterBar (familia Datos y listas)
+  - [x] 19.1 Hacer responsivo `FilterBar`
     - `FilterBar.module.css`: reemplazar `@media (max-width: 1024px)`, `768px` y `640px` por `63.99rem`, `39.99rem` según el rango; una columna en móvil con cada control al 100 %. Prop `collapsibleOnMobile` (por defecto `false`) con botón de 44 px que alterna los filtros, ocultos al inicio solo en móvil. Quitar `FilterBar` de `breakpoints-legacy.manifest.json`.
     - Anotar en el CHANGELOG (tarea 54) que el umbral de `FilterBar` cambia de 768/640 px a `39.99rem`.
     - _Requirements: 1.4, 1.6, 4.4, 4.5, 9.2, 12.2, 12.3_
 
-  - [ ] 19.2 Agregar Responsive_Story `Mobile` y `Tablet` en `FilterBar.stories.tsx`
+  - [x] 19.2 Agregar Responsive_Story `Mobile` y `Tablet` en `FilterBar.stories.tsx`
     - `Mobile`: 6 filtros de dominio (cliente, estado, origen, destino, fecha, unidad) con y sin `collapsibleOnMobile`. `Tablet`: la barra en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -416,7 +416,7 @@ Convenciones:
     - Una columna en móvil; con `collapsibleOnMobile` los filtros arrancan ocultos y el botón alterna (`aria-expanded`); sin desborde; a11y.
     - _Requirements: 4.4, 4.5, 11.2, 11.3, 11.4_
 
-  - [ ] 19.4 Revisión visual de `FilterBar`
+  - [x] 19.4 Revisión visual de `FilterBar`
     - Revisar en Storybook `Components/FilterBar › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: controles al 100 % en una columna en móvil; el botón de mostrar u ocultar es cómodo de tocar; con la prop omitida los filtros se ven siempre; el relleno de la barra cambia en los umbrales nuevos.
     - Verificar que a 1280 px las stories existentes de `FilterBar` no cambiaron (Requirement 12.3). Cambio de umbral registrado para el CHANGELOG.
