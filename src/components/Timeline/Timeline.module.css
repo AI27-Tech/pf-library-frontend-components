@@ -246,7 +246,13 @@
 .root[data-orientation="horizontal"] .list {
   display: flex;
   align-items: stretch;
+  width: max-content;
   min-width: 100%;
+  box-sizing: border-box;
+  /* Espacio a los lados para que el primer y el último punto también puedan quedar al centro. */
+  padding-inline: max(0px, calc(50% - var(--tl-min-item, 8rem) / 2));
+  /* El pulso del punto actual (box-shadow de hasta 7px) no se recorta por el overflow del contenedor. */
+  padding-block: 0.5rem;
 }
 
 .root[data-orientation="horizontal"] .item {

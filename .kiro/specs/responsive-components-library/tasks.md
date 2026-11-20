@@ -343,12 +343,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Stat` no cambiaron (Requirement 12.3).
     - _Requirements: 4.10, 12.3_
 
-- [ ] 16. DescriptionList (familia Datos y listas)
-  - [ ] 16.1 Adaptar `DescriptionList`
+- [x] 16. DescriptionList (familia Datos y listas)
+  - [x] 16.1 Adaptar `DescriptionList`
     - `DescriptionList.module.css`: `columns` limitado por CSS (móvil 1, tablet `min(columns, 2)`); orientación horizontal apilada (nombre sobre valor) en móvil; `overflow-wrap: anywhere`.
     - _Requirements: 4.7, 4.8, 4.9, 12.2, 12.3_
 
-  - [ ] 16.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DescriptionList.stories.tsx`
+  - [x] 16.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DescriptionList.stories.tsx`
     - `Mobile`: ficha técnica del viaje con `columns={4}`, orientación horizontal y valores largos. `Tablet`: la misma ficha.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -356,18 +356,18 @@ Convenciones:
     - 1 columna en móvil, máximo 2 en tablet, `columns` completas en escritorio; nombre sobre valor en horizontal móvil; sin desborde; a11y.
     - _Requirements: 4.7, 4.8, 4.9, 11.2, 11.4_
 
-  - [ ] 16.4 Revisión visual de `DescriptionList`
+  - [x] 16.4 Revisión visual de `DescriptionList`
     - Revisar en Storybook `Components/DescriptionList › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: 1 columna en móvil, 2 en tablet y 4 en escritorio; en horizontal el nombre queda encima del valor en móvil; el valor vacío se muestra como "—".
     - Verificar que a 1280 px las stories existentes de `DescriptionList` no cambiaron (Requirement 12.3).
     - _Requirements: 4.7, 4.8, 4.9, 12.3_
 
-- [ ] 17. Timeline (familia Datos y listas)
-  - [ ] 17.1 Adaptar `Timeline`
+- [x] 17. Timeline (familia Datos y listas)
+  - [x] 17.1 Adaptar `Timeline`
     - `Timeline.module.css`: `@container (max-width: 39.99rem)` hace que la alternada pase a una columna (el `@container (min-width: 40rem)` existente ya coincide con el Breakpoint_Set). En horizontal, `scrollIntoView` sobre el punto actual al montar, con protección para jsdom.
     - _Requirements: 1.5, 4.11, 4.12, 12.2, 12.3_
 
-  - [ ] 17.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Timeline.stories.tsx`
+  - [x] 17.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Timeline.stories.tsx`
     - `Mobile`: bitácora de 20 o más eventos, alternada y horizontal con el punto actual al final. `Tablet`: alternada en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -375,7 +375,7 @@ Convenciones:
     - Una columna en móvil; el punto actual queda visible en horizontal; sin desborde de la página; a11y.
     - _Requirements: 4.11, 4.12, 11.2, 11.4_
 
-  - [ ] 17.4 Revisión visual de `Timeline`
+  - [x] 17.4 Revisión visual de `Timeline`
     - Revisar en Storybook `Components/Timeline › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: móvil en una sola columna sin alternar lados; la horizontal se desplaza solo dentro de su contenedor y arranca en el punto actual; la alternada vuelve a dos lados desde 40rem de contenedor.
     - Verificar que a 1280 px las stories existentes de `Timeline` no cambiaron (Requirement 12.3).
