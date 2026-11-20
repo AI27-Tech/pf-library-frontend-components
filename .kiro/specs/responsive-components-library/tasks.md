@@ -480,11 +480,11 @@ Convenciones:
     - _Requirements: 5.2, 12.3_
 
 - [ ] 23. Form, FormSection, FormRow y FormActions (familia Formularios)
-  - [ ] 23.1 Adaptar `Form`, `FormSection`, `FormRow` y `FormActions`
+  - [x] 23.1 Adaptar `Form`, `FormSection`, `FormRow` y `FormActions`
     - `Form.module.css`: `FormRow` con `@media (max-width: 39.99rem)` en una columna (reemplaza 560 px); `FormActions` en columna al 100 % con la acción principal primero en el orden visual y de tabulación; barra fija con `padding-bottom: env(safe-area-inset-bottom)`. Quitar `Form` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 5.1, 5.3, 5.4, 12.2, 12.3_
 
-  - [ ] 23.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Form.stories.tsx`
+  - [x] 23.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Form.stories.tsx`
     - `Mobile`: formulario de alta de viaje con secciones, filas de 3 campos, secciones colapsables y barra fija de acciones. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -492,7 +492,7 @@ Convenciones:
     - Una columna en `FormRow`; orden de tabulación de `FormActions`; relleno de área segura con barra fija; sin desborde; a11y.
     - _Requirements: 5.1, 5.3, 5.4, 11.2, 11.4_
 
-  - [ ] 23.4 Revisión visual de `Form`
+  - [x] 23.4 Revisión visual de `Form`
     - Revisar en Storybook `Components/Form › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: campos en una columna en móvil; botones apilados con la acción principal arriba; la barra fija no tapa el último campo ni el área segura; en tablet y escritorio las filas conservan sus columnas.
     - Verificar que a 1280 px las stories existentes de `Form` no cambiaron (Requirement 12.3).

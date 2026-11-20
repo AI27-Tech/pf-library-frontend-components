@@ -10,6 +10,8 @@ import { Button } from "../Button";
 import { Checkbox } from "../Input/Checkbox";
 import { DateInput } from "../DatePicker/DateInput";
 import { TimePicker } from "../DatePicker/TimePicker";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN, viaje } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Form",
@@ -264,3 +266,55 @@ export const FullFormWithPickers: Story = {
     );
   },
 };
+
+/** Movil: fila de dos campos que se apila, etiquetas largas y acciones a todo el ancho. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <Form onSubmit={(e) => e.preventDefault()}>
+        <FormSection title={`Viaje ${viaje.folio}`} description="Datos de salida y contacto">
+          <FormRow>
+            <FormField label={`Custodio ${LONG_TOKEN}`} required>
+              <Input />
+            </FormField>
+            <FormField label="Unidad" helpText={viaje.origen}>
+              <Input />
+            </FormField>
+          </FormRow>
+        </FormSection>
+        <FormActions>
+          <Button type="submit">Guardar viaje</Button>
+          <Button variant="secondary" type="button">Cancelar</Button>
+        </FormActions>
+      </Form>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: la fila de dos campos sigue en dos columnas y las acciones van en linea a la derecha. */
+const tabletStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <Form onSubmit={(e) => e.preventDefault()}>
+        <FormSection title={`Viaje ${viaje.folio}`} description="Datos de salida y contacto">
+          <FormRow>
+            <FormField label="Nombre" required>
+              <Input />
+            </FormField>
+            <FormField label="Correo">
+              <Input type="email" />
+            </FormField>
+          </FormRow>
+        </FormSection>
+        <FormActions>
+          <Button variant="secondary" type="button">Cancelar</Button>
+          <Button type="submit">Guardar viaje</Button>
+        </FormActions>
+      </Form>
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);
