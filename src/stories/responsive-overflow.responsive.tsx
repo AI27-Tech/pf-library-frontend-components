@@ -51,9 +51,11 @@ export function touchTargetViolations(root: ParentNode = document): Array<{
 }
 
 /** Espera dos cuadros de animación para que el layout se asiente tras cambiar el ancho. */
-function settle(): Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+async function settle(): Promise<void> {
+  // Las animaciones de entrada (p. ej. Toast) cambian la opacidad; se espera a que terminen para medir.
+  await Promise.allSettled(document.getAnimations().map((animation) => animation.finished));
+  await new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve(undefined)));
   });
 }
 

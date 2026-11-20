@@ -650,12 +650,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Alert` no cambiaron (Requirement 12.3).
     - _Requirements: 6.8, 12.3_
 
-- [ ] 32. Toast y ToastContainer (familia Avisos y superposiciones)
-  - [ ] 32.1 Adaptar `Toast` y `ToastContainer`
+- [x] 32. Toast y ToastContainer (familia Avisos y superposiciones)
+  - [x] 32.1 Adaptar `Toast` y `ToastContainer`
     - `Toast.module.css`: en móvil ancho `calc(100vw - 2 * var(--ui-space-4))`, anclado al borde de `position` con `env(safe-area-inset-*)`; cierre con Touch_Target de 44 px; movimiento reducido.
     - _Requirements: 6.5, 6.10, 9.2, 12.2, 12.3_
 
-  - [ ] 32.2 Agregar Responsive_Story `Mobile` en `Toast.stories.tsx`
+  - [x] 32.2 Agregar Responsive_Story `Mobile` en `Toast.stories.tsx`
     - `Mobile`: contenedor arriba y abajo con tres toasts de mensaje largo.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -663,7 +663,7 @@ Convenciones:
     - Ancho y separación del borde en móvil; cierre con Touch_Target; movimiento reducido; a11y (`role="status"`/`alert`).
     - _Requirements: 6.5, 6.10, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 32.4 Revisión visual de `Toast`
+  - [x] 32.4 Revisión visual de `Toast`
     - Revisar en Storybook `Components/Toast › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: los toasts ocupan el ancho menos márgenes y respetan el área segura; el cierre se acierta; en escritorio conservan su tamaño y esquina.
     - Verificar que a 1280 px las stories existentes de `Toast` no cambiaron (Requirement 12.3).

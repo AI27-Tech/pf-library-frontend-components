@@ -149,3 +149,39 @@
     animation: none;
   }
 }
+
+/* Movil: el contenedor ocupa el ancho de la ventana menos los margenes, respetando el area segura del dispositivo. */
+@media (max-width: 39.99rem) {
+  .container {
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding:
+      calc(var(--ui-space-4, 1rem) + env(safe-area-inset-top, 0px))
+      calc(var(--ui-space-4, 1rem) + env(safe-area-inset-right, 0px))
+      calc(var(--ui-space-4, 1rem) + env(safe-area-inset-bottom, 0px))
+      calc(var(--ui-space-4, 1rem) + env(safe-area-inset-left, 0px));
+  }
+  .top-center,
+  .bottom-center {
+    transform: none;
+  }
+  .toast {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .close {
+    position: relative;
+  }
+  .close::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+    transform: translate(-50%, -50%);
+  }
+}
