@@ -499,11 +499,11 @@ Convenciones:
     - _Requirements: 5.1, 5.3, 5.4, 12.3_
 
 - [ ] 24. Input y Textarea (familia Formularios)
-  - [ ] 24.1 Adaptar `Input` y `Textarea`
+  - [x] 24.1 Adaptar `Input` y `Textarea`
     - `Input.module.css`: en móvil `min-height: var(--ui-touch-target-min)` y `font-size: 1rem`; botones `clearable` y `passwordToggle` con Touch_Target de 44 px; contador de `Textarea` sin desborde.
     - _Requirements: 5.5, 9.2, 12.2, 12.3_
 
-  - [ ] 24.2 Agregar Responsive_Story `Mobile` en `Input.stories.tsx`
+  - [x] 24.2 Agregar Responsive_Story `Mobile` en `Input.stories.tsx`
     - `Mobile`: `Input` con `clearable`, `passwordToggle`, valor `LONG_TOKEN` y `Textarea` con contador.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -511,7 +511,7 @@ Convenciones:
     - Alto ≥ 2.75rem y fuente ≥ 1rem en móvil; Touch_Target de los botones internos; sin desborde; a11y.
     - _Requirements: 5.5, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 24.4 Revisión visual de `Input` y `Textarea`
+  - [x] 24.4 Revisión visual de `Input` y `Textarea`
     - Revisar en Storybook `Components/Input › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: campos cómodos de tocar y sin zoom automático del navegador (fuente de 1rem); botones de limpiar y mostrar contraseña se aciertan; valor largo no ensancha la página.
     - Verificar que a 1280 px las stories existentes de `Input` no cambiaron (Requirement 12.3).
