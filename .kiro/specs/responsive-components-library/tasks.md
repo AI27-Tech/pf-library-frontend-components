@@ -575,11 +575,11 @@ Convenciones:
     - _Requirements: 5.8, 12.3_
 
 - [ ] 28. DateInput (familia Formularios, fechas)
-  - [ ] 28.1 Adaptar `DateInput`
+  - [x] 28.1 Adaptar `DateInput`
     - `DateInput.module.css`: presets apilados sobre el calendario en móvil, ambos al 100 %; sin `min-width` con `@container (max-width: 12rem)`; `clampToViewport` en cada apertura y en `resize`/`orientationchange`; `max-height` con `overflow: auto` si no cabe; mantener visible el control que abrió el panel.
     - _Requirements: 5.9, 5.11, 5.12, 5.13, 9.7, 12.2, 12.3_
 
-  - [ ] 28.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DateInput.stories.tsx`
+  - [x] 28.2 Agregar Responsive_Story `Mobile` y `Tablet` en `DateInput.stories.tsx`
     - `Mobile`: `DateInput` con presets, al borde derecho de la pantalla y en un contenedor de 10rem. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -587,7 +587,7 @@ Convenciones:
     - Panel dentro del viewport al abrir y tras `resize`; presets apilados en móvil; Escape cierra; a11y.
     - _Requirements: 5.9, 5.11, 5.12, 5.13, 11.2, 11.4_
 
-  - [ ] 28.4 Revisión visual de `DateInput`
+  - [x] 28.4 Revisión visual de `DateInput`
     - Revisar en Storybook `Components/DatePicker/DateInput › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el panel queda dentro de los cuatro bordes y el campo sigue visible; presets arriba del calendario en móvil; con el panel más alto que la pantalla se desplaza por dentro; girar el dispositivo reposiciona el panel.
     - Verificar que a 1280 px las stories existentes de `DateInput` no cambiaron (Requirement 12.3).

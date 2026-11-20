@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Sidebar**: el botón de colapso se mueve a la esquina inferior derecha, en una fila al final de la barra, centrado cuando la barra está contraída. Ya no está en el encabezado. El encabezado solo muestra `header`, y `footer` queda entre el contenido y el botón.
 
+- **`DateInput`**: el campo de fecha tiene `role="combobox"` (antes `textbox`) y `aria-controls` cuando el calendario está abierto, para que `aria-expanded` y `aria-haspopup` sean válidos. Visualmente no cambia. Los consumidores que busquen el campo con `getByRole('textbox')` en sus pruebas deben usar `getByRole('combobox')`.
+
 ## [0.3.0-beta.1] — 2026-11-12
 ### Agregado
 - **Fechas y horas (`DatePicker`)**: `Calendar` (vistas de días, meses y años; teclado de rejilla ARIA; `min`, `max`, `isDateDisabled`, `weekStartsOn`), `DateInput` (escritura `DD/MM/AAAA`, presets, `clearable`, `displayFormat`), `TimePicker` (segmentos de hora, minuto y segundo; AM/PM con `format="12h"`; dropdown con opciones deshabilitadas fuera de rango; presets y pegado), `DateTimeInput` (fecha y hora en un solo valor `YYYY-MM-DDTHH:mm`) y `getTimeRange` para generar listas de horas. Contrato de valores documentado en el README.
