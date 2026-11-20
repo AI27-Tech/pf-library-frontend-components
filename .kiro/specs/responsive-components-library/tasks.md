@@ -669,12 +669,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Toast` no cambiaron (Requirement 12.3).
     - _Requirements: 6.5, 12.3_
 
-- [ ] 33. Modal (familia Avisos y superposiciones)
-  - [ ] 33.1 Adaptar `Modal`
+- [x] 33. Modal (familia Avisos y superposiciones)
+  - [x] 33.1 Adaptar `Modal`
     - `Modal.module.css`: móvil con ancho `calc(100vw - 2 * var(--ui-space-4))` sin importar `size`; `max-height` con `100vh` y luego `100dvh` menos el doble del margen; encabezado y pie fijos con cuerpo desplazable; pie en columna con botones al 100 %; cierre con Touch_Target de 44 px. Menos de 320 px: ancho mínimo `calc(320px - 2 * var(--ui-space-4))` y desplazamiento horizontal interno. Movimiento reducido. No cambiar el comportamiento del foco.
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.10, 6.11, 9.2, 9.7, 12.2, 12.3_
 
-  - [ ] 33.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Modal.stories.tsx`
+  - [x] 33.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Modal.stories.tsx`
     - `Mobile`: modal `lg` con cuerpo de 20 o más renglones, título largo y tres botones en el pie. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -682,7 +682,7 @@ Convenciones:
     - Ancho y alto máximos en móvil; encabezado y pie visibles con cuerpo desplazable; foco, Escape y trampa de foco intactos; ancho mínimo bajo 320 px; movimiento reducido; a11y.
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.10, 6.11, 11.2, 11.4_
 
-  - [ ] 33.4 Revisión visual de `Modal`
+  - [x] 33.4 Revisión visual de `Modal`
     - Revisar en Storybook `Components/Modal › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el modal cabe con márgenes; el pie nunca queda oculto por la barra del navegador; el cuerpo se desplaza y el encabezado y el pie quedan fijos; los botones del pie en columna; el cierre se acierta.
     - Verificar que a 1280 px las stories existentes de `Modal` no cambiaron (Requirement 12.3).

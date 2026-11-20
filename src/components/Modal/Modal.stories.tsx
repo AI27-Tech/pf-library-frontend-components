@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Modal } from "./Modal";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 import { Button } from "../Button";
 import { FormField } from "../Input/FormField";
 import { Input } from "../Input/Input";
@@ -107,3 +109,64 @@ export const WithForm: Story = {
     );
   },
 };
+
+/** Movil: modal grande con cuerpo largo, titulo largo y tres botones en el pie. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <Modal
+        open
+        onClose={() => {}}
+        size="lg"
+        title={`Detalle del viaje ${LONG_TOKEN}`}
+        footer={
+          <>
+            <Button variant="primary">Guardar</Button>
+            <Button variant="secondary">Descartar</Button>
+            <Button variant="ghost">Volver</Button>
+          </>
+        }
+      >
+        <div>
+          <p>Linea de detalle 1 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 2 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 3 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 4 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 5 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 6 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 7 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 8 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 9 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 10 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 11 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 12 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 13 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 14 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 15 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 16 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 17 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 18 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 19 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 20 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 21 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+          <p>Linea de detalle 22 del viaje: la unidad cumple el itinerario, el custodio confirma cada parada y la bitacora se actualiza en tiempo real.</p>
+        </div>
+      </Modal>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: el mismo modal en 768 px. */
+const tabletStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <Modal open onClose={() => {}} size="lg" title="Detalle del viaje" footer={<Button variant="primary">Cerrar</Button>}>
+        <p>Detalle breve del viaje para la vista de tablet.</p>
+      </Modal>
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

@@ -134,7 +134,7 @@ export function Modal({
             )}
           </div>
         )}
-        <div className={styles.body}>{children}</div>
+        <div className={styles.body} tabIndex={0}>{children}</div>
         {footer && <div className={styles.footer}>{footer}</div>}
       </div>
     </div>,
