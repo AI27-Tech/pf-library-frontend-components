@@ -783,12 +783,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `ProgressBar` no cambiaron (Requirement 12.3).
     - _Requirements: 6.9, 12.3_
 
-- [ ] 39. ImageCard (familia Imágenes)
-  - [ ] 39.1 Adaptar `ImageCard`
+- [x] 39. ImageCard (familia Imágenes)
+  - [x] 39.1 Adaptar `ImageCard`
     - `ImageCard.module.css`: migrar `@media (max-width: 640px)` a `39.99rem`; `aspect-ratio` de la imagen y `min-width: 0` en insignias y acciones. Quitar `ImageCard` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 7.5, 12.2, 12.3_
 
-  - [ ] 39.2 Agregar Responsive_Story `Mobile` en `ImageCard.stories.tsx`
+  - [x] 39.2 Agregar Responsive_Story `Mobile` en `ImageCard.stories.tsx`
     - `Mobile`: tarjeta con 3 insignias, título `LONG_TOKEN`, pie con acciones y una de audio.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -796,7 +796,7 @@ Convenciones:
     - Proporción de la imagen conservada; insignias y acciones dentro de los límites; sin desborde; a11y.
     - _Requirements: 7.5, 11.2, 11.4_
 
-  - [ ] 39.4 Revisión visual de `ImageCard`
+  - [x] 39.4 Revisión visual de `ImageCard`
     - Revisar en Storybook `Components/ImageCard › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: la imagen mantiene su proporción; insignias y acciones quedan dentro de la tarjeta; el cambio de umbral de 640 px a `39.99rem` no se nota en escritorio.
     - Verificar que a 1280 px las stories existentes de `ImageCard` no cambiaron (Requirement 12.3).
