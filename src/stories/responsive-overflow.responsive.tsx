@@ -52,8 +52,9 @@ export function touchTargetViolations(root: ParentNode = document): Array<{
 
 /** Espera dos cuadros de animación para que el layout se asiente tras cambiar el ancho. */
 async function settle(): Promise<void> {
-  // Las animaciones de entrada (p. ej. Toast) cambian la opacidad; se espera a que terminen para medir.
-  await Promise.allSettled(document.getAnimations().map((animation) => animation.finished));
+  // Las animaciones de entrada (p. ej. Toast) cambian la opacidad; se espera a las finitas. Las infinitas (skeletons) no terminan nunca y no se esperan.
+  const finite = document.getAnimations().filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity);
+  await Promise.allSettled(finite.map((animation) => animation.finished));
   await new Promise((resolve) => {
     requestAnimationFrame(() => requestAnimationFrame(() => resolve(undefined)));
   });

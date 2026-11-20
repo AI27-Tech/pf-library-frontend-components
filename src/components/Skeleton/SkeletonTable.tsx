@@ -1,5 +1,6 @@
 import type { HTMLAttributes, Key } from "react";
 import { Table, type Column } from "../Table";
+import styles from "./Skeleton.module.css";
 
 export interface SkeletonTableProps extends HTMLAttributes<HTMLDivElement> {
   /** Número de filas en carga. Por defecto: 5. */
@@ -32,12 +33,12 @@ export function SkeletonTable({
 }: SkeletonTableProps) {
   const placeholderColumns: Column<unknown>[] = Array.from({ length: columns }, (_, index) => ({
     key: `skeleton-${index}`,
-    header: null,
+    header: <span className="ui-sr-only">{`Columna ${index + 1}`}</span>,
   }));
   const noSelection = new Set<Key>();
 
   return (
-    <div role="status" aria-busy="true" className={className} {...props}>
+    <div role="status" aria-busy="true" className={[styles.tableRoot, className].filter(Boolean).join(" ")} {...props}>
       <span className="ui-sr-only">Cargando</span>
       <Table<unknown>
         columns={placeholderColumns}

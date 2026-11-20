@@ -726,12 +726,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Tooltip` no cambiaron (Requirement 12.3).
     - _Requirements: 6.7, 12.3_
 
-- [ ] 36. Skeleton, SkeletonText, SkeletonCard y SkeletonTable (familia Avisos y cargas)
-  - [ ] 36.1 Adaptar `Skeleton*`
+- [x] 36. Skeleton, SkeletonText, SkeletonCard y SkeletonTable (familia Avisos y cargas)
+  - [x] 36.1 Adaptar `Skeleton*`
     - `Skeleton.module.css`: `max-width: 100%`; `SkeletonTable` sin ancho fijo mayor al contenedor.
     - _Requirements: 6.9, 12.2, 12.3_
 
-  - [ ] 36.2 Agregar Responsive_Story `Mobile` en `Skeleton.stories.tsx`
+  - [x] 36.2 Agregar Responsive_Story `Mobile` en `Skeleton.stories.tsx`
     - `Mobile`: los cuatro skeletons con anchos fijos grandes en contenedor angosto.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -739,7 +739,7 @@ Convenciones:
     - Sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 6.9, 11.2, 11.4_
 
-  - [ ] 36.4 Revisión visual de `Skeleton`
+  - [x] 36.4 Revisión visual de `Skeleton`
     - Revisar en Storybook `Components/Skeleton › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: los placeholders no ensanchan la página y conservan la forma del contenido.
     - Verificar que a 1280 px las stories existentes de `Skeleton` no cambiaron (Requirement 12.3).
