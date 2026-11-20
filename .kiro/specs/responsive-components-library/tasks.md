@@ -707,12 +707,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Popover` no cambiaron (Requirement 12.3).
     - _Requirements: 6.6, 12.3_
 
-- [ ] 35. Tooltip (familia Avisos y superposiciones)
-  - [ ] 35.1 Adaptar `Tooltip`
+- [x] 35. Tooltip (familia Avisos y superposiciones)
+  - [x] 35.1 Adaptar `Tooltip`
     - `Tooltip.module.css` y TSX: coordenada horizontal con `clampToViewport`; `max-width` al viewport; `@media (prefers-reduced-motion: reduce)` donde falte.
     - _Requirements: 6.7, 6.10, 12.2, 12.3_
 
-  - [ ] 35.2 Agregar Responsive_Story `Mobile` en `Tooltip.stories.tsx`
+  - [x] 35.2 Agregar Responsive_Story `Mobile` en `Tooltip.stories.tsx`
     - `Mobile`: tooltips en el borde izquierdo y derecho con texto largo.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -720,7 +720,7 @@ Convenciones:
     - Siempre dentro del viewport; movimiento reducido; a11y (`role="tooltip"`, `aria-describedby`).
     - _Requirements: 6.7, 6.10, 9.6, 11.2, 11.4_
 
-  - [ ] 35.4 Revisión visual de `Tooltip`
+  - [x] 35.4 Revisión visual de `Tooltip`
     - Revisar en Storybook `Components/Tooltip › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el texto no se corta en los bordes; se ve con foco de teclado.
     - Verificar que a 1280 px las stories existentes de `Tooltip` no cambiaron (Requirement 12.3).

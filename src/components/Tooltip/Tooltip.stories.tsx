@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tooltip } from "./Tooltip";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Tooltip",
@@ -32,3 +33,17 @@ export const Default: Story = {
     </div>
   ),
 };
+
+/** Movil: un tooltip en el borde izquierdo y otro en el derecho, con texto largo. */
+const mobileStory: Story = {
+  args: { children: null, x: 0, y: 0 },
+  render: () => (
+    <main>
+      <div style={{ position: "relative", height: 320 }}>
+        <Tooltip x={4} y={120}>Ver la bitacora completa de la unidad PT-07 con las paradas, firmas y evidencias</Tooltip>
+        <Tooltip x={371} y={240}>Incidencia por retraso en la frontera de Nuevo Laredo con la carga pendiente</Tooltip>
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
