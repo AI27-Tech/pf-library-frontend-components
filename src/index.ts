@@ -176,11 +176,12 @@ export { Navbar, NavbarLink } from "./components/Navbar";
 export type { NavbarProps, NavbarLinkProps } from "./components/Navbar";
 
 // Sidebar
-export { Sidebar, SidebarGroup, SidebarItem } from "./components/Sidebar";
+export { Sidebar, SidebarGroup, SidebarItem, SidebarTrigger } from "./components/Sidebar";
 export type {
   SidebarProps,
   SidebarGroupProps,
   SidebarItemProps,
+  SidebarTriggerProps,
 } from "./components/Sidebar";
 
 // Breadcrumb

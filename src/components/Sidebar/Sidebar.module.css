@@ -104,7 +104,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ui-color-text-placeholder, #64748b);
+  color: var(--ui-color-text-muted, #94a3b8);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -144,8 +144,8 @@
 }
 
 .item.active {
-  background-color: color-mix(in srgb, var(--ui-color-primary) 14%, transparent);
-  color: var(--ui-color-primary, #7c9df0);
+  color: var(--ui-color-text, #e2e8f0);
+  box-shadow: inset 2px 0 0 var(--ui-color-primary, #7c9df0);
 }
 
 .item:focus-visible {
@@ -211,4 +211,62 @@
   justify-content: center;
 }
 
+/* Disparador del panel móvil: 44 px. Solo se ve en móvil. */
+.trigger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--ui-touch-target-min);
+  height: var(--ui-touch-target-min);
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius-sm, 0.125rem);
+  background: transparent;
+  color: var(--ui-color-text, #e2e8f0);
+  cursor: pointer;
+}
+.trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+.trigger svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.backdrop {
+  display: none;
+}
 
+/* Móvil: la barra es un panel fuera de pantalla que se abre encima del contenido. */
+@media (max-width: 39.99rem) {
+  .sidebar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 200;
+    width: min(var(--sidebar-width), 85vw);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform var(--ui-duration-base, 200ms) var(--ui-ease-emphasized, ease),
+      visibility var(--ui-duration-base, 200ms);
+  }
+  .sidebar.open {
+    transform: none;
+    visibility: visible;
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+    background-color: var(--ui-overlay-bg);
+  }
+  .trigger {
+    display: inline-flex;
+  }
+  .toggleRow {
+    display: none;
+  }
+}

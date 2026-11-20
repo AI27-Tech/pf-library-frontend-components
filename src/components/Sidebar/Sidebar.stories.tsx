@@ -1,7 +1,8 @@
 import { useState, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { House, Package, Settings, Users } from "lucide-react";
-import { Sidebar, SidebarGroup, SidebarItem } from "./Sidebar";
+import { House, Package, Settings, Truck, Users } from "lucide-react";
+import { Sidebar, SidebarGroup, SidebarItem, SidebarTrigger } from "./Sidebar";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Sidebar",
@@ -143,3 +144,73 @@ export const ConLogoAlContraer: Story = {
     );
   },
 };
+
+const elementosDeDominio = [
+  { id: "viajes", label: "Viajes", icon: <Truck /> },
+  { id: "bitacora", label: "Bitácora", icon: <House /> },
+  { id: "unidades", label: "Unidades", icon: <Package /> },
+  { id: "custodios", label: "Custodios", icon: <Users /> },
+  { id: "operadores", label: "Operadores", icon: <Users /> },
+  { id: "patrullas", label: "Patrullas", icon: <Package /> },
+  { id: "clientes", label: "Clientes", icon: <House /> },
+  { id: "incidencias", label: "Incidencias", icon: <Package /> },
+  { id: "estadias", label: "Estadías", icon: <Package /> },
+  { id: "reportes", label: "Reportes", icon: <Settings /> },
+  { id: "configuracion", label: "Configuración", icon: <Settings /> },
+];
+
+/** Panel móvil controlado: el disparador abre la barra y la barra se cierra al elegir un elemento. */
+function EjemploResponsive() {
+  const [abierto, setAbierto] = useState(false);
+  const [activo, setActivo] = useState("viajes");
+  return (
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Sidebar mobileOpen={abierto} onMobileOpenChange={setAbierto}>
+        <SidebarGroup label="Operación">
+          {elementosDeDominio.slice(0, 6).map((item) => (
+            <SidebarItem
+              key={item.id}
+              icon={item.icon}
+              label={item.label}
+              active={activo === item.id}
+              onClick={() => setActivo(item.id)}
+            >
+              {item.label}
+            </SidebarItem>
+          ))}
+        </SidebarGroup>
+        <SidebarGroup label="Catálogos">
+          {elementosDeDominio.slice(6).map((item) => (
+            <SidebarItem
+              key={item.id}
+              icon={item.icon}
+              label={item.label}
+              active={activo === item.id}
+              onClick={() => setActivo(item.id)}
+            >
+              {item.label}
+            </SidebarItem>
+          ))}
+        </SidebarGroup>
+      </Sidebar>
+      <main style={{ flex: 1, minWidth: 0, padding: "var(--ui-space-4)" }}>
+        <SidebarTrigger open={abierto} onClick={() => setAbierto(true)} />
+        <p>Sección activa: {elementosDeDominio.find((item) => item.id === activo)?.label}</p>
+      </main>
+    </div>
+  );
+}
+
+const mobileStory: Story = {
+  render: () => <EjemploResponsive />,
+};
+
+/** Móvil: el panel está cerrado; el disparador de 44 px lo abre sobre un fondo. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  render: () => <EjemploResponsive />,
+};
+
+/** Tablet: la barra va contraída a iconos. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

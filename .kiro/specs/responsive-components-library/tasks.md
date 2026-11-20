@@ -284,22 +284,22 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Navbar` no cambiaron (Requirement 12.3).
     - _Requirements: 3.8, 12.3_
 
-- [ ] 13. Sidebar, SidebarGroup, SidebarItem y SidebarTrigger (familia Navegación)
-  - [ ] 13.1 Implementar el panel móvil de `Sidebar` y el componente `SidebarTrigger`
+- [x] 13. Sidebar, SidebarGroup, SidebarItem y SidebarTrigger (familia Navegación)
+  - [x] 13.1 Implementar el panel móvil de `Sidebar` y el componente `SidebarTrigger`
     - Props `mobileOpen`, `onMobileOpenChange`, `autoCollapseOnTablet`; `SidebarTrigger` (44 px) exportado desde `src/index.ts`.
     - Móvil: `<nav>` `fixed` fuera de pantalla, fondo `data-sidebar-backdrop`, `useFocusTrap` solo con el panel abierto, Escape y clic en el fondo cierran y devuelven el foco al control que lo abrió, clic en `SidebarItem` cierra sin detener la navegación del consumidor.
     - Si el breakpoint deja de ser `mobile` con el panel abierto, cerrar y retirar fondo y trampa. Tablet: contraído por defecto si `collapsed` no se pasa. Escritorio sin cambios. `aria-expanded` y `aria-label` en todos los rangos.
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.10, 9.2, 12.2, 12.3_
 
-  - [ ] 13.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Sidebar.stories.tsx`
+  - [x] 13.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Sidebar.stories.tsx`
     - `Mobile`: `SidebarTrigger` más `Sidebar` con grupos y 10 o más items de dominio (Viajes, Bitácora, Unidades, Custodios…). `Tablet`: contraído a iconos.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
-  - [ ]* 13.3 Write tests for `Sidebar`
+  - [x]* 13.3 Write tests for `Sidebar`
     - Abrir y cerrar con Escape y fondo, retorno de foco, trampa de foco (Tab y Mayús+Tab), cierre al cambiar de breakpoint, `aria-expanded`, cierre al elegir un item.
     - _Requirements: 3.1, 3.4, 3.5, 3.6, 3.7, 3.10, 11.2, 11.4_
 
-  - [ ] 13.4 Revisión visual de `Sidebar`
+  - [x] 13.4 Revisión visual de `Sidebar`
     - Revisar en Storybook `Components/Sidebar › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: en móvil el panel está oculto y el botón lo abre sobre un fondo oscuro; Escape y toque en el fondo lo cierran y el foco vuelve al botón; elegir un item lo cierra; en tablet queda solo con iconos y se expande; girar el dispositivo con el panel abierto lo cierra al pasar a un ancho mayor.
     - Verificar que en escritorio el ancho `--ui-sidebar-width` y la contracción manual no cambiaron (Requirement 12.3).
