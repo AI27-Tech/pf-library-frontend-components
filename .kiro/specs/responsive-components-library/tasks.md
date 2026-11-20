@@ -518,11 +518,11 @@ Convenciones:
     - _Requirements: 5.5, 12.3_
 
 - [ ] 25. Select (familia Formularios)
-  - [ ] 25.1 Adaptar `Select` y `SelectCustom`
+  - [x] 25.1 Adaptar `Select` y `SelectCustom`
     - En móvil `min-height: var(--ui-touch-target-min)` y `font-size: 1rem`; lista de `variant="searchable"` con `max-height: min(20rem, 60dvh)` y `overflow-y: auto`; opciones con Touch_Target de 44 px.
     - _Requirements: 5.5, 5.6, 9.2, 12.2, 12.3_
 
-  - [ ] 25.2 Agregar Responsive_Story `Mobile` en `Select.stories.tsx`
+  - [x] 25.2 Agregar Responsive_Story `Mobile` en `Select.stories.tsx`
     - `Mobile`: `Select` nativo y `searchable` con 50 o más opciones y etiquetas largas.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -530,7 +530,7 @@ Convenciones:
     - La lista no supera la altura visible y se desplaza dentro; Touch_Target de opciones; teclado (flechas, Escape); a11y.
     - _Requirements: 5.5, 5.6, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 25.4 Revisión visual de `Select`
+  - [x] 25.4 Revisión visual de `Select`
     - Revisar en Storybook `Components/Select › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: la lista cabe en pantalla y se desplaza por dentro; escribir para buscar sigue siendo cómodo con el teclado en pantalla; las opciones se aciertan con el pulgar.
     - Verificar que a 1280 px las stories existentes de `Select` no cambiaron (Requirement 12.3).
