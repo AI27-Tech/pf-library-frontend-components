@@ -745,12 +745,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Skeleton` no cambiaron (Requirement 12.3).
     - _Requirements: 6.9, 12.3_
 
-- [ ] 37. Spinner (familia Avisos y cargas)
-  - [ ] 37.1 Adaptar `Spinner`
+- [x] 37. Spinner (familia Avisos y cargas)
+  - [x] 37.1 Adaptar `Spinner`
     - `Spinner.module.css`: `max-width: 100%`; el movimiento reducido ya existe, conservarlo.
     - _Requirements: 6.9, 12.2, 12.3_
 
-  - [ ] 37.2 Agregar Responsive_Story `Mobile` en `Spinner.stories.tsx`
+  - [x] 37.2 Agregar Responsive_Story `Mobile` en `Spinner.stories.tsx`
     - `Mobile`: tamaños dentro de un contenedor de 320 px con etiqueta larga.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -758,7 +758,7 @@ Convenciones:
     - Sin desborde; a11y (`role="status"`).
     - _Requirements: 6.9, 11.2, 11.4_
 
-  - [ ] 37.4 Revisión visual de `Spinner`
+  - [x] 37.4 Revisión visual de `Spinner`
     - Revisar en Storybook `Components/Spinner › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el indicador queda dentro del contenedor y centrado.
     - Verificar que a 1280 px las stories existentes de `Spinner` no cambiaron (Requirement 12.3).
