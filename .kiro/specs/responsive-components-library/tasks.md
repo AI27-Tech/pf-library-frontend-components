@@ -631,12 +631,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `DateTimeInput` no cambiaron (Requirement 12.3).
     - _Requirements: 5.10, 12.3_
 
-- [ ] 31. Alert (familia Avisos y superposiciones)
-  - [ ] 31.1 Adaptar `Alert`
+- [x] 31. Alert (familia Avisos y superposiciones)
+  - [x] 31.1 Adaptar `Alert`
     - `Alert.module.css`: en móvil icono, mensaje y acciones apilados sin desborde; botón de cerrar con Touch_Target de 44 px; `@media (prefers-reduced-motion: reduce)` donde falte.
     - _Requirements: 6.8, 6.10, 9.2, 12.2, 12.3_
 
-  - [ ] 31.2 Agregar Responsive_Story `Mobile` en `Alert.stories.tsx`
+  - [x] 31.2 Agregar Responsive_Story `Mobile` en `Alert.stories.tsx`
     - `Mobile`: alertas `info`, `warning` y `danger` con mensaje largo, dos acciones y botón de cerrar.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -644,7 +644,7 @@ Convenciones:
     - Disposición apilada en móvil; sin desborde; movimiento reducido; a11y (`role`).
     - _Requirements: 6.8, 6.10, 11.2, 11.4_
 
-  - [ ] 31.4 Revisión visual de `Alert`
+  - [x] 31.4 Revisión visual de `Alert`
     - Revisar en Storybook `Components/Alert › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: icono, mensaje y acciones en columna en móvil; el cierre se acierta; los cuatro colores son legibles en `light` y `dark`.
     - Verificar que a 1280 px las stories existentes de `Alert` no cambiaron (Requirement 12.3).
