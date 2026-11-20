@@ -2,6 +2,8 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Folder, House, Package, Truck } from "lucide-react";
 import { Breadcrumb, type BreadcrumbItemData } from "./Breadcrumb";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Breadcrumb",
@@ -115,3 +117,24 @@ export const CustomSeparator: Story = {
     items: basicItems,
   },
 };
+
+const rutaMovil: BreadcrumbItemData[] = [
+  { label: "Inicio", href: "#inicio" },
+  { label: "Operación de viajes en curso", href: "#operacion" },
+  { label: "Bitácora de cruces fronterizos", href: "#bitacora" },
+  { label: LONG_TOKEN, href: "#token" },
+  { label: "Tracto con remolque de tres ejes", href: "#tracto" },
+  { label: "Viaje 2045" },
+];
+
+const mobileStory: Story = {
+  args: { items: rutaMovil, maxItems: 3 },
+  render: (args) => (
+    <main>
+      <Breadcrumb {...args} />
+    </main>
+  ),
+};
+
+/** Móvil: seis elementos con nombres largos se pliegan a tres; se ven el primero y el último. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

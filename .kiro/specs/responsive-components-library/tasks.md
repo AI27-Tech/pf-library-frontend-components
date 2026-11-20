@@ -246,12 +246,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Tabs` no cambiaron (Requirement 12.3).
     - _Requirements: 2.6, 9.7, 12.3_
 
-- [ ] 11. Breadcrumb (familia Navegación)
-  - [ ] 11.1 Ajustar `Breadcrumb`
+- [x] 11. Breadcrumb (familia Navegación)
+  - [x] 11.1 Ajustar `Breadcrumb`
     - Confirmar que `maxItems` conserva primero y último; si el plegado no es función pura, cubrirlo con pruebas de ejemplo. `Breadcrumb.module.css`: `min-width: 0`, elementos con `overflow-wrap: anywhere`; enlaces con Touch_Target con puntero grueso.
     - _Requirements: 2.5, 3.9, 9.2, 12.2, 12.3_
 
-  - [ ] 11.2 Agregar Responsive_Story `Mobile` en `Breadcrumb.stories.tsx`
+  - [x] 11.2 Agregar Responsive_Story `Mobile` en `Breadcrumb.stories.tsx`
     - `Mobile`: ruta de 6 elementos con nombres largos y `maxItems={3}`.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -259,7 +259,7 @@ Convenciones:
     - El plegado conserva primero y último; sin desborde en 320, 375, 768 y 1280; a11y (`aria-label`, `aria-current`).
     - _Requirements: 3.9, 9.6, 11.2, 11.4_
 
-  - [ ] 11.4 Revisión visual de `Breadcrumb`
+  - [x] 11.4 Revisión visual de `Breadcrumb`
     - Revisar en Storybook `Components/Breadcrumb › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: se ven el primer y el último elemento y los intermedios plegados; el elemento plegado se puede abrir; sin desborde.
     - Verificar que a 1280 px las stories existentes de `Breadcrumb` no cambiaron (Requirement 12.3).
