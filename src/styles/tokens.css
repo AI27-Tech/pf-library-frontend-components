@@ -180,6 +180,12 @@
   --ui-color-primary: #7c9df0;
   --ui-color-primary-hover: #8ba7f8;
   --ui-color-primary-active: #6b8ee6;
+  /* Texto de estado sobre fondos tenues (AA). En oscuro, igual al color base. */
+  --ui-color-success-text: var(--ui-color-success);
+  --ui-color-danger-text: var(--ui-color-danger);
+  --ui-color-info-text: var(--ui-color-info);
+  --ui-color-warning-text: var(--ui-color-warning);
+  --ui-color-primary-text: var(--ui-color-primary);
 
   /* Neutral / secondary — desaturated navy slate (containers, troughs). */
   --ui-color-secondary: #2c3a58;
@@ -260,6 +266,12 @@
     --ui-color-primary: #4f6fc4;      /* deepened periwinkle for AA on light */
     --ui-color-primary-hover: #43619f;
     --ui-color-primary-active: #385190;
+    /* Texto de estado sobre fondos tenues (AA 4.5:1). */
+    --ui-color-success-text: #0b6e48;
+    --ui-color-danger-text: #a32b22;
+    --ui-color-info-text: #34509a;
+    --ui-color-warning-text: #7a4f08;
+    --ui-color-primary-text: #34509a;
 
     --ui-color-secondary: #dfe4f0;
     --ui-color-secondary-hover: #cdd5e8;
@@ -387,6 +399,12 @@
   --ui-color-primary: #4f6fc4;
   --ui-color-primary-hover: #43619f;
   --ui-color-primary-active: #385190;
+  /* Texto de estado sobre fondos tenues (AA 4.5:1). */
+  --ui-color-success-text: #0b6e48;
+  --ui-color-danger-text: #a32b22;
+  --ui-color-info-text: #34509a;
+  --ui-color-warning-text: #7a4f08;
+  --ui-color-primary-text: #34509a;
 
   --ui-color-secondary: #dfe4f0;
   --ui-color-secondary-hover: #cdd5e8;

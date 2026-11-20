@@ -305,12 +305,12 @@ Convenciones:
     - Verificar que en escritorio el ancho `--ui-sidebar-width` y la contracción manual no cambiaron (Requirement 12.3).
     - _Requirements: 3.1, 3.2, 3.3, 3.5, 3.7, 12.3_
 
-- [ ] 14. Badge (familia Datos y listas)
-  - [ ] 14.1 Adaptar `Badge`
+- [x] 14. Badge (familia Datos y listas)
+  - [x] 14.1 Adaptar `Badge`
     - `Badge.module.css`: `min-width: 0`, `max-width: 100%`; envolver el texto o truncarlo con puntos suspensivos sin `Horizontal_Overflow`.
     - _Requirements: 4.13, 12.2, 12.3_
 
-  - [ ] 14.2 Agregar Responsive_Story `Mobile` en `Badge.stories.tsx`
+  - [x] 14.2 Agregar Responsive_Story `Mobile` en `Badge.stories.tsx`
     - `Mobile`: insignias con estado de viaje y una con `LONG_TOKEN` dentro de un contenedor angosto.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -318,7 +318,7 @@ Convenciones:
     - Contenido dentro del ancho del contenedor en 320, 375, 768 y 1280; a11y.
     - _Requirements: 4.13, 11.2, 11.4_
 
-  - [ ] 14.4 Revisión visual de `Badge`
+  - [x] 14.4 Revisión visual de `Badge`
     - Revisar en Storybook `Components/Badge › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: la insignia larga se ajusta o se trunca con puntos suspensivos dentro de su contenedor; los colores de estado siguen legibles en `light` y `dark`.
     - Verificar que a 1280 px las stories existentes de `Badge` no cambiaron (Requirement 12.3).

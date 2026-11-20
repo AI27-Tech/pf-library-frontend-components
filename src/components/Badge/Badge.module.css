@@ -3,6 +3,7 @@
   align-items: center;
   gap: 0.375rem;
   box-sizing: border-box;
+  min-width: 0;
   /* Tamaño: sm (20px, por defecto) o md (24px). Ver .sizeMd. */
   height: var(--ui-badge-height, 1.25rem);
   padding: 0 var(--ui-badge-padding-x, 0.5rem);
@@ -123,28 +124,28 @@
 
 .secure {
   --ui-badge-tone: var(--ui-color-success);
-  --ui-badge-fg: var(--ui-color-success);
+  --ui-badge-fg: var(--ui-color-success-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-success) 14%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-success) 32%, transparent);
 }
 
 .alert {
   --ui-badge-tone: var(--ui-color-danger);
-  --ui-badge-fg: var(--ui-color-danger);
+  --ui-badge-fg: var(--ui-color-danger-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-danger) 16%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-danger) 42%, transparent);
 }
 
 .escort {
   --ui-badge-tone: var(--ui-color-primary);
-  --ui-badge-fg: var(--ui-color-info);
+  --ui-badge-fg: var(--ui-color-info-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
 }
 
 .warning {
   --ui-badge-tone: var(--ui-color-warning);
-  --ui-badge-fg: var(--ui-color-warning);
+  --ui-badge-fg: var(--ui-color-warning-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-warning) 16%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-warning) 40%, transparent);
 }
@@ -159,14 +160,14 @@
 /* Alias: `info` se ve igual que `escort` (tono primario, texto info). */
 .info {
   --ui-badge-tone: var(--ui-color-primary);
-  --ui-badge-fg: var(--ui-color-info);
+  --ui-badge-fg: var(--ui-color-info-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
 }
 
 .primary {
   --ui-badge-tone: var(--ui-color-primary);
-  --ui-badge-fg: var(--ui-color-primary);
+  --ui-badge-fg: var(--ui-color-primary-text);
   --ui-badge-bg: color-mix(in srgb, var(--ui-color-primary) 16%, transparent);
   --ui-badge-border: color-mix(in srgb, var(--ui-color-primary) 42%, transparent);
 }
