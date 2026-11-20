@@ -6,7 +6,6 @@
     "components/ImageCard/ImageCard.module.css",
     "components/ImageCarousel/ImageCarousel.module.css",
     "components/MessagePanel/MessagePanel.module.css",
-    "components/Navbar/Navbar.module.css",
     "components/Visor/Visor.module.css"
   ]
 }

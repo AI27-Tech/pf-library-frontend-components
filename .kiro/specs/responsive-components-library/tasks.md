@@ -266,11 +266,11 @@ Convenciones:
     - _Requirements: 3.9, 12.3_
 
 - [ ] 12. Navbar y NavbarLink (familia Navegación)
-  - [ ] 12.1 Ajustar `Navbar`
+  - [x] 12.1 Ajustar `Navbar`
     - `Navbar.module.css`: migrar `@media (max-width: 640px)` a `39.99rem`; menú desplegado sin desborde en móvil; botón de menú con Touch_Target de 44 px. Quitar `Navbar` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 3.8, 9.2, 12.2, 12.3_
 
-  - [ ] 12.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Navbar.stories.tsx`
+  - [x] 12.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Navbar.stories.tsx`
     - `Mobile`: barra con 6 enlaces de dominio y marca larga. `Tablet`: la misma barra en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
