@@ -381,13 +381,13 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Timeline` no cambiaron (Requirement 12.3).
     - _Requirements: 4.11, 4.12, 12.3_
 
-- [ ] 18. Table (familia Datos y listas)
-  - [ ] 18.1 Agregar `responsive="stacked"` a `Table`
+- [x] 18. Table (familia Datos y listas)
+  - [x] 18.1 Agregar `responsive="stacked"` a `Table`
     - Prop `responsive?: 'scroll' | 'stacked'` (por defecto `'scroll'`). Con `'stacked'`: `container-type: inline-size`, `@container (max-width: 39.99rem)` con filas como tarjetas, `data-label` en cada `<td>` impreso con `::before`, roles de tabla explícitos y estado vacío sin tarjetas.
     - Modo `'scroll'`: el desplazamiento horizontal queda solo dentro del contenedor. Orden, selección y expansión operables con controles de 44 px con puntero grueso.
     - _Requirements: 4.1, 4.2, 4.3, 4.14, 9.2, 12.2, 12.3_
 
-  - [ ] 18.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Table.stories.tsx`
+  - [x] 18.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Table.stories.tsx`
     - `Mobile` apilada y `Mobile` en modo desplazamiento (story aparte), con 20 o más viajes, columnas largas, selección, orden y filas expandibles, y una variante sin filas. `Tablet`: la tabla en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -396,7 +396,7 @@ Convenciones:
     - Estado vacío sin tarjetas; sin desborde en 320, 375, 768 y 1280; Touch_Target de orden, selección y expansión; a11y.
     - **Validates: Requirements 4.1, 4.2, 4.3, 4.14**
 
-  - [ ] 18.4 Revisión visual de `Table`
+  - [x] 18.4 Revisión visual de `Table`
     - Revisar en Storybook `Components/Table › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: apilada muestra cada fila como tarjeta con nombre y valor por columna; en modo desplazamiento solo la tabla se desplaza; ordenar, seleccionar y expandir se aciertan con el pulgar; el estado vacío se ve sin tarjetas.
     - Verificar que sin la prop `responsive` y a 1280 px las stories existentes de `Table` no cambiaron (Requirement 12.3).
