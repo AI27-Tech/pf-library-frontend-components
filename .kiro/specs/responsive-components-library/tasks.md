@@ -764,12 +764,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Spinner` no cambiaron (Requirement 12.3).
     - _Requirements: 6.9, 12.3_
 
-- [ ] 38. ProgressBar (familia Avisos y cargas)
-  - [ ] 38.1 Adaptar `ProgressBar`
+- [x] 38. ProgressBar (familia Avisos y cargas)
+  - [x] 38.1 Adaptar `ProgressBar`
     - `ProgressBar.module.css`: `max-width: 100%`; etiqueta y porcentaje con `overflow-wrap: anywhere`.
     - _Requirements: 6.9, 12.2, 12.3_
 
-  - [ ] 38.2 Agregar Responsive_Story `Mobile` en `ProgressBar.stories.tsx`
+  - [x] 38.2 Agregar Responsive_Story `Mobile` en `ProgressBar.stories.tsx`
     - `Mobile`: barras de distintos tamaños con etiqueta larga.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -777,7 +777,7 @@ Convenciones:
     - Sin desborde; a11y (`role="progressbar"`, `aria-valuenow`).
     - _Requirements: 6.9, 9.6, 11.2, 11.4_
 
-  - [ ] 38.4 Revisión visual de `ProgressBar`
+  - [x] 38.4 Revisión visual de `ProgressBar`
     - Revisar en Storybook `Components/ProgressBar › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: la barra ocupa el ancho del contenedor; la etiqueta larga no desborda.
     - Verificar que a 1280 px las stories existentes de `ProgressBar` no cambiaron (Requirement 12.3).
