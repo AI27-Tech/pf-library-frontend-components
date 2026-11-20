@@ -556,11 +556,11 @@ Convenciones:
     - _Requirements: 5.7, 9.4, 12.3_
 
 - [ ] 27. Calendar (familia Formularios, fechas)
-  - [ ] 27.1 Adaptar `Calendar`
+  - [x] 27.1 Adaptar `Calendar`
     - `Calendar.module.css`: `repeat(7, minmax(0, 1fr))`, celdas con `aspect-ratio: 1` y Touch_Target de 44 px con puntero grueso; 7 columnas completas desde 320 px sin desborde.
     - _Requirements: 5.8, 9.2, 12.2, 12.3_
 
-  - [ ] 27.2 Agregar Responsive_Story `Mobile` en `Calendar.stories.tsx`
+  - [x] 27.2 Agregar Responsive_Story `Mobile` en `Calendar.stories.tsx`
     - `Mobile`: calendario a 320 y 375 px con un rango seleccionado y vistas de mes y año.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -568,7 +568,7 @@ Convenciones:
     - 7 columnas completas desde 320 px; Touch_Target de celdas; navegación por teclado; a11y.
     - _Requirements: 5.8, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 27.4 Revisión visual de `Calendar`
+  - [x] 27.4 Revisión visual de `Calendar`
     - Revisar en Storybook `Components/DatePicker/Calendar › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: los 7 días caben sin desplazamiento; las celdas se aciertan con el pulgar; el día seleccionado y hoy se distinguen.
     - Verificar que a 1280 px las stories existentes de `Calendar` no cambiaron (Requirement 12.3).
