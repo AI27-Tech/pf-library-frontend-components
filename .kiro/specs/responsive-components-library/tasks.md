@@ -265,7 +265,7 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Breadcrumb` no cambiaron (Requirement 12.3).
     - _Requirements: 3.9, 12.3_
 
-- [ ] 12. Navbar y NavbarLink (familia Navegación)
+- [x] 12. Navbar y NavbarLink (familia Navegación)
   - [x] 12.1 Ajustar `Navbar`
     - `Navbar.module.css`: migrar `@media (max-width: 640px)` a `39.99rem`; menú desplegado sin desborde en móvil; botón de menú con Touch_Target de 44 px. Quitar `Navbar` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 3.8, 9.2, 12.2, 12.3_
@@ -278,7 +278,7 @@ Convenciones:
     - En móvil los enlaces están tras el botón de menú; al accionarlo se muestran sin desborde; a11y (`aria-expanded` del botón).
     - _Requirements: 3.8, 9.6, 11.2, 11.4_
 
-  - [ ] 12.4 Revisión visual de `Navbar`
+  - [x] 12.4 Revisión visual de `Navbar`
     - Revisar en Storybook `Components/Navbar › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: en móvil solo marca y botón de menú; el menú abierto cabe en el ancho; en tablet y escritorio los enlaces se ven en línea; el umbral pasa de 640 px a `39.99rem` sin mover la barra en escritorio.
     - Verificar que a 1280 px las stories existentes de `Navbar` no cambiaron (Requirement 12.3).
