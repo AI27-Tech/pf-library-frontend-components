@@ -324,12 +324,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `Badge` no cambiaron (Requirement 12.3).
     - _Requirements: 4.13, 12.3_
 
-- [ ] 15. Stat (familia Datos y listas)
-  - [ ] 15.1 Adaptar `Stat`
+- [x] 15. Stat (familia Datos y listas)
+  - [x] 15.1 Adaptar `Stat`
     - `Stat.module.css`: `min-width: 0`, `overflow-wrap: anywhere` en valores numéricos sin `text-overflow`; valor y tendencia se ajustan al ancho del contenedor mostrando el valor completo.
     - _Requirements: 4.10, 12.2, 12.3_
 
-  - [ ] 15.2 Agregar Responsive_Story `Mobile` en `Stat.stories.tsx`
+  - [x] 15.2 Agregar Responsive_Story `Mobile` en `Stat.stories.tsx`
     - `Mobile`: `Grid` de métricas con `LONG_NUMBER`, tendencia y estado `loading`.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -337,7 +337,7 @@ Convenciones:
     - El valor numérico se muestra completo; sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 4.10, 11.2, 11.4_
 
-  - [ ] 15.4 Revisión visual de `Stat`
+  - [x] 15.4 Revisión visual de `Stat`
     - Revisar en Storybook `Components/Stat › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el valor de 9 o más dígitos se ve completo, sin puntos suspensivos; la tendencia no se corta; el skeleton de carga conserva la forma.
     - Verificar que a 1280 px las stories existentes de `Stat` no cambiaron (Requirement 12.3).
