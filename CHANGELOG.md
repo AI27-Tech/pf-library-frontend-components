@@ -54,8 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Regla de lint**: `eslint.config.js` prohibe `<svg>` en `src/` y `.storybook/` (`no-restricted-syntax`). Los iconos se importan de `lucide-react`.
 
-- **MensajerÃ­a (MessagePanel)**: ConversationStatus (estado, responsable, atendida y ventana de escritura), MessageThread (orden por secuencia, divisores de dÃ­a y de mensajes nuevos, envÃ­os pendientes), MessageAttachment (estados 
-eady, uploading y error), useMessageDock y dockReducer (paneles abiertos, minimizados y overflow), groupMessages (agrupaciÃ³n de burbujas), MessageDockBar con lastMessageAt y adge. El panel acepta 	oolbar, 
+- **MensajerÃ­a (MessagePanel)**: ConversationStatus (estado, responsable, atendida y ventana de escritura), MessageThread (orden por secuencia, divisores de dÃ­a y de mensajes nuevos, envÃ­os pendientes), MessageAttachment (estados eady, uploading y error), useMessageDock y dockReducer (paneles abiertos, minimizados y overflow), groupMessages (agrupaciÃ³n de burbujas), MessageDockBar con lastMessageAt y adge. El panel acepta 	oolbar, 
 otice, open, defaultOpen, onOpenChange, keepMounted y labels. El compositor acepta sending, onAttach, maxLength (contador desde el 80 %), composerRef y utoFocus, y no envÃ­a durante la composiciÃ³n de IME. La librerÃ­a agrega una regla de lint para no escribir <svg> a mano.
 
 - **Timeline**: lÃ­nea del tiempo de estados con `orientation` vertical u horizontal, `align="alternate"` (con contenedor de 40 rem o mÃ¡s), `stackBelow` (una horizontal se muestra vertical en contenedores angostos, medido con `ResizeObserver`), `maxVisible` con control de expandir, `reverse`, `onItemClick`, `loading` y `emptyState`. Estados `completed`, `current`, `upcoming`, `error` y `warning` con iconos de Lucide; textos en espaÃ±ol sobrescribibles con `labels`.
