@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-#### 2026:11:23 13:29 — Corrección de prefijo `ui-` y contraste en SortableFieldList (3de2199)
+#### 2026:11:23 13:29 — Corrige prefijo ui- y contraste de la story Mobile de SortableFieldList (3de2199)
 
-**Resumen:** Las clases nuevas de `SortableFieldList` cumplen el requisito 13.12. La story Mobile se muestra dentro de una tarjeta para evitar el contraste insuficiente del botón outline sobre el canvas muted.
+**Resumen:** Corrige prefijo ui- y contraste de la story Mobile de SortableFieldList. 
 
 **Cambios:**
-- Clases `slot`, `slotLabel`, `handle`, `remove` y `dragging` renombradas a `ui-sortable-*`.
-- Story Mobile dentro de `Card`. No se cambió la paleta ni el botón outline. El contraste del outline sobre `--ui-color-surface-muted` (4.21:1, mínimo 4.5:1) queda como decisión pendiente.
+- Las clases CSS nuevas llevan prefijo ui- (requisito 13.12). La story Mobile se muestra dentro de un Card para evitar el canvas muted, donde el bot├│n outline no cumple contraste AA. No se cambi├│ la paleta ni el bot├│n. 
+- Archivos por carpeta: `CHANGELOG.md` (1), `src/components/SortableList` (3).
 
 **Archivos modificados:**
 - `CHANGELOG.md`
@@ -21,15 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/components/SortableList/SortableFieldList.stories.tsx`
 - `src/components/SortableList/SortableFieldList.tsx`
 
-#### 2026:11:23 13:18 — Validación de captura en Input y DateInput (f67e82e)
+#### 2026:11:23 13:18 — Agrega validaci├│n de captura a Input y DateInput (prop format) (f67e82e)
 
-**Resumen:** `Input` acepta la prop `format` para limitar los caracteres aceptados al escribir, pegar o soltar texto. `DateInput` limpia su captura con `sanitizeDateText`.
+**Resumen:** Agrega validaci├│n de captura a Input y DateInput (prop format). 
 
 **Cambios:**
-- Nuevo `inputFormat.ts` con los formatos `text`, `digits`, `integer`, `decimal`, `phone`, `letters`, `alphanumeric` y `email`, más `sanitizeInput` e `INPUT_MODE_BY_FORMAT`.
-- `Input` conserva la posición del cursor al limpiar el valor.
-- `DateInput` usa `inputMode="numeric"`, `maxLength={10}` y `sanitizeDateText`.
-- Pruebas en `inputFormat.test.tsx` y story en `InputFormat.stories.tsx`.
+- Archivos por carpeta: `src/components/DatePicker` (2), `src/components/Input` (5), `src/index.ts` (1).
 
 **Archivos modificados:**
 - `src/components/DatePicker/DateInput.tsx`
@@ -40,9 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/components/Input/inputFormat.test.tsx`
 - `src/components/Input/inputFormat.ts`
 - `src/index.ts`
-### Corregido
-- **`SortableFieldList`**: las clases CSS nuevas (`ui-sortable-*`) llevan el prefijo `ui-` del requisito 13.12. La story Mobile se muestra dentro de un `Card`, porque el botón outline sobre el canvas muted (`--ui-color-surface-muted`) no cumple contraste AA en tema claro. El botón no se cambió.
-
 
 ## [0.3.0-beta.2] — 2026-11-23
 
@@ -59,24 +53,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Registro de cambios
 
-#### 2026:11:23 13:04 — Bump a 0.3.0-beta.2 (75dba11)
+#### 2026:11:23 13:04 — chore: bump version to 0.3.0-beta.2 (75dba11)
 
-**Resumen:** Se sube la versión del paquete y `[Unreleased]` pasa a `[0.3.0-beta.2]`.
+**Resumen:** chore: bump version to 0.3.0-beta.2. 
+
+**Cambios:**
+- Archivos por carpeta: `CHANGELOG.md` (1), `package.json` (1).
 
 **Archivos modificados:**
 - `CHANGELOG.md`
 - `package.json`
 
-#### 2026:11:23 12:54 — SortableFieldList (f9d6b72, 4c4442d)
+#### 2026:11:23 12:57 — Restaura finales de l├¡nea del changelog (4c4442d)
 
-**Resumen:** Lista reordenable de campos repetibles, por ejemplo destinos intermedios. Cada posición tiene una etiqueta fija (`slotLabel`) y al reordenar se mueve la tarjeta. Incluye arrastre con mouse, dedo y teclado, botón para agregar y el hook compartido `useSortable`.
+**Resumen:** Restaura finales de l├¡nea del changelog. 
 
 **Cambios:**
-- Componente `SortableFieldList` con estilos, pruebas, stories e `index.ts`.
-- Hook `useSortable` para el arrastre por puntero y teclado, y los anuncios a lectores de pantalla.
-- Textos por defecto en español, cambiables con `labels`.
-- Exportado desde `src/index.ts`.
-- Corrección de finales de línea en `CHANGELOG.md` (commit 4c4442d).
+- El commit anterior reescribi├│ todo el archivo al cambiar los finales de l├¡nea. Se restaura el contenido previo y se deja solo la entrada de SortableFieldList. 
+- Archivos por carpeta: `CHANGELOG.md` (1).
+
+**Archivos modificados:**
+- `CHANGELOG.md`
+
+#### 2026:11:23 12:54 — Cierre de tarea SortableFieldList lista reordenable de campos (f9d6b72)
+
+**Resumen:** Cierre de tarea SortableFieldList lista reordenable de campos. 
+
+**Cambios:**
+- Lista de campos repetibles y reordenables (por ejemplo, destinos intermedios). La etiqueta de cada posici├│n se queda fija al reordenar; solo se mueve la tarjeta con asa, el control y el icono de quitar. Incluye bot├│n de agregar al final, arrastre con mouse, dedo y teclado, y el hook useSortable compartido. Con pruebas, stories y entrada en el changelog. 
+- Archivos por carpeta: `CHANGELOG.md` (1), `src/components/SortableList` (8), `src/index.ts` (1).
 
 **Archivos modificados:**
 - `CHANGELOG.md`
@@ -90,157 +95,665 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/components/SortableList/useSortable.ts`
 - `src/index.ts`
 
-#### 2026:11:23 11:17 — Responsividad de componentes, tareas 3 a 52 (357635c a 7755d9a)
+#### 2026:11:23 11:17 — Cierre de tarea 52 documentacion responsiva (7755d9a)
 
-**Resumen:** Los componentes de la librería se revisaron para uso responsivo según la spec `.kiro/specs/responsive-components-library`. Incluye stories responsivas con pruebas de desbordamiento y accesibilidad por ancho, coexistencia con Tailwind y documentación.
+**Resumen:** Cierre de la tarea 52: documentacion responsiva. 
 
 **Cambios:**
-- Componentes base: Button, Card, Section, Divider, EmptyState, PageHeader, Tabs, Breadcrumb, Navbar, Sidebar, Badge, Stat, DescriptionList, Timeline, Table, FilterBar, FilterTable y Pagination.
-- Formularios: FormField, Form, Input, Textarea, Select, Checkbox, Radio, Switch, Calendar, DateInput, TimePicker y DateTimeInput.
-- Retroalimentación: Alert, Toast, Modal, Popover, Tooltip, Skeleton, Spinner y ProgressBar.
-- Imágenes: ImageCard, ImageGrid, ImageCarousel y Visor.
-- Mensajería: MessageBubble, MessageAttachment, MessageComposer, MessageList, MessageThread, ConversationStatus, MessagePanel y MessageDock.
-- Layout: responsividad del layout (bf58753).
-- Infraestructura: `useMediaQuery` y breakpoints en `src/utils`, `responsiveStory` y fixtures en `src/stories`, tokens en `src/styles`, manifiesto de clases CSS con su script `scripts/css-classes.mjs`, y documentación de breakpoints y Tailwind en `docs/`.
-- Cambios visibles: `DateInput` pasa de `role="textbox"` a `role="combobox"`, y el botón de colapso del `Sidebar` se mueve al pie de la barra.
+- Archivos por carpeta: `.kiro/specs` (1), `src/stories` (1).
 
 **Archivos modificados:**
 - `.kiro/specs/responsive-components-library/tasks.md`
-- `CHANGELOG.md`
+- `src/stories/Responsive.mdx`
+
+#### 2026:11:23 11:14 — Cierre de tarea 51 coexistencia con Tailwind (37429c2)
+
+**Resumen:** Cierre de la tarea 51: coexistencia con Tailwind. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `docs/css-classes.manifest.json` (1), `docs/responsive-tailwind.md` (1), `scripts/css-classes.d.mts` (1), `scripts/css-classes.mjs` (1), `src/stories` (2), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `docs/css-classes.manifest.json`
 - `docs/responsive-tailwind.md`
 - `scripts/css-classes.d.mts`
 - `scripts/css-classes.mjs`
-- `src/components/Alert/Alert.module.css`
-- `src/components/Alert/Alert.stories.tsx`
-- `src/components/Badge/Badge.module.css`
-- `src/components/Badge/Badge.stories.tsx`
-- `src/components/Breadcrumb/Breadcrumb.module.css`
-- `src/components/Breadcrumb/Breadcrumb.stories.tsx`
-- `src/components/Button/Button.module.css`
-- `src/components/Button/Button.stories.tsx`
-- `src/components/Card/Card.module.css`
-- `src/components/Card/Card.stories.tsx`
+- `src/stories/responsive-tailwind.stories.tsx`
+- `src/stories/tailwind-equivalents.css`
+- `src/utils/__tests__/tailwind-compat.test.ts`
+
+#### 2026:11:23 11:07 — Cierre de tarea 50 accesibilidad tactil (833748d)
+
+**Resumen:** Cierre de la tarea 50: accesibilidad tactil. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/DatePicker` (1), `src/components/FilterBar` (1), `src/components/MessagePanel` (1), `src/components/Navbar` (1), `src/components/Sidebar` (1), `src/components/Toast` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/DatePicker/Calendar.module.css`
-- `src/components/DatePicker/Calendar.stories.tsx`
-- `src/components/DatePicker/DateInput.module.css`
-- `src/components/DatePicker/DateInput.stories.tsx`
-- `src/components/DatePicker/DateInput.tsx`
-- `src/components/DatePicker/DateTimeInput.module.css`
-- `src/components/DatePicker/DateTimeInput.stories.tsx`
-- `src/components/DatePicker/TimePicker.module.css`
-- `src/components/DatePicker/TimePicker.stories.tsx`
-- `src/components/DatePicker/dateUtils.ts`
-- `src/components/DescriptionList/DescriptionList.module.css`
-- `src/components/DescriptionList/DescriptionList.stories.tsx`
-- `src/components/DescriptionList/DescriptionList.tsx`
-- `src/components/Divider/Divider.module.css`
-- `src/components/Divider/Divider.stories.tsx`
-- `src/components/EmptyState/EmptyState.module.css`
-- `src/components/EmptyState/EmptyState.stories.tsx`
 - `src/components/FilterBar/FilterBar.module.css`
-- `src/components/FilterBar/FilterBar.stories.tsx`
-- `src/components/FilterBar/FilterBar.tsx`
-- `src/components/FilterTable/FilterTable.module.css`
-- `src/components/FilterTable/FilterTable.stories.tsx`
-- `src/components/FilterTable/FilterTable.tsx`
-- `src/components/Form/Form.module.css`
-- `src/components/Form/Form.stories.tsx`
-- `src/components/ImageCard/ImageCard.module.css`
-- `src/components/ImageCard/ImageCard.stories.tsx`
-- `src/components/ImageCarousel/ImageCarousel.module.css`
-- `src/components/ImageCarousel/ImageCarousel.stories.tsx`
-- `src/components/ImageCarousel/ImageCarousel.tsx`
-- `src/components/ImageGrid/ImageGrid.module.css`
-- `src/components/ImageGrid/ImageGrid.stories.tsx`
-- `src/components/ImageGrid/ImageGrid.tsx`
-- `src/components/Input/Choice.module.css`
-- `src/components/Input/Choice.stories.tsx`
-- `src/components/Input/FormField.module.css`
-- `src/components/Input/FormField.stories.tsx`
-- `src/components/Input/FormField.tsx`
-- `src/components/Input/Input.module.css`
-- `src/components/Input/Input.stories.tsx`
-- `src/components/Input/Select.stories.tsx`
-- `src/components/Input/SelectCustom.module.css`
-- `src/components/Layout/Layout.module.css`
-- `src/components/Layout/Layout.stories.tsx`
-- `src/components/Layout/Layout.test.tsx`
-- `src/components/Layout/Layout.tsx`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/Navbar/Navbar.module.css`
+- `src/components/Sidebar/Sidebar.module.css`
+- `src/components/Toast/Toast.module.css`
+
+#### 2026:11:23 10:56 — Cierre de tarea 48 MessageDock (e19f9ed)
+
+**Resumen:** Cierre de la tarea 48: MessageDock. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (5).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/MessagePanel/MessagePanel.stories.tsx`
+- `src/components/MessagePanel/dockState.ts`
+- `src/components/MessagePanel/useMessageDock.test.ts`
+- `src/components/MessagePanel/useMessageDock.ts`
+
+#### 2026:11:23 10:30 — Cierre de tarea 47 MessagePanel (2974371)
+
+**Resumen:** Cierre de la tarea 47: MessagePanel. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (4), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/MessagePanel/MessageComposer.tsx`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/MessagePanel/MessagePanel.stories.tsx`
+- `src/components/MessagePanel/MessagePanel.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:23 10:13 — Cierre de tarea 46 ConversationStatus (4d1e42e)
+
+**Resumen:** Cierre de la tarea 46: ConversationStatus. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/MessagePanel/ConversationStatus.stories.tsx`
-- `src/components/MessagePanel/MessageAttachment.tsx`
+- `src/components/MessagePanel/MessagePanel.module.css`
+
+#### 2026:11:23 10:07 — Cierre de tarea 45 MessageList y MessageThread (ab4f8fc)
+
+**Resumen:** Cierre de la tarea 45: MessageList y MessageThread. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/MessagePanel/MessagePanel.stories.tsx`
+
+#### 2026:11:23 10:04 — Cierre de tarea 44 MessageComposer (4a8358f)
+
+**Resumen:** Cierre de la tarea 44: MessageComposer. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (4).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/MessagePanel/MessageComposer.tsx`
 - `src/components/MessagePanel/MessageList.tsx`
 - `src/components/MessagePanel/MessagePanel.module.css`
 - `src/components/MessagePanel/MessagePanel.stories.tsx`
-- `src/components/MessagePanel/MessagePanel.tsx`
-- `src/components/MessagePanel/dockState.ts`
-- `src/components/MessagePanel/useMessageDock.test.ts`
-- `src/components/MessagePanel/useMessageDock.ts`
+
+#### 2026:11:23 09:59 — Cierre de tarea 43 MessageBubble y MessageAttachment (6fcb4b5)
+
+**Resumen:** Cierre de la tarea 43: MessageBubble y MessageAttachment. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/MessagePanel` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/MessagePanel/MessageAttachment.tsx`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/MessagePanel/MessagePanel.stories.tsx`
+
+#### 2026:11:23 09:48 — Cierre de tarea 42 Visor (d3bc6d4)
+
+**Resumen:** Cierre de la tarea 42: Visor. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Visor` (3), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Visor/Visor.module.css`
+- `src/components/Visor/Visor.stories.tsx`
+- `src/components/Visor/Visor.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:23 09:28 — Cierre de tarea 41 ImageCarousel (69060e3)
+
+**Resumen:** Cierre de la tarea 41: ImageCarousel. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/ImageCarousel` (3), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/ImageCarousel/ImageCarousel.module.css`
+- `src/components/ImageCarousel/ImageCarousel.stories.tsx`
+- `src/components/ImageCarousel/ImageCarousel.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:23 09:23 — Cierre de tarea 40 ImageGrid (0fccae6)
+
+**Resumen:** Cierre de la tarea 40: ImageGrid. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/ImageGrid` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/ImageGrid/ImageGrid.module.css`
+- `src/components/ImageGrid/ImageGrid.stories.tsx`
+- `src/components/ImageGrid/ImageGrid.tsx`
+
+#### 2026:11:20 17:29 — Cierre de tarea 39 ImageCard (1488a9e)
+
+**Resumen:** Cierre de la tarea 39: ImageCard. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/ImageCard` (2), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/ImageCard/ImageCard.module.css`
+- `src/components/ImageCard/ImageCard.stories.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:20 17:28 — Cierre de tarea 38 ProgressBar (7d455d8)
+
+**Resumen:** Cierre de la tarea 38: ProgressBar. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/ProgressBar` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/ProgressBar/ProgressBar.module.css`
+- `src/components/ProgressBar/ProgressBar.stories.tsx`
+
+#### 2026:11:20 17:25 — Cierre de tarea 37 Spinner (5754eca)
+
+**Resumen:** Cierre de la tarea 37: Spinner. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Spinner` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Spinner/Spinner.module.css`
+- `src/components/Spinner/Spinner.stories.tsx`
+
+#### 2026:11:20 17:22 — Cierre de tarea 36 Skeleton (66155d4)
+
+**Resumen:** Cierre de la tarea 36: Skeleton. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Skeleton` (3), `src/stories` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Skeleton/Skeleton.module.css`
+- `src/components/Skeleton/Skeleton.stories.tsx`
+- `src/components/Skeleton/SkeletonTable.tsx`
+- `src/stories/responsive-overflow.responsive.tsx`
+
+#### 2026:11:20 17:13 — Cierre de tarea 35 Tooltip (e77e1e4)
+
+**Resumen:** Cierre de la tarea 35: Tooltip. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Tooltip` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Tooltip/Tooltip.module.css`
+- `src/components/Tooltip/Tooltip.stories.tsx`
+- `src/components/Tooltip/Tooltip.tsx`
+
+#### 2026:11:20 17:08 — Cierre de tarea 34 Popover (e09ed75)
+
+**Resumen:** Cierre de la tarea 34: Popover. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Popover` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Popover/Popover.module.css`
+- `src/components/Popover/Popover.stories.tsx`
+
+#### 2026:11:20 17:04 — Cierre de tarea 33 Modal (9186418)
+
+**Resumen:** Cierre de la tarea 33: Modal. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Modal` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/Modal/Modal.module.css`
 - `src/components/Modal/Modal.stories.tsx`
 - `src/components/Modal/Modal.tsx`
-- `src/components/Navbar/Navbar.module.css`
-- `src/components/Navbar/Navbar.stories.tsx`
-- `src/components/PageHeader/PageHeader.module.css`
-- `src/components/PageHeader/PageHeader.stories.tsx`
+
+#### 2026:11:20 16:25 — Cierre de tarea 32 Toast (e66ec05)
+
+**Resumen:** Cierre de la tarea 32: Toast. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Toast` (3), `src/stories` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Toast/Toast.module.css`
+- `src/components/Toast/Toast.stories.tsx`
+- `src/components/Toast/Toast.tsx`
+- `src/stories/responsive-overflow.responsive.tsx`
+
+#### 2026:11:20 16:13 — Cierre de tarea 31 Alert (3aee53c)
+
+**Resumen:** Cierre de la tarea 31: Alert. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Alert` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Alert/Alert.module.css`
+- `src/components/Alert/Alert.stories.tsx`
+
+#### 2026:11:20 15:44 — Cierre de tarea 30 DateTimeInput (e404865)
+
+**Resumen:** Cierre de la tarea 30: DateTimeInput. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/DatePicker` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/DatePicker/DateTimeInput.module.css`
+- `src/components/DatePicker/DateTimeInput.stories.tsx`
+
+#### 2026:11:20 15:42 — Cierre de tarea 29 TimePicker (6dded71)
+
+**Resumen:** Cierre de la tarea 29: TimePicker. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/DatePicker` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/DatePicker/TimePicker.module.css`
+- `src/components/DatePicker/TimePicker.stories.tsx`
+
+#### 2026:11:20 15:39 — Cierre de tarea 28 DateInput (06c830f)
+
+**Resumen:** Cierre de la tarea 28: DateInput. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `CHANGELOG.md` (1), `src/components/DatePicker` (4).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `CHANGELOG.md`
+- `src/components/DatePicker/DateInput.module.css`
+- `src/components/DatePicker/DateInput.stories.tsx`
+- `src/components/DatePicker/DateInput.tsx`
+- `src/components/DatePicker/dateUtils.ts`
+
+#### 2026:11:20 14:15 — Cierre de tarea 27 Calendar (a6c71fc)
+
+**Resumen:** Cierre de la tarea 27: Calendar. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/DatePicker` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/DatePicker/Calendar.module.css`
+- `src/components/DatePicker/Calendar.stories.tsx`
+
+#### 2026:11:20 14:11 — Cierre de tarea 26 Checkbox, Radio y Switch (0cb2c1e)
+
+**Resumen:** Cierre de la tarea 26: Checkbox, Radio y Switch. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Input` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Input/Choice.module.css`
+- `src/components/Input/Choice.stories.tsx`
+
+#### 2026:11:20 14:04 — Cierre de tarea 25 Select (92d7756)
+
+**Resumen:** Cierre de la tarea 25: Select. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Input` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Input/Select.stories.tsx`
+- `src/components/Input/SelectCustom.module.css`
+
+#### 2026:11:20 14:01 — Cierre de tarea 24 Input y Textarea (b6abce4)
+
+**Resumen:** Cierre de la tarea 24: Input y Textarea. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Input` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Input/Input.module.css`
+- `src/components/Input/Input.stories.tsx`
+
+#### 2026:11:20 13:43 — Cierre de tarea 23 Form (8b0dde3)
+
+**Resumen:** Cierre de la tarea 23: Form. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Form` (2), `src/components/Input` (1), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Form/Form.module.css`
+- `src/components/Form/Form.stories.tsx`
+- `src/components/Input/FormField.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:20 13:33 — Cierre de tarea 22 FormField (cab38bf)
+
+**Resumen:** Cierre de la tarea 22: FormField. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Input` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Input/FormField.module.css`
+- `src/components/Input/FormField.stories.tsx`
+
+#### 2026:11:20 13:10 — Cierre de tarea 21 Pagination (ac5906d)
+
+**Resumen:** Cierre de la tarea 21: Pagination. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Pagination` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/Pagination/Pagination.module.css`
 - `src/components/Pagination/Pagination.stories.tsx`
 - `src/components/Pagination/Pagination.tsx`
-- `src/components/Popover/Popover.module.css`
-- `src/components/Popover/Popover.stories.tsx`
-- `src/components/ProgressBar/ProgressBar.module.css`
-- `src/components/ProgressBar/ProgressBar.stories.tsx`
-- `src/components/Section/Section.module.css`
-- `src/components/Section/Section.stories.tsx`
+
+#### 2026:11:20 13:02 — Cierre de tarea 20 FilterTable (eb73033)
+
+**Resumen:** Cierre de la tarea 20: FilterTable. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/FilterTable` (3), `src/components/Table` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/FilterTable/FilterTable.module.css`
+- `src/components/FilterTable/FilterTable.stories.tsx`
+- `src/components/FilterTable/FilterTable.tsx`
+- `src/components/Table/Table.tsx`
+
+#### 2026:11:20 12:28 — Cierre de tarea 19 FilterBar (22fbd26)
+
+**Resumen:** Cierre de la tarea 19: FilterBar. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/FilterBar` (3), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/FilterBar/FilterBar.module.css`
+- `src/components/FilterBar/FilterBar.stories.tsx`
+- `src/components/FilterBar/FilterBar.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:20 11:10 — Cierre de tarea 18 Table (c3333c3)
+
+**Resumen:** Cierre de la tarea 18: Table. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Table` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Table/Table.module.css`
+- `src/components/Table/Table.stories.tsx`
+- `src/components/Table/Table.tsx`
+
+#### 2026:11:20 11:04 — Cierre de tarea 17 Timeline (67453df)
+
+**Resumen:** Cierre de la tarea 17: Timeline. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Timeline` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Timeline/Timeline.module.css`
+- `src/components/Timeline/Timeline.stories.tsx`
+
+#### 2026:11:20 10:55 — Responsividad de DescriptionList (7c7eb75)
+
+**Resumen:** Responsividad de DescriptionList. 
+
+**Cambios:**
+- Archivos por carpeta: `src/components/DescriptionList` (3).
+
+**Archivos modificados:**
+- `src/components/DescriptionList/DescriptionList.module.css`
+- `src/components/DescriptionList/DescriptionList.stories.tsx`
+- `src/components/DescriptionList/DescriptionList.tsx`
+
+#### 2026:11:20 10:08 — Cierre de tarea 15 Stat (3763db6)
+
+**Resumen:** Cierre de la tarea 15: Stat. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Stat` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Stat/Stat.module.css`
+- `src/components/Stat/Stat.stories.tsx`
+
+#### 2026:11:20 10:02 — Cierre de tarea 14 Badge (573562c)
+
+**Resumen:** Cierre de la tarea 14: Badge. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Badge` (2), `src/styles` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Badge/Badge.module.css`
+- `src/components/Badge/Badge.stories.tsx`
+- `src/styles/tokens.css`
+
+#### 2026:11:19 18:20 — Cierre de tarea 13 Sidebar (47fc127)
+
+**Resumen:** Cierre de la tarea 13: Sidebar. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Sidebar` (5), `src/index.ts` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/Sidebar/Sidebar.module.css`
 - `src/components/Sidebar/Sidebar.stories.tsx`
 - `src/components/Sidebar/Sidebar.test.tsx`
 - `src/components/Sidebar/Sidebar.tsx`
 - `src/components/Sidebar/index.ts`
-- `src/components/Skeleton/Skeleton.module.css`
-- `src/components/Skeleton/Skeleton.stories.tsx`
-- `src/components/Skeleton/SkeletonTable.tsx`
-- `src/components/Spinner/Spinner.module.css`
-- `src/components/Spinner/Spinner.stories.tsx`
-- `src/components/Stat/Stat.module.css`
-- `src/components/Stat/Stat.stories.tsx`
-- `src/components/Table/Table.module.css`
-- `src/components/Table/Table.stories.tsx`
-- `src/components/Table/Table.tsx`
+- `src/index.ts`
+
+#### 2026:11:19 18:10 — Cierre de tarea 12 Navbar (bafa6c0)
+
+**Resumen:** Cierre de la tarea 12: Navbar. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+
+#### 2026:11:19 18:09 — Avance tarea 12 Navbar (pendiente revisi├│n visual 12.4) (6b1832f)
+
+**Resumen:** Avance de la tarea 12: Navbar (pendiente revisi├│n visual 12.4). 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Navbar` (2), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Navbar/Navbar.module.css`
+- `src/components/Navbar/Navbar.stories.tsx`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:19 18:00 — Cierre de tarea 11 Breadcrumb (7bfaef2)
+
+**Resumen:** Cierre de la tarea 11: Breadcrumb. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Breadcrumb` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Breadcrumb/Breadcrumb.module.css`
+- `src/components/Breadcrumb/Breadcrumb.stories.tsx`
+
+#### 2026:11:19 17:54 — Cierre de tarea 10 Tabs (0234935)
+
+**Resumen:** Cierre de la tarea 10: Tabs. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Tabs` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
 - `src/components/Tabs/Tabs.module.css`
 - `src/components/Tabs/Tabs.stories.tsx`
 - `src/components/Tabs/Tabs.tsx`
-- `src/components/Timeline/Timeline.module.css`
-- `src/components/Timeline/Timeline.stories.tsx`
-- `src/components/Toast/Toast.module.css`
-- `src/components/Toast/Toast.stories.tsx`
-- `src/components/Toast/Toast.tsx`
-- `src/components/Tooltip/Tooltip.module.css`
-- `src/components/Tooltip/Tooltip.stories.tsx`
-- `src/components/Tooltip/Tooltip.tsx`
-- `src/components/Visor/Visor.module.css`
-- `src/components/Visor/Visor.stories.tsx`
-- `src/components/Visor/Visor.tsx`
-- `src/index.ts`
-- `src/stories/Responsive.mdx`
-- `src/stories/responsive-overflow.responsive.tsx`
-- `src/stories/responsive-tailwind.stories.tsx`
-- `src/stories/responsiveStory.ts`
-- `src/stories/tailwind-equivalents.css`
-- `src/styles/tokens.css`
-- `src/utils/__tests__/tailwind-compat.test.ts`
+
+#### 2026:11:19 17:47 — Cierre de tarea 9 PageHeader (616b70d)
+
+**Resumen:** Cierre de la tarea 9: PageHeader. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/PageHeader` (2), `src/utils` (1).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/PageHeader/PageHeader.module.css`
+- `src/components/PageHeader/PageHeader.stories.tsx`
 - `src/utils/breakpoints-legacy.manifest.json`
 
-#### 2026:11:19 11:10 — Spec y prerrequisitos de responsividad (34fea97, 194211c, 0e9ad2f)
+#### 2026:11:19 17:25 — Cierre de tarea 8 EmptyState (969165a)
 
-**Resumen:** Se crea la spec de responsividad de componentes y se cierran los prerrequisitos antes de implementarla.
+**Resumen:** Cierre de la tarea 8: EmptyState. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/EmptyState` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/EmptyState/EmptyState.module.css`
+- `src/components/EmptyState/EmptyState.stories.tsx`
+
+#### 2026:11:19 17:18 — Cierre de tarea 7 Divider (7e04943)
+
+**Resumen:** Cierre de la tarea 7: Divider. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Divider` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Divider/Divider.module.css`
+- `src/components/Divider/Divider.stories.tsx`
+
+#### 2026:11:19 17:08 — Cierre de tarea 6 Section (ac1f2f6)
+
+**Resumen:** Cierre de la tarea 6: Section. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Section` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Section/Section.module.css`
+- `src/components/Section/Section.stories.tsx`
+
+#### 2026:11:19 17:04 — Cierre de tarea 5 para Card (23f258a)
+
+**Resumen:** Cierre de la tarea 5: para Card. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Card` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Card/Card.module.css`
+- `src/components/Card/Card.stories.tsx`
+
+#### 2026:11:19 16:54 — Responsividad de Layout (bf58753)
+
+**Resumen:** Responsividad de Layout. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Layout` (4).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Layout/Layout.module.css`
+- `src/components/Layout/Layout.stories.tsx`
+- `src/components/Layout/Layout.test.tsx`
+- `src/components/Layout/Layout.tsx`
+
+#### 2026:11:19 16:22 — Cierre de Tarea 3 Button (357635c)
+
+**Resumen:** Cierre de la tarea 3: Button. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (1), `src/components/Button` (2), `src/stories` (2).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `src/components/Button/Button.module.css`
+- `src/components/Button/Button.stories.tsx`
+- `src/stories/responsive-overflow.responsive.tsx`
+- `src/stories/responsiveStory.ts`
+
+#### 2026:11:19 15:55 — Cierre de pre-requisitos para responsividad de componentes (0e9ad2f)
+
+**Resumen:** Cierre de pre-requisitos para responsividad de componentes. 
+
+**Cambios:**
+- Archivos por carpeta: `.gitignore` (1), `.kiro/specs` (1), `.storybook/preview.tsx` (1), `docs/responsive-breakpoints.md` (1), `package.json` (1), `pnpm-lock.yaml` (1), `src/components/Modal` (1), `src/stories` (3), `src/styles` (2), `src/utils` (15), `vite.config.ts` (1).
 
 **Archivos modificados:**
 - `.gitignore`
-- `.kiro/specs/responsive-components-library/.config.kiro`
-- `.kiro/specs/responsive-components-library/design.md`
-- `.kiro/specs/responsive-components-library/requirements.md`
 - `.kiro/specs/responsive-components-library/tasks.md`
 - `.storybook/preview.tsx`
 - `docs/responsive-breakpoints.md`
@@ -268,6 +781,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/utils/useFocusTrap.ts`
 - `src/utils/useMediaQuery.ts`
 - `vite.config.ts`
+
+#### 2026:11:19 13:38 — Cambio de estructura de Spec para trabajar componente uno a uno (194211c)
+
+**Resumen:** Cambio de estructura de Spec para trabajar componente uno a uno. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (3).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/design.md`
+- `.kiro/specs/responsive-components-library/requirements.md`
+- `.kiro/specs/responsive-components-library/tasks.md`
+
+#### 2026:11:19 11:10 — Creacion de spec para responsividad de componentes (34fea97)
+
+**Resumen:** Creacion de spec para responsividad de componentes. 
+
+**Cambios:**
+- Archivos por carpeta: `.kiro/specs` (4).
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/.config.kiro`
+- `.kiro/specs/responsive-components-library/design.md`
+- `.kiro/specs/responsive-components-library/requirements.md`
+- `.kiro/specs/responsive-components-library/tasks.md`
 
 ## [0.3.0-beta.1] — 2026-11-12
 ### Agregado
