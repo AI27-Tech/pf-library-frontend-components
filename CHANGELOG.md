@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#### 2026:11:23 15:55 — Corrige build:lib excluyendo src/stories (8674feb)
+**Resumen:** Corrige el build de publicación (`pnpm build:lib`), que fallaba porque compilaba los archivos de `src/stories/` como parte de la librería.
+**Cambios:**
+- `tsconfig.build.json` excluye `src/stories/**` del build de publicación. Esos archivos (helpers responsivos y stories) solo los usan Storybook y las pruebas; ninguna pieza publicada los importa.
+- Archivos por carpeta: `tsconfig.build.json` (1), `CHANGELOG.md` (1).
+**Archivos modificados:**
+- `tsconfig.build.json`
+- `CHANGELOG.md`
 
 #### 2026:11:23 13:29 — Corrige prefijo ui- y contraste de la story Mobile de SortableFieldList (3de2199)
 
