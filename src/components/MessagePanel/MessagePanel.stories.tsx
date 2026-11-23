@@ -9,6 +9,7 @@ import { MessageThread } from "./MessageThread";
 import { useMessageDock } from "./useMessageDock";
 import type { EstadoConversacion, Mensaje, MensajePendiente } from "./types";
 import { generarClientMessageId } from "./utils";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/MessagePanel",
@@ -281,6 +282,41 @@ export const ConAuditoria: Story = {
     </div>
   ),
 };
+
+/** Cadena de 500 caracteres sin espacios: fuerza el desborde si la burbuja no parte el texto. */
+const CADENA_500 = "ABCDEFGHIJ".repeat(50);
+
+const burbujasMobile: Mensaje[] = [
+  mensaje(1, CADENA_500, 6, { aliasMostrado: "Central C4", audienciaAutor: "Cliente" }),
+  propio(2, CADENA_500, 5),
+  mensaje(3, "Adjunto el reporte final.", 4),
+];
+
+const bubbleMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread
+          mensajes={burbujasMobile}
+          isOwn={isOwn}
+          renderAttachments={(m) =>
+            m.secuencia === 2 ? (
+              <MessageAttachment
+                nombre="reporte-de-evidencia-viaje-VJ-2026-000481-cierre-final.pdf"
+                tamano={248_000}
+                tipoMedio="application/pdf"
+                onOpen={() => undefined}
+              />
+            ) : null
+          }
+        />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Móvil: burbujas con cadena de 500 caracteres y adjunto con nombre largo. Las burbujas no pasan del 85 % del ancho. */
+export const BubbleMobile: Story = responsiveStory("mobile", bubbleMobileStory);
 
 /** Ancho angosto: el panel ocupa lo que haya disponible. */
 export const VistaAngosta: Story = {

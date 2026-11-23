@@ -419,6 +419,12 @@
   margin-top: 0.1rem;
 }
 
+/* Sobre el color primario, la opacidad baja el contraste por debajo de AA (4.5:1). */
+.own .time,
+.own .attachmentMeta {
+  opacity: 1;
+}
+
 .audit {
   margin-top: 0.25rem;
   padding-top: 0.25rem;
@@ -494,10 +500,24 @@ button.attachment {
 }
 
 .attachmentName {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
   font-size: var(--ui-font-size-sm, 0.75rem);
   white-space: nowrap;
+}
+
+/* Solo la base se recorta con "…"; la extensión (".pdf") nunca se corta. */
+.attachmentBase {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attachmentExt {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .attachmentMeta {

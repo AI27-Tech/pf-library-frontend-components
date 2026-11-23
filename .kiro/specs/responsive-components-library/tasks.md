@@ -861,11 +861,11 @@ Convenciones:
     - _Requirements: 7.9, 7.10, 7.12, 12.3_
 
 - [ ] 43. MessageBubble y MessageAttachment (familia Mensajería)
-  - [ ] 43.1 Adaptar `MessageBubble` y `MessageAttachment`
+  - [x] 43.1 Adaptar `MessageBubble` y `MessageAttachment`
     - `MessagePanel.module.css`: `MessageBubble` con `max-width: 85%` y `overflow-wrap: anywhere` en móvil; `MessageAttachment` trunca el nombre con puntos suspensivos en una línea conservando la extensión y dentro de la burbuja. Migrar los umbrales de estas reglas a `39.99rem`.
     - _Requirements: 1.4, 8.4, 8.7, 12.2, 12.3_
 
-  - [ ] 43.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
+  - [x] 43.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
     - `Mobile` (nombre `BubbleMobile` si ya existe `Mobile`): burbujas con cadena de 500 caracteres sin espacios y adjuntos con nombre largo (`reporte-de-evidencia-viaje-...-final.pdf`).
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -873,7 +873,7 @@ Convenciones:
     - Lista sin desborde con cadenas de hasta 500 caracteres; la extensión del adjunto queda visible; a11y.
     - _Requirements: 8.4, 8.7, 11.2, 11.4_
 
-  - [ ] 43.4 Revisión visual de `MessageBubble` y `MessageAttachment`
+  - [x] 43.4 Revisión visual de `MessageBubble` y `MessageAttachment`
     - Revisar en Storybook `Components/MessagePanel › BubbleMobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: las burbujas no pasan del 85 % del ancho; el texto largo se rompe en renglones; el adjunto muestra "…" y la extensión.
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron (Requirement 12.3).
