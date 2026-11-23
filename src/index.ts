@@ -243,3 +243,11 @@ export type { ProgressBarProps, ProgressBarSize } from "./components/ProgressBar
 // Visor
 export { Visor } from "./components/Visor";
 export type { VisorProps, Medium } from "./components/Visor";
+// SortableFieldList
+export { SortableFieldList } from "./components/SortableList";
+export type {
+  SortableFieldListProps,
+  SortableFieldItem,
+  SortableFieldListLabels,
+  SortableChange,
+} from "./components/SortableList";
