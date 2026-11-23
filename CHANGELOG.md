@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+#### 2026:11:23 13:29 — Corrección de prefijo `ui-` y contraste en SortableFieldList (3de2199)
+
+**Resumen:** Las clases nuevas de `SortableFieldList` cumplen el requisito 13.12. La story Mobile se muestra dentro de una tarjeta para evitar el contraste insuficiente del botón outline sobre el canvas muted.
+
+**Cambios:**
+- Clases `slot`, `slotLabel`, `handle`, `remove` y `dragging` renombradas a `ui-sortable-*`.
+- Story Mobile dentro de `Card`. No se cambió la paleta ni el botón outline. El contraste del outline sobre `--ui-color-surface-muted` (4.21:1, mínimo 4.5:1) queda como decisión pendiente.
+
+**Archivos modificados:**
+- `CHANGELOG.md`
+- `src/components/SortableList/SortableFieldList.module.css`
+- `src/components/SortableList/SortableFieldList.stories.tsx`
+- `src/components/SortableList/SortableFieldList.tsx`
+
+#### 2026:11:23 13:18 — Validación de captura en Input y DateInput (f67e82e)
+
+**Resumen:** `Input` acepta la prop `format` para limitar los caracteres aceptados al escribir, pegar o soltar texto. `DateInput` limpia su captura con `sanitizeDateText`.
+
+**Cambios:**
+- Nuevo `inputFormat.ts` con los formatos `text`, `digits`, `integer`, `decimal`, `phone`, `letters`, `alphanumeric` y `email`, más `sanitizeInput` e `INPUT_MODE_BY_FORMAT`.
+- `Input` conserva la posición del cursor al limpiar el valor.
+- `DateInput` usa `inputMode="numeric"`, `maxLength={10}` y `sanitizeDateText`.
+- Pruebas en `inputFormat.test.tsx` y story en `InputFormat.stories.tsx`.
+
+**Archivos modificados:**
+- `src/components/DatePicker/DateInput.tsx`
+- `src/components/DatePicker/dateUtils.ts`
+- `src/components/Input/Input.tsx`
+- `src/components/Input/InputFormat.stories.tsx`
+- `src/components/Input/index.ts`
+- `src/components/Input/inputFormat.test.tsx`
+- `src/components/Input/inputFormat.ts`
+- `src/index.ts`
 ### Corregido
 - **`SortableFieldList`**: las clases CSS nuevas (`ui-sortable-*`) llevan el prefijo `ui-` del requisito 13.12. La story Mobile se muestra dentro de un `Card`, porque el botón outline sobre el canvas muted (`--ui-color-surface-muted`) no cumple contraste AA en tema claro. El botón no se cambió.
 
@@ -22,6 +56,218 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Sidebar**: el botón de colapso se mueve a la esquina inferior derecha, en una fila al final de la barra, centrado cuando la barra está contraída. Ya no está en el encabezado. El encabezado solo muestra `header`, y `footer` queda entre el contenido y el botón.
 
 - **`DateInput`**: el campo de fecha tiene `role="combobox"` (antes `textbox`) y `aria-controls` cuando el calendario está abierto, para que `aria-expanded` y `aria-haspopup` sean válidos. Visualmente no cambia. Los consumidores que busquen el campo con `getByRole('textbox')` en sus pruebas deben usar `getByRole('combobox')`.
+
+### Registro de cambios
+
+#### 2026:11:23 13:04 — Bump a 0.3.0-beta.2 (75dba11)
+
+**Resumen:** Se sube la versión del paquete y `[Unreleased]` pasa a `[0.3.0-beta.2]`.
+
+**Archivos modificados:**
+- `CHANGELOG.md`
+- `package.json`
+
+#### 2026:11:23 12:54 — SortableFieldList (f9d6b72, 4c4442d)
+
+**Resumen:** Lista reordenable de campos repetibles, por ejemplo destinos intermedios. Cada posición tiene una etiqueta fija (`slotLabel`) y al reordenar se mueve la tarjeta. Incluye arrastre con mouse, dedo y teclado, botón para agregar y el hook compartido `useSortable`.
+
+**Cambios:**
+- Componente `SortableFieldList` con estilos, pruebas, stories e `index.ts`.
+- Hook `useSortable` para el arrastre por puntero y teclado, y los anuncios a lectores de pantalla.
+- Textos por defecto en español, cambiables con `labels`.
+- Exportado desde `src/index.ts`.
+- Corrección de finales de línea en `CHANGELOG.md` (commit 4c4442d).
+
+**Archivos modificados:**
+- `CHANGELOG.md`
+- `src/components/SortableList/SortableFieldList.module.css`
+- `src/components/SortableList/SortableFieldList.stories.tsx`
+- `src/components/SortableList/SortableFieldList.test.tsx`
+- `src/components/SortableList/SortableFieldList.tsx`
+- `src/components/SortableList/index.ts`
+- `src/components/SortableList/labels.ts`
+- `src/components/SortableList/sortableUtils.ts`
+- `src/components/SortableList/useSortable.ts`
+- `src/index.ts`
+
+#### 2026:11:23 11:17 — Responsividad de componentes, tareas 3 a 52 (357635c a 7755d9a)
+
+**Resumen:** Los componentes de la librería se revisaron para uso responsivo según la spec `.kiro/specs/responsive-components-library`. Incluye stories responsivas con pruebas de desbordamiento y accesibilidad por ancho, coexistencia con Tailwind y documentación.
+
+**Cambios:**
+- Componentes base: Button, Card, Section, Divider, EmptyState, PageHeader, Tabs, Breadcrumb, Navbar, Sidebar, Badge, Stat, DescriptionList, Timeline, Table, FilterBar, FilterTable y Pagination.
+- Formularios: FormField, Form, Input, Textarea, Select, Checkbox, Radio, Switch, Calendar, DateInput, TimePicker y DateTimeInput.
+- Retroalimentación: Alert, Toast, Modal, Popover, Tooltip, Skeleton, Spinner y ProgressBar.
+- Imágenes: ImageCard, ImageGrid, ImageCarousel y Visor.
+- Mensajería: MessageBubble, MessageAttachment, MessageComposer, MessageList, MessageThread, ConversationStatus, MessagePanel y MessageDock.
+- Layout: responsividad del layout (bf58753).
+- Infraestructura: `useMediaQuery` y breakpoints en `src/utils`, `responsiveStory` y fixtures en `src/stories`, tokens en `src/styles`, manifiesto de clases CSS con su script `scripts/css-classes.mjs`, y documentación de breakpoints y Tailwind en `docs/`.
+- Cambios visibles: `DateInput` pasa de `role="textbox"` a `role="combobox"`, y el botón de colapso del `Sidebar` se mueve al pie de la barra.
+
+**Archivos modificados:**
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `CHANGELOG.md`
+- `docs/css-classes.manifest.json`
+- `docs/responsive-tailwind.md`
+- `scripts/css-classes.d.mts`
+- `scripts/css-classes.mjs`
+- `src/components/Alert/Alert.module.css`
+- `src/components/Alert/Alert.stories.tsx`
+- `src/components/Badge/Badge.module.css`
+- `src/components/Badge/Badge.stories.tsx`
+- `src/components/Breadcrumb/Breadcrumb.module.css`
+- `src/components/Breadcrumb/Breadcrumb.stories.tsx`
+- `src/components/Button/Button.module.css`
+- `src/components/Button/Button.stories.tsx`
+- `src/components/Card/Card.module.css`
+- `src/components/Card/Card.stories.tsx`
+- `src/components/DatePicker/Calendar.module.css`
+- `src/components/DatePicker/Calendar.stories.tsx`
+- `src/components/DatePicker/DateInput.module.css`
+- `src/components/DatePicker/DateInput.stories.tsx`
+- `src/components/DatePicker/DateInput.tsx`
+- `src/components/DatePicker/DateTimeInput.module.css`
+- `src/components/DatePicker/DateTimeInput.stories.tsx`
+- `src/components/DatePicker/TimePicker.module.css`
+- `src/components/DatePicker/TimePicker.stories.tsx`
+- `src/components/DatePicker/dateUtils.ts`
+- `src/components/DescriptionList/DescriptionList.module.css`
+- `src/components/DescriptionList/DescriptionList.stories.tsx`
+- `src/components/DescriptionList/DescriptionList.tsx`
+- `src/components/Divider/Divider.module.css`
+- `src/components/Divider/Divider.stories.tsx`
+- `src/components/EmptyState/EmptyState.module.css`
+- `src/components/EmptyState/EmptyState.stories.tsx`
+- `src/components/FilterBar/FilterBar.module.css`
+- `src/components/FilterBar/FilterBar.stories.tsx`
+- `src/components/FilterBar/FilterBar.tsx`
+- `src/components/FilterTable/FilterTable.module.css`
+- `src/components/FilterTable/FilterTable.stories.tsx`
+- `src/components/FilterTable/FilterTable.tsx`
+- `src/components/Form/Form.module.css`
+- `src/components/Form/Form.stories.tsx`
+- `src/components/ImageCard/ImageCard.module.css`
+- `src/components/ImageCard/ImageCard.stories.tsx`
+- `src/components/ImageCarousel/ImageCarousel.module.css`
+- `src/components/ImageCarousel/ImageCarousel.stories.tsx`
+- `src/components/ImageCarousel/ImageCarousel.tsx`
+- `src/components/ImageGrid/ImageGrid.module.css`
+- `src/components/ImageGrid/ImageGrid.stories.tsx`
+- `src/components/ImageGrid/ImageGrid.tsx`
+- `src/components/Input/Choice.module.css`
+- `src/components/Input/Choice.stories.tsx`
+- `src/components/Input/FormField.module.css`
+- `src/components/Input/FormField.stories.tsx`
+- `src/components/Input/FormField.tsx`
+- `src/components/Input/Input.module.css`
+- `src/components/Input/Input.stories.tsx`
+- `src/components/Input/Select.stories.tsx`
+- `src/components/Input/SelectCustom.module.css`
+- `src/components/Layout/Layout.module.css`
+- `src/components/Layout/Layout.stories.tsx`
+- `src/components/Layout/Layout.test.tsx`
+- `src/components/Layout/Layout.tsx`
+- `src/components/MessagePanel/ConversationStatus.stories.tsx`
+- `src/components/MessagePanel/MessageAttachment.tsx`
+- `src/components/MessagePanel/MessageComposer.tsx`
+- `src/components/MessagePanel/MessageList.tsx`
+- `src/components/MessagePanel/MessagePanel.module.css`
+- `src/components/MessagePanel/MessagePanel.stories.tsx`
+- `src/components/MessagePanel/MessagePanel.tsx`
+- `src/components/MessagePanel/dockState.ts`
+- `src/components/MessagePanel/useMessageDock.test.ts`
+- `src/components/MessagePanel/useMessageDock.ts`
+- `src/components/Modal/Modal.module.css`
+- `src/components/Modal/Modal.stories.tsx`
+- `src/components/Modal/Modal.tsx`
+- `src/components/Navbar/Navbar.module.css`
+- `src/components/Navbar/Navbar.stories.tsx`
+- `src/components/PageHeader/PageHeader.module.css`
+- `src/components/PageHeader/PageHeader.stories.tsx`
+- `src/components/Pagination/Pagination.module.css`
+- `src/components/Pagination/Pagination.stories.tsx`
+- `src/components/Pagination/Pagination.tsx`
+- `src/components/Popover/Popover.module.css`
+- `src/components/Popover/Popover.stories.tsx`
+- `src/components/ProgressBar/ProgressBar.module.css`
+- `src/components/ProgressBar/ProgressBar.stories.tsx`
+- `src/components/Section/Section.module.css`
+- `src/components/Section/Section.stories.tsx`
+- `src/components/Sidebar/Sidebar.module.css`
+- `src/components/Sidebar/Sidebar.stories.tsx`
+- `src/components/Sidebar/Sidebar.test.tsx`
+- `src/components/Sidebar/Sidebar.tsx`
+- `src/components/Sidebar/index.ts`
+- `src/components/Skeleton/Skeleton.module.css`
+- `src/components/Skeleton/Skeleton.stories.tsx`
+- `src/components/Skeleton/SkeletonTable.tsx`
+- `src/components/Spinner/Spinner.module.css`
+- `src/components/Spinner/Spinner.stories.tsx`
+- `src/components/Stat/Stat.module.css`
+- `src/components/Stat/Stat.stories.tsx`
+- `src/components/Table/Table.module.css`
+- `src/components/Table/Table.stories.tsx`
+- `src/components/Table/Table.tsx`
+- `src/components/Tabs/Tabs.module.css`
+- `src/components/Tabs/Tabs.stories.tsx`
+- `src/components/Tabs/Tabs.tsx`
+- `src/components/Timeline/Timeline.module.css`
+- `src/components/Timeline/Timeline.stories.tsx`
+- `src/components/Toast/Toast.module.css`
+- `src/components/Toast/Toast.stories.tsx`
+- `src/components/Toast/Toast.tsx`
+- `src/components/Tooltip/Tooltip.module.css`
+- `src/components/Tooltip/Tooltip.stories.tsx`
+- `src/components/Tooltip/Tooltip.tsx`
+- `src/components/Visor/Visor.module.css`
+- `src/components/Visor/Visor.stories.tsx`
+- `src/components/Visor/Visor.tsx`
+- `src/index.ts`
+- `src/stories/Responsive.mdx`
+- `src/stories/responsive-overflow.responsive.tsx`
+- `src/stories/responsive-tailwind.stories.tsx`
+- `src/stories/responsiveStory.ts`
+- `src/stories/tailwind-equivalents.css`
+- `src/styles/tokens.css`
+- `src/utils/__tests__/tailwind-compat.test.ts`
+- `src/utils/breakpoints-legacy.manifest.json`
+
+#### 2026:11:19 11:10 — Spec y prerrequisitos de responsividad (34fea97, 194211c, 0e9ad2f)
+
+**Resumen:** Se crea la spec de responsividad de componentes y se cierran los prerrequisitos antes de implementarla.
+
+**Archivos modificados:**
+- `.gitignore`
+- `.kiro/specs/responsive-components-library/.config.kiro`
+- `.kiro/specs/responsive-components-library/design.md`
+- `.kiro/specs/responsive-components-library/requirements.md`
+- `.kiro/specs/responsive-components-library/tasks.md`
+- `.storybook/preview.tsx`
+- `docs/responsive-breakpoints.md`
+- `package.json`
+- `pnpm-lock.yaml`
+- `src/components/Modal/Modal.tsx`
+- `src/stories/responsive-overflow.responsive.tsx`
+- `src/stories/responsiveFixtures.ts`
+- `src/stories/responsiveStory.ts`
+- `src/styles/base.css`
+- `src/styles/tokens.css`
+- `src/utils/__tests__/breakpoints-css.test.ts`
+- `src/utils/__tests__/breakpoints.property.test.ts`
+- `src/utils/__tests__/responsive-columns.property.test.ts`
+- `src/utils/__tests__/responsive-pagination.property.test.ts`
+- `src/utils/__tests__/responsive-position.property.test.ts`
+- `src/utils/__tests__/responsive-swipe.property.test.ts`
+- `src/utils/breakpoints-legacy.manifest.json`
+- `src/utils/breakpoints.ts`
+- `src/utils/responsive/columns.ts`
+- `src/utils/responsive/pagination.ts`
+- `src/utils/responsive/position.ts`
+- `src/utils/responsive/swipe.ts`
+- `src/utils/useBreakpoint.ts`
+- `src/utils/useFocusTrap.ts`
+- `src/utils/useMediaQuery.ts`
+- `vite.config.ts`
 
 ## [0.3.0-beta.1] — 2026-11-12
 ### Agregado
