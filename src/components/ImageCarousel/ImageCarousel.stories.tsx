@@ -3,6 +3,8 @@ import { Headphones } from "lucide-react";
 import { ImageCarousel } from "./ImageCarousel";
 import { ImageCard } from "../ImageCard";
 import { Badge } from "../Badge";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { makeItems } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/ImageCarousel",
@@ -450,4 +452,35 @@ export function MultipleSectionsCarousel() {
   ),
 };
 
+/** Tres secciones de evidencias con seis elementos cada una. */
+const seccionesResponsive = ["Entrada", "Trayecto", "Descarga"].map((title, index) => ({
+  title,
+  location: "Monterrey, NL",
+  items: makeItems(20).slice(index * 2, index * 2 + 6),
+}));
 
+/** Movil: un elemento por vista; deslizar con el dedo avanza o retrocede uno. */
+const mobileStory: Story = {
+  render: () => (
+    <main style={{ padding: "var(--ui-gutter-screen)" }}>
+      <ImageCarousel
+        sections={seccionesResponsive}
+        renderItem={(item) => <ImageCard src="" alt={item.etiqueta} title={item.etiqueta} subtitle="Evidencia" />}
+      />
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: el mismo carrusel en 768 px. */
+const tabletStory: Story = {
+  render: () => (
+    <main style={{ padding: "var(--ui-gutter-screen)" }}>
+      <ImageCarousel
+        sections={seccionesResponsive}
+        renderItem={(item) => <ImageCard src="" alt={item.etiqueta} title={item.etiqueta} subtitle="Evidencia" />}
+      />
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

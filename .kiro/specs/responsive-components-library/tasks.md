@@ -821,12 +821,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `ImageGrid` no cambiaron (Requirement 12.3).
     - _Requirements: 7.1, 7.2, 7.4, 12.3_
 
-- [ ] 41. ImageCarousel (familia Imágenes)
-  - [ ] 41.1 Adaptar `ImageCarousel`
+- [x] 41. ImageCarousel (familia Imágenes)
+  - [x] 41.1 Adaptar `ImageCarousel`
     - `ImageCarousel.module.css`: migrar `@media (max-width: 1024px)` y `640px` a `63.99rem` y `39.99rem`; un elemento por vista en móvil; gestos con Pointer Events y `nextIndexOnSwipe` (umbral 40 px) y `touch-action: pan-y`; controles con Touch_Target de 44 px. Quitar `ImageCarousel` de `breakpoints-legacy.manifest.json`.
     - _Requirements: 1.4, 1.6, 7.6, 7.7, 7.8, 9.2, 12.2, 12.3_
 
-  - [ ] 41.2 Agregar Responsive_Story `Mobile` y `Tablet` en `ImageCarousel.stories.tsx`
+  - [x] 41.2 Agregar Responsive_Story `Mobile` y `Tablet` en `ImageCarousel.stories.tsx`
     - `Mobile`: 3 secciones forenses con 6 o más elementos. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -834,7 +834,7 @@ Convenciones:
     - 1 elemento por vista en móvil; deslizar avanza o retrocede 1; en los extremos permanece; a11y.
     - _Requirements: 7.6, 7.7, 7.8, 11.2, 11.4_
 
-  - [ ] 41.4 Revisión visual de `ImageCarousel`
+  - [x] 41.4 Revisión visual de `ImageCarousel`
     - Revisar en Storybook `Components/ImageCarousel › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: un elemento por vista en móvil; deslizar con el dedo cambia de elemento; en el primero y el último no avanza; el desplazamiento vertical de la página sigue funcionando.
     - Verificar que a 1280 px las stories existentes de `ImageCarousel` no cambiaron (Requirement 12.3).
