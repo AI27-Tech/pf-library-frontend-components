@@ -1057,11 +1057,11 @@ Convenciones:
     - _Requirements: 10.10_
 
 - [ ] 53. Fase 2, CI: job de responsividad y check de breakpoints
-  - [ ] 53.1 Agregar el job de responsividad a `.github/workflows/ci.yml`
+  - [x] 53.1 Agregar el job de responsividad a `.github/workflows/ci.yml`
     - Paso requerido que ejecuta `npm run test:responsive`; confirmar el nombre del workflow con `grep`. Marcar el job como requerido para integrar.
     - _Requirements: 11.1, 11.7_
 
-  - [ ] 53.2 Agregar el check de breakpoints y de cobertura de stories
+  - [x] 53.2 Agregar el check de breakpoints y de cobertura de stories
     - Paso de CI con `BREAKPOINTS_STRICT=1` (manifiesto vacío). Crear `src/utils/__tests__/responsive-coverage.test.ts`: lee `src/index.ts` y los `*.stories.tsx` y falla indicando el componente exportado sin story `Mobile` (los de mensajería cuentan con las variantes `BubbleMobile`, `ComposerMobile`, `ThreadMobile`, `DockMobile`).
     - Confirmar que `npm run lint`, `npm run build` y `npm test` terminan con código 0 y sin errores nuevos.
     - _Requirements: 1.6, 1.9, 10.3, 11.8_
