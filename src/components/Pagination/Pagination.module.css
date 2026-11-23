@@ -109,3 +109,15 @@
   color: var(--ui-color-text-placeholder, #64748b);
   user-select: none;
 }
+
+/* Objetivos táctiles de 44 px y separación de 8 px con puntero grueso. */
+@media (pointer: coarse) {
+  .controls {
+    gap: var(--ui-space-2, 0.5rem);
+  }
+  .page,
+  .ellipsis {
+    min-width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+  }
+}

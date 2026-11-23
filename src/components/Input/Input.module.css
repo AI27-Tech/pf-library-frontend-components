@@ -193,3 +193,18 @@
 .selectArrow {
   pointer-events: none;
 }
+
+/* Movil: campos de al menos 44 px de alto y texto de 1rem para que el navegador no haga zoom al enfocar. */
+@media (max-width: 39.99rem) {
+  .field[data-size] {
+    min-height: var(--ui-touch-target-min);
+    font-size: 1rem;
+  }
+  /* Botones de limpiar y mostrar contrasena: el icono sigue en 18 px y su area de toque llega a 44 px. */
+  .actionButton::before {
+    inset: -13px;
+  }
+  .counter {
+    overflow-wrap: anywhere;
+  }
+}

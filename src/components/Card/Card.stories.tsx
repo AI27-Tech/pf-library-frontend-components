@@ -2,6 +2,8 @@ import { HardDrive } from "lucide-react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Card, CardHeader, CardBody, CardFooter } from "./Card";
 import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_NUMBER, LONG_TOKEN, viaje } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Card",
@@ -20,11 +22,15 @@ const meta = {
     },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 320 }}>
+    (Story, context) =>
+      // Las Responsive_Story ocupan el viewport; el resto mantiene el ancho fijo de 320 px.
+      context.parameters.responsive === true ? (
         <Story />
-      </div>
-    ),
+      ) : (
+        <div style={{ width: 320 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof Card>;
 
@@ -91,3 +97,52 @@ export const Clickable: Story = {
   ),
 };
 
+const mobileStory: Story = {
+  render: (args) => (
+    <main>
+      <Card {...args}>
+        <CardHeader title={LONG_TOKEN} subtitle={viaje.origen} />
+        <CardBody>
+          <strong>Cifra de referencia</strong>
+          <p>{LONG_NUMBER}</p>
+          <p>
+            Destino: {viaje.destino}. Estado {viaje.estado}.
+          </p>
+        </CardBody>
+        <CardFooter>
+          <Button variant="primary">Ver viaje</Button>
+          <Button variant="secondary">Bitácora</Button>
+          <Button variant="ghost">Cerrar</Button>
+        </CardFooter>
+      </Card>
+    </main>
+  ),
+};
+
+/** Móvil: título y cifra largos se parten dentro de la tarjeta, y el pie se apila a todo el ancho. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  render: (args) => (
+    <main>
+      <Card {...args}>
+        <CardHeader title={LONG_TOKEN} subtitle={viaje.origen} />
+        <CardBody>
+          <strong>Cifra de referencia</strong>
+          <p>{LONG_NUMBER}</p>
+          <p>
+            Destino: {viaje.destino}. Estado {viaje.estado}.
+          </p>
+        </CardBody>
+        <CardFooter>
+          <Button variant="primary">Ver viaje</Button>
+          <Button variant="secondary">Bitácora</Button>
+          <Button variant="ghost">Cerrar</Button>
+        </CardFooter>
+      </Card>
+    </main>
+  ),
+};
+
+/** Tablet: el mismo contenido en 768 px. El pie queda en fila. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

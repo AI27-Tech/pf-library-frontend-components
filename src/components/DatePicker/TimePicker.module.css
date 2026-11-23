@@ -183,3 +183,25 @@
   opacity: var(--ui-opacity-disabled, 0.55);
   cursor: not-allowed;
 }
+
+/* Movil: presets apilados sobre la lista de horas; el panel no pasa del alto de la pantalla y se desplaza por dentro. */
+@media (max-width: 39.99rem) {
+  .panel {
+    flex-direction: column;
+    align-items: stretch;
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+  }
+  .presets {
+    min-width: 0;
+    width: 100%;
+  }
+  .preset {
+    min-height: var(--ui-touch-target-min);
+  }
+  .option {
+    min-height: var(--ui-touch-target-min);
+    display: flex;
+    align-items: center;
+  }
+}

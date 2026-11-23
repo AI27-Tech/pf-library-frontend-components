@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bell } from "lucide-react";
 import { Alert } from "./Alert";
+import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
 import { Stack } from "../Layout";
 
 const meta = {
@@ -68,3 +70,32 @@ export const Dismissible: Story = {
 export const CustomIcon: Story = {
   args: { variant: "info", icon: <Bell />, title: "Notificación", children: "Tienes un mensaje nuevo." },
 };
+
+/** Movil: tres alertas con mensaje largo, dos acciones y boton de cerrar. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <Stack gap={3}>
+        <Alert variant="info" title="Cambios pendientes" onDismiss={() => {}}>
+          El viaje VJ-2026-000481 se actualizara en el siguiente ciclo de monitoreo, cuando la unidad reporte su posicion.
+          <Stack gap={2} style={{ marginTop: 8 }}>
+            <Button variant="primary">Ver viaje</Button>
+            <Button variant="secondary">Ver bitacora</Button>
+          </Stack>
+        </Alert>
+        <Alert variant="warning" title="Sin senal" onDismiss={() => {}}>
+          La unidad no reporta posicion desde hace 12 minutos. El custodio debe confirmar por radio el estado de la carga.
+        </Alert>
+        <Alert variant="danger" title="Error al asignar" onDismiss={() => {}}>
+          La unidad ya tiene un viaje activo y no puede recibir una nueva asignacion hasta cerrar el anterior.
+          <Stack gap={2} style={{ marginTop: 8 }}>
+            <Button variant="danger">Reasignar</Button>
+            <Button variant="secondary">Cancelar</Button>
+          </Stack>
+        </Alert>
+      </Stack>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

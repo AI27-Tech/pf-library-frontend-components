@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Checkbox } from "./Checkbox";
 import { Radio } from "./Radio";
 import { Switch } from "./Switch";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Input/Choice",
@@ -64,3 +66,32 @@ export const Invalid: Story = {
     </div>
   ),
 };
+
+/** Movil: diez casillas, un grupo de radios y varios interruptores, con etiquetas de dominio largas. */
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <fieldset>
+          <legend>Unidades a monitorear</legend>
+          {Array.from({ length: 10 }, (_, i) => (
+            <Checkbox key={i} label={`Unidad ${String(i + 1).padStart(2, "0")} ${LONG_TOKEN}`} />
+          ))}
+        </fieldset>
+        <fieldset>
+          <legend>Tipo de custodia</legend>
+          <Radio name="custodia-movil" value="armada" label="Custodia armada con escolta" />
+          <Radio name="custodia-movil" value="patrulla" label="Acompanamiento con patrulla" />
+          <Radio name="custodia-movil" value="mixta" label={`Mixta ${LONG_TOKEN}`} />
+        </fieldset>
+        <fieldset>
+          <legend>Avisos</legend>
+          <Switch label="Avisar al cliente al salir de origen" />
+          <Switch label="Avisar a operacion en incidencia" />
+          <Switch label={`Notificar por correo y mensaje ${LONG_TOKEN}`} />
+        </fieldset>
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

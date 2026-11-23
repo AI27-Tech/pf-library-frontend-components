@@ -5,6 +5,9 @@ import { Table, type Column, type SortState } from "./Table";
 import { Badge } from "../Badge";
 import { Button } from "../Button";
 import { Pagination } from "../Pagination";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
+import type { TableProps } from "./Table";
 
 interface User {
   id: number;
@@ -386,3 +389,94 @@ export const WithPagination: Story = {
     );
   },
 };
+
+interface Viaje {
+  id: number;
+  folio: string;
+  origen: string;
+  destino: string;
+  estado: "En ruta" | "Detenido" | "Incidencia";
+  unidad: string;
+}
+
+const estadosViaje: Viaje["estado"][] = ["En ruta", "Detenido", "Incidencia"];
+
+const viajes: Viaje[] = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  folio: `VJ-2026-${String(481 + i).padStart(6, "0")}`,
+  origen: i === 0 ? `${LONG_TOKEN} Monterrey, N. L.` : "Monterrey, N. L.",
+  destino: "Querétaro, Qro.",
+  estado: estadosViaje[i % estadosViaje.length],
+  unidad: `ABC-${100 + i}-A`,
+}));
+
+const colorEstado: Record<Viaje["estado"], "secure" | "warning" | "alert"> = {
+  "En ruta": "secure",
+  Detenido: "warning",
+  Incidencia: "alert",
+};
+
+const columnasViaje: Column<Viaje>[] = [
+  { key: "folio", header: "Folio", accessor: "folio", sortable: true },
+  { key: "origen", header: "Origen", accessor: "origen", truncate: true },
+  { key: "destino", header: "Destino", accessor: "destino" },
+  {
+    key: "estado",
+    header: "Estado",
+    cell: (v) => <Badge variant={colorEstado[v.estado]}>{v.estado}</Badge>,
+  },
+  { key: "unidad", header: "Unidad", accessor: "unidad" },
+];
+
+/** Tabla de viajes con selección, orden y filas expandibles. El estado vive aquí, no en la story. */
+function ViajesInteractivos(props: TableProps<Viaje>) {
+  const [seleccion, setSeleccion] = useState<Set<Key>>(new Set());
+  const [expandidas, setExpandidas] = useState<Set<Key>>(new Set());
+  const [orden, setOrden] = useState<SortState | null>(null);
+  return (
+    <main>
+      <Table<Viaje>
+        {...props}
+        selectedKeys={seleccion}
+        onSelectionChange={setSeleccion}
+        expandedKeys={expandidas}
+        onExpandedChange={setExpandidas}
+        sort={orden}
+        onSortChange={setOrden}
+        expandedContent={(v) => <p style={{ margin: 0 }}>Detalle del viaje {v.folio}.</p>}
+      />
+    </main>
+  );
+}
+
+const mobileApiladaStory: StoryObj<typeof Table<Viaje>> = {
+  args: { columns: columnasViaje, data: viajes, rowKey: (v) => v.id, "aria-label": "Viajes", responsive: "stacked" },
+  render: (args) => <ViajesInteractivos {...args} />,
+};
+
+/** Móvil apilada: cada viaje es una tarjeta con el nombre de cada columna junto a su valor. */
+export const MobileApilada = responsiveStory("mobile", mobileApiladaStory);
+
+const mobileDesplazamientoStory: StoryObj<typeof Table<Viaje>> = {
+  args: { columns: columnasViaje, data: viajes, rowKey: (v) => v.id, "aria-label": "Viajes", responsive: "scroll" },
+  render: (args) => <ViajesInteractivos {...args} />,
+};
+
+/** Móvil en desplazamiento: la tabla conserva su forma y se desplaza dentro de su contenedor. */
+export const MobileDesplazamiento = responsiveStory("mobile", mobileDesplazamientoStory);
+
+const mobileSinFilasStory: StoryObj<typeof Table<Viaje>> = {
+  args: { columns: columnasViaje, data: [], rowKey: (v) => v.id, "aria-label": "Viajes", responsive: "stacked" },
+  render: (args) => <ViajesInteractivos {...args} />,
+};
+
+/** Móvil sin filas: el estado vacío se muestra sin tarjeta. */
+export const MobileSinFilas = responsiveStory("mobile", mobileSinFilasStory);
+
+const tabletStory: StoryObj<typeof Table<Viaje>> = {
+  args: { columns: columnasViaje, data: viajes, rowKey: (v) => v.id, "aria-label": "Viajes", responsive: "stacked" },
+  render: (args) => <ViajesInteractivos {...args} />,
+};
+
+/** Tablet: la misma tabla en 768 px; en el ancho del contenedor se ve como tabla. */
+export const Tablet = responsiveStory("tablet", tabletStory);

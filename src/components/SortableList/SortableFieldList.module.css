@@ -1,0 +1,192 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+  min-width: 0;
+  font-family: var(--ui-font-family, inherit);
+  color: var(--ui-color-text);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Posición: su etiqueta fija arriba y la tarjeta que esté en ella. La etiqueta no se mueve al arrastrar. */
+.ui-sortable-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.ui-sortable-slot-label {
+  font-size: var(--ui-text-body-md-size);
+  line-height: var(--ui-text-body-md-line);
+  font-weight: 600;
+  color: var(--ui-color-text);
+  overflow-wrap: anywhere;
+}
+
+.required {
+  margin-inline-start: var(--ui-space-1);
+  color: var(--ui-color-danger-text);
+}
+
+/* Tarjeta: asa, control e icono de quitar dentro del mismo borde. Es lo único que se mueve al arrastrar. */
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-1);
+  min-width: 0;
+  padding: var(--ui-space-1) var(--ui-space-2) var(--ui-space-1) var(--ui-space-1);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-color-surface);
+  transition:
+    border-color var(--ui-transition),
+    box-shadow var(--ui-transition),
+    background-color var(--ui-transition);
+}
+
+/* Tarjeta tomada: sigue al puntero, por encima del resto y sin transición para no ir retrasada. */
+.ui-sortable-dragging {
+  z-index: 1;
+  transition: none;
+  border-color: var(--ui-color-border-interactive);
+  background: var(--ui-color-surface-container-high);
+  box-shadow: var(--ui-shadow-md);
+}
+
+/* Línea que marca dónde caerá la tarjeta. */
+.row[data-drop]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  border-radius: var(--ui-radius-full);
+  background: var(--ui-color-border-interactive);
+  pointer-events: none;
+}
+
+.row[data-drop="before"]::before {
+  top: calc(var(--ui-space-2) * -1 - 1px);
+}
+
+.row[data-drop="after"]::before {
+  bottom: calc(var(--ui-space-2) * -1 - 1px);
+}
+
+.ui-sortable-handle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  color: var(--ui-color-text-placeholder);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition:
+    color var(--ui-transition),
+    background-color var(--ui-transition);
+}
+
+.ui-sortable-handle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ui-sortable-handle:hover:not(:disabled) {
+  color: var(--ui-color-text);
+  background: var(--ui-color-surface-container-high);
+}
+
+.ui-sortable-handle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring);
+}
+
+.ui-sortable-handle[aria-pressed="true"] {
+  color: var(--ui-color-primary-text);
+  background: var(--ui-color-surface-container-high);
+}
+
+.ui-sortable-dragging .ui-sortable-handle {
+  cursor: grabbing;
+}
+
+.ui-sortable-handle:disabled {
+  cursor: not-allowed;
+  opacity: var(--ui-opacity-disabled, 0.55);
+}
+
+.control {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ui-sortable-remove {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  color: var(--ui-color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--ui-transition),
+    background-color var(--ui-transition);
+}
+
+.ui-sortable-remove svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ui-sortable-remove:hover:not(:disabled) {
+  color: var(--ui-color-danger-text);
+  background: var(--ui-color-danger-container);
+}
+
+.ui-sortable-remove:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring);
+}
+
+.ui-sortable-remove:disabled {
+  cursor: not-allowed;
+  opacity: var(--ui-opacity-disabled, 0.55);
+}
+
+/* Áreas táctiles cómodas en pantallas táctiles. */
+@media (pointer: coarse) {
+  .ui-sortable-handle,
+  .ui-sortable-remove {
+    min-width: var(--ui-touch-target-min);
+    min-height: var(--ui-touch-target-min);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .ui-sortable-handle,
+  .ui-sortable-remove {
+    transition: none;
+  }
+}

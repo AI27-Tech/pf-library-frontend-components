@@ -1,5 +1,5 @@
 import { Search, X } from "lucide-react";
-import { useRef, useState, type HTMLAttributes, type ReactNode } from "react";
+import { useId, useRef, useState, type HTMLAttributes, type ReactNode } from "react";
 import { Grid3x3, List } from "lucide-react";
 import { Select, type SelectOption, type SelectVariant } from "../Input/Select";
 import { Button } from "../Button";
@@ -89,6 +89,11 @@ export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
   labels?: Partial<FilterBarLabels>;
   /** Estado de carga. Deshabilita búsqueda, filtros y el botón de filtros. */
   loading?: boolean;
+  /**
+   * Solo en `layout="panel"` y en móvil: los filtros arrancan ocultos y un botón de 44 px
+   * los muestra u oculta. En tablet y escritorio los filtros se ven siempre. Por defecto: false.
+   */
+  collapsibleOnMobile?: boolean;
 }
 
 export function FilterBar({
@@ -108,11 +113,14 @@ export function FilterBar({
   layout = "panel",
   labels: labelsProp,
   loading = false,
+  collapsibleOnMobile = false,
   className,
   ...props
 }: FilterBarProps) {
   const labels: FilterBarLabels = { ...defaultLabels, ...labelsProp };
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const filtersId = useId();
   const triggerAnchorRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -308,8 +316,27 @@ export function FilterBar({
       <div className={styles.content}>
         {searchBox}
         {chips}
-        {filtersGrid}
-        {clearButton && <div className={styles.actions}>{clearButton}</div>}
+        {collapsibleOnMobile && (
+          <button
+            type="button"
+            className={styles.mobileToggle}
+            aria-expanded={mobileOpen}
+            aria-controls={filtersId}
+            onClick={() => setMobileOpen((open) => !open)}
+          >
+            {activeFilterCount > 0 ? `${labels.title} (${activeFilterCount})` : labels.title}
+          </button>
+        )}
+        <div
+          id={filtersId}
+          className={cx(
+            styles.filtersBlock,
+            collapsibleOnMobile && !mobileOpen && styles.collapsedOnMobile,
+          )}
+        >
+          {filtersGrid}
+          {clearButton && <div className={styles.actions}>{clearButton}</div>}
+        </div>
       </div>
     </div>
   );

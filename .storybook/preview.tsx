@@ -3,8 +3,17 @@ import type { Preview } from '@storybook/react-vite'
 import '../src/styles/tokens.css'
 import '../src/styles/base.css'
 
+// Viewports de responsividad (tarea 1.12). Son las únicas opciones del toolbar de viewport.
+const VIEWPORTS = {
+  mobile: { name: 'Móvil 375', styles: { width: '375px', height: '667px' }, type: 'mobile' },
+  tablet: { name: 'Tablet 768', styles: { width: '768px', height: '1024px' }, type: 'tablet' },
+  desktop: { name: 'Escritorio 1280', styles: { width: '1280px', height: '800px' }, type: 'desktop' },
+} as const;
 const preview: Preview = {
   parameters: {
+    viewport: {
+      options: VIEWPORTS,
+    },
     controls: {
       matchers: {
        color: /(background|color)$/i,

@@ -39,6 +39,8 @@
 }
 
 .title {
+  min-width: 0;
+  overflow-wrap: anywhere;
   margin: 0;
   font-size: var(--ui-font-size-lg, 1.0625rem);
   font-weight: 600;
@@ -84,6 +86,10 @@
   flex: 1 1 auto;
 }
 
+/* Sin pie, el cuerpo es el ultimo hijo y necesita su propio margen inferior. */
+.body:last-child {
+  padding-bottom: var(--ui-space-5, 1.5rem);
+}
 .footer {
   display: flex;
   align-items: center;
@@ -107,5 +113,53 @@
   .overlay,
   .dialog {
     animation: none;
+  }
+}
+
+/* Movil: el dialogo ocupa el ancho de la ventana menos los margenes, sin importar su tamano. El encabezado y el pie quedan fijos y el cuerpo se desplaza. */
+@media (max-width: 39.99rem) {
+  .overlay {
+    overflow-x: auto;
+  }
+  .dialog {
+    width: calc(100vw - 2 * var(--ui-space-4, 1rem));
+    min-width: calc(320px - 2 * var(--ui-space-4, 1rem));
+    max-width: none;
+    max-height: calc(100vh - 2 * var(--ui-space-4, 1rem));
+    max-height: calc(100dvh - 2 * var(--ui-space-4, 1rem));
+  }
+  .sm,
+  .md,
+  .lg {
+    max-width: none;
+  }
+  .header,
+  .footer {
+    flex: 0 0 auto;
+  }
+  .body {
+    min-height: 0;
+  }
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .footer > * {
+    width: 100%;
+  }
+}
+/* Boton de cerrar: area de toque de 44 px con puntero grueso, sin cambiar su tamano visible. */
+@media (pointer: coarse) {
+  .close {
+    position: relative;
+  }
+  .close::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+    transform: translate(-50%, -50%);
   }
 }

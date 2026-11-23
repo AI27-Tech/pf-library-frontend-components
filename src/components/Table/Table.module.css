@@ -274,3 +274,83 @@
     animation: none;
   }
 }
+
+/* ── Modo apilado (responsive="stacked") ─────────────────────────────────────
+   El contenedor mide su propio ancho: en menos de 40rem cada fila es una tarjeta
+   y cada celda muestra el nombre de su columna (data-label) junto al valor. */
+.stackedWrapper {
+  container-type: inline-size;
+  border: none;
+  background: transparent;
+}
+@container (max-width: 39.99rem) {
+  .stacked,
+  .stacked tbody {
+    display: block;
+    width: 100%;
+  }
+  /* El encabezado sigue en el árbol para lectores de pantalla, pero no se ve. */
+  .stacked thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .stacked tbody tr:not(.emptyRow) {
+    display: block;
+    margin-bottom: var(--ui-space-2);
+    padding: var(--ui-space-2) var(--ui-space-3);
+    border: 1px solid var(--ui-color-border, #2d3748);
+    border-radius: var(--ui-radius, 0.25rem);
+    background-color: var(--ui-color-surface, #1c222e);
+  }
+  .stacked tbody tr:not(.emptyRow) > td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ui-space-3);
+    width: auto;
+    height: auto;
+    min-width: 0;
+    padding: var(--ui-space-1) 0;
+    border-bottom: none;
+    max-width: none;
+    overflow-wrap: anywhere;
+  }
+  .stacked tbody tr:not(.emptyRow) > td[data-label]::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    font-size: var(--ui-text-label-md-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ui-color-text-muted, #94a3b8);
+  }
+  .stacked tbody tr:not(.emptyRow) > td.selectCell,
+  .stacked tbody tr:not(.emptyRow) > td.expandCell {
+    justify-content: flex-start;
+    width: auto;
+    padding: 0;
+  }
+  .stacked .emptyRow,
+  .stacked .emptyRow > td {
+    display: block;
+  }
+  .stacked .detailRow,
+  .stacked .detailRow > td {
+    display: block;
+  }
+}
+
+/* ── Objetivos táctiles de 44 px con puntero grueso ──────────────────────── */
+@media (pointer: coarse) {
+  .expandBtn {
+    min-width: var(--ui-touch-target-min);
+    min-height: var(--ui-touch-target-min);
+  }
+  .sortable {
+    min-height: var(--ui-touch-target-min);
+  }
+}

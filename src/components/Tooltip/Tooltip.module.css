@@ -35,3 +35,15 @@
   border: 4px solid transparent;
   border-top-color: var(--ui-color-surface-raised, #242b3a);
 }
+
+/* Movil: el texto se parte en lineas dentro de la ventana en lugar de cortarse con puntos suspensivos. */
+@media (max-width: 39.99rem) {
+  .tooltip {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    max-width: calc(100vw - 2 * 0.5rem);
+    width: max-content;
+  }
+}

@@ -138,11 +138,10 @@
   color: var(--ui-color-text-muted, #94a3b8);
   text-align: left;
   margin-top: 0.25rem;
-  opacity: 0.7;
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 63.99rem) {
   .carousel {
     gap: 2rem;
   }
@@ -166,7 +165,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 39.99rem) {
   .carousel {
     gap: 1.5rem;
   }
@@ -187,5 +186,31 @@
 
   .itemsContainer {
     gap: 0.5rem;
+  }
+}
+
+/* Movil: un elemento por vista. Deslizar con el dedo ajusta el carrusel a un elemento; el desplazamiento vertical de la pagina sigue igual. */
+@media (max-width: 39.99rem) {
+  .itemsContainer {
+    scroll-snap-type: x mandatory;
+    touch-action: pan-y;
+    overscroll-behavior-x: contain;
+  }
+  .itemsContainer > * {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .navButton {
+    position: relative;
+  }
+  .navButton::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+    transform: translate(-50%, -50%);
   }
 }

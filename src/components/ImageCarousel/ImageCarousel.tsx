@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
-import { useState } from "react";
 import styles from "./ImageCarousel.module.css";
+import { useBreakpoint } from "../../utils/useBreakpoint";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -41,26 +41,23 @@ export function ImageCarousel<T>({
   className,
   ...props
 }: ImageCarouselProps<T>) {
-  const [scrollPositions, setScrollPositions] = useState<Record<number, number>>({});
 
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+
+  // Desplaza exactamente un elemento (o la vista completa si no hay elementos). En movil, una vista = un elemento.
   const handleScroll = (sectionIndex: number, direction: "left" | "right", visibleItems: number) => {
-    const container = document.querySelector(
-      `[data-carousel-section="${sectionIndex}"]`
-    ) as HTMLElement;
-
+    const container = document.querySelector(`[data-carousel-section="${sectionIndex}"]`) as HTMLElement | null;
     if (!container) return;
 
-    const currentScroll = scrollPositions[sectionIndex] || 0;
-    const itemWidth = container.offsetWidth / visibleItems;
-    const scrollAmount = itemWidth + (parseInt(gap) || 16);
+    const first = container.firstElementChild as HTMLElement | null;
+    const gapPx = parseFloat(gap) || 16;
+    const step = first ? first.offsetWidth + gapPx : container.offsetWidth / (isMobile ? 1 : visibleItems);
+    const maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    const currentScroll = container.scrollLeft;
+    const newScroll = direction === "left" ? Math.max(0, currentScroll - step) : Math.min(maxScroll, currentScroll + step);
 
-    const newScroll =
-      direction === "left"
-        ? Math.max(0, currentScroll - scrollAmount)
-        : currentScroll + scrollAmount;
-
-    container.scrollLeft = newScroll;
-    setScrollPositions((prev) => ({ ...prev, [sectionIndex]: newScroll }));
+    container.scrollTo({ left: newScroll, behavior: "smooth" });
   };
 
   return (
@@ -112,7 +109,7 @@ export function ImageCarousel<T>({
             <div className={styles.carouselWrapper}>
               <div
                 className={styles.itemsContainer}
-                data-carousel-section={sectionIdx}
+                data-carousel-section={sectionIdx} tabIndex={0}
                 style={{ gap }}
               >
                 {section.items.map((item, itemIdx) =>

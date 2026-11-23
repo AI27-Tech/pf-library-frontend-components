@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FilterBar, type FilterDefinition, type FilterValues } from "./FilterBar";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const filtros: FilterDefinition[] = [
   {
@@ -158,3 +159,91 @@ export const ConSelectorDeVista: Story = {
     );
   },
 };
+
+const filtrosViaje: FilterDefinition[] = [
+  {
+    key: "cliente",
+    label: "Cliente",
+    placeholder: "Todos los clientes",
+    options: [
+      { label: "Transportes del Norte", value: "norte" },
+      { label: "Acme Logística", value: "acme" },
+    ],
+  },
+  {
+    key: "estado",
+    label: "Estado",
+    placeholder: "Todos los estados",
+    options: [
+      { label: "En ruta", value: "ruta" },
+      { label: "Detenido", value: "detenido" },
+    ],
+  },
+  {
+    key: "origen",
+    label: "Origen",
+    placeholder: "Todos los orígenes",
+    options: [{ label: "Monterrey, N. L.", value: "mty" }],
+  },
+  {
+    key: "destino",
+    label: "Destino",
+    placeholder: "Todos los destinos",
+    options: [{ label: "Querétaro, Qro.", value: "qro" }],
+  },
+  {
+    key: "fecha",
+    label: "Fecha",
+    placeholder: "Todas las fechas",
+    options: [
+      { label: "Hoy", value: "hoy" },
+      { label: "Esta semana", value: "semana" },
+    ],
+  },
+  {
+    key: "unidad",
+    label: "Unidad",
+    placeholder: "Todas las unidades",
+    options: [{ label: "ABC-123-A", value: "abc" }],
+  },
+];
+
+/** Barra de filtros con estado propio: la story no guarda valores, así que aquí se controlan. */
+function FiltrosViaje({ colapsable }: { colapsable: boolean }) {
+  const [valores, setValores] = useState<FilterValues>({});
+  const [busqueda, setBusqueda] = useState("");
+  return (
+    <main>
+      <FilterBar
+        filters={filtrosViaje}
+        filterValues={valores}
+        onFilterChange={(clave, valor) => setValores((previo) => ({ ...previo, [clave]: valor }))}
+        onClear={() => setValores({})}
+        searchValue={busqueda}
+        onSearchChange={setBusqueda}
+        collapsibleOnMobile={colapsable}
+      />
+    </main>
+  );
+}
+
+const movilStory: Story = {
+  render: () => <FiltrosViaje colapsable={false} />,
+};
+
+/** Móvil: seis filtros en una columna, cada control al 100 %, siempre visibles. */
+export const Mobile: Story = responsiveStory("mobile", movilStory);
+
+const movilColapsableStory: Story = {
+  render: () => <FiltrosViaje colapsable={true} />,
+};
+
+/** Móvil con `collapsibleOnMobile`: los filtros arrancan ocultos y el botón de 44 px los muestra. */
+export const MobileColapsable: Story = responsiveStory("mobile", movilColapsableStory);
+
+const tabletStory: Story = {
+  render: () => <FiltrosViaje colapsable={false} />,
+};
+
+/** Tablet: la barra en 768 px, con los filtros siempre visibles. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

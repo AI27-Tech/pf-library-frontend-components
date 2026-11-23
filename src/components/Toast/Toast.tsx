@@ -122,7 +122,7 @@ export function ToastContainer({
     <div
       className={cx(styles.container, styles[position], className)}
       role="region"
-      aria-label="Notifications"
+      aria-label={`Notifications, ${position}`}
     >
       {children}
     </div>,

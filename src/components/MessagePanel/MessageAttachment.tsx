@@ -25,6 +25,16 @@ function iconoPara(tipoMedio?: string) {
   return <Paperclip aria-hidden="true" />;
 }
 
+/**
+ * Separa el nombre en base y extensión (desde el último punto). Al truncar, solo la base
+ * se recorta con puntos suspensivos; la extensión siempre queda visible.
+ */
+function splitNombre(nombre: string): { base: string; extension: string } {
+  const indice = nombre.lastIndexOf(".");
+  if (indice <= 0) return { base: nombre, extension: "" };
+  return { base: nombre.slice(0, indice), extension: nombre.slice(indice) };
+}
+
 /** Chip de adjunto. La librería no descarga ni sube bytes: el consumidor controla el estado. */
 export function MessageAttachment({
   nombre,
@@ -34,11 +44,15 @@ export function MessageAttachment({
   onOpen,
   labels,
 }: MessageAttachmentProps) {
+  const { base, extension } = splitNombre(nombre);
   const contenido = (
     <>
       {estado === "uploading" ? <Spinner size="sm" label={labels?.uploading ?? "Subiendo"} /> : iconoPara(tipoMedio)}
       <span className={styles.attachmentText}>
-        <span className={styles.attachmentName}>{nombre}</span>
+        <span className={styles.attachmentName}>
+          <span className={styles.attachmentBase}>{base}</span>
+          <span className={styles.attachmentExt}>{extension}</span>
+        </span>
         <span className={styles.attachmentMeta}>
           {estado === "error"
             ? (labels?.error ?? "Error al subir")

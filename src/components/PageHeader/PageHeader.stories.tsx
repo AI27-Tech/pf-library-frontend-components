@@ -9,6 +9,8 @@ import { DescriptionList } from "../DescriptionList";
 import { Stat } from "../Stat";
 import { Alert } from "../Alert";
 import { Grid, Stack } from "../Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/PageHeader",
@@ -145,3 +147,58 @@ export const ExampleScreen: Story = {
     </Stack>
   ),
 };
+
+const rutaLarga = (
+  <Breadcrumb
+    maxItems={3}
+    items={[
+      { label: "Inicio", href: "#inicio" },
+      { label: "Operación de viajes en curso", href: "#operacion" },
+      { label: "Bitácora de cruces fronterizos", href: "#bitacora" },
+      { label: "Unidades con incidencias abiertas", href: "#unidades" },
+      { label: "Tracto con remolque de tres ejes", href: "#tracto" },
+      { label: "Viaje 2045" },
+    ]}
+  />
+);
+
+const encabezadoResponsive = {
+  breadcrumb: rutaLarga,
+  title: LONG_TOKEN,
+  description: "Resumen del viaje, con su estado y las acciones disponibles.",
+  actions: (
+    <>
+      <Button startIcon={<Plus />}>Nuevo</Button>
+      <Button variant="secondary" startIcon={<Download />}>Exportar</Button>
+      <Button variant="outline">Cerrar</Button>
+    </>
+  ),
+};
+
+const mobileStory: Story = {
+  args: encabezadoResponsive,
+  render: (args) => (
+    <main>
+      <div style={{ padding: "var(--ui-space-4)", background: "var(--ui-color-surface)", borderRadius: "var(--ui-radius)" }}>
+        <PageHeader {...args} />
+      </div>
+    </main>
+  ),
+};
+
+/** Móvil: la ruta se pliega, el título largo se parte y las acciones quedan debajo del título. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  args: encabezadoResponsive,
+  render: (args) => (
+    <main>
+      <div style={{ padding: "var(--ui-space-4)", background: "var(--ui-color-surface)", borderRadius: "var(--ui-radius)" }}>
+        <PageHeader {...args} />
+      </div>
+    </main>
+  ),
+};
+
+/** Tablet: el mismo encabezado en 768 px. Las acciones quedan junto al título. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

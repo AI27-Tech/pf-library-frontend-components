@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  min-width: 0;
+  overflow-wrap: anywhere;
   background-color: var(--ui-color-surface, #1c222e);
   color: var(--ui-color-text, #e2e8f0);
   border-radius: var(--ui-radius-lg, 0.5rem);
@@ -142,5 +144,17 @@
 @media (prefers-reduced-motion: reduce) {
   .clickable {
     transition: none;
+  }
+}
+
+/* En móvil el pie se apila y cada acción ocupa todo el ancho. */
+@media (max-width: 39.99rem) {
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer > * {
+    width: 100%;
   }
 }

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DescriptionList } from "./DescriptionList";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN, viaje } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/DescriptionList",
@@ -58,3 +60,38 @@ export const EmptyValues: Story = {
     ],
   },
 };
+
+const fichaViaje = [
+  { label: "Folio", value: viaje.folio },
+  { label: "Origen", value: viaje.origen },
+  { label: "Destino", value: viaje.destino },
+  { label: "Cliente", value: viaje.cliente },
+  { label: "Estado", value: viaje.estado },
+  { label: "ETA estimada", value: viaje.etaEstimada },
+  { label: "Referencia", value: LONG_TOKEN },
+  { label: "Observaciones", value: "" },
+];
+
+const mobileStory: Story = {
+  args: { items: fichaViaje, columns: 4, orientation: "horizontal" },
+  render: (args) => (
+    <main>
+      <DescriptionList {...args} />
+    </main>
+  ),
+};
+
+/** Móvil: una columna; cada par se apila (nombre sobre valor) y los valores largos se parten. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  args: { items: fichaViaje, columns: 4, orientation: "horizontal" },
+  render: (args) => (
+    <main>
+      <DescriptionList {...args} />
+    </main>
+  ),
+};
+
+/** Tablet: la misma ficha con dos columnas como máximo. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

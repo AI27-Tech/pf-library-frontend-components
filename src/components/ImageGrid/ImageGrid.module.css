@@ -13,7 +13,9 @@
 }
 
 .itemsGrid {
+  display: grid;
   width: 100%;
+  grid-template-columns: repeat(var(--ui-image-grid-cols, 4), minmax(0, 1fr));
 }
 
 /* Vista de lista - Tabla alineada y compacta */
@@ -139,4 +141,11 @@
   font-size: var(--ui-font-size-md, 0.9375rem);
   color: var(--ui-color-text-muted, #94a3b8);
   text-align: center;
+}
+
+/* Movil: la vista de lista se apila en una sola columna en lugar de las columnas fijas de escritorio. */
+@media (max-width: 39.99rem) {
+  .listItem {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

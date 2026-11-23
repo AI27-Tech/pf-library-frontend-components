@@ -4,6 +4,7 @@ import { Popover, type PopoverProps } from "./Popover";
 import { Modal } from "../Modal";
 import { Button } from "../Button";
 import { Input } from "../Input";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Popover",
@@ -181,3 +182,24 @@ function ModalDemo() {
 export const DentroDeModal: Story = {
   render: () => <ModalDemo />,
 };
+
+/** Movil: menu de acciones largas anclado al borde derecho de la pantalla. */
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <div style={{ display: "flex", justifyContent: "flex-end", padding: "6rem 0.5rem 0" }}>
+        <PopoverDemo position="bottom" align="end" anchorLabel="Acciones" children={
+          <div style={{ display: "grid", gap: "var(--ui-space-2)" }}>
+            <Button variant="secondary" size="sm" fullWidth>Ver detalle completo del viaje VJ-2026-000481</Button>
+            <Button variant="secondary" size="sm" fullWidth>Reasignar custodio a la unidad PT-07 con escolta armada</Button>
+            <Button variant="secondary" size="sm" fullWidth>Compartir estado del viaje con el cliente por correo</Button>
+            <Button variant="secondary" size="sm" fullWidth>Exportar bitacora de paradas en formato PDF con firmas</Button>
+            <Button variant="secondary" size="sm" fullWidth>Marcar incidencia por retraso de la carga en la frontera</Button>
+            <Button variant="secondary" size="sm" fullWidth>Cancelar el viaje y notificar a operacion y al cliente</Button>
+          </div>
+        } />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

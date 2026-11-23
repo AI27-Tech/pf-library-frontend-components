@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Clock, Truck } from "lucide-react";
 import { Stat } from "./Stat";
 import { Grid } from "../Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_NUMBER } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Stat",
@@ -83,3 +85,28 @@ export const Group: Story = {
     </Grid>
   ),
 };
+
+const mobileStory: Story = {
+  args: { label: "Viajes activos", value: LONG_NUMBER },
+  render: (args) => (
+    <main>
+      <Grid columns={2} gap={3}>
+        <Stat
+          {...args}
+          trend={{ direction: "up", value: "+12 %" }}
+          helpText="Respecto al mes anterior"
+        />
+        <Stat
+          label="Tiempo de respuesta"
+          value="14 min"
+          trend={{ direction: "down", value: "-3 min" }}
+          invertTrend
+        />
+        <Stat label="Unidades en ruta" value="" loading />
+      </Grid>
+    </main>
+  ),
+};
+
+/** Móvil: una cifra de 16 dígitos se muestra completa; la tendencia y el estado de carga conservan su forma. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
