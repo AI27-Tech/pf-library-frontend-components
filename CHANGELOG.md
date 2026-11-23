@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0-beta.2] — 2026-11-23
+
 ### Agregado
 
 - **`SortableFieldList`**: lista de campos repetibles y reordenables, por ejemplo destinos intermedios. Cada posición tiene una etiqueta fija (`slotLabel`, por ejemplo "Destino 1") que no se mueve al reordenar; la tarjeta con asa, el control que dibuja `renderField` y el icono de quitar (`onRemove`) sí se mueven. Al final, un `Button` de ancho completo para agregar (`onAdd`, `addLabel`). Funciona con mouse, dedo y teclado (espacio toma y suelta, flechas mueven, escape cancela) y anuncia la posición a lectores de pantalla. El orden lo guarda el consumidor: `onReorder` entrega la lista nueva. Sin dependencias nuevas.
