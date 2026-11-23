@@ -196,3 +196,18 @@
   padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
   color: var(--ui-color-text-muted, #94a3b8);
 }
+
+/* Movil: disparador de al menos 44 px y texto de 1rem; las listas no pasan del alto visible. */
+@media (max-width: 39.99rem) {
+  .trigger {
+    min-height: var(--ui-touch-target-min);
+    font-size: 1rem;
+  }
+  .listContainer {
+    max-height: min(20rem, 60dvh);
+  }
+  .optionButton {
+    min-height: var(--ui-touch-target-min);
+    font-size: 1rem;
+  }
+}

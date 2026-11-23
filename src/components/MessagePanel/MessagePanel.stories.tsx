@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentProps } from "react";
+import { useEffect, useState, type ComponentProps, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConversationStatus } from "./ConversationStatus";
 import { MessageAttachment } from "./MessageAttachment";
@@ -9,6 +9,8 @@ import { MessageThread } from "./MessageThread";
 import { useMessageDock } from "./useMessageDock";
 import type { EstadoConversacion, Mensaje, MensajePendiente } from "./types";
 import { generarClientMessageId } from "./utils";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { Inline } from "../Layout";
 
 const meta = {
   title: "Components/MessagePanel",
@@ -103,8 +105,14 @@ function Compositor({
 }
 
 /** Panel con hilo y compositor funcionales, sin estado externo. */
-function PanelDemo(props: Partial<ComponentProps<typeof MessagePanel>> & { inicial?: Mensaje[]; estado?: EstadoConversacion }) {
-  const { inicial = hilo, estado = "abierta", ...resto } = props;
+function PanelDemo(
+  props: Partial<ComponentProps<typeof MessagePanel>> & {
+    inicial?: Mensaje[];
+    estado?: EstadoConversacion;
+    adjuntos?: (mensaje: Mensaje) => ReactNode;
+  },
+) {
+  const { inicial = hilo, estado = "abierta", adjuntos, ...resto } = props;
   const { mensajes, enviar } = useConversacion(inicial);
   return (
     <MessagePanel
@@ -117,7 +125,7 @@ function PanelDemo(props: Partial<ComponentProps<typeof MessagePanel>> & { inici
         <Compositor onSend={enviar} estado={estado} maxLength={500} />
       }
     >
-      <MessageThread mensajes={mensajes} isOwn={isOwn} ultimaSecuenciaLeida={4} />
+      <MessageThread mensajes={mensajes} isOwn={isOwn} ultimaSecuenciaLeida={4} renderAttachments={adjuntos} />
     </MessagePanel>
   );
 }
@@ -282,6 +290,133 @@ export const ConAuditoria: Story = {
   ),
 };
 
+/** Cadena de 500 caracteres sin espacios: fuerza el desborde si la burbuja no parte el texto. */
+const CADENA_500 = "ABCDEFGHIJ".repeat(50);
+
+const burbujasMobile: Mensaje[] = [
+  mensaje(1, CADENA_500, 6, { aliasMostrado: "Central C4", audienciaAutor: "Cliente" }),
+  propio(2, CADENA_500, 5),
+  mensaje(3, "Adjunto el reporte final.", 4),
+];
+
+const bubbleMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread
+          mensajes={burbujasMobile}
+          isOwn={isOwn}
+          renderAttachments={(m) =>
+            m.secuencia === 2 ? (
+              <MessageAttachment
+                nombre="reporte-de-evidencia-viaje-VJ-2026-000481-cierre-final.pdf"
+                tamano={248_000}
+                tipoMedio="application/pdf"
+                onOpen={() => undefined}
+              />
+            ) : null
+          }
+        />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Móvil: burbujas con cadena de 500 caracteres y adjunto con nombre largo. Las burbujas no pasan del 85 % del ancho. */
+export const BubbleMobile: Story = responsiveStory("mobile", bubbleMobileStory);
+
+/** Borrador largo (cerca del límite de 500) con adjuntos pendientes: uno subiendo y uno con error. */
+function ComposerMobileDemo() {
+  const [borrador, setBorrador] = useState(
+    "Confirmo la salida de la unidad TTR-8821 desde la caseta 3 a las 14:30. Llevamos sello verificado y custodio a bordo. ".repeat(4),
+  );
+  return (
+    <MessagePanel
+      name="Central C4"
+      composer={
+        <>
+          <Inline gap={2}>
+            <MessageAttachment nombre="sello-caseta-3.jpg" tamano={1_400_000} tipoMedio="image/jpeg" estado="uploading" />
+            <MessageAttachment nombre="video-descarga.mp4" tamano={52_000_000} tipoMedio="video/mp4" estado="error" />
+          </Inline>
+          <MessageComposer
+            value={borrador}
+            onChange={setBorrador}
+            onSend={() => setBorrador("")}
+            maxLength={500}
+            onAttach={() => undefined}
+          />
+        </>
+      }
+    >
+      <MessageThread mensajes={hilo} isOwn={isOwn} />
+    </MessagePanel>
+  );
+}
+
+const composerMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <ComposerMobileDemo />
+    </div>
+  ),
+};
+
+/** Móvil: compositor con borrador largo, contador y adjuntos pendientes, anclado abajo. */
+export const ComposerMobile: Story = responsiveStory("mobile", composerMobileStory);
+
+/**
+ * Hilo de 22 mensajes. La antigüedad recorre los días sin seguir el orden de `secuencia`
+ * (paso de 7 sobre 22 posiciones), así que `creadoEn` queda desordenado a propósito.
+ */
+const hiloMovil: Mensaje[] = Array.from({ length: 22 }, (_, i) => {
+  const secuencia = i + 1;
+  const minutos = ((i * 7) % 22) * 200 + 5;
+  const cuerpo = `Mensaje ${secuencia}: reporte de la unidad TTR-8821 en el punto de control ${secuencia}.`;
+  return i % 3 === 1 ? propio(secuencia, cuerpo, minutos) : mensaje(secuencia, cuerpo, minutos);
+});
+
+const threadMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread mensajes={hiloMovil} isOwn={isOwn} ultimaSecuenciaLeida={15} />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Móvil: hilo de 22 mensajes en varios días, con `creadoEn` desordenado respecto a `secuencia`. */
+export const ThreadMobile: Story = responsiveStory("mobile", threadMobileStory);
+
+/** Panel de un viaje con hilo largo, compositor y un adjunto. Es la misma vista en móvil y en tablet. */
+const panelViajeStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <PanelDemo
+        subtitle="Viaje 1042"
+        inicial={hiloMovil}
+        adjuntos={(m) =>
+          m.secuencia === 3 ? (
+            <MessageAttachment
+              nombre="bitacora-unidad-TTR-8821.pdf"
+              tamano={248_000}
+              tipoMedio="application/pdf"
+              onOpen={() => undefined}
+            />
+          ) : null
+        }
+      />
+    </div>
+  ),
+};
+
+/** Móvil: el panel ocupa toda la pantalla; el compositor queda visible sobre el teclado. */
+export const Mobile: Story = responsiveStory("mobile", panelViajeStory);
+
+/** Tablet: el mismo panel en 768 px, con su tamaño de ventana flotante. */
+export const Tablet: Story = responsiveStory("tablet", panelViajeStory);
+
 /** Ancho angosto: el panel ocupa lo que haya disponible. */
 export const VistaAngosta: Story = {
   render: () => (
@@ -402,3 +537,100 @@ export const BarraConNoLeidos: Story = {
     );
   },
 };
+
+/* ── Muelle en móvil y tablet: un panel expandido, el resto en la barra ───── */
+
+/**
+ * Muelle con cuatro conversaciones y un borrador en cada una. Los borradores viven en el
+ * demo, no en el panel, así que sobreviven cuando el panel pasa a overflow.
+ */
+function DockDemo({ total = 4 }: { total?: number }) {
+  const nombres = conversacionesDemo.slice(0, total);
+  const dock = useMessageDock();
+  const [borradores, setBorradores] = useState<Record<string, string>>(() =>
+    Object.fromEntries(nombres.map((n, i) => [`c${i}`, `Borrador pendiente para ${n}`])),
+  );
+  const [mensajes, setMensajes] = useState<Record<string, Mensaje[]>>(() =>
+    Object.fromEntries(nombres.map((n, i) => [`c${i}`, [mensaje(1, `Mensaje de prueba en ${n}`, 4 + i)]])),
+  );
+
+  // Abre solo la primera conversación; el resto queda en la barra hasta que el usuario la elija.
+  useEffect(() => {
+    dock.open("c0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const filas: DockConversation[] = nombres.map((n, i) => ({
+    id: `c${i}`,
+    name: n,
+    preview: `Mensaje de prueba en ${n}`,
+    lastMessageAt: hace(4 + i),
+    unread: i === 1,
+  }));
+
+  const porId = (id: string) => nombres[Number(id.slice(1))];
+  const enOverflow = dock.overflow.map((id) => ({ id, nombre: porId(id) }));
+
+  return (
+    <main style={{ height: 520, padding: "1rem", color: "var(--ui-color-text-muted)" }}>
+      Área de la app. Las conversaciones se anclan abajo a la derecha.
+      <MessageDock
+        overflowCount={enOverflow.length}
+        overflow={enOverflow.map((c) => (
+          <button key={c.id} type="button" onClick={() => dock.open(c.id)} style={{ padding: 8, textAlign: "left" }}>
+            {c.nombre}
+          </button>
+        ))}
+        bar={
+          <MessageDockBar
+            open={dock.barOpen}
+            onToggle={dock.toggleBar}
+            unreadCount={filas.filter((f) => f.unread).length}
+            conversations={filas}
+            onSelect={(id) => dock.open(id)}
+          />
+        }
+      >
+        {dock.panels.map((p) => (
+          <MessagePanel
+            key={p.id}
+            name={porId(p.id)}
+            open={!p.minimized}
+            onOpenChange={() => dock.toggle(p.id)}
+            onClose={() => dock.close(p.id)}
+            composer={
+              <MessageComposer
+                value={borradores[p.id] ?? ""}
+                onChange={(valor) => setBorradores((prev) => ({ ...prev, [p.id]: valor }))}
+                onSend={(envio) => {
+                  setMensajes((prev) => ({
+                    ...prev,
+                    [p.id]: [...(prev[p.id] ?? []), propio((prev[p.id]?.length ?? 0) + 1, envio.cuerpo, 0)],
+                  }));
+                  setBorradores((prev) => ({ ...prev, [p.id]: "" }));
+                }}
+                maxLength={500}
+              />
+            }
+          >
+            <MessageThread mensajes={mensajes[p.id] ?? []} isOwn={isOwn} />
+          </MessagePanel>
+        ))}
+      </MessageDock>
+    </main>
+  );
+}
+
+const dockMobileStory: Story = {
+  render: () => <DockDemo total={4} />,
+};
+
+/** Móvil: cuatro conversaciones con borrador. Al abrir una segunda, la primera se minimiza y su borrador se conserva. */
+export const DockMobile: Story = responsiveStory("mobile", dockMobileStory);
+
+const dockTabletStory: Story = {
+  render: () => <DockDemo total={4} />,
+};
+
+/** Tablet: un panel expandido y el resto como pestañas en la barra. */
+export const DockTablet: Story = responsiveStory("tablet", dockTabletStory);

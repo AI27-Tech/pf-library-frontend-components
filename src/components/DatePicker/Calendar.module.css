@@ -160,3 +160,42 @@
 .cell:hover:not(:disabled) {
   background-color: var(--ui-color-surface-container-high, #242b3a);
 }
+
+/* Movil: el calendario ocupa el ancho disponible y los 7 dias caben en columnas flexibles desde 320 px. */
+@media (max-width: 39.99rem) {
+  .calendar {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .row {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .day {
+    position: relative;
+    height: auto;
+    aspect-ratio: 1;
+  }
+}
+/* Area de toque de 44 px en celdas y botones con puntero grueso, sin cambiar el tamano visible. */
+@media (pointer: coarse) {
+  .day,
+  .cell,
+  .navButton,
+  .title {
+    position: relative;
+  }
+  .day::before,
+  .cell::before,
+  .navButton::before,
+  .title::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Sin solapar las areas vecinas: el objetivo no pasa de la celda mas los 2 px de separacion. */
+    width: min(var(--ui-touch-target-min), calc(100% + 2px));
+    height: min(var(--ui-touch-target-min), calc(100% + 2px));
+    transform: translate(-50%, -50%);
+  }
+}

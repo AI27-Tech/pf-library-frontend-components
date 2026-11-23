@@ -10,9 +10,11 @@
   gap: var(--ui-space-3, 0.75rem);
 }
 
+/* En la columna de .topSection, flex-basis mide la altura: el buscador ocupa el ancho y conserva su alto. */
 .search {
-  flex: 1 1 220px;
-  min-width: 180px;
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .footer {

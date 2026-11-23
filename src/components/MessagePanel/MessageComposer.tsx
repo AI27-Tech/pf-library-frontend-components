@@ -1,4 +1,4 @@
-import { useRef, type KeyboardEvent, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, type KeyboardEvent, type ReactNode, type RefObject } from "react";
 import { Paperclip, Send } from "lucide-react";
 import { Spinner } from "../Spinner";
 import styles from "./MessagePanel.module.css";
@@ -59,6 +59,41 @@ export function MessageComposer({
   const labels = resolverLabels(COMPOSER_LABELS, labelsPersonalizadas);
   const refInterna = useRef<HTMLTextAreaElement>(null);
   const ref = composerRef ?? refInterna;
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Con el teclado en pantalla, el compositor sube hasta el borde de la zona visible.
+  // Solo actúa mientras el campo tiene el foco; sin `visualViewport` no hace nada.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    const wrap = wrapRef.current;
+    const campo = ref.current;
+    if (!vv || !wrap || !campo) return;
+
+    // Desplazamiento aplicado en la última pasada. Se suma para obtener la posición sin desplazar.
+    let aplicado = 0;
+    const ajustar = () => {
+      let teclado = 0;
+      if (document.activeElement === campo) {
+        // Si el panel ya cabe en la zona visible (móvil con teclado), la base coincide con el borde visible y no hay desplazamiento.
+        const baseInferior = wrap.getBoundingClientRect().bottom + aplicado;
+        teclado = Math.max(0, baseInferior - (vv.offsetTop + vv.height));
+      }
+      aplicado = Math.round(teclado);
+      wrap.style.setProperty("--ui-composer-keyboard", `${aplicado}px`);
+    };
+
+    ajustar();
+    vv.addEventListener("resize", ajustar);
+    vv.addEventListener("scroll", ajustar);
+    campo.addEventListener("focusin", ajustar);
+    campo.addEventListener("focusout", ajustar);
+    return () => {
+      vv.removeEventListener("resize", ajustar);
+      vv.removeEventListener("scroll", ajustar);
+      campo.removeEventListener("focusin", ajustar);
+      campo.removeEventListener("focusout", ajustar);
+    };
+  }, [ref]);
 
   const soloLectura = estadoConversacion === "solo_lectura" || estadoConversacion === "cerrada";
   const inactivo = disabled || soloLectura || sending;
@@ -90,7 +125,7 @@ export function MessageComposer({
   const mostrarContador = maxLength !== undefined && value.length >= maxLength * 0.8;
 
   return (
-    <div className={styles.composerWrap}>
+    <div ref={wrapRef} className={styles.composerWrap}>
       <div className={styles.composer}>
         {onAttach && (
           <button

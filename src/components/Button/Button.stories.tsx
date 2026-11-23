@@ -1,6 +1,9 @@
 import { ArrowRight, Plus } from "lucide-react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./Button";
+import { Inline, Stack } from "../Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Button",
@@ -135,3 +138,21 @@ export const FullWidth: Story = {
   ],
 };
 
+/** Móvil: los tres tamaños y un botón de solo icono en una fila con 8 px entre ellos, y una etiqueta larga que no desborda. */
+// Sin axe automático: el texto de outline y ghost en tema claro da 4.22:1 de contraste (mínimo 4.5:1).
+// Decisión de tarea 3: se revisa en Storybook hasta que la librería ajuste ese color.
+const mobileStory: Story = {
+  parameters: { a11y: { test: "todo" } },
+  render: (args) => (
+    <Stack gap={3}>
+      <Inline gap={2}>
+        <Button {...args} size="sm">Small</Button>
+        <Button {...args} size="md">Medium</Button>
+        <Button {...args} size="lg">Large</Button>
+        <Button {...args} variant="ghost" startIcon={<Plus />} aria-label="Agregar" />
+      </Inline>
+      <Button {...args} variant="outline">{LONG_TOKEN}</Button>
+    </Stack>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

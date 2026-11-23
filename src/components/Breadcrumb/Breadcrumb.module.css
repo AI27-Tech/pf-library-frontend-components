@@ -124,3 +124,12 @@
   max-width: none;
   color: var(--ui-color-text, #e2e8f0);
 }
+
+/* Objetivo táctil de 44 px con puntero grueso. */
+@media (pointer: coarse) {
+  .link,
+  .current,
+  .ellipsis {
+    min-height: var(--ui-touch-target-min);
+  }
+}

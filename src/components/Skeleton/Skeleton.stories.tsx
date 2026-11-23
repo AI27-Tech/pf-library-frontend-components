@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Skeleton, SkeletonText, SkeletonCard } from "./Skeleton";
 import { SkeletonTable } from "./SkeletonTable";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Skeleton",
@@ -78,3 +79,19 @@ export const TablaEnCargaConSeleccionYExpansion: Story = {
 export const TablaEnCargaCompacta: Story = {
   render: () => <SkeletonTable rows={6} columns={4} density="compact" />,
 };
+
+/** Movil: cuatro placeholders con anchos fijos grandes dentro de un contenedor angosto. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <div style={{ width: "16rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Skeleton variant="rect" width={320} height={60} />
+        <SkeletonText lines={3} />
+        <SkeletonCard />
+        <SkeletonTable columns={6} rows={3} />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

@@ -1,4 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getPaginationItems } from "../../utils/responsive/pagination";
+import { useBreakpoint } from "../../utils/useBreakpoint";
 import styles from "./Pagination.module.css";
 
 function cx(...classes: Array<string | false | undefined>) {
@@ -26,6 +28,8 @@ export interface PaginationProps {
 }
 
 const DOTS = "dots";
+/** En móvil, la ventana de páginas (números, puntos suspensivos y flechas aparte) tiene como máximo 5 elementos. */
+const MOBILE_MAX_ITEMS = 5;
 
 /** Construye la lista de números de página con puntos suspensivos, por ejemplo [1, "dots", 4,5,6, "dots", 20]. */
 function getPageRange(
@@ -77,7 +81,12 @@ export function Pagination({
 }: PaginationProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const current = Math.min(Math.max(page, 1), totalPages);
-  const pages = getPageRange(current, totalPages, siblingCount);
+  const movil = useBreakpoint() === "mobile";
+  const pages: Array<number | typeof DOTS> = movil
+    ? getPaginationItems(current, totalPages, MOBILE_MAX_ITEMS).map((item) =>
+        item === "ellipsis" ? DOTS : item,
+      )
+    : getPageRange(current, totalPages, siblingCount);
 
   const from = total === 0 ? 0 : (current - 1) * pageSize + 1;
   const to = Math.min(current * pageSize, total);

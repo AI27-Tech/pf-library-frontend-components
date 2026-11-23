@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Inbox, Plus } from "lucide-react";
 import { EmptyState } from "./EmptyState";
 import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/EmptyState",
@@ -37,3 +39,20 @@ export const Small: Story = {
     description: "No hay mensajes pendientes.",
   },
 };
+
+const mobileStory: Story = {
+  args: {
+    icon: <Inbox />,
+    title: LONG_TOKEN,
+    description: LONG_TOKEN,
+    action: <Button startIcon={<Plus />}>Nuevo viaje</Button>,
+  },
+  render: (args) => (
+    <main>
+      <EmptyState {...args} />
+    </main>
+  ),
+};
+
+/** Móvil: el título y la descripción largos se parten y la acción se acierta con el pulgar. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Map as MapIcon, Truck, Users } from "lucide-react";
 import { Tab, TabList, TabPanel, Tabs } from "./Tabs";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Tabs",
@@ -94,3 +95,42 @@ export const Overflow: Story = {
     </div>
   ),
 };
+
+const pestanasViaje: Array<[string, string]> = [
+  ["resumen", "Resumen"],
+  ["bitacora", "Bitácora"],
+  ["evidencias", "Evidencias"],
+  ["incidencias", "Incidencias"],
+  ["unidades", "Unidades"],
+  ["custodios", "Custodios"],
+  ["operadores", "Operadores"],
+  ["cruces", "Cruces"],
+  ["paradas", "Paradas"],
+  ["estadias", "Estadías"],
+  ["documentos", "Documentos"],
+  ["cierre", "Cierre"],
+];
+
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <Tabs defaultValue="cierre">
+        <TabList aria-label="Secciones del viaje">
+          {pestanasViaje.map(([value, label]) => (
+            <Tab key={value} value={value}>
+              {label}
+            </Tab>
+          ))}
+        </TabList>
+        {pestanasViaje.map(([value, label]) => (
+          <TabPanel key={value} value={value}>
+            Contenido de {label.toLowerCase()} del viaje.
+          </TabPanel>
+        ))}
+      </Tabs>
+    </main>
+  ),
+};
+
+/** Móvil: doce pestañas en una fila que se desplaza; la activa, al final, queda visible al abrir. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

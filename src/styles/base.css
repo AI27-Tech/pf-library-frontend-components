@@ -178,3 +178,11 @@ h6 {
   white-space: nowrap;
   border: 0;
 }
+
+/* Objetivo tactil minimo en dispositivos de puntero grueso (tarea 1.1). */
+@media (pointer: coarse) {
+  .ui-touch {
+    min-width: var(--ui-touch-target-min);
+    min-height: var(--ui-touch-target-min);
+  }
+}

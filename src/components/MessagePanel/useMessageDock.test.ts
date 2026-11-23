@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { capacidadPara, DOCK_INITIAL_STATE, dockReducer, longitudEnPx, type DockState } from './useMessageDock';
 
-const conCapacidad = (capacity: number): DockState => ({ ...DOCK_INITIAL_STATE, capacity });
+const conCapacidad = (capacity: number, maxOpen = capacity): DockState => ({ ...DOCK_INITIAL_STATE, capacity, maxOpen });
 
 describe('dockReducer', () => {
   it('abrir pone el panel al frente y lo expande', () => {
@@ -44,9 +44,11 @@ describe('dockReducer', () => {
     expect(estado.barOpen).toBe(true);
   });
 
-  it('la capacidad nunca baja de 1', () => {
-    expect(dockReducer(conCapacidad(3), { type: 'setCapacity', capacity: 0 }).capacity).toBe(1);
-    expect(dockReducer(conCapacidad(3), { type: 'setCapacity', capacity: -4 }).capacity).toBe(1);
+  it('los límites nunca bajan de 1', () => {
+    const cero = dockReducer(conCapacidad(3), { type: 'setLimits', capacity: 0, maxOpen: 0 });
+    expect(cero.capacity).toBe(1);
+    expect(cero.maxOpen).toBe(1);
+    expect(dockReducer(conCapacidad(3), { type: 'setLimits', capacity: -4, maxOpen: -4 }).capacity).toBe(1);
   });
 
   it('con capacidad 1, un segundo panel queda en overflow', () => {
@@ -54,6 +56,44 @@ describe('dockReducer', () => {
     estado = dockReducer(estado, { type: 'open', id: 'b' });
     expect(estado.order.slice(0, estado.capacity)).toEqual(['b']);
     expect(estado.order.slice(estado.capacity)).toEqual(['a']);
+  });
+
+  it('con maxOpen 1, abrir un segundo panel minimiza el primero', () => {
+    let estado = dockReducer(conCapacidad(3, 1), { type: 'open', id: 'a' });
+    estado = dockReducer(estado, { type: 'open', id: 'b' });
+    expect(estado.minimized.a).toBe(true);
+    expect(estado.minimized.b).toBe(false);
+  });
+
+  it('al exceder maxOpen se minimiza el más antiguo, nunca el recién abierto', () => {
+    let estado = dockReducer(conCapacidad(3, 2), { type: 'open', id: 'a' });
+    estado = dockReducer(estado, { type: 'open', id: 'b' });
+    estado = dockReducer(estado, { type: 'open', id: 'c' });
+    expect(estado.minimized.a).toBe(true);
+    expect(estado.minimized.b).toBe(false);
+    expect(estado.minimized.c).toBe(false);
+  });
+
+  it('alternar un panel en overflow lo trae a una ranura visible y lo expande', () => {
+    let estado = dockReducer(conCapacidad(1, 1), { type: 'open', id: 'a' });
+    estado = dockReducer(estado, { type: 'open', id: 'b' });
+    estado = dockReducer(estado, { type: 'toggle', id: 'a' });
+    expect(estado.order.slice(0, estado.capacity)).toEqual(['a']);
+    expect(estado.minimized.a).toBe(false);
+    expect(estado.minimized.b).toBe(true);
+  });
+
+  it('bajar maxOpen minimiza los paneles expandidos más antiguos', () => {
+    let estado = dockReducer(conCapacidad(3, 3), { type: 'open', id: 'a' });
+    estado = dockReducer(estado, { type: 'open', id: 'b' });
+    estado = dockReducer(estado, { type: 'open', id: 'c' });
+    estado = dockReducer(estado, { type: 'setLimits', capacity: 3, maxOpen: 1 });
+    expect(estado.minimized).toEqual({ a: true, b: true, c: false });
+  });
+
+  it('setLimits sin cambios devuelve el mismo estado', () => {
+    const inicial = conCapacidad(3, 2);
+    expect(dockReducer(inicial, { type: 'setLimits', capacity: 3, maxOpen: 2 })).toBe(inicial);
   });
 });
 

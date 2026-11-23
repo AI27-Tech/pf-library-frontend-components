@@ -1,18 +1,18 @@
 .list {
   display: grid;
+  /* Móvil: una columna. Tablet y escritorio: --ui-dl-cols-* lo fija el componente (tablet nunca supera 2). */
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: var(--ui-space-3) var(--ui-space-5);
   margin: 0;
   min-width: 0;
   font-family: var(--ui-font-family, inherit);
 }
-
 .item {
   display: flex;
   flex-direction: column;
   gap: var(--ui-space-1);
   min-width: 0;
 }
-
 .label {
   margin: 0;
   font-size: var(--ui-text-label-md-size);
@@ -22,7 +22,6 @@
   text-transform: uppercase;
   color: var(--ui-color-text-muted);
 }
-
 .value {
   margin: 0;
   min-width: 0;
@@ -31,15 +30,42 @@
   color: var(--ui-color-text);
   overflow-wrap: anywhere;
 }
-
 .empty {
   color: var(--ui-color-text-placeholder);
 }
-
 /* Horizontal: nombre y valor en la misma fila. */
 .list[data-orientation="horizontal"] .item {
   display: grid;
   grid-template-columns: minmax(6rem, max-content) minmax(0, 1fr);
   align-items: baseline;
   gap: var(--ui-space-3);
+}
+
+/* Tablet: hasta 2 columnas. Los span se limitan a ese número. */
+@media (min-width: 40rem) {
+  .list {
+    grid-template-columns: repeat(var(--ui-dl-cols-tablet, 1), minmax(0, 1fr));
+  }
+  .item {
+    grid-column: span var(--ui-dl-span-tablet, 1);
+  }
+}
+
+/* Escritorio: el número de columnas completo. */
+@media (min-width: 64rem) {
+  .list {
+    grid-template-columns: repeat(var(--ui-dl-cols-desktop, 2), minmax(0, 1fr));
+  }
+  .item {
+    grid-column: span var(--ui-dl-span-desktop, 1);
+  }
+}
+
+/* Móvil: horizontal se apila (nombre sobre valor) para que el valor tenga todo el ancho. */
+@media (max-width: 39.99rem) {
+  .list[data-orientation="horizontal"] .item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ui-space-1);
+  }
 }

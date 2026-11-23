@@ -134,3 +134,25 @@ export function today(): DateParts {
   const now = new Date();
   return { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() };
 }
+
+/**
+ * Inserta la barra `/` sola mientras la persona escribe `DD/MM/AAAA`.
+ * Solo actua cuando se agrega texto y el valor termina en dos digitos de dia o de mes:
+ * al escribir `05` queda `05/`. Borrar nunca agrega barras, y si la persona ya escribio
+ * la barra no se duplica.
+ */
+export function autoSlash(previous: string, next: string): string {
+  const adding = next.length > previous.length;
+  if (adding && /^\d{2}$/.test(next)) return `${next}/`;
+  if (adding && /^\d{2}\/\d{2}$/.test(next)) return `${next}/`;
+  return next;
+}
+
+/** Descarta lo que no puede formar parte de una fecha escrita: deja digitos y los separadores "/", "-" y ".". */
+export function sanitizeDateText(text: string): string {
+  // Sin separadores al inicio ni repetidos: la barra automatica y la que escribe la persona no se duplican.
+  return text
+    .replace(/[^\d/.-]/g, "")
+    .replace(/^[/.-]+/, "")
+    .replace(/([/.-])[/.-]+/g, "$1");
+}

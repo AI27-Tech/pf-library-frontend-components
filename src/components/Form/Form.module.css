@@ -36,8 +36,18 @@
   gap: var(--ui-space-4, 1rem);
   grid-template-columns: repeat(var(--form-row-cols, 2), minmax(0, 1fr));
 }
+/* Desde tablet, los campos de una fila comparten filas (etiqueta, control, ayuda) con subgrid,
+   para que los controles queden alineados aunque una etiqueta ocupe mas lineas. */
+@media (min-width: 40rem) {
+  .row > [data-form-field] {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: var(--ui-space-1, 0.25rem);
+  }
+}
 
-@media (max-width: 560px) {
+@media (max-width: 39.99rem) {
   .row {
     grid-template-columns: 1fr;
   }
@@ -49,6 +59,16 @@
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
 }
+/* En movil las acciones ocupan todo el ancho, una debajo de otra. */
+@media (max-width: 39.99rem) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions > * {
+    width: 100%;
+  }
+}
 
 /* Barra fija al fondo del área visible (FormActions con sticky) */
 .sticky {
@@ -56,6 +76,8 @@
   bottom: 0;
   z-index: 1;
   padding: var(--ui-space-3, 0.75rem) var(--ui-space-4, 1rem);
+  /* Deja libre el area del gesto de inicio en iOS y Android. */
+  padding-bottom: calc(var(--ui-space-3, 0.75rem) + env(safe-area-inset-bottom, 0px));
   background-color: var(--ui-color-surface-raised, #242b3a);
   border-top: 1px solid var(--ui-color-border, #2d3748);
 }

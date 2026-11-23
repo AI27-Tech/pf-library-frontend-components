@@ -3,6 +3,7 @@ import type { Key } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FilterTable, type FilterDefinition, type FilterValues } from "./FilterTable";
 import type { Column, SortState } from "../Table";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 interface User {
   id: number;
@@ -41,6 +42,20 @@ const columns: Column<User>[] = [
     ),
   },
 ];
+
+/** Columnas de las stories responsive: el estado activo usa el texto de éxito de tema claro (AA). */
+const columnasResponsive: Column<User>[] = columns.map((col) =>
+  col.key === "active"
+    ? {
+        ...col,
+        cell: (u: User) => (
+          <span style={{ color: u.active ? "var(--ui-color-success-text)" : "var(--ui-color-text-muted)" }}>
+            {u.active ? "Activo" : "Inactivo"}
+          </span>
+        ),
+      }
+    : col,
+);
 
 const meta: Meta<typeof FilterTable<User>> = {
   title: "Components/FilterTable",
@@ -242,6 +257,10 @@ interface DemoProps {
   selectable?: boolean;
   filters?: FilterDefinition[];
   stickyHeader?: boolean;
+  source?: User[];
+  tablaColumns?: Column<User>[];
+  responsive?: "scroll" | "stacked";
+  collapsibleOnMobile?: boolean;
 }
 
 /** Tabla con búsqueda, filtros, selección y ordenamiento reales, para las stories de disposición. */
@@ -253,6 +272,10 @@ function DemoFilterTable({
   selectable = false,
   filters = filtrosBase,
   stickyHeader = false,
+  source = allUsers,
+  tablaColumns = columns,
+  responsive,
+  collapsibleOnMobile = false,
 }: DemoProps) {
   const [search, setSearch] = useState(initialSearch);
   const [filterValues, setFilterValues] = useState<FilterValues>(initialFilters);
@@ -260,7 +283,7 @@ function DemoFilterTable({
   const [selected, setSelected] = useState<Set<Key>>(new Set());
 
   const data = useMemo(() => {
-    let rows = allUsers;
+    let rows = source;
     if (search.trim()) {
       const q = search.toLowerCase();
       rows = rows.filter(
@@ -280,18 +303,20 @@ function DemoFilterTable({
       });
     }
     return rows;
-  }, [search, filterValues, sort]);
+  }, [search, filterValues, sort, source]);
 
   const isActive = Boolean(search || filterValues.role || filterValues.status);
 
   return (
     <div style={stickyHeader ? { maxHeight: "300px", overflowY: "auto" } : undefined}>
       <FilterTable
-        columns={columns}
+        columns={tablaColumns}
         data={data}
         rowKey={(u) => u.id}
         search={search}
         onSearchChange={setSearch}
+        responsive={responsive}
+        collapsibleOnMobile={collapsibleOnMobile}
         filters={filters}
         filterValues={filterValues}
         onFilterChange={(key, value) => setFilterValues((prev) => ({ ...prev, [key]: value }))}
@@ -390,3 +415,44 @@ export const FiltroBuscable: Story = {
     />
   ),
 };
+
+const veinteUsuarios: User[] = Array.from({ length: 20 }, (_, i) => {
+  const base = allUsers[i % allUsers.length];
+  return { ...base, id: 100 + i, name: `${base.name} ${i + 1}`, email: `usuario${i + 1}@example.com` };
+});
+
+const movilStory: Story = {
+  args: { columns, data: veinteUsuarios, rowKey: (u) => u.id },
+  render: () => (
+    <main>
+      <DemoFilterTable source={veinteUsuarios} tablaColumns={columnasResponsive} responsive="stacked" collapsibleOnMobile />
+    </main>
+  ),
+};
+
+/** Móvil: búsqueda y filtros en una columna, con los filtros ocultos al inicio; cada fila es una tarjeta. */
+export const Mobile: Story = responsiveStory("mobile", movilStory);
+
+const movilDesplazamientoStory: Story = {
+  args: { columns, data: veinteUsuarios, rowKey: (u) => u.id },
+  render: () => (
+    <main>
+      <DemoFilterTable source={veinteUsuarios} tablaColumns={columnasResponsive} responsive="scroll" collapsibleOnMobile />
+    </main>
+  ),
+};
+
+/** Móvil con la tabla en desplazamiento: la tabla conserva su forma dentro de su contenedor. */
+export const MobileDesplazamiento: Story = responsiveStory("mobile", movilDesplazamientoStory);
+
+const tabletStory: Story = {
+  args: { columns, data: veinteUsuarios, rowKey: (u) => u.id },
+  render: () => (
+    <main>
+      <DemoFilterTable source={veinteUsuarios} tablaColumns={columnasResponsive} responsive="stacked" />
+    </main>
+  ),
+};
+
+/** Tablet: la barra de filtros y la tabla en 768 px, con los filtros siempre visibles. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

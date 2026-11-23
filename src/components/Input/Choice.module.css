@@ -187,3 +187,17 @@
   outline: none;
   box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
 }
+
+/* Movil y tablet: el area de activacion, con su etiqueta, mide al menos 44 px y las opciones contiguas se separan 8 px. Escritorio no cambia. */
+@media (max-width: 63.99rem) {
+  .choice {
+    min-height: var(--ui-touch-target-min);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  /* 4 px arriba y abajo: entre opciones apiladas suman 8 px; 8 px a la derecha para las que van en linea. */
+  .choice {
+    margin-block: 0.25rem;
+    margin-inline-end: var(--ui-space-2, 0.5rem);
+  }
+}

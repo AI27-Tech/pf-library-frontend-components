@@ -1,6 +1,9 @@
 import { Fragment } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "./Badge";
+import { Inline } from "../Layout";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 import { ImageGrid } from "../ImageGrid";
 import { ImageCard } from "../ImageCard";
 
@@ -322,3 +325,25 @@ export const Combinaciones: Story = {
     </div>
   ),
 };
+
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <Inline gap={2} style={{ marginBottom: 12 }}>
+        <Badge variant="secure">En ruta</Badge>
+        <Badge variant="escort">Custodia activa</Badge>
+        <Badge variant="alert">Sin señal</Badge>
+        <Badge variant="warning">Incidencia</Badge>
+        <Badge variant="neutral">Pendiente</Badge>
+      </Inline>
+      <div style={{ width: 160 }}>
+        <Badge variant="alert" truncate>
+          {LONG_TOKEN}
+        </Badge>
+      </div>
+    </main>
+  ),
+};
+
+/** Móvil: los estados de viaje caben en fila; una insignia larga se recorta con puntos suspensivos dentro de su contenedor. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

@@ -5,6 +5,8 @@
   --sk-highlight: var(--ui-color-surface-container-highest);
   display: block;
   flex: 0 0 auto;
+  /* Nunca mas ancho que su contenedor, aunque el ancho sea un valor fijo. */
+  max-width: 100%;
   background: linear-gradient(
     90deg,
     var(--sk-base) 25%,
@@ -80,4 +82,11 @@
   .pulse {
     animation: none;
   }
+}
+
+/* Tabla en carga: el contenedor no pasa del ancho disponible y las columnas se desplazan por dentro. */
+.tableRoot {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
 }

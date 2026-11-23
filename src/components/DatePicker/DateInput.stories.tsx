@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DateInput } from "./DateInput";
+import { responsiveStory } from "../../stories/responsiveStory";
 import { FormField } from "../Input/FormField";
 import { Modal } from "../Modal/Modal";
 import { addDays, formatISODate, today } from "./dateUtils";
@@ -34,8 +35,8 @@ const meta = {
     onChange: { control: false },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 320 }}>
+    (Story, context) => (
+      <div style={context.parameters.responsive === true ? undefined : { width: 320 }}>
         <Story />
       </div>
     ),
@@ -137,3 +138,35 @@ export const Controlled: Story = {
     );
   },
 };
+
+/** Movil: presets y calendario, en un hueco de 10rem y al borde derecho de la pantalla. */
+const mobileStory: Story = {
+  render: function MobileDateInputStory() {
+    const [valor, setValor] = useState("2026-03-12");
+    const [otro, setOtro] = useState("2026-03-05");
+    return (
+      <main>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div style={{ width: "10rem" }}>
+            <DateInput value={valor} onChange={setValor} presets={presets} aria-label="Fecha de salida" />
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <DateInput value={otro} onChange={setOtro} presets={presets} aria-label="Fecha de llegada" />
+          </div>
+        </div>
+      </main>
+    );
+  },
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: el mismo campo con presets en 768 px. */
+const tabletStory: Story = {
+  args: { value: "2026-03-05", presets },
+  render: (args) => (
+    <main>
+      <DateInput {...args} />
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

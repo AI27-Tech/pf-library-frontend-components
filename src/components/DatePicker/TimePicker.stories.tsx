@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { TimePicker } from "./TimePicker";
+import { responsiveStory } from "../../stories/responsiveStory";
 import { FormField } from "../Input/FormField";
 import { getTimeRange } from "./timeUtils";
 
@@ -40,8 +41,8 @@ const meta = {
     onChange: { control: false },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 320 }}>
+    (Story, context) => (
+      <div style={context.parameters.responsive === true ? undefined : { width: 320 }}>
         <Story />
       </div>
     ),
@@ -143,3 +144,34 @@ export const GeneratedPresets: Story = {
     presets: [{ label: "Cada 30 minutos", values: getTimeRange({ start: "08:00", end: "10:00", interval: "00:30" }) }],
   },
 };
+
+/** Movil: presets arriba de la lista completa de horas, con el selector cerca del borde inferior. */
+const mobileStory: Story = {
+  args: {
+    value: "08:00",
+    presets: [
+      "09:00",
+      { label: "Turno matutino", values: ["07:00", "08:00", "09:00"] },
+      { label: "Turno vespertino", values: ["14:00", "15:00", "16:00"] },
+    ],
+  },
+  render: (args) => (
+    <main>
+      <div style={{ minHeight: "60dvh", display: "flex", alignItems: "flex-end" }}>
+        <TimePicker {...args} aria-label="Hora de salida" />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: el mismo selector en 768 px. */
+const tabletStory: Story = {
+  args: { value: "08:00" },
+  render: (args) => (
+    <main>
+      <TimePicker {...args} />
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

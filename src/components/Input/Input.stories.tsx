@@ -1,6 +1,9 @@
 import { Search } from "lucide-react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Input } from "./Input";
+import { Textarea } from "./Textarea";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/Input/Input",
@@ -21,8 +24,8 @@ const meta = {
     endAdornment: { control: false },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 280 }}>
+    (Story, context) => (
+      <div style={context.parameters.responsive === true ? undefined : { width: 280 }}>
         <Story />
       </div>
     ),
@@ -88,3 +91,17 @@ export const Clearable: Story = {
 export const PasswordToggle: Story = {
   args: { type: "password", passwordToggle: true, defaultValue: "secreto" },
 };
+
+/** Movil: campo con limpiar, campo de contrasena, valor largo y area de texto con contador. */
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Input clearable defaultValue={LONG_TOKEN} placeholder="Placa de la unidad" />
+        <Input type="password" passwordToggle defaultValue="secreto" placeholder="Contrasena" />
+        <Textarea aria-label="Observaciones del viaje" showCount maxLength={200} defaultValue="Observaciones del viaje" />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

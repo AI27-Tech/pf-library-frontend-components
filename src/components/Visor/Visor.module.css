@@ -50,11 +50,13 @@
 }
 
 /* Botones de navegación */
+/* Centrado sin transform: Button usa transform en :active y lo pisaria, moviendo el boton bajo el dedo. */
 .navButton {
   position: absolute;
-  top: 50%;
+  inset-block: 0;
+  margin-block: auto;
+  height: fit-content;
   z-index: 10;
-  transform: translateY(-50%);
 }
 
 .navPrevious {
@@ -178,7 +180,7 @@
 
 /* ===== RESPONSIVE ===== */
 
-@media (max-width: 768px) {
+@media (max-width: 39.99rem) {
   .header {
     padding: 0.75rem 1rem;
   }
@@ -203,4 +205,42 @@
   .navNext {
     right: 0.5rem;
   }
+}
+
+/* Movil: el visor ocupa el alto visible del navegador, incluida la barra de direcciones. */
+@media (max-width: 39.99rem) {
+  .visor {
+    height: 100vh;
+    height: 100dvh;
+    touch-action: pan-y;
+  }
+  /* Pantallas de 320 px: los controles se parten en lineas y no tocan los bordes. */
+  .toolbar {
+    padding-inline: 0.5rem;
+  }
+  .position {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .toolbarContent {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+  }
+  .canvas {
+    touch-action: pan-y;
+  }
+}
+
+/* Controles con puntero grueso: 44 px de area de toque. */
+@media (pointer: coarse) {
+  .visor button {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* Los botones del visor no pierden el clic si el dedo se mueve un poco: el navegador no los toma como desplazamiento. */
+.visor button {
+  touch-action: manipulation;
 }

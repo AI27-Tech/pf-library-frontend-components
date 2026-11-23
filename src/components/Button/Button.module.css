@@ -10,6 +10,7 @@
   justify-content: center;
   gap: 0.5em;
   box-sizing: border-box;
+  max-width: 100%;
   border: 1px solid var(--btn-border);
   border-radius: var(--ui-radius, 0.25rem);
   background-color: var(--btn-bg);
@@ -133,6 +134,10 @@
 
 .label {
   display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .icon {
@@ -162,6 +167,15 @@
   }
 }
 
+/* Objetivo táctil mínimo con puntero grueso (tarea 3.1). Con ratón no cambia. */
+@media (pointer: coarse) {
+  .sm,
+  .md,
+  .lg {
+    min-height: var(--ui-touch-target-min, 2.75rem);
+    min-width: var(--ui-touch-target-min, 2.75rem);
+  }
+}
 /* Respetar preferencias de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
   .button {

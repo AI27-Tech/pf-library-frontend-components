@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Toast, ToastContainer, type ToastVariant, type ToastPosition } from "./Toast";
 import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Toast",
@@ -144,3 +145,26 @@ export const WithActions: Story = {
     </div>
   ),
 };
+
+/** Movil: dos toasts arriba y uno abajo, con mensaje largo y boton de cerrar. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+      <ToastContainer position="top-center">
+        <Toast variant="warning" title="Sin senal en la unidad" onClose={() => {}}>
+          La unidad no reporta posicion desde hace 12 minutos. Confirma por radio el estado de la carga antes de continuar.
+        </Toast>
+        <Toast variant="error" title="No se pudo asignar el viaje" onClose={() => {}}>
+          La unidad ya tiene un viaje activo y no puede recibir una nueva asignacion hasta cerrar el anterior.
+        </Toast>
+      </ToastContainer>
+      <ToastContainer position="bottom-center">
+        <Toast variant="success" title="Viaje guardado" onClose={() => {}} actions={<Button variant="secondary" size="sm">Ver viaje</Button>}>
+          Los cambios ya estan visibles para el cliente.
+        </Toast>
+      </ToastContainer>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

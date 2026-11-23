@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 import { FormField } from "./FormField";
 import { Input } from "./Input";
 import { Select } from "./Select";
@@ -109,3 +111,21 @@ export const WithCounter: Story = {
     </FormField>
   ),
 };
+
+/** Movil: etiqueta sobre el control, con ayuda y error de 60 o mas caracteres sin espacios. */
+const mobileStory: Story = {
+  args: { children: null },
+  render: () => (
+    <main>
+    <FormField
+      label={`Nombre ${LONG_TOKEN}`}
+      orientation="horizontal"
+      helpText={LONG_TOKEN}
+      error={LONG_TOKEN}
+    >
+      <Input />
+    </FormField>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

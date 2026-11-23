@@ -2,6 +2,7 @@
   display: inline-block;
   box-sizing: border-box;
   flex: 0 0 auto;
+  max-width: 100%;
   border: calc(var(--ui-border-width) * 2) solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;

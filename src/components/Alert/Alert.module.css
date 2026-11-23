@@ -91,3 +91,34 @@
   width: 1rem;
   height: 1rem;
 }
+
+/* Movil: el icono, el mensaje y el boton de cerrar siguen en una fila; las acciones no pasan del ancho. */
+@media (max-width: 39.99rem) {
+  .body {
+    overflow-wrap: anywhere;
+  }
+  .body button,
+  .body a {
+    min-height: var(--ui-touch-target-min);
+  }
+}
+/* Boton de cerrar: area de toque de 44 px con puntero grueso, sin cambiar su tamano visible. */
+@media (pointer: coarse) {
+  .close {
+    position: relative;
+  }
+  .close::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+    transform: translate(-50%, -50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .close {
+    transition: none;
+  }
+}

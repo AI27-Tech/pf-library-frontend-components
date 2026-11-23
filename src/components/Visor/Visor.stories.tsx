@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Visor, type Medium } from './Visor';
 import { Button } from '../Button';
+import { responsiveStory } from '../../stories/responsiveStory';
+import { makeItems } from '../../stories/responsiveFixtures';
 
 const meta = {
   title: 'Components/Visor',
@@ -320,3 +322,35 @@ export const KeyboardShortcuts: Story = {
     );
   },
 };
+
+/** Veinte imagenes con etiquetas y comentarios largos. */
+const mediosResponsive: Medium[] = makeItems(20).map((item) => ({
+  id: String(item.id),
+  type: 'IMAGE',
+  label: `Evidencia ${item.etiqueta} del viaje VJ-2026-000481 con el custodio y la unidad PT-07`,
+  comment: 'Foto tomada en la parada de Nuevo Laredo, con sello de la aduana y firma del operador de la unidad.',
+}));
+
+/** Movil: visor abierto con metadatos largos. Deslizar cambia de imagen; en los extremos no avanza. */
+const mobileStory: Story = {
+  render: () => (
+    <Visor
+      mediums={mediosResponsive}
+      onClose={() => {}}
+      resolveUrl={(medium) => medium.id}
+    />
+  ),
+};
+export const Mobile: Story = responsiveStory('mobile', mobileStory);
+
+/** Tablet: el mismo visor en 768 px. */
+const tabletStory: Story = {
+  render: () => (
+    <Visor
+      mediums={mediosResponsive}
+      onClose={() => {}}
+      resolveUrl={(medium) => medium.id}
+    />
+  ),
+};
+export const Tablet: Story = responsiveStory('tablet', tabletStory);

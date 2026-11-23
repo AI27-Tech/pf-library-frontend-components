@@ -12,8 +12,7 @@ import {
   parseDisplayDate,
   parseISODate,
   type DateParts,
-  type WeekStart,
-} from "./dateUtils";
+  type WeekStart, autoSlash, sanitizeDateText } from "./dateUtils";
 
 export interface DatePreset {
   /** Texto del botón. */
@@ -239,13 +238,16 @@ export function DateInput({
         disabled={disabled}
         readOnly={readOnly}
         aria-describedby={describedBy}
+        role="combobox"
         aria-haspopup="dialog"
         aria-expanded={open}
+        aria-controls={open ? popoverId : undefined}
         inputMode="numeric"
+        maxLength={10}
         placeholder={placeholder}
         autoComplete="off"
         value={showVisual ? visualText : text}
-        onChange={(event) => setText(event.target.value)}
+        onChange={(event) => setText(autoSlash(text, sanitizeDateText(event.target.value)))}
         onFocus={() => setFocused(true)}
         onBlur={() => {
           setFocused(false);

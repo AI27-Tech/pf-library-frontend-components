@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
 import { Select } from "./Select";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN, makeItems } from "../../stories/responsiveFixtures";
 
 const options = [
   { label: "United States", value: "us" },
@@ -20,8 +23,8 @@ const meta = {
     disabled: { control: "boolean" },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 280 }}>
+    (Story, context) => (
+      <div style={context.parameters.responsive === true ? undefined : { width: 280 }}>
         <Story />
       </div>
     ),
@@ -135,3 +138,24 @@ export const StateSuccess: Story = {
 export const ReadOnly: Story = {
   args: { readOnly: true, defaultValue: "mx" },
 };
+
+/** Movil: lista nativa y buscable con 50 o mas opciones y etiquetas largas. */
+const mobileOptions = makeItems(50).map((item) => ({
+  label: `${item.etiqueta} ${LONG_TOKEN}`,
+  value: String(item.id),
+}));
+const mobileStory: Story = {
+  render: function MobileSelectStory() {
+    const [nativo, setNativo] = useState("");
+    const [buscable, setBuscable] = useState("");
+    return (
+      <main>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <Select options={mobileOptions} placeholder="Selecciona un custodio" value={nativo} onChange={(valor) => setNativo(String(valor))} />
+          <Select variant="searchable" options={mobileOptions} placeholder="Busca un custodio" value={buscable} onChange={(valor) => setBuscable(String(valor))} />
+        </div>
+      </main>
+    );
+  },
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

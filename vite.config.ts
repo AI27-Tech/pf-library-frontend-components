@@ -71,7 +71,24 @@ export default defineConfig({
             }]
           }
         }
-      }
+      },
+      // Proyecto `responsive` (tarea 1.13): Responsive_Story en Chromium real.
+      // No usa storybookTest: el plugin fija su propio `include` y no admite archivos
+      // propios. Corre src/**/*.responsive.tsx, que compone las stories con la etiqueta
+      // `responsive` (ver src/stories/responsiveStory.ts).
+      {
+        extends: true,
+        test: {
+          name: 'responsive',
+          include: ['src/**/*.responsive.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
     ]
   }
 });

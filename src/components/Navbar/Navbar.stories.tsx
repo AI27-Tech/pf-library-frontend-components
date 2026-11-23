@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Navbar, NavbarLink } from "./Navbar";
 import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Navbar",
@@ -75,3 +76,40 @@ export const Sticky: Story = {
     </div>
   ),
 };
+
+const enlacesDeDominio = ["Viajes", "Bitácora", "Unidades", "Custodios", "Clientes", "Reportes"];
+
+const barraResponsive = (
+  <Navbar
+    brand={
+      <>
+        <Box />
+        Transportes del Norte, S. A. de C. V.
+      </>
+    }
+    links={
+      <>
+        {enlacesDeDominio.map((etiqueta, indice) => (
+          <NavbarLink key={etiqueta} href="#" active={indice === 0}>
+            {etiqueta}
+          </NavbarLink>
+        ))}
+      </>
+    }
+    actions={<Button size="sm">Salir</Button>}
+  />
+);
+
+const mobileStory: Story = {
+  render: () => barraResponsive,
+};
+
+/** Móvil: solo marca y botón de menú; al abrirlo, los enlaces caben en el ancho. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  render: () => barraResponsive,
+};
+
+/** Tablet: la misma barra en 768 px. Los enlaces se ven en línea. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Truck } from "lucide-react";
 import { Timeline } from "./Timeline";
 import type { TimelineItemData } from "./types";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/Timeline",
@@ -145,3 +146,30 @@ export const HistorialDelViaje: Story = {
     ],
   },
 };
+
+/** Bitácora de 20 eventos: todos completados salvo el último, que es el actual. */
+const bitacoraLarga: TimelineItemData[] = Array.from({ length: 20 }, (_, i) => ({
+  id: `evento-${i + 1}`,
+  title: `Evento ${i + 1}`,
+  timestamp: `Nov ${(i % 28) + 1}, 08:${String(10 + i).padStart(2, "0")}`,
+  status: i < 19 ? "completed" : "current",
+}));
+
+const mobileStory: Story = {
+  args: { items: bitacoraLarga, orientation: "horizontal" },
+};
+
+/** Móvil: 20 eventos en una línea que se desplaza dentro de su área; el punto actual queda visible al final. */
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+const tabletStory: Story = {
+  args: { items: historial, align: "alternate" },
+  render: (args) => (
+    <main>
+      <Timeline {...args} />
+    </main>
+  ),
+};
+
+/** Tablet: la historia alternada en 768 px, con el contenido a los dos lados. */
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

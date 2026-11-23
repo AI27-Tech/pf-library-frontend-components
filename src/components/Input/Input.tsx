@@ -1,6 +1,7 @@
 import { Eye, EyeOff, X } from "lucide-react";
 import { useRef, useState, type InputHTMLAttributes, type ReactNode, type Ref } from "react";
 import styles from "./Input.module.css";
+import { INPUT_MODE_BY_FORMAT, sanitizeInput, type InputFormat } from "./inputFormat";
 import { cx, type InputSize } from "./utils";
 
 export type InputState = "error" | "warning" | "success" | undefined;
@@ -25,6 +26,11 @@ export interface InputProps
   onClear?: () => void;
   /** En `type="password"`, muestra un botón para ver u ocultar el texto. */
   passwordToggle?: boolean;
+  /**
+   * Qué caracteres acepta el campo. Lo demás se descarta al escribir, pegar o soltar texto.
+   * También fija `inputMode` (teclado móvil) si no se pasa uno. Por defecto: `"text"`.
+   */
+  format?: InputFormat;
 }
 
 /** Asigna un valor a un ref de objeto o de función. */
@@ -47,6 +53,7 @@ export function Input({
   clearable = false,
   onClear,
   passwordToggle = false,
+  format = "text",
   type,
   value,
   defaultValue,
@@ -119,8 +126,18 @@ export function Input({
         readOnly={readOnly}
         value={value}
         defaultValue={defaultValue}
+        inputMode={INPUT_MODE_BY_FORMAT[format]}
         onChange={(event) => {
-          setUncontrolledValue(event.target.value);
+          const element = event.target;
+          const clean = sanitizeInput(format, element.value);
+          if (clean !== element.value) {
+            // Conserva el cursor: cuenta solo los caracteres aceptados antes de él.
+            const caret = element.selectionStart ?? element.value.length;
+            const kept = sanitizeInput(format, element.value.slice(0, caret)).length;
+            element.value = clean;
+            element.setSelectionRange?.(kept, kept);
+          }
+          setUncontrolledValue(clean);
           onChange?.(event);
         }}
         aria-invalid={effectiveState === "error" || undefined}

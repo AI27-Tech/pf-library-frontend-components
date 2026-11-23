@@ -227,6 +227,7 @@ export function MessageList({
       <div
         ref={ref}
         className={styles.body}
+        tabIndex={0}
         role="log"
         aria-live="polite"
         aria-relevant="additions"
