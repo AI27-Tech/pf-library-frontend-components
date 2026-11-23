@@ -69,10 +69,17 @@ export function MessageComposer({
     const campo = ref.current;
     if (!vv || !wrap || !campo) return;
 
+    // Desplazamiento aplicado en la última pasada. Se suma para obtener la posición sin desplazar.
+    let aplicado = 0;
     const ajustar = () => {
-      const enfocado = document.activeElement === campo;
-      const teclado = enfocado ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
-      wrap.style.setProperty("--ui-composer-keyboard", `${Math.round(teclado)}px`);
+      let teclado = 0;
+      if (document.activeElement === campo) {
+        // Si el panel ya cabe en la zona visible (móvil con teclado), la base coincide con el borde visible y no hay desplazamiento.
+        const baseInferior = wrap.getBoundingClientRect().bottom + aplicado;
+        teclado = Math.max(0, baseInferior - (vv.offsetTop + vv.height));
+      }
+      aplicado = Math.round(teclado);
+      wrap.style.setProperty("--ui-composer-keyboard", `${aplicado}px`);
     };
 
     ajustar();

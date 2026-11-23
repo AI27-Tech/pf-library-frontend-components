@@ -773,8 +773,8 @@ button.dayDivider:disabled {
   background-color: var(--ui-color-primary, #7c9df0);
 }
 
-/* ── Responsivo: en pantallas angostas, un solo panel a todo el ancho ──────── */
-@media (max-width: 560px) {
+/* ── Responsivo: en móvil, el panel abierto ocupa toda la pantalla ─────────── */
+@media (max-width: 39.99rem) {
   .dock {
     padding: 0;
   }
@@ -783,12 +783,36 @@ button.dayDivider:disabled {
   .barSurface {
     width: 100%;
   }
+
+  /* Alto y posición siguen a visualViewport cuando el teclado está abierto (MessagePanel). */
+  .surface[data-open="true"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--ui-vv-height, 100dvh);
+    transform: translateY(var(--ui-vv-top, 0px));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .surface[data-open="true"] .collapsible {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .surface[data-open="true"] .collapsibleInner,
+  .surface[data-open="true"] .panelBody {
+    height: 100%;
+  }
 }
 
 /* Touch_Target: botones del compositor de 44 x 44 px con puntero grueso; la separación es el gap de 8 px. */
 @media (pointer: coarse) {
   .attachBtn,
-  .sendBtn {
+  .sendBtn,
+  .iconBtn {
     width: var(--ui-touch-target-min, 2.75rem);
     height: var(--ui-touch-target-min, 2.75rem);
   }

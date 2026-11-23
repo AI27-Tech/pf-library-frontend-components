@@ -938,11 +938,11 @@ Convenciones:
     - _Requirements: 8.8, 12.3_
 
 - [ ] 47. MessagePanel (familia Mensajería)
-  - [ ] 47.1 Adaptar `MessagePanel`
+  - [x] 47.1 Adaptar `MessagePanel`
     - `MessagePanel.module.css`: reemplazar `@media (max-width: 560px)` por `39.99rem`; panel abierto a `100vw` y `100dvh` en móvil, con alto ajustado por `visualViewport` cuando hay teclado; botones del encabezado con Touch_Target de 44 px. Quitar `MessagePanel` de `breakpoints-legacy.manifest.json` al terminar también la tarea 48.
     - _Requirements: 1.4, 1.6, 8.1, 8.5, 9.2, 12.2, 12.3_
 
-  - [ ] 47.2 Agregar Responsive_Story `Mobile` y `Tablet` en `MessagePanel.stories.tsx`
+  - [x] 47.2 Agregar Responsive_Story `Mobile` y `Tablet` en `MessagePanel.stories.tsx`
     - `Mobile`: panel de conversación con un viaje, hilo largo, compositor y adjuntos. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -950,7 +950,7 @@ Convenciones:
     - Panel a 100 % del ancho y alto dinámico en móvil; botones con Touch_Target; Escape y foco; a11y.
     - _Requirements: 8.1, 8.5, 9.2, 11.2, 11.3, 11.4_
 
-  - [ ] 47.4 Revisión visual de `MessagePanel`
+  - [x] 47.4 Revisión visual de `MessagePanel`
     - Revisar en Storybook `Components/MessagePanel › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: en móvil el panel ocupa toda la pantalla; el compositor sigue visible con el teclado; en tablet y escritorio el panel conserva su tamaño de ventana flotante.
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron (Requirement 12.3).

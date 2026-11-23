@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentProps } from "react";
+import { useEffect, useState, type ComponentProps, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConversationStatus } from "./ConversationStatus";
 import { MessageAttachment } from "./MessageAttachment";
@@ -105,8 +105,14 @@ function Compositor({
 }
 
 /** Panel con hilo y compositor funcionales, sin estado externo. */
-function PanelDemo(props: Partial<ComponentProps<typeof MessagePanel>> & { inicial?: Mensaje[]; estado?: EstadoConversacion }) {
-  const { inicial = hilo, estado = "abierta", ...resto } = props;
+function PanelDemo(
+  props: Partial<ComponentProps<typeof MessagePanel>> & {
+    inicial?: Mensaje[];
+    estado?: EstadoConversacion;
+    adjuntos?: (mensaje: Mensaje) => ReactNode;
+  },
+) {
+  const { inicial = hilo, estado = "abierta", adjuntos, ...resto } = props;
   const { mensajes, enviar } = useConversacion(inicial);
   return (
     <MessagePanel
@@ -119,7 +125,7 @@ function PanelDemo(props: Partial<ComponentProps<typeof MessagePanel>> & { inici
         <Compositor onSend={enviar} estado={estado} maxLength={500} />
       }
     >
-      <MessageThread mensajes={mensajes} isOwn={isOwn} ultimaSecuenciaLeida={4} />
+      <MessageThread mensajes={mensajes} isOwn={isOwn} ultimaSecuenciaLeida={4} renderAttachments={adjuntos} />
     </MessagePanel>
   );
 }
@@ -382,6 +388,34 @@ const threadMobileStory: Story = {
 
 /** Móvil: hilo de 22 mensajes en varios días, con `creadoEn` desordenado respecto a `secuencia`. */
 export const ThreadMobile: Story = responsiveStory("mobile", threadMobileStory);
+
+/** Panel de un viaje con hilo largo, compositor y un adjunto. Es la misma vista en móvil y en tablet. */
+const panelViajeStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <PanelDemo
+        subtitle="Viaje 1042"
+        inicial={hiloMovil}
+        adjuntos={(m) =>
+          m.secuencia === 3 ? (
+            <MessageAttachment
+              nombre="bitacora-unidad-TTR-8821.pdf"
+              tamano={248_000}
+              tipoMedio="application/pdf"
+              onOpen={() => undefined}
+            />
+          ) : null
+        }
+      />
+    </div>
+  ),
+};
+
+/** Móvil: el panel ocupa toda la pantalla; el compositor queda visible sobre el teclado. */
+export const Mobile: Story = responsiveStory("mobile", panelViajeStory);
+
+/** Tablet: el mismo panel en 768 px, con su tamaño de ventana flotante. */
+export const Tablet: Story = responsiveStory("tablet", panelViajeStory);
 
 /** Ancho angosto: el panel ocupa lo que haya disponible. */
 export const VistaAngosta: Story = {

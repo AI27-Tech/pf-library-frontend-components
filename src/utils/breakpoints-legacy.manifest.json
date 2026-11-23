@@ -1,6 +1,4 @@
 {
   "description": "Archivos CSS con umbrales de @media o @container fuera del Breakpoint_Set. El escaner breakpoints-css.test.ts los tolera temporalmente. Cada tarea N.1 del spec quita su archivo de esta lista. Al final de la Fase 1 debe quedar vacia.",
-  "files": [
-    "components/MessagePanel/MessagePanel.module.css"
-  ]
+  "files": []
 }
