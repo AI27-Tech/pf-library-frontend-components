@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ProgressBar } from "./ProgressBar";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/ProgressBar",
@@ -52,3 +53,19 @@ export const Tamanos: Story = {
     </div>
   ),
 };
+
+/** Movil: barras de distintos tamanos en un contenedor angosto, con una etiqueta visible larga encima de cada una. */
+const mobileStory: Story = {
+  render: () => (
+    <main>
+      <div style={{ width: "16rem", display: "grid", gap: "var(--ui-space-3)" }}>
+        <p style={{ margin: 0, overflowWrap: "anywhere" }}>Avance de carga del viaje VJ-2026-000481 y sus paradas intermedias</p>
+        <ProgressBar value={35} label="Avance del viaje" size="sm" />
+        <p style={{ margin: 0, overflowWrap: "anywhere" }}>Sincronizacion de bitacora de la unidad PT-07 con el centro de monitoreo</p>
+        <ProgressBar value={72} label="Sincronizacion" size="md" />
+        <ProgressBar label="Cargando" />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

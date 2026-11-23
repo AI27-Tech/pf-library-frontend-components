@@ -31,3 +31,16 @@
     animation: none;
   }
 }
+
+/* Movil: el panel nunca supera el ancho de la ventana menos los margenes, y el texto largo se parte dentro de el. */
+@media (max-width: 39.99rem) {
+  .popover {
+    max-width: calc(100vw - 2 * var(--ui-space-2));
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .popover button,
+  .popover [role="menuitem"] {
+    min-height: var(--ui-touch-target-min);
+  }
+}

@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ImageCard } from "./ImageCard";
 import { Headphones } from "lucide-react";
+import { Button } from "../Button";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/ImageCard",
@@ -267,3 +270,35 @@ export const CargandoImagen: Story = {
     subtitle: "El placeholder se retira al cargar",
   },
 };
+
+/** Movil: tarjeta con tres insignias, titulo largo y un pie con acciones y una de audio. */
+const mobileStory: Story = {
+  args: {
+    src: "",
+    alt: "Evidencia de la unidad",
+    title: LONG_TOKEN,
+    subtitle: "Viaje VJ-2026-000481 · Monterrey a Queretaro",
+    badges: [
+      { label: "En ruta", variant: "escort", dot: true, position: "left" },
+      { label: "14:35", variant: "neutral", position: "right" },
+      { label: "Procesado", variant: "secure", position: "right" },
+    ],
+    footer: (
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <Button variant="secondary" size="sm">Ver evidencia completa</Button>
+        <Button variant="secondary" size="sm">Escuchar audio de la parada</Button>
+      </div>
+    ),
+    children: (
+      <Headphones size={40} strokeWidth={1.5} color="rgba(255,255,255,0.5)" aria-hidden="true" />
+    ),
+  },
+  render: (args) => (
+    <main>
+      <div style={{ width: "18rem" }}>
+        <ImageCard {...args} />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);

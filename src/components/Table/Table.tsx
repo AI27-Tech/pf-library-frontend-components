@@ -49,6 +49,8 @@ export interface TableLabels {
   collapseRow: string;
   /** Etiqueta accesible de la tabla mientras carga, si no se pasa `aria-label`. */
   loading: string;
+  /** Nombre accesible del contenedor que se desplaza horizontalmente en modo `scroll`. */
+  scrollRegion: string;
 }
 
 const defaultLabels: TableLabels = {
@@ -58,6 +60,7 @@ const defaultLabels: TableLabels = {
   expandRow: "Expandir fila",
   collapseRow: "Contraer fila",
   loading: "Cargando",
+  scrollRegion: "Tabla con desplazamiento horizontal",
 };
 
 export interface TableProps<T> {
@@ -111,6 +114,12 @@ export interface TableProps<T> {
   stickyHeader?: boolean;
   /** Rayas alternas en las filas. Por defecto: true. */
   striped?: boolean;
+  /**
+   * Cómo se muestra en pantallas angostas (menos de 640 px de contenedor).
+   * - `"scroll"` (por defecto): la tabla conserva su forma y se desplaza horizontalmente dentro de su contenedor.
+   * - `"stacked"`: cada fila se muestra como una tarjeta con el nombre de la columna junto a su valor.
+   */
+  responsive?: "scroll" | "stacked";
   className?: string;
   /** Etiqueta de accesibilidad / leyenda para la tabla. */
   "aria-label"?: string;
@@ -124,6 +133,11 @@ function alignClass(align?: Column<unknown>["align"]) {
   if (align === "center") return styles.alignCenter;
   if (align === "right") return styles.alignRight;
   return undefined;
+}
+
+/** Nombre de la columna para `data-label` en modo apilado: el encabezado si es texto, o la clave. */
+function columnLabel<T>(col: Column<T>): string {
+  return typeof col.header === "string" ? col.header : col.key;
 }
 
 /** Columna ordenable: sin orden activo muestra dos flechas atenuadas; con orden, una sola flecha. */
@@ -163,6 +177,7 @@ export function Table<T>({
   hoverable = true,
   stickyHeader = false,
   striped = true,
+  responsive = "scroll",
   className,
   "aria-label": ariaLabel,
 }: TableProps<T>) {
@@ -170,8 +185,11 @@ export function Table<T>({
   const selectedCount = selectedKeys?.size ?? 0;
   const selectable = Boolean(selectedKeys && onSelectionChange);
   const expandable = Boolean(expandedContent);
+  const stacked = responsive === "stacked";
+
   const getKey = (row: T, index: number): Key =>
     rowKey ? rowKey(row, index) : index;
+
   const totalCols =
     columns.length + (selectable ? 1 : 0) + (expandable ? 1 : 0);
 
@@ -211,8 +229,17 @@ export function Table<T>({
     onSelectionChange(next);
   };
 
+  // En modo apilado los roles se declaran a mano: `display: block` puede quitar la semántica de tabla.
+  const role = (value: string) => (stacked ? value : undefined);
+
   return (
-    <div className={cx(styles.wrapper, className)}>
+    <div
+      className={cx(styles.wrapper, stacked && styles.stackedWrapper, className)}
+      // En modo scroll el contenedor se desplaza: debe poder enfocarse con teclado y tener nombre.
+      tabIndex={stacked ? undefined : 0}
+      role={stacked ? undefined : "region"}
+      aria-label={stacked ? undefined : labels.scrollRegion}
+    >
       {bulkActions && selectedCount > 0 && (
         <div className={styles.bulkBar}>
           <span className={styles.bulkCount} aria-live="polite">
@@ -228,15 +255,19 @@ export function Table<T>({
           hoverable && styles.hoverable,
           striped && styles.striped,
           stickyHeader && styles.stickyHeader,
+          stacked && styles.stacked,
         )}
         aria-label={ariaLabel ?? (loading ? labels.loading : undefined)}
         aria-busy={loading || undefined}
+        role={role("table")}
       >
-        <thead className={styles.thead}>
-          <tr>
-            {expandable && <th className={cx(styles.th, styles.expandCell)} aria-hidden="true" />}
+        <thead className={styles.thead} role={role("rowgroup")}>
+          <tr role={role("row")}>
+            {expandable && (
+              <th className={cx(styles.th, styles.expandCell)} aria-hidden="true" role={role("columnheader")} />
+            )}
             {selectable && (
-              <th className={cx(styles.th, styles.selectCell)}>
+              <th className={cx(styles.th, styles.selectCell)} role={role("columnheader")}>
                 <Checkbox
                   size="sm"
                   checked={allSelected}
@@ -266,6 +297,7 @@ export function Table<T>({
                         : "descending"
                       : undefined
                   }
+                  role={role("columnheader")}
                 >
                   <span className={styles.thContent}>
                     {col.header}
@@ -278,7 +310,7 @@ export function Table<T>({
             })}
           </tr>
         </thead>
-        <tbody>
+        <tbody role={role("rowgroup")}>
           {loading ? (
             <SkeletonRows
               rows={loadingRows}
@@ -287,8 +319,8 @@ export function Table<T>({
               expandable={expandable}
             />
           ) : data.length === 0 ? (
-            <tr>
-              <td className={styles.state} colSpan={totalCols}>
+            <tr className={stacked ? styles.emptyRow : undefined} role={role("row")}>
+              <td className={styles.state} colSpan={totalCols} role={role("cell")}>
                 {emptyState ?? <EmptyState title={labels.empty} size="sm" />}
               </td>
             </tr>
@@ -311,11 +343,13 @@ export function Table<T>({
                     onClick={
                       onRowClick ? () => onRowClick(row, rowIndex) : undefined
                     }
+                    role={role("row")}
                   >
                     {expandable && (
                       <td
                         className={cx(styles.td, styles.expandCell)}
                         onClick={(e) => e.stopPropagation()}
+                        role={role("cell")}
                       >
                         {detail != null && (
                           <button
@@ -334,6 +368,7 @@ export function Table<T>({
                       <td
                         className={cx(styles.td, styles.selectCell)}
                         onClick={(e) => e.stopPropagation()}
+                        role={role("cell")}
                       >
                         <Checkbox
                           size="sm"
@@ -352,6 +387,8 @@ export function Table<T>({
                           col.truncate && styles.truncate,
                         )}
                         style={col.minWidth ? { minWidth: col.minWidth } : undefined}
+                        data-label={stacked ? columnLabel(col) : undefined}
+                        role={role("cell")}
                       >
                         {col.cell
                           ? col.cell(row, rowIndex)
@@ -362,8 +399,8 @@ export function Table<T>({
                     ))}
                   </tr>
                   {isExpanded && (
-                    <tr className={styles.detailRow}>
-                      <td className={styles.detailCell} colSpan={totalCols}>
+                    <tr className={styles.detailRow} role={role("row")}>
+                      <td className={styles.detailCell} colSpan={totalCols} role={role("cell")}>
                         {detail}
                       </td>
                     </tr>

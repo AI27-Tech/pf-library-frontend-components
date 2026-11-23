@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Tooltip.module.css";
+import { clampToViewport } from "../../utils/responsive/position";
 
 export interface TooltipProps {
   /** Texto o contenido a mostrar dentro del tooltip. */
@@ -26,16 +27,52 @@ export interface TooltipProps {
  * cuándo mostrarse. Quien lo usa (p. ej. `Badge`) controla su visibilidad y le
  * pasa la posición ya calculada (con `getBoundingClientRect`).
  */
+/** Margen mínimo entre el tooltip y el borde de la ventana, en px. */
+const VIEWPORT_MARGIN = 8;
+
 export function Tooltip({ children, x, y }: TooltipProps) {
-  // Sin DOM (SSR) no hay dónde portalar: no renderizamos nada.
+  const ref = useRef<HTMLSpanElement>(null);
+  // Centro horizontal ajustado para que el tooltip no se salga por los lados.
+  const [centerX, setCenterX] = useState(x);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    function recalculate() {
+      if (!el) return;
+      const width = el.offsetWidth;
+      const height = el.offsetHeight;
+      const { left } = clampToViewport(
+        { top: y, left: x - width / 2, width, height: 0 },
+        { width, height },
+        { width: window.innerWidth, height: window.innerHeight },
+        VIEWPORT_MARGIN,
+      );
+      setCenterX(left + width / 2);
+    }
+    recalculate();
+    // El ancho cambia al girar la pantalla, al cargar la fuente o al partir el texto.
+    window.addEventListener("resize", recalculate);
+    window.addEventListener("orientationchange", recalculate);
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(recalculate);
+    observer?.observe(el);
+    return () => {
+      window.removeEventListener("resize", recalculate);
+      window.removeEventListener("orientationchange", recalculate);
+      observer?.disconnect();
+    };
+  }, [x, y, children]);
+
+  // Sin DOM (SSR) no hay donde portalar: no renderizamos nada.
   if (typeof document === "undefined") return null;
 
   return createPortal(
     <span
+      ref={ref}
       className={styles.tooltip}
       role="tooltip"
       aria-hidden="true"
-      style={{ left: x, top: y }}
+      style={{ left: centerX, top: y }}
     >
       {children}
     </span>,

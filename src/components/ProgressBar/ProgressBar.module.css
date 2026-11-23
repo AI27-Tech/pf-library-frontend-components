@@ -3,6 +3,7 @@
   overflow: hidden;
   box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
   background-color: var(--ui-color-surface-container-highest);
   border-radius: var(--ui-radius-full);
 }

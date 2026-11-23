@@ -1,5 +1,7 @@
 .divider {
   flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
   background-color: var(--ui-color-border-subtle);
 }
 
@@ -19,6 +21,8 @@
   align-items: center;
   gap: var(--ui-space-3);
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   font-family: var(--ui-font-family, inherit);
 }
 
@@ -29,7 +33,9 @@
 }
 
 .label {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: var(--ui-text-label-md-size);
   line-height: var(--ui-text-label-md-line);
   font-weight: var(--ui-text-label-md-weight);

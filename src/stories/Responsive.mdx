@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Responsive/Documentación" />
+
+# Diseño responsivo
+
+Esta página resume los umbrales, el objetivo táctil mínimo y las props nuevas. El detalle de los valores está en `docs/responsive-breakpoints.md`.
+
+## Breakpoints
+
+Los umbrales se escriben en `rem`. Los píxeles valen con una raíz de 16 px.
+
+| Rango | Ancho en px | Umbral en rem |
+| --- | --- | --- |
+| Móvil | menos de 640 px | menos de 40rem |
+| Tablet | desde 640 px hasta 1023 px | desde 40rem |
+| Escritorio | desde 1024 px | desde 64rem |
+
+## Objetivo táctil mínimo
+
+Los controles interactivos miden al menos **44 × 44 px** (2.75rem) cuando el dispositivo tiene puntero grueso (`pointer: coarse`). Con ratón no cambian.
+
+## Elegir un viewport en Storybook
+
+1. Abre la barra de herramientas de Storybook.
+2. Elige uno de los viewports:
+   - **Móvil 375**: 375 × 667 px.
+   - **Tablet 768**: 768 × 1024 px.
+   - **Escritorio 1280**: 1280 × 800 px.
+3. Las stories `Mobile` y `Tablet` fijan su viewport solas. El selector sirve para probar cualquier otra story.
+
+## Props nuevas
+
+- **`Grid.columns`**: acepta un número o un mapa por breakpoint, por ejemplo `{ mobile: 1, tablet: 2, desktop: 4 }`. Con un número, en móvil queda en 1 columna, en tablet en hasta 2 y en escritorio en el valor dado.
+- **`Table.responsive`**: `'scroll'` (por defecto) deja la tabla con desplazamiento horizontal. `'stacked'` muestra cada fila como tarjeta en móvil.
+- **`FilterBar.collapsibleOnMobile`**: colapsa los filtros en móvil.
+- **`Sidebar.mobileOpen`** y **`onMobileOpenChange`**: controlan el panel de la barra lateral en móvil.
+- **`SidebarTrigger`**: botón de 44 px que abre el panel de `Sidebar`.

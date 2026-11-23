@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { useFocusTrap } from '../../utils/useFocusTrap';
+import { nextIndexOnSwipe } from '../../utils/responsive/swipe';
 import {
   ChevronLeft,
   ChevronRight,
@@ -59,6 +61,9 @@ interface Transform {
   rotation: number;
 }
 
+/** Elementos donde el gesto es suyo y no un deslizar entre medios. */
+const INTERACTIVE_SELECTOR = 'button, audio, input, select, textarea, [role="slider"]';
+
 const INITIAL_TRANSFORM: Transform = {
   zoom: 1,
   offsetX: 0,
@@ -115,13 +120,39 @@ export function Visor<T extends Medium = Medium>({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onClose, previous, next]);
 
+  // Foco atrapado dentro del visor mientras esta abierto.
+  const rootRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(rootRef, true);
+
+  // Deslizar con el dedo o el mouse: un elemento por gesto, sin pasar de los extremos.
+  const swipeStartX = useRef<number | null>(null);
+  function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    // Un toque que empieza en un boton, el audio o un control es una accion propia, no un gesto.
+    const fromButton = event.target instanceof Element && event.target.closest(INTERACTIVE_SELECTOR) !== null;
+    swipeStartX.current = fromButton ? null : event.clientX;
+  }
+  function handlePointerUp(event: ReactPointerEvent<HTMLDivElement>) {
+    const startX = swipeStartX.current;
+    swipeStartX.current = null;
+    if (startX === null) return;
+    const deltaX = event.clientX - startX;
+    setIndex((current) => nextIndexOnSwipe(current, mediums.length, deltaX, 40));
+  }
+  function handlePointerCancel() {
+    swipeStartX.current = null;
+  }
+
   if (!medium) return null;
 
   const isAudio = medium.type === 'AUDIO';
 
   return (
     <div
+      ref={rootRef}
       className={styles.visor}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       role="dialog"
       aria-modal="true"
       aria-label={`Visor: ${medium.label}`}
@@ -258,6 +289,11 @@ function VisorImage<T extends Medium = Medium>({ medium, url }: { medium: T; url
       <div
         ref={canvasRef}
         className={styles.canvas}
+
+        onPointerDown={(event) => {
+          // Con zoom el arrastre mueve la imagen: no debe llegar al deslizar del visor.
+          if (transform.zoom > 1) event.stopPropagation();
+        }}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={endDrag}

@@ -68,6 +68,7 @@ export function MessagePanel({
   const bodyId = useId();
   const headerMainRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const seccionRef = useRef<HTMLElement>(null);
   // Solo el clic del usuario mueve el foco; un cambio externo de `open` no lo mueve.
   const alternadoPorUsuario = useRef(false);
 
@@ -78,6 +79,41 @@ export function MessagePanel({
     onOpenChange?.(siguiente);
     onToggle?.();
   };
+
+  // En móvil, con el campo enfocado y el teclado abierto, el panel ocupa solo la zona visible.
+  // Fuera de ese caso, las variables se quitan y el CSS usa 100dvh.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    const seccion = seccionRef.current;
+    if (!vv || !seccion) return;
+    const movil = window.matchMedia("(max-width: 39.99rem)");
+
+    const ajustar = () => {
+      const alTeclado =
+        movil.matches && seccion.dataset.open === "true" && seccion.contains(document.activeElement);
+      if (alTeclado) {
+        seccion.style.setProperty("--ui-vv-top", `${vv.offsetTop}px`);
+        seccion.style.setProperty("--ui-vv-height", `${vv.height}px`);
+      } else {
+        seccion.style.removeProperty("--ui-vv-top");
+        seccion.style.removeProperty("--ui-vv-height");
+      }
+    };
+
+    ajustar();
+    vv.addEventListener("resize", ajustar);
+    vv.addEventListener("scroll", ajustar);
+    seccion.addEventListener("focusin", ajustar);
+    seccion.addEventListener("focusout", ajustar);
+    movil.addEventListener("change", ajustar);
+    return () => {
+      vv.removeEventListener("resize", ajustar);
+      vv.removeEventListener("scroll", ajustar);
+      seccion.removeEventListener("focusin", ajustar);
+      seccion.removeEventListener("focusout", ajustar);
+      movil.removeEventListener("change", ajustar);
+    };
+  }, []);
 
   useEffect(() => {
     if (!alternadoPorUsuario.current) return;
@@ -93,7 +129,12 @@ export function MessagePanel({
   }, [estaAbierto]);
 
   return (
-    <section className={cx(styles.surface, className)} aria-labelledby={titleId}>
+    <section
+      ref={seccionRef}
+      className={cx(styles.surface, className)}
+      aria-labelledby={titleId}
+      data-open={estaAbierto}
+    >
       <div className={cx(styles.header, estaAbierto && styles.expanded)}>
         <button
           ref={headerMainRef}

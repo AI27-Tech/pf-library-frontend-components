@@ -9,6 +9,7 @@
 
 .breadcrumb {
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .top {
@@ -29,6 +30,8 @@
 
 .title {
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: var(--ui-text-headline-lg-size);
   line-height: var(--ui-text-headline-lg-line);
   font-weight: var(--ui-text-headline-lg-weight);
@@ -63,10 +66,16 @@ h2.title {
 }
 
 /* Pantallas angostas: las acciones pasan debajo del título. */
-@media (max-width: 40rem) {
+@media (max-width: 39.99rem) {
   .top {
     flex-direction: column;
     align-items: stretch;
+    gap: var(--ui-space-5);
+  }
+
+  /* En columna, flex-basis de .text sería alto; se fija a su contenido. */
+  .text {
+    flex: 0 0 auto;
   }
 
   .actions {

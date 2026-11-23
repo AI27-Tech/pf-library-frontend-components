@@ -3,6 +3,8 @@ import { useState, useMemo } from "react";
 import { FilterBar, type FilterDefinition, type FilterValues } from "../FilterBar";
 import { Pagination } from "../Pagination";
 import styles from "./ImageGrid.module.css";
+import { capColumns } from "../../utils/responsive/columns";
+import { useBreakpoint } from "../../utils/useBreakpoint";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -124,7 +126,10 @@ export function ImageGrid<T>({
     }
   };
 
-  const displayColumns = viewMode === "list" ? 1 : columns;
+  // Columnas por breakpoint: 2 en movil, 3 en tablet y `columns` en escritorio.
+  const bp = useBreakpoint();
+  const gridColumns = capColumns(columns, bp, { mobile: 2, tablet: 3, desktop: columns });
+  const displayColumns = viewMode === "list" ? 1 : gridColumns;
 
   return (
     <div className={cx(styles.root, className)} {...props}>
@@ -169,11 +174,7 @@ export function ImageGrid<T>({
             // Vista de grilla
             <div
               className={styles.itemsGrid}
-              style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${displayColumns}, 1fr)`,
-                gap,
-              }}
+              style={{ ["--ui-image-grid-cols" as string]: displayColumns, gap }}
             >
               {paginatedItems.map((item, idx) => renderItem(item, idx))}
             </div>

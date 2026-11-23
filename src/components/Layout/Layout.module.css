@@ -18,3 +18,20 @@
 .grid {
   display: grid;
 }
+
+/* Columnas por breakpoint: el componente fija --ui-grid-cols-* en línea. */
+.gridResponsive {
+  grid-template-columns: repeat(var(--ui-grid-cols-mobile, 1), minmax(0, 1fr));
+}
+
+@media (min-width: 40rem) {
+  .gridResponsive {
+    grid-template-columns: repeat(var(--ui-grid-cols-tablet, 1), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .gridResponsive {
+    grid-template-columns: repeat(var(--ui-grid-cols-desktop, 1), minmax(0, 1fr));
+  }
+}

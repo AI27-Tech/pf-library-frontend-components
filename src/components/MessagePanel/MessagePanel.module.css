@@ -265,13 +265,25 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--ui-space-2, 0.5rem);
+  min-width: 0;
   font-size: var(--ui-font-size-sm, 0.75rem);
+}
+
+/* En móvil, estado, responsable y ventana de escritura se apilan en una columna. */
+@media (max-width: 39.99rem) {
+  .status {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .statusText {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   color: var(--ui-color-text-muted, #94a3b8);
 }
 
@@ -284,6 +296,7 @@
 .listWrap {
   position: relative;
   flex: 1 1 auto;
+  min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -291,6 +304,7 @@
 
 .body {
   flex: 1 1 auto;
+  min-width: 0;
   min-height: 0;
   overflow-y: auto;
   padding: var(--ui-space-3, 0.75rem);
@@ -299,6 +313,12 @@
   gap: var(--ui-space-1, 0.25rem);
   background-color: var(--ui-color-surface-muted, #0e1117);
   scrollbar-width: thin;
+}
+
+/* El hilo es una región con scroll: debe poder enfocarse con teclado para desplazarse. */
+.body:focus-visible {
+  outline: 2px solid var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+  outline-offset: -2px;
 }
 
 .newMessages {
@@ -419,6 +439,12 @@
   margin-top: 0.1rem;
 }
 
+/* Sobre el color primario, la opacidad baja el contraste por debajo de AA (4.5:1). */
+.own .time,
+.own .attachmentMeta {
+  opacity: 1;
+}
+
 .audit {
   margin-top: 0.25rem;
   padding-top: 0.25rem;
@@ -494,10 +520,24 @@ button.attachment {
 }
 
 .attachmentName {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
   font-size: var(--ui-font-size-sm, 0.75rem);
   white-space: nowrap;
+}
+
+/* Solo la base se recorta con "…"; la extensión (".pdf") nunca se corta. */
+.attachmentBase {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attachmentExt {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .attachmentMeta {
@@ -505,8 +545,16 @@ button.attachment {
   opacity: 0.8;
 }
 
+/* El texto de error con opacidad baja pierde contraste AA en tema claro. */
+.attachmentError .attachmentMeta {
+  opacity: 1;
+}
+
 .dayDivider {
   align-self: center;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
   margin: var(--ui-space-2, 0.5rem) 0 var(--ui-space-1, 0.25rem);
   padding: var(--ui-space-1, 0.25rem) var(--ui-space-2, 0.5rem);
   border: none;
@@ -530,10 +578,15 @@ button.dayDivider:disabled {
 
 /* ── Compositor ──────────────────────────────────────────────────────────── */
 .composerWrap {
-  position: relative;
+  position: sticky;
+  bottom: 0;
   flex: 0 0 auto;
   border-top: 1px solid var(--ui-color-border, #2d3748);
   background-color: var(--ui-color-surface, #1c222e);
+  /* Sube con el teclado en pantalla (variable fijada por MessageComposer desde visualViewport). */
+  transform: translateY(calc(-1 * var(--ui-composer-keyboard, 0px)));
+  /* Área segura del dispositivo; en escritorio env() vale 0. */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .composer {
@@ -720,8 +773,8 @@ button.dayDivider:disabled {
   background-color: var(--ui-color-primary, #7c9df0);
 }
 
-/* ── Responsivo: en pantallas angostas, un solo panel a todo el ancho ──────── */
-@media (max-width: 560px) {
+/* ── Responsivo: en móvil, el panel abierto ocupa toda la pantalla ─────────── */
+@media (max-width: 39.99rem) {
   .dock {
     padding: 0;
   }
@@ -729,6 +782,59 @@ button.dayDivider:disabled {
   .surface,
   .barSurface {
     width: 100%;
+  }
+
+  /* Alto y posición siguen a visualViewport cuando el teclado está abierto (MessagePanel). */
+  .surface[data-open="true"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Por encima de los avatares de la barra (position: relative, después en el DOM). */
+    z-index: 1;
+    width: 100vw;
+    height: var(--ui-vv-height, 100dvh);
+    transform: translateY(var(--ui-vv-top, 0px));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .surface[data-open="true"] .collapsible {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .surface[data-open="true"] .collapsibleInner,
+  .surface[data-open="true"] .panelBody {
+    height: 100%;
+  }
+}
+
+/* Touch_Target: botones del compositor de 44 x 44 px con puntero grueso; la separación es el gap de 8 px. */
+@media (pointer: coarse) {
+  .attachBtn,
+  .sendBtn,
+  .iconBtn {
+    width: var(--ui-touch-target-min, 2.75rem);
+    height: var(--ui-touch-target-min, 2.75rem);
+  }
+
+  /* Chip "+N" y filas de la lista de la barra del muelle. */
+  .overflowChip {
+    min-width: var(--ui-touch-target-min, 2.75rem);
+    height: var(--ui-touch-target-min, 2.75rem);
+  }
+
+  .convoItem {
+    min-height: var(--ui-touch-target-min, 2.75rem);
+  }
+
+  /* Acciones de texto: reintento, mensajes nuevos, adjuntos y divisor con "Cargar anteriores". */
+  .retry,
+  .newMessages,
+  button.attachment,
+  button.dayDivider {
+    min-height: var(--ui-touch-target-min, 2.75rem);
   }
 }
 

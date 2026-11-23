@@ -6,6 +6,8 @@ import type { FilterDefinition, FilterValues } from "../FilterBar";
 import { ImageCard } from "../ImageCard";
 import { Badge } from "../Badge";
 import styles from "./ImageGrid.module.css";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { makeItems } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/ImageGrid",
@@ -506,3 +508,27 @@ export const EmptyState: Story = {
     </div>
   ),
 };
+
+/** Movil: 20 evidencias con 6 columnas pedidas; en movil se ven 2 en cuadricula y una lista apilada. */
+const evidencias = makeItems(20);
+const mobileStory: Story = {
+  render: () => (
+    <main style={{ padding: "var(--ui-gutter-screen)" }}>
+      <div style={{ display: "grid", gap: "1rem" }}>
+        <ImageGrid items={evidencias} columns={6} renderItem={(item) => <ImageCard src="" alt={item.etiqueta} title={item.etiqueta} subtitle="Evidencia" />} />
+        <ImageGrid items={evidencias} columns={6} viewMode="list" renderItem={(item) => <ImageCard src="" alt={item.etiqueta} title={item.etiqueta} subtitle="Evidencia" />} />
+      </div>
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
+
+/** Tablet: la cuadricula de 6 columnas se ve en 3 columnas a 768 px. */
+const tabletStory: Story = {
+  render: () => (
+    <main style={{ padding: "var(--ui-gutter-screen)" }}>
+      <ImageGrid items={evidencias} columns={6} renderItem={(item) => <ImageCard src="" alt={item.etiqueta} title={item.etiqueta} subtitle="Evidencia" />} />
+    </main>
+  ),
+};
+export const Tablet: Story = responsiveStory("tablet", tabletStory);

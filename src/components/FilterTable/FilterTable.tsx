@@ -65,6 +65,16 @@ export interface FilterTableProps<T> extends Omit<TableProps<T>, "labels"> {
   labels?: Partial<FilterTableLabels>;
   /** Textos de la tabla interna. Se pasan a `Table`. */
   tableLabels?: Partial<TableLabels>;
+  /**
+   * Pasa a `FilterBar`: en móvil los filtros arrancan ocultos y un botón de 44 px los muestra.
+   * Solo aplica con `filterLayout="panel"`. Por defecto: false.
+   */
+  collapsibleOnMobile?: boolean;
+  /**
+   * Pasa a `Table` (ver `TableProps.responsive`). `"stacked"` muestra cada fila como tarjeta en móvil.
+   * Por defecto: `"scroll"`.
+   */
+  responsive?: "scroll" | "stacked";
 }
 
 export function FilterTable<T>({
@@ -82,6 +92,7 @@ export function FilterTable<T>({
   filterLayout = "panel",
   labels: labelsProp,
   tableLabels,
+  collapsibleOnMobile = false,
   ...tableProps
 }: FilterTableProps<T>) {
   const labels: FilterTableLabels = { ...defaultLabels, ...labelsProp };
@@ -135,6 +146,7 @@ export function FilterTable<T>({
             onSearchChange={isToolbar ? onSearchChange : undefined}
             searchPlaceholder={placeholder}
             loading={tableProps.loading}
+            collapsibleOnMobile={collapsibleOnMobile}
             labels={{ search: placeholder, clearAll: labels.clear }}
           />
         </div>

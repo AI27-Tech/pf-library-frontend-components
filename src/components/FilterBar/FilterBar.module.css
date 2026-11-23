@@ -314,42 +314,82 @@
   border-top: var(--ui-border-width, 1px) solid var(--ui-color-border, #2d3748);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* Bloque de filtros: agrupa cuadrícula y acciones dentro de .content. */
+.filtersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-4, 1rem);
+}
+/* Botón de mostrar u ocultar filtros. Solo se ve en móvil con collapsibleOnMobile. */
+.mobileToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--ui-space-2, 0.5rem) var(--ui-space-3, 0.75rem);
+  border: var(--ui-border-width, 1px) solid var(--ui-color-border, #2d3748);
+  border-radius: var(--ui-radius, 0.25rem);
+  background-color: var(--ui-color-surface, #1c222e);
+  color: var(--ui-color-text, #e2e8f0);
+  font: inherit;
+  font-size: var(--ui-font-size-sm, 0.75rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+.mobileToggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+}
+
+/* Tablet y escritorio: 63.99rem agrupa 1024 px (cuadrícula) y 768 px (relleno y separación). */
+@media (max-width: 63.99rem) {
   .filtersGrid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
-}
-
-@media (max-width: 768px) {
   .filterBar {
     padding: var(--ui-space-4, 1rem);
   }
-
   .filtersGrid {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--ui-space-3, 0.75rem);
   }
-
   .header {
     padding-bottom: var(--ui-space-2, 0.5rem);
   }
-
-  .content {
+  .content,
+  .filtersBlock {
     gap: var(--ui-space-3, 0.75rem);
   }
 }
 
-@media (max-width: 640px) {
+/* Móvil: 39.99rem agrupa 640 px. Una columna con cada control al 100 %. */
+@media (max-width: 39.99rem) {
   .filterBar {
     padding: var(--ui-space-3, 0.75rem);
   }
-
   .filtersGrid {
     grid-template-columns: 1fr;
   }
-
+  .filterColumn {
+    width: 100%;
+  }
   .title {
     font-size: var(--ui-font-size-sm, 0.75rem);
+  }
+  .mobileToggle {
+    display: inline-flex;
+  }
+  .collapsedOnMobile {
+    display: none;
+  }
+}
+/* Controles de la barra de filtros con 44 px de alto con puntero grueso (tarea 50.1). */
+@media (pointer: coarse) {
+  .mobileToggle,
+  .viewToggleOption,
+  .filterChip,
+  .chipRemove {
+    min-height: var(--ui-touch-target-min);
   }
 }

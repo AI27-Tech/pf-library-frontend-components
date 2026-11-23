@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Calendar } from "./Calendar";
+import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
   title: "Components/DatePicker/Calendar",
@@ -55,3 +56,14 @@ export const DisabledDates: Story = {
 export const KeyboardHelp: Story = {
   args: { value: "2026-03-05", autoFocus: true },
 };
+
+/** Movil: calendario a 375 px con una fecha seleccionada y limites. Mes y anio se abren desde el titulo. */
+const mobileStory: Story = {
+  args: { value: "2026-03-12", min: "2026-03-05", max: "2026-03-25" },
+  render: (args) => (
+    <main>
+      <Calendar {...args} />
+    </main>
+  ),
+};
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
