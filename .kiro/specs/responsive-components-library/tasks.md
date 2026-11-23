@@ -1043,15 +1043,15 @@ Convenciones:
     - **Validates: Requirements 13.11, 13.12**
 
 - [ ] 52. Fase 2, Documentación Storybook (MDX)
-  - [ ] 52.1 Crear `src/stories/Responsive.mdx`
+  - [x] 52.1 Crear `src/stories/Responsive.mdx`
     - Página con el Breakpoint_Set en px, el Touch_Target mínimo en px, los pasos para elegir un Viewport_Preset en la barra de herramientas y la lista de props nuevas (`Grid.columns` por breakpoint, `Table.responsive`, `FilterBar.collapsibleOnMobile`, `Sidebar.mobileOpen`, `SidebarTrigger`). Enlazar `docs/responsive-breakpoints.md`.
     - _Requirements: 10.10, 1.1_
 
-  - [ ] 52.2 Verificar `npm run build-storybook`
+  - [x] 52.2 Verificar `npm run build-storybook`
     - Ejecutar y confirmar código de salida 0 con todas las Responsive_Story; si falla, el nombre de la story aparece en la salida.
     - _Requirements: 10.8, 10.9_
 
-  - [ ] 52.3 Revisión visual de la documentación
+  - [x] 52.3 Revisión visual de la documentación
     - Revisar en Storybook la página `Responsive` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: tablas y bloques de código legibles en móvil; los pasos para elegir viewport son claros.
     - _Requirements: 10.10_
