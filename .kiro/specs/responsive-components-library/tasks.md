@@ -880,11 +880,11 @@ Convenciones:
     - _Requirements: 8.4, 8.7, 12.3_
 
 - [ ] 44. MessageComposer (familia Mensajería)
-  - [ ] 44.1 Adaptar `MessageComposer`
+  - [x] 44.1 Adaptar `MessageComposer`
     - `MessagePanel.module.css`: `sticky` abajo, `padding-bottom: env(safe-area-inset-bottom)`, ajuste con `visualViewport` cuando hay teclado en pantalla; botones de adjuntar y enviar con 44 x 44 px y `gap: var(--ui-space-2)`.
     - _Requirements: 8.5, 8.6, 9.2, 12.2, 12.3_
 
-  - [ ] 44.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
+  - [x] 44.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
     - `ComposerMobile`: compositor con borrador largo y adjuntos pendientes.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -892,7 +892,7 @@ Convenciones:
     - Touch_Target y separación de 8 px de los botones; compositor anclado abajo; a11y.
     - _Requirements: 8.5, 8.6, 11.2, 11.3, 11.4_
 
-  - [ ] 44.4 Revisión visual de `MessageComposer`
+  - [x] 44.4 Revisión visual de `MessageComposer`
     - Revisar en Storybook `Components/MessagePanel › ComposerMobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el compositor queda al fondo y por encima del teclado; los botones se aciertan sin tocar el vecino; respeta el área segura.
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron (Requirement 12.3).

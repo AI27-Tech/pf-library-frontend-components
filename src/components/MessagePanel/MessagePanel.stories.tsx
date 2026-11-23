@@ -10,6 +10,7 @@ import { useMessageDock } from "./useMessageDock";
 import type { EstadoConversacion, Mensaje, MensajePendiente } from "./types";
 import { generarClientMessageId } from "./utils";
 import { responsiveStory } from "../../stories/responsiveStory";
+import { Inline } from "../Layout";
 
 const meta = {
   title: "Components/MessagePanel",
@@ -317,6 +318,46 @@ const bubbleMobileStory: Story = {
 
 /** Móvil: burbujas con cadena de 500 caracteres y adjunto con nombre largo. Las burbujas no pasan del 85 % del ancho. */
 export const BubbleMobile: Story = responsiveStory("mobile", bubbleMobileStory);
+
+/** Borrador largo (cerca del límite de 500) con adjuntos pendientes: uno subiendo y uno con error. */
+function ComposerMobileDemo() {
+  const [borrador, setBorrador] = useState(
+    "Confirmo la salida de la unidad TTR-8821 desde la caseta 3 a las 14:30. Llevamos sello verificado y custodio a bordo. ".repeat(4),
+  );
+  return (
+    <MessagePanel
+      name="Central C4"
+      composer={
+        <>
+          <Inline gap={2}>
+            <MessageAttachment nombre="sello-caseta-3.jpg" tamano={1_400_000} tipoMedio="image/jpeg" estado="uploading" />
+            <MessageAttachment nombre="video-descarga.mp4" tamano={52_000_000} tipoMedio="video/mp4" estado="error" />
+          </Inline>
+          <MessageComposer
+            value={borrador}
+            onChange={setBorrador}
+            onSend={() => setBorrador("")}
+            maxLength={500}
+            onAttach={() => undefined}
+          />
+        </>
+      }
+    >
+      <MessageThread mensajes={hilo} isOwn={isOwn} />
+    </MessagePanel>
+  );
+}
+
+const composerMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <ComposerMobileDemo />
+    </div>
+  ),
+};
+
+/** Móvil: compositor con borrador largo, contador y adjuntos pendientes, anclado abajo. */
+export const ComposerMobile: Story = responsiveStory("mobile", composerMobileStory);
 
 /** Ancho angosto: el panel ocupa lo que haya disponible. */
 export const VistaAngosta: Story = {

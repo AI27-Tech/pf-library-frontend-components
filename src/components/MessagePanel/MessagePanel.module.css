@@ -301,6 +301,12 @@
   scrollbar-width: thin;
 }
 
+/* El hilo es una región con scroll: debe poder enfocarse con teclado para desplazarse. */
+.body:focus-visible {
+  outline: 2px solid var(--ui-focus-ring, rgba(124, 157, 240, 0.5));
+  outline-offset: -2px;
+}
+
 .newMessages {
   position: absolute;
   left: 50%;
@@ -525,6 +531,11 @@ button.attachment {
   opacity: 0.8;
 }
 
+/* El texto de error con opacidad baja pierde contraste AA en tema claro. */
+.attachmentError .attachmentMeta {
+  opacity: 1;
+}
+
 .dayDivider {
   align-self: center;
   margin: var(--ui-space-2, 0.5rem) 0 var(--ui-space-1, 0.25rem);
@@ -550,10 +561,15 @@ button.dayDivider:disabled {
 
 /* ── Compositor ──────────────────────────────────────────────────────────── */
 .composerWrap {
-  position: relative;
+  position: sticky;
+  bottom: 0;
   flex: 0 0 auto;
   border-top: 1px solid var(--ui-color-border, #2d3748);
   background-color: var(--ui-color-surface, #1c222e);
+  /* Sube con el teclado en pantalla (variable fijada por MessageComposer desde visualViewport). */
+  transform: translateY(calc(-1 * var(--ui-composer-keyboard, 0px)));
+  /* Área segura del dispositivo; en escritorio env() vale 0. */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .composer {
@@ -749,6 +765,15 @@ button.dayDivider:disabled {
   .surface,
   .barSurface {
     width: 100%;
+  }
+}
+
+/* Touch_Target: botones del compositor de 44 x 44 px con puntero grueso; la separación es el gap de 8 px. */
+@media (pointer: coarse) {
+  .attachBtn,
+  .sendBtn {
+    width: var(--ui-touch-target-min, 2.75rem);
+    height: var(--ui-touch-target-min, 2.75rem);
   }
 }
 
