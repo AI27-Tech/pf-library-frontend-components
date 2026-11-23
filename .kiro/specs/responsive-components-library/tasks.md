@@ -802,12 +802,12 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `ImageCard` no cambiaron (Requirement 12.3).
     - _Requirements: 7.5, 12.3_
 
-- [ ] 40. ImageGrid (familia Imágenes)
-  - [ ] 40.1 Adaptar `ImageGrid`
+- [x] 40. ImageGrid (familia Imágenes)
+  - [x] 40.1 Adaptar `ImageGrid`
     - Sustituir el estilo en línea por `--ui-image-grid-cols` con `capColumns(columns, bp, { mobile: 2, tablet: 3, desktop: columns })`; vista de lista apilada en una columna en móvil (en lugar de `80px 1fr 100px 100px 100px 200px`).
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 12.2, 12.3_
 
-  - [ ] 40.2 Agregar Responsive_Story `Mobile` y `Tablet` en `ImageGrid.stories.tsx`
+  - [x] 40.2 Agregar Responsive_Story `Mobile` y `Tablet` en `ImageGrid.stories.tsx`
     - `Mobile`: 20 o más evidencias con `columns={6}` en cuadrícula y en lista. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -815,7 +815,7 @@ Convenciones:
     - Máximo 2 columnas en móvil, 3 en tablet, `columns` si es menor; lista apilada; sin desborde; a11y.
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 11.2, 11.4_
 
-  - [ ] 40.4 Revisión visual de `ImageGrid`
+  - [x] 40.4 Revisión visual de `ImageGrid`
     - Revisar en Storybook `Components/ImageGrid › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: 2 columnas en móvil, 3 en tablet y `columns` en escritorio; la vista de lista se apila sin columnas fijas; miniaturas tocables.
     - Verificar que a 1280 px las stories existentes de `ImageGrid` no cambiaron (Requirement 12.3).
