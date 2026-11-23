@@ -270,3 +270,14 @@
     display: none;
   }
 }
+/* Objetivo tactil de 44 px en los items y el boton de colapso con puntero grueso (tarea 50.1). */
+@media (pointer: coarse) {
+  .item {
+    min-height: var(--ui-touch-target-min);
+  }
+
+  .toggle {
+    min-width: var(--ui-touch-target-min);
+    min-height: var(--ui-touch-target-min);
+  }
+}

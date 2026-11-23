@@ -828,6 +828,14 @@ button.dayDivider:disabled {
   .convoItem {
     min-height: var(--ui-touch-target-min, 2.75rem);
   }
+
+  /* Acciones de texto: reintento, mensajes nuevos, adjuntos y divisor con "Cargar anteriores". */
+  .retry,
+  .newMessages,
+  button.attachment,
+  button.dayDivider {
+    min-height: var(--ui-touch-target-min, 2.75rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

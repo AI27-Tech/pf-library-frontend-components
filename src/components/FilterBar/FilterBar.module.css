@@ -384,3 +384,12 @@
     display: none;
   }
 }
+/* Controles de la barra de filtros con 44 px de alto con puntero grueso (tarea 50.1). */
+@media (pointer: coarse) {
+  .mobileToggle,
+  .viewToggleOption,
+  .filterChip,
+  .chipRemove {
+    min-height: var(--ui-touch-target-min);
+  }
+}

@@ -149,3 +149,10 @@
     height: var(--ui-touch-target-min);
   }
 }
+
+/* Enlaces de la barra con 44 px de alto con puntero grueso (tarea 50.1). */
+@media (pointer: coarse) {
+  .link {
+    min-height: var(--ui-touch-target-min);
+  }
+}

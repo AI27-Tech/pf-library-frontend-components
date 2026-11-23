@@ -977,16 +977,16 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron y que el manifiesto de umbrales ya no lista `MessagePanel` (Requirement 12.3).
     - _Requirements: 8.1, 8.2, 8.3, 12.3_
 
-- [ ] 49. Checkpoint - Componentes completos
+- [x] 49. Checkpoint - Componentes completos
   - Verificar que `src/utils/breakpoints-legacy.manifest.json` quedó vacío y que `BREAKPOINTS_STRICT=1 npm test` pasa.
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 50. Fase 2, Accesibilidad táctil global restante
-  - [ ] 50.1 Barrido de Touch_Target en módulos CSS no cubiertos
+  - [x] 50.1 Barrido de Touch_Target en módulos CSS no cubiertos
     - Con `grep` sobre `src/**/*.module.css`, listar los controles interactivos del Requirement 9.2 que no recibieron Touch_Target en su tarea (cierre de `Modal` y `Toast`, botones de `Sidebar` y `Navbar`, expandir de `Table`, páginas de `Pagination`, celdas de `Calendar`, botones de `MessagePanel`) y completar los faltantes bajo `@media (pointer: coarse)`.
     - _Requirements: 9.1, 9.2, 9.3_
 
-  - [ ] 50.2 Ampliar áreas activables sin solaparse y zoom de texto
+  - [x] 50.2 Ampliar áreas activables sin solaparse y zoom de texto
     - Elementos densos: `::after` con `inset: calc((var(--ui-touch-target-min) - 100%) / -2)`, marcador `data-touch-extended`, `gap` mínimo de `var(--ui-space-2)` y limitación de la ampliación para que áreas contiguas no se solapen y conserven 8 px.
     - Zoom de texto al 200 % a 320 px: sin truncar, ocultar ni solapar contenido; orientación: la disposición cambia en 300 ms o menos y conserva el estado interno.
     - _Requirements: 9.3, 9.4, 9.5, 9.7, 9.8_
@@ -995,24 +995,24 @@ Convenciones:
     - Prueba de navegador sobre todas las Responsive_Story: Touch_Target (excluye `[data-touch-extended]`), separación de 8 px entre contiguos, atributos `aria-*` y `role` conservados.
     - _Requirements: 9.4, 9.6, 9.8, 11.3_
 
-  - [ ] 50.4 Revisión visual de accesibilidad táctil
+  - [x] 50.4 Revisión visual de accesibilidad táctil
     - Revisar en Storybook `Components/DarkMode / Galería de Componentes` y las stories `Mobile` más densas (`Table`, `Pagination`, `Calendar`, `MessagePanel`) en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: ningún control denso se activa por error al tocar; la separación entre controles contiguos es visible; con texto al 200 % nada se corta.
     - Verificar que a 1280 px nada cambió (Requirement 12.3).
     - _Requirements: 9.4, 9.5, 12.3_
 
 - [ ] 51. Fase 2, Requirement 13: coexistencia con Tailwind
-  - [ ] 51.1 Documentar la coexistencia con Tailwind y la guía de sobrescritura
+  - [x] 51.1 Documentar la coexistencia con Tailwind y la guía de sobrescritura
     - Crear `docs/responsive-tailwind.md` con la tabla de equivalencias del Breakpoint_Set frente a Tailwind 4 (40rem = `sm`, 64rem = `lg`, sin corte en 48rem), la nota de que el CSS publicado no usa `@layer` y la guía de sobrescritura: utilidades sobre un contenedor propio, props de la librería y `!` solo como último recurso. Documentar que el Gutter_Token no se acumula con `px-*` en el mismo contenedor.
     - Replicar la guía de sobrescritura en `docs/steering-consumidores/ai27-ui-library.md` (se coordina con la tarea 55.1).
     - _Requirements: 13.3, 13.4, 13.5, 13.6, 13.7, 13.10_
 
-  - [ ] 51.2 Crear `src/stories/tailwind-equivalents.css` y la story de coexistencia
+  - [x] 51.2 Crear `src/stories/tailwind-equivalents.css` y la story de coexistencia
     - Crear `src/stories/tailwind-equivalents.css` con utilidades equivalentes a Tailwind (`w-full`, `hidden`, `sm:grid-cols-2`) dentro de `@layer utilities`, solo para stories y pruebas, sin instalar `tailwindcss` (D8). No se publica en `dist`.
     - Story `Responsive/Tailwind` con esas clases alrededor de componentes de la Library, usando `responsiveStory` en cada Viewport_Preset; verifica que los estilos calculados coinciden con lo documentado.
     - _Requirements: 13.2, 13.8, 13.9_
 
-  - [ ] 51.3 Crear el manifiesto de clases y `tailwind-compat.test.ts`
+  - [x] 51.3 Crear el manifiesto de clases y `tailwind-compat.test.ts`
     - `scripts/css-classes.mjs`: genera el manifiesto normalizado de clases (sin hash ni línea de las clases de módulo) en `docs/css-classes.manifest.json`.
     - `src/utils/__tests__/tailwind-compat.test.ts` (proyecto `unit`): `package.json` no declara `tailwindcss`, `@tailwindcss/*` ni `postcss` en `dependencies` ni `peerDependencies` (13.1); ningún CSS de `src/` contiene `@layer` (13.5); las clases existentes no se renombran frente al manifiesto (13.11); toda clase nueva lleva prefijo `ui-` (13.12).
     - _Requirements: 13.1, 13.5, 13.11, 13.12_

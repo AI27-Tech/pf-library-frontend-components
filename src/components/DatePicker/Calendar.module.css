@@ -193,8 +193,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: var(--ui-touch-target-min);
-    height: var(--ui-touch-target-min);
+    /* Sin solapar las areas vecinas: el objetivo no pasa de la celda mas los 2 px de separacion. */
+    width: min(var(--ui-touch-target-min), calc(100% + 2px));
+    height: min(var(--ui-touch-target-min), calc(100% + 2px));
     transform: translate(-50%, -50%);
   }
 }

@@ -185,3 +185,20 @@
     transform: translate(-50%, -50%);
   }
 }
+
+/* Area tactil de 44 px en el cierre con puntero grueso, sin cambiar el tamano visible (tarea 50.1). */
+@media (pointer: coarse) {
+  .close {
+    position: relative;
+  }
+
+  .close::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--ui-touch-target-min);
+    height: var(--ui-touch-target-min);
+    transform: translate(-50%, -50%);
+  }
+}
