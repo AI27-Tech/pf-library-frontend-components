@@ -919,11 +919,11 @@ Convenciones:
     - _Requirements: 8.9, 9.7, 12.3_
 
 - [ ] 46. ConversationStatus (familia Mensajería)
-  - [ ] 46.1 Adaptar `ConversationStatus`
+  - [x] 46.1 Adaptar `ConversationStatus`
     - `MessagePanel.module.css` (o su módulo): elementos apilados en una columna en móvil sin desborde; no pasar datos de reclamo ni pool al portal del cliente (no cambia la API).
     - _Requirements: 8.8, 12.2, 12.3_
 
-  - [ ] 46.2 Agregar Responsive_Story `Mobile` en `ConversationStatus.stories.tsx`
+  - [x] 46.2 Agregar Responsive_Story `Mobile` en `ConversationStatus.stories.tsx`
     - `Mobile`: estado con responsable de nombre largo, estado de la conversación y acciones.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -931,7 +931,7 @@ Convenciones:
     - Columna única en móvil; sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 8.8, 11.2, 11.4_
 
-  - [ ] 46.4 Revisión visual de `ConversationStatus`
+  - [x] 46.4 Revisión visual de `ConversationStatus`
     - Revisar en Storybook `Components/ConversationStatus › Mobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: estado, responsable y acciones en columna en móvil y en fila en escritorio.
     - Verificar que a 1280 px las stories existentes de `ConversationStatus` no cambiaron (Requirement 12.3).

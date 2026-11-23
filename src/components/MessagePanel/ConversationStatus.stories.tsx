@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConversationStatus } from "./ConversationStatus";
+import { responsiveStory } from "../../stories/responsiveStory";
+import { LONG_TOKEN } from "../../stories/responsiveFixtures";
 
 const meta = {
   title: "Components/MessagePanel/ConversationStatus",
@@ -53,3 +55,21 @@ export const Atendida: Story = {
 export const VistaDelCliente: Story = {
   args: { estado: "abierta" },
 };
+
+/** Móvil: responsable con nombre sin espacios, ventana de escritura y atendida, apilados en columna. */
+const mobileStory: Story = {
+  args: {
+    estado: "abierta",
+    reclamadaPor: LONG_TOKEN,
+    escrituraHasta: "2026-11-12T18:00:00Z",
+    atendida: true,
+  },
+  // axe exige que el contenido esté dentro de un landmark; en la app lo aporta la página.
+  render: (args) => (
+    <main>
+      <ConversationStatus {...args} />
+    </main>
+  ),
+};
+
+export const Mobile: Story = responsiveStory("mobile", mobileStory);
