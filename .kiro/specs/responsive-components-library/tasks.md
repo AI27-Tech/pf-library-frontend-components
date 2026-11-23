@@ -840,13 +840,13 @@ Convenciones:
     - Verificar que a 1280 px las stories existentes de `ImageCarousel` no cambiaron (Requirement 12.3).
     - _Requirements: 7.6, 7.7, 7.8, 12.3_
 
-- [ ] 42. Visor (familia Imágenes)
-  - [ ] 42.1 Adaptar `Visor`
+- [x] 42. Visor (familia Imágenes)
+  - [x] 42.1 Adaptar `Visor`
     - `Visor.module.css`: migrar `@media (max-width: 768px)` a `39.99rem`; `height: 100dvh` en móvil; controles con Touch_Target de 44 px; deslizar con `nextIndexOnSwipe`; Escape cierra y el foco queda dentro con `useFocusTrap` si el Visor no lo tiene. Quitar `Visor` de `breakpoints-legacy.manifest.json`.
     - Anotar en el CHANGELOG (tarea 54) que el umbral de `Visor` cambia de 768 px a `39.99rem`.
     - _Requirements: 1.4, 1.6, 7.9, 7.10, 7.11, 7.12, 9.2, 12.2, 12.3_
 
-  - [ ] 42.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Visor.stories.tsx`
+  - [x] 42.2 Agregar Responsive_Story `Mobile` y `Tablet` en `Visor.stories.tsx`
     - `Mobile`: visor abierto con 20 o más imágenes y metadatos largos. `Tablet`: en 768 px.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -854,7 +854,7 @@ Convenciones:
     - Deslizar cambia de imagen y en los extremos permanece; Escape cierra; el foco no sale del Visor; a11y.
     - _Requirements: 7.10, 7.11, 7.12, 11.2, 11.4_
 
-  - [ ] 42.4 Revisión visual de `Visor`
+  - [x] 42.4 Revisión visual de `Visor`
     - Revisar en Storybook `Components/Visor › Mobile` y `› Tablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: ocupa el alto visible aun con la barra del navegador; botones cómodos; deslizar cambia de imagen; Escape cierra; Tab no sale del Visor; el umbral nuevo (`39.99rem` en vez de 768 px) cambia el encabezado en tablet de 768 px.
     - Verificar que a 1280 px las stories existentes de `Visor` no cambiaron (Requirement 12.3).
