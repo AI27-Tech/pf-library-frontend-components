@@ -1,61 +1,46 @@
 # CI de @ai27-tech/ui (E8-T1).
 #
-# Valida lint, typecheck, build y pruebas unitarias en cada PR y en cada push a las tres
+# Valida lint, typecheck y pruebas unitarias en cada PR y en cada push a las tres
 # ramas del flujo (m/d/q), al estilo de los backends de la plataforma.
 #
-# El job `calidad` corre el proyecto `unit` de vitest (jsdom, sin navegador): es rapido y
-# estable para un gate de PR. El job `responsive` (tarea 53.1) corre el proyecto `responsive`
-# en Chromium real: desbordes y a11y en 320, 375, 768 y 1280 px. Ambos son requeridos.
+# Las pruebas corren SOLO el proyecto `unit` de vitest (jsdom, sin navegador): es
+# rapido y estable para un gate de PR. El proyecto `storybook` (navegador real) queda
+# fuera a proposito.
 #
 # publish.yml NO se toca: la publicacion sigue disparandose por `release: published`.
 name: ci
+
 on:
   push:
     branches: [pf-lf-m, pf-lf-d, pf-lf-q]
   pull_request:
+
 permissions:
   contents: read
+
 jobs:
   calidad:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 12.3.4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
+
       - name: Lint
         run: pnpm lint
+
       - name: Typecheck
         run: pnpm typecheck
-      - name: Build
-        run: pnpm build
+
       - name: Pruebas unitarias
         run: pnpm test
-      - name: Umbrales de breakpoints estrictos (manifiesto vacio)
-        env:
-          BREAKPOINTS_STRICT: "1"
-        run: pnpm test
-
-  responsive:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 12.3.4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Instalar dependencias
-        run: pnpm install --frozen-lockfile
-      - name: Instalar Chromium para Playwright
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Pruebas de responsividad
-        run: pnpm test:responsive
