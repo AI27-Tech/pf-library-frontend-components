@@ -7,6 +7,7 @@ import { FormField } from "../Input/FormField";
 import { Form, FormSection, FormActions } from "../Form";
 import { Button } from "../Button";
 import { Alert } from "../Alert";
+import { Card, CardBody } from "../Card";
 import { responsiveStory } from "../../stories/responsiveStory";
 
 const meta = {
@@ -210,22 +211,27 @@ const mobileStory: Story = {
     const [destinos, setDestinos] = useState(destinosIniciales);
     return (
       <main>
-        <SortableFieldList<Destino>
-          aria-label="Destinos intermedios"
-          items={destinos}
-          onReorder={(lista) => setDestinos(renumerar(lista))}
-          slotLabel={etiquetaDePosicion}
-          renderField={(destino) => (
-            <Input
-              aria-label={destino.label}
-              defaultValue={destino.valor}
-              startAdornment={<MapPin aria-hidden="true" />}
+        {/* Dentro de una tarjeta, como en un portal: el botón outline sobre el canvas muted no cumple contraste AA en tema claro. */}
+        <Card>
+          <CardBody>
+            <SortableFieldList<Destino>
+              aria-label="Destinos intermedios"
+              items={destinos}
+              onReorder={(lista) => setDestinos(renumerar(lista))}
+              slotLabel={etiquetaDePosicion}
+              renderField={(destino) => (
+                <Input
+                  aria-label={destino.label}
+                  defaultValue={destino.valor}
+                  startAdornment={<MapPin aria-hidden="true" />}
+                />
+              )}
+              onRemove={(destino) => setDestinos(renumerar(destinos.filter((d) => d.id !== destino.id)))}
+              onAdd={() => {}}
+              addLabel="Agregar otro destino"
             />
-          )}
-          onRemove={(destino) => setDestinos(renumerar(destinos.filter((d) => d.id !== destino.id)))}
-          onAdd={() => {}}
-          addLabel="Agregar otro destino"
-        />
+          </CardBody>
+        </Card>
       </main>
     );
   },

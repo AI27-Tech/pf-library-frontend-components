@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Corregido
+- **`SortableFieldList`**: las clases CSS nuevas (`ui-sortable-*`) llevan el prefijo `ui-` del requisito 13.12. La story Mobile se muestra dentro de un `Card`, porque el botón outline sobre el canvas muted (`--ui-color-surface-muted`) no cumple contraste AA en tema claro. El botón no se cambió.
+
 
 ## [0.3.0-beta.2] — 2026-11-23
 

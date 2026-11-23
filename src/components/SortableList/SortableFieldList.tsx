@@ -84,8 +84,8 @@ export function SortableFieldList<T extends SortableFieldItem = SortableFieldIte
           const handle = sortable.handleProps(item, index);
           const rowDisabled = disabled || Boolean(item.disabled);
           return (
-            <li key={index} className={styles.slot}>
-              <span className={styles.slotLabel}>
+            <li key={index} className={styles["ui-sortable-slot"]}>
+              <span className={styles["ui-sortable-slot-label"]}>
                 {slotLabel(index)}
                 {item.required && (
                   <>
@@ -99,18 +99,18 @@ export function SortableFieldList<T extends SortableFieldItem = SortableFieldIte
               <div
                 key={item.id}
                 ref={sortable.rowRef(item.id)}
-                className={cx(styles.row, isDragged && styles.dragging)}
+                className={cx(styles.row, isDragged && styles["ui-sortable-dragging"])}
                 data-dragging={isDragged || undefined}
                 data-drop={drop}
               >
-                <button type="button" className={styles.handle} {...handle}>
+                <button type="button" className={styles["ui-sortable-handle"]} {...handle}>
                   <GripVertical aria-hidden="true" />
                 </button>
                 <div className={styles.control}>{renderField(item, index)}</div>
                 {onRemove && (
                   <button
                     type="button"
-                    className={styles.remove}
+                    className={styles["ui-sortable-remove"]}
                     aria-label={text.remove(item.label)}
                     disabled={rowDisabled}
                     onClick={() => onRemove(item)}
