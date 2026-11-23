@@ -537,3 +537,100 @@ export const BarraConNoLeidos: Story = {
     );
   },
 };
+
+/* ── Muelle en móvil y tablet: un panel expandido, el resto en la barra ───── */
+
+/**
+ * Muelle con cuatro conversaciones y un borrador en cada una. Los borradores viven en el
+ * demo, no en el panel, así que sobreviven cuando el panel pasa a overflow.
+ */
+function DockDemo({ total = 4 }: { total?: number }) {
+  const nombres = conversacionesDemo.slice(0, total);
+  const dock = useMessageDock();
+  const [borradores, setBorradores] = useState<Record<string, string>>(() =>
+    Object.fromEntries(nombres.map((n, i) => [`c${i}`, `Borrador pendiente para ${n}`])),
+  );
+  const [mensajes, setMensajes] = useState<Record<string, Mensaje[]>>(() =>
+    Object.fromEntries(nombres.map((n, i) => [`c${i}`, [mensaje(1, `Mensaje de prueba en ${n}`, 4 + i)]])),
+  );
+
+  // Abre solo la primera conversación; el resto queda en la barra hasta que el usuario la elija.
+  useEffect(() => {
+    dock.open("c0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const filas: DockConversation[] = nombres.map((n, i) => ({
+    id: `c${i}`,
+    name: n,
+    preview: `Mensaje de prueba en ${n}`,
+    lastMessageAt: hace(4 + i),
+    unread: i === 1,
+  }));
+
+  const porId = (id: string) => nombres[Number(id.slice(1))];
+  const enOverflow = dock.overflow.map((id) => ({ id, nombre: porId(id) }));
+
+  return (
+    <main style={{ height: 520, padding: "1rem", color: "var(--ui-color-text-muted)" }}>
+      Área de la app. Las conversaciones se anclan abajo a la derecha.
+      <MessageDock
+        overflowCount={enOverflow.length}
+        overflow={enOverflow.map((c) => (
+          <button key={c.id} type="button" onClick={() => dock.open(c.id)} style={{ padding: 8, textAlign: "left" }}>
+            {c.nombre}
+          </button>
+        ))}
+        bar={
+          <MessageDockBar
+            open={dock.barOpen}
+            onToggle={dock.toggleBar}
+            unreadCount={filas.filter((f) => f.unread).length}
+            conversations={filas}
+            onSelect={(id) => dock.open(id)}
+          />
+        }
+      >
+        {dock.panels.map((p) => (
+          <MessagePanel
+            key={p.id}
+            name={porId(p.id)}
+            open={!p.minimized}
+            onOpenChange={() => dock.toggle(p.id)}
+            onClose={() => dock.close(p.id)}
+            composer={
+              <MessageComposer
+                value={borradores[p.id] ?? ""}
+                onChange={(valor) => setBorradores((prev) => ({ ...prev, [p.id]: valor }))}
+                onSend={(envio) => {
+                  setMensajes((prev) => ({
+                    ...prev,
+                    [p.id]: [...(prev[p.id] ?? []), propio((prev[p.id]?.length ?? 0) + 1, envio.cuerpo, 0)],
+                  }));
+                  setBorradores((prev) => ({ ...prev, [p.id]: "" }));
+                }}
+                maxLength={500}
+              />
+            }
+          >
+            <MessageThread mensajes={mensajes[p.id] ?? []} isOwn={isOwn} />
+          </MessagePanel>
+        ))}
+      </MessageDock>
+    </main>
+  );
+}
+
+const dockMobileStory: Story = {
+  render: () => <DockDemo total={4} />,
+};
+
+/** Móvil: cuatro conversaciones con borrador. Al abrir una segunda, la primera se minimiza y su borrador se conserva. */
+export const DockMobile: Story = responsiveStory("mobile", dockMobileStory);
+
+const dockTabletStory: Story = {
+  render: () => <DockDemo total={4} />,
+};
+
+/** Tablet: un panel expandido y el resto como pestañas en la barra. */
+export const DockTablet: Story = responsiveStory("tablet", dockTabletStory);

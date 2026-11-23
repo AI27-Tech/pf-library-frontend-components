@@ -957,12 +957,12 @@ Convenciones:
     - _Requirements: 8.1, 8.5, 12.3_
 
 - [ ] 48. MessageDock, MessageDockBar y useMessageDock (familia Mensajería)
-  - [ ] 48.1 Extraer `dockReducer` y adaptar `MessageDock`, `MessageDockBar` y `useMessageDock`
+  - [x] 48.1 Extraer `dockReducer` y adaptar `MessageDock`, `MessageDockBar` y `useMessageDock`
     - `src/components/MessagePanel/dockState.ts`: tipos `DockPanelState`, `DockState`, `DockAction` y `dockReducer`. Al abrir con el cupo lleno, minimiza el panel abierto más antiguo sin tocar su `draft`. Confirmar contra `useMessageDock` (los tipos `DockState` y `DockAction` ya se exportan; si el modelo difiere, el reductor lo envuelve sin cambiar la API pública).
     - `maxOpen` por breakpoint (móvil 1, tablet 1, escritorio el valor actual); cada conversación restante como pestaña en la barra; botones de la barra con Touch_Target de 44 px.
     - _Requirements: 8.1, 8.2, 8.3, 9.2, 12.1, 12.2, 12.3_
 
-  - [ ] 48.2 Agregar Responsive_Story `Mobile` y `Tablet` en `MessagePanel.stories.tsx`
+  - [x] 48.2 Agregar Responsive_Story `Mobile` y `Tablet` en `MessagePanel.stories.tsx`
     - `DockMobile`: 4 conversaciones con borradores; abrir una segunda minimiza la primera. `DockTablet`: 1 panel abierto y el resto como pestañas.
     - _Requirements: 10.3, 10.4, 10.5, 10.6, 10.7, 10.11_
 
@@ -971,7 +971,7 @@ Convenciones:
     - Sin desborde en 320, 375, 768 y 1280; a11y.
     - **Validates: Requirements 8.2, 8.3**
 
-  - [ ] 48.4 Revisión visual de `MessageDock`
+  - [x] 48.4 Revisión visual de `MessageDock`
     - Revisar en Storybook `Components/MessagePanel › DockMobile` y `› DockTablet` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: nunca hay más de 1 panel abierto en móvil y tablet; al abrir otro, el anterior pasa a la barra y su borrador sigue ahí; en escritorio se conserva el cupo actual.
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron y que el manifiesto de umbrales ya no lista `MessagePanel` (Requirement 12.3).

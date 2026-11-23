@@ -789,6 +789,8 @@ button.dayDivider:disabled {
     position: fixed;
     top: 0;
     left: 0;
+    /* Por encima de los avatares de la barra (position: relative, después en el DOM). */
+    z-index: 1;
     width: 100vw;
     height: var(--ui-vv-height, 100dvh);
     transform: translateY(var(--ui-vv-top, 0px));
@@ -815,6 +817,16 @@ button.dayDivider:disabled {
   .iconBtn {
     width: var(--ui-touch-target-min, 2.75rem);
     height: var(--ui-touch-target-min, 2.75rem);
+  }
+
+  /* Chip "+N" y filas de la lista de la barra del muelle. */
+  .overflowChip {
+    min-width: var(--ui-touch-target-min, 2.75rem);
+    height: var(--ui-touch-target-min, 2.75rem);
+  }
+
+  .convoItem {
+    min-height: var(--ui-touch-target-min, 2.75rem);
   }
 }
 
