@@ -14,6 +14,7 @@ export {
   Radio,
   Switch,
   FormField,
+  sanitizeInput,
 } from "./components/Input";
 export type {
   InputProps,
@@ -26,6 +27,7 @@ export type {
   SwitchProps,
   FormFieldProps,
   InputSize,
+  InputFormat,
 } from "./components/Input";
 
 // Badge

@@ -1,5 +1,7 @@
 export { Input } from "./Input";
 export type { InputProps } from "./Input";
+export { sanitizeInput } from "./inputFormat";
+export type { InputFormat } from "./inputFormat";
 
 export { Textarea } from "./Textarea";
 export type { TextareaProps } from "./Textarea";

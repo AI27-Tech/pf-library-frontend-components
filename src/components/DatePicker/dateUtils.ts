@@ -147,3 +147,12 @@ export function autoSlash(previous: string, next: string): string {
   if (adding && /^\d{2}\/\d{2}$/.test(next)) return `${next}/`;
   return next;
 }
+
+/** Descarta lo que no puede formar parte de una fecha escrita: deja digitos y los separadores "/", "-" y ".". */
+export function sanitizeDateText(text: string): string {
+  // Sin separadores al inicio ni repetidos: la barra automatica y la que escribe la persona no se duplican.
+  return text
+    .replace(/[^\d/.-]/g, "")
+    .replace(/^[/.-]+/, "")
+    .replace(/([/.-])[/.-]+/g, "$1");
+}
