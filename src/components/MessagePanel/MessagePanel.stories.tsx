@@ -359,6 +359,30 @@ const composerMobileStory: Story = {
 /** Móvil: compositor con borrador largo, contador y adjuntos pendientes, anclado abajo. */
 export const ComposerMobile: Story = responsiveStory("mobile", composerMobileStory);
 
+/**
+ * Hilo de 22 mensajes. La antigüedad recorre los días sin seguir el orden de `secuencia`
+ * (paso de 7 sobre 22 posiciones), así que `creadoEn` queda desordenado a propósito.
+ */
+const hiloMovil: Mensaje[] = Array.from({ length: 22 }, (_, i) => {
+  const secuencia = i + 1;
+  const minutos = ((i * 7) % 22) * 200 + 5;
+  const cuerpo = `Mensaje ${secuencia}: reporte de la unidad TTR-8821 en el punto de control ${secuencia}.`;
+  return i % 3 === 1 ? propio(secuencia, cuerpo, minutos) : mensaje(secuencia, cuerpo, minutos);
+});
+
+const threadMobileStory: Story = {
+  render: () => (
+    <div style={{ position: "fixed", right: 0, bottom: 0 }}>
+      <MessagePanel name="Central C4">
+        <MessageThread mensajes={hiloMovil} isOwn={isOwn} ultimaSecuenciaLeida={15} />
+      </MessagePanel>
+    </div>
+  ),
+};
+
+/** Móvil: hilo de 22 mensajes en varios días, con `creadoEn` desordenado respecto a `secuencia`. */
+export const ThreadMobile: Story = responsiveStory("mobile", threadMobileStory);
+
 /** Ancho angosto: el panel ocupa lo que haya disponible. */
 export const VistaAngosta: Story = {
   render: () => (

@@ -899,11 +899,11 @@ Convenciones:
     - _Requirements: 8.5, 8.6, 12.3_
 
 - [ ] 45. MessageList, MessageThread, MessageDayDivider y groupMessages (familia Mensajería)
-  - [ ] 45.1 Adaptar `MessageList`, `MessageThread` y `MessageDayDivider`
+  - [x] 45.1 Adaptar `MessageList`, `MessageThread` y `MessageDayDivider`
     - Verificar que el orden es siempre por `secuencia` ascendente (no por `creadoEn`) en todos los rangos y al girar; `min-width: 0` y desplazamiento vertical dentro de la lista; separador de día sin desborde.
     - _Requirements: 8.4, 8.9, 9.7, 12.2, 12.3_
 
-  - [ ] 45.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
+  - [x] 45.2 Agregar Responsive_Story `Mobile` en `MessagePanel.stories.tsx`
     - `ThreadMobile`: hilo de 20 o más mensajes con fechas de creación desordenadas respecto a `secuencia` y varios días.
     - _Requirements: 10.3, 10.5, 10.6, 10.7, 10.11_
 
@@ -912,7 +912,7 @@ Convenciones:
     - Sin desborde en 320, 375, 768 y 1280; a11y.
     - **Validates: Requirements 8.9**
 
-  - [ ] 45.4 Revisión visual de `MessageThread`
+  - [x] 45.4 Revisión visual de `MessageThread`
     - Revisar en Storybook `Components/MessagePanel › ThreadMobile` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: el orden de mensajes no cambia entre móvil, tablet y escritorio ni al girar; los separadores de día se ven bien; el desplazamiento se conserva.
     - Verificar que a 1280 px las stories existentes de `MessagePanel` no cambiaron (Requirement 12.3).
