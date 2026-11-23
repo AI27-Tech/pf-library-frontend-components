@@ -1021,7 +1021,7 @@ Convenciones:
     - Suite filtrada de la story `Responsive/Tailwind`: sin desborde en 320, 375, 768 y 1280; a11y.
     - _Requirements: 11.2, 11.4, 13.8, 13.9_
 
-  - [ ] 51.5 Revisión visual de la coexistencia con Tailwind
+  - [x] 51.5 Revisión visual de la coexistencia con Tailwind
     - Revisar en Storybook `Responsive/Tailwind` en móvil, tablet y escritorio; el usuario valida y aprueba antes de continuar.
     - Mirar: las clases de Tailwind y los componentes cambian de disposición en los mismos anchos; no hay conflictos de estilos ni desborde.
     - Verificar que a 1280 px las stories existentes no cambiaron (Requirement 12.3).

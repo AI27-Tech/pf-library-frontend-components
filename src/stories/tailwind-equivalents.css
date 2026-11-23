@@ -1,0 +1,44 @@
+/*
+ * Utilidades equivalentes a Tailwind 4 para las stories y las pruebas de coexistencia (tarea 51.2).
+ * No instala tailwindcss (D8) y no se publica en dist. Los breakpoints siguen el Breakpoint_Set:
+ * sm = 40rem (tablet), y no hay corte en 48rem (md de Tailwind).
+ */
+@layer utilities {
+  .w-full {
+    width: 100%;
+  }
+
+  .block {
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .sm\:block {
+      display: block;
+    }
+
+    .sm\:hidden {
+      display: none;
+    }
+
+    .sm\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
